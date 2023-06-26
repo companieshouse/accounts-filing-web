@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Check if the project is linted
+if ! npm run lint; then
+  # If the exit code is non-zero, print an error message and exit the hook
+  echo "Linting failed. Please fix the issues before committing. Try running 'npm run lint:fix' to automatically apply fixes"
+  exit 1
+fi
