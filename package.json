@@ -1,6 +1,6 @@
 {
   "name": "accounts-filing-web",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A web frontend for the account filing service, allowing users to submit accounts by uploading a zip file.",
   "main": "index.js",
   "scripts": {
