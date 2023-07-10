@@ -19,6 +19,6 @@ process.env.NUNJUCKS_LOADER_NO_CACHE = "true";
 process.env.CHS_URL = "";
 
 process.env.API_URL = "";
-process.env.COOKIE_SECRET = "Xy6onkjQWF0TkRn0hfdqUw==";
+process.env.COOKIE_SECRET = process.env.TEST_COOKIE_SECRET;
 process.env.COOKIE_DOMAIN = "cookie domain";
 process.env.CACHE_SERVER = "test";
