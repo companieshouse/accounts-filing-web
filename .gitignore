@@ -1,5 +1,8 @@
-node_modules
+# public assets
 assets/public
+
+# distributed source
+dist/**/*
 
 # Logs
 logs
