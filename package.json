@@ -16,7 +16,7 @@
     "build": "npm run build:assets && npm run build:server",
     "dev": "nodemon --watch src --ignore 'src/**/*.unit.ts' --ext ts --exec 'NODE_OPTIONS=\"--inspect=0.0.0.0\" ts-node ./src/bin/www.ts'",
     "sonarqube-base-branch": "sonar-scanner",
-    "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
+    "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main sonar.pullrequest.key=1",
     "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;",
     "coverage": "nyc --check-coverage --reporter=text-summary npm run test",
     "prepare": "husky install"
