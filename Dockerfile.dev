@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:16
 ARG SSH_KEY
 ENV SSH_KEY=$SSH_KEY
 
