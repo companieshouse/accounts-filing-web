@@ -12,7 +12,7 @@
     "start:watch": "nodemon",
     "prebuild": "rm -rf ./dist",
     "build:assets": "gulp build",
-    "build:server": "tsc && cp -r src/views dist/ && cp -r src/config dist/",
+    "build:server": "tsc && cp -r ./src/views ./dist/ && cp -r ./src/config ./dist/",
     "build": "npm run build:assets && npm run build:server",
     "dev": "nodemon --watch src --ignore 'src/**/*.unit.ts' --ext ts --exec 'NODE_OPTIONS=\"--inspect=0.0.0.0\" ts-node ./src/bin/www.ts'",
     "sonarqube-base-branch": "sonar-scanner",
