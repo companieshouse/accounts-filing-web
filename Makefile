@@ -20,9 +20,9 @@ build:
 lint:
 	npm run lint
 
-.PHONY: sonar
-sonar:
-	npm run sonarqube
+# .PHONY: sonar
+# sonar:
+# 	npm run sonarqube
 
 .PHONY: test
 test:
