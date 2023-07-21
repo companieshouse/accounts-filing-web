@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
-import logger from "./lib/logger";
+import { logger } from "./lib/logger";
 import routerDispatch from "./router.dispatch";
 
 const app = express();
