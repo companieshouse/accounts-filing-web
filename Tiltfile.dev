@@ -1,6 +1,6 @@
 local_resource(
   name = 'dev:accounts-filing-web',
-  cmd = 'npm install && npm run build',
+  cmd = 'npm --silent install && npm --silent run build',
   deps = ['src', 'views']
 )
 

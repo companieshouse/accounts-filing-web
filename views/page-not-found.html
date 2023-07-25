@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% set title = "Page not found" %}
+
+{% block pageTitle %}
+{% include "includes/page-title.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        Page not found
+      </h1>
+      <p>If you typed the web address, check it is correct.</p>
+      <p>If you pasted the web address, check you copied the entire address.</p>
+      <p>If the web address is correct or you selected a link or button, 
+        <a href="https://www.gov.uk/contact-companies-house" data-event-id="contact-companies-house-link">contact Companies House</a>.
+
+    </div>
+  </div>
+{% endblock %}
