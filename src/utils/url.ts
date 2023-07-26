@@ -33,9 +33,15 @@ const setQueryParam = (url: string, paramName: URL_QUERY_PARAM, value: string) =
 // When using the logger.xxxRequest functions, they will log the full path which
 // might be very large if a malicious url was entered.
 const truncateRequestUrls = (req: Request) => {
+  const DEFAULT_URL_MAX_LENGTH_STRING: string = '10';
+  const DEFAULT_URL_PARAM_MAX_LENGTH_STRING: string = '10';
+  const URL_LOG_MAX_LENGTH = parseInt(process.env.URL_LOG_MAX_LENGTH ?? DEFAULT_URL_MAX_LENGTH_STRING);
+  const URL_PARAM_MAX_LENGTH = parseInt(process.env.URL_PARAM_MAX_LENGTH ?? DEFAULT_URL_PARAM_MAX_LENGTH_STRING);
+
   if (req.originalUrl?.length > URL_LOG_MAX_LENGTH) {
     req.originalUrl = `${req.originalUrl.substring(0, URL_LOG_MAX_LENGTH)}...`;
   }
+  
   if (req.url?.length > URL_LOG_MAX_LENGTH) {
     req.url = `${req.url.substring(0, URL_LOG_MAX_LENGTH)}...`;
   }
