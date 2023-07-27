@@ -1,0 +1,11 @@
+{% if userEmail %}
+    {% set signoutURL = signoutURL | default("/accounts-filing-web/signout") %}
+    {% set email = userEmail | default("Not signed in") %}
+    <ul class="js-signout" id="navigation">
+        <li class="content-email" id="signed-in-user">{{email}}</li>
+        <li class="content">
+        <a href="{{signoutURL}}" data-event-id="signout" id="user-signout">Sign out</a>
+        </li>
+    </ul>
+    <script src="{{assetPath}}/javascripts/app/session-timeout.js"></script>
+{% endif %}

@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% block pageTitle %}
+ {{ SERVICE_NAME }} - GOV.UK
+{% endblock %}
+
+<!-- No service name header-->
+{% block header %}
+  {{ govukHeader({
+    homepageUrl: "https://www.gov.uk",
+    containerClasses: "govuk-width-container"})
+}}
+{% endblock %}
+
+{% block signoutBar %}
+{# Remove signout bar on this page by replacing it with nothing #}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        ZIP Portal Filing
+      </h1>
+
+      
+      <p class="govuk-body">Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+
+      {% set corporateDetails %}
+      <p>It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+      <p>Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more 
+        obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in 
+        classical literature, discovered the undoubtable source.</p>
+      {% endset %}
+
+      {{ govukDetails({
+        summaryHtml: '<div data-event-id="start-now-accordion-expansion"> What is Lorem Ipsum?</div>',
+        html: corporateDetails
+      }) }}
+
+      <p class="govuk-body">You'll need:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"</li>
+        <li>(The Extremes of Good and Evil)</li>
+        <li>the <a href="https://www.gov.uk/guidance/company-authentication-codes-for-online-filing" data-event-id="start-now-company-authentication-link">company authentication code</a> </li>
+        <li>by Cicero, written in 45 BC.</li>
+      </ul>
+
+      <br>
+      <a href="/accounts-filing-web/company-number" id="start-now" onclick="_paq.push(['trackGoal', '{{PIWIK_START_GOAL_ID}}'])" data-event-id="start-now-start-button" role="button" draggable="false" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8" data-module="govuk-button">
+        Start now
+        <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewbox="0 0 33 40" role="presentation" focusable="false">
+          <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+{% endblock %}

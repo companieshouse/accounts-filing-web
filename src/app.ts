@@ -1,65 +1,54 @@
-import express, { Request, Response, NextFunction } from "express";
-import nunjucks from "nunjucks";
-import path from "path";
-import logger from "./lib/logger";
-import routerDispatch from "./router.dispatch";
+import express from "express";
+import * as nunjucks from "nunjucks";
+import * as path from "path";
+import { router } from "./routes/routes";
+import { logger } from "./utils/logger";
+import { pageNotFound, errorHandler } from "./controllers/error.controller";
+import * as urls from "./types/page.urls";
+import cookieParser from "cookie-parser";
+import { authenticationMiddleware } from "./middleware/authentication.middleware";
+import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
+import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 
 const app = express();
+app.disable("x-powered-by");
 
-// const viewPath = path.join(__dirname, "/views");
-app.set("views", [
-    path.join(__dirname, "/views"),
-    path.join(__dirname, "/../node_modules/govuk-frontend")
-]);
+// view engine setup
+const nunjucksEnv = nunjucks.configure([
+    "views",
+    "node_modules/govuk-frontend/",
+    "node_modules/govuk-frontend/components/",
+  ], {
+    autoescape: true,
+    express: app,
+  });
 
-const nunjucksLoaderOpts = {
-    watch: process.env.NUNJUCKS_LOADER_WATCH !== "false",
-    noCache: process.env.NUNJUCKS_LOADER_NO_CACHE !== "true"
-};
+nunjucksEnv.addGlobal("assetPath", process.env.CDN_HOST);
+nunjucksEnv.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
+nunjucksEnv.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
+nunjucksEnv.addGlobal("SERVICE_NAME", process.env.SERVICE_NAME);
 
-const njk = new nunjucks.Environment(
-    new nunjucks.FileSystemLoader(app.get("views"),
-        nunjucksLoaderOpts)
-);
-
-njk.express(app);
-app.set("view engine", "njk");
-
-// Serve static files
-app.use(express.static(path.join(__dirname, "/../assets/public")));
-// app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
-
-njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
-njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
-njk.addGlobal("cdnHost", process.env.CDN_HOST);
-njk.addGlobal("chsUrl", process.env.CHS_URL);
-
-// If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
-
-// parse body into req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Unhandled errors
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    res.render("partials/error_500");
-});
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "html");
 
-// Channel all requests through router dispatch
-routerDispatch(app);
+// apply middleware
+app.use(cookieParser());
 
-// Unhandled exceptions
-process.on("uncaughtException", (err: any) => {
-    logger.error(`${err.name} - uncaughtException: ${err.message} - ${err.stack}`);
-    process.exit(1);
-});
+// ------------- Enable login redirect -----------------
+const userAuthRegex = new RegExp("^" + urls.ACCOUNTS_FILING + "/.+");
+app.use(userAuthRegex, authenticationMiddleware);
+app.use(`${urls.ACCOUNTS_FILING}${urls.COMPANY_AUTH_PROTECTED_BASE}`, companyAuthenticationMiddleware);
 
-// Unhandled promise rejections
-process.on("unhandledRejection", (err: any) => {
-    logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
-    process.exit(1);
-});
+app.use(commonTemplateVariablesMiddleware)
+// apply our default router to /accounts-filing
+app.use(urls.ACCOUNTS_FILING, router);
+app.use(errorHandler, pageNotFound);
+
+logger.info("accounts filing Web has started");
 
 export default app;
