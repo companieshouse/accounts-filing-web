@@ -10,7 +10,6 @@ export default () => {
     process.env.COOKIE_SECRET = "123456789012345678901234";
     process.env.EWF_URL = "https://ewf.companieshouse.gov.uk/";
     process.env.ACCOUNTS_FILING_WEB_ACTIVE = "true";
-    process.env.FEATURE_FLAG_REMOVE_DIRECTOR_20022023 = "true";
     process.env.INTERNAL_API_URL = "http://localhost:9333";
     process.env.NODE_ENV = "development";
     process.env.PIWIK_SITE_ID = "999";
