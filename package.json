@@ -2,7 +2,7 @@
   "name": "accounts-filing-web",
   "version": "0.0.1",
   "description": "A web frontend for the account filing service, allowing users to submit accounts by uploading a zip file.",
-  "main": "./src/bin/www.ts",
+  "main": "./src/server.ts",
   "scripts": {
     "test": "mocha --recursive test/src/**/*.ts",
     "test:coverage": "nyc npm test",
@@ -14,7 +14,7 @@
     "build:assets": "gulp build",
     "build:server": "tsc && cp -r ./src/views ./dist/ && cp -r ./src/config ./dist/",
     "build": "npm run build:assets && npm run build:server",
-    "dev": "nodemon --watch src --ignore 'src/**/*.unit.ts' --ext ts --exec 'NODE_OPTIONS=\"--inspect=0.0.0.0\" ts-node ./src/bin/www.ts'",
+    "dev": "nodemon --watch src --ignore 'src/**/*.unit.ts' --ext ts --exec 'NODE_OPTIONS=\"--inspect=0.0.0.0\" ts-node ./src/server.ts'",
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
     "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;",
