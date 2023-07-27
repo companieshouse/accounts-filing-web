@@ -1,18 +1,29 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
-import { Application, Request, Response, Router } from "express";
-import { servicePathPrefix } from "./lib/constants";
-import HomeRouter from "./routers/indexRouter";
+import { Application, Router } from "express";
+import { servicePathPrefix, COMPANY_AUTH_PROTECTED_BASE } from "./utils/constants/urls";
+import HomeRouter from "./routers/index.router";
+import { errorHandler, pageNotFound } from "./routers/handlers/errors";
+import { authenticationMiddleware } from "./middleware/authentication.middleware";
+import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
+import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
 
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
     const router = Router();
     app.use(servicePathPrefix, router);
 
+    // ------------- Enable login redirect -----------------
+    const userAuthRegex = new RegExp("^/.+");
+    router.use(userAuthRegex, authenticationMiddleware);
+    router.use(`${COMPANY_AUTH_PROTECTED_BASE}`, companyAuthenticationMiddleware);
+
+    app.use(commonTemplateVariablesMiddleware);
+
+
     router.use("/", HomeRouter);
 
-    router.use("*", (req: Request, res: Response) => {
-        res.status(404).render("partials/error_400");
-    });
+    app.use(errorHandler);
+    app.use("*", pageNotFound);
 };
 
 export default routerDispatch;
