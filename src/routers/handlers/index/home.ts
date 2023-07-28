@@ -3,7 +3,6 @@ import { GenericHandler } from "./../generic";
 import { logger } from "../../../utils/logger";
 
 export class HomeHandler extends GenericHandler {
-
     constructor () {
         super();
         this.viewData.title = "Home handler for index router";

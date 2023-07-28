@@ -1,6 +1,6 @@
-import app from "../../../../src/app";
+import app from "../../src/app";
 import request from "supertest";
-import { servicePathPrefix } from "../../../../src/utils/constants/urls";
+import { servicePathPrefix } from "../../src/utils/constants/urls";
 
 describe("home page tests", () => {
     it("should render the home page", async () => {

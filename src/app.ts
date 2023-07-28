@@ -4,6 +4,7 @@ import * as path from "path";
 import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
 import routerDispatch from "./router.dispatch";
+import { env } from './config';
 
 const app = express();
 app.disable("x-powered-by");
@@ -16,8 +17,8 @@ app.set("views", [
 ]);
 
 const nunjucksLoaderOpts = {
-    watch: process.env.NUNJUCKS_LOADER_WATCH !== "false",
-    noCache: process.env.NUNJUCKS_LOADER_NO_CACHE !== "true"
+    watch: env.NUNJUCKS_LOADER_WATCH,
+    noCache: env.NUNJUCKS_LOADER_NO_CACHE
 };
 
 const njk = new nunjucks.Environment(
@@ -32,10 +33,10 @@ app.set("view engine", "njk");
 app.use(express.static(path.join(__dirname, "../assets/public"))); // TODO: only in dev mode
 // app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
 
-njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
-njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
-njk.addGlobal("cdnHost", process.env.CDN_HOST);
-njk.addGlobal("chsUrl", process.env.CHS_URL);
+njk.addGlobal("cdnUrlCss", env.CDN_URL_CSS);
+njk.addGlobal("cdnUrlJs", env.CDN_URL_JS);
+njk.addGlobal("cdnHost", env.CDN_HOST);
+njk.addGlobal("chsUrl", env.CHS_URL);
 
 
 app.use(express.json());
