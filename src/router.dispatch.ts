@@ -20,8 +20,8 @@ const routerDispatch = (app: Application) => {
     router.use(`${COMPANY_AUTH_PROTECTED_BASE}`, companyAuthenticationMiddleware);
 
     router.use("/", HomeRouter);
-    router.use(healthcheckUrl, HealthCheckRouter)
-    
+    router.use(healthcheckUrl, HealthCheckRouter);
+
     app.use(commonTemplateVariablesMiddleware);
     app.use(errorHandler);
     app.use("*", pageNotFound);

@@ -10,7 +10,7 @@ export function skipIf(predicate: Predicate<Request>, handler: Handler): Handler
         } else {
             next();
         }
-    }
+    };
 }
 
 export function getRelativeUrl(req: Request): string {

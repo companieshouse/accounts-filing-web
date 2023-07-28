@@ -69,8 +69,8 @@ export const env = cleanEnv(process.env, {
         default: "accounts-filing-web"
     }),
     LOG_LEVEL: str({
-        choices: ['ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'MARK', 'OFF', 
-                  'all', 'trace', 'debug', 'info', 'warn', 'error', 'fatal', 'mark', 'off'],
+        choices: ['ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'MARK', 'OFF',
+            'all', 'trace', 'debug', 'info', 'warn', 'error', 'fatal', 'mark', 'off'],
         desc: 'Defines the level of events to be logged. Options are: ' +
             'ALL/all (all events will be logged), ' +
             'TRACE/trace (trace level events will be logged), ' +
