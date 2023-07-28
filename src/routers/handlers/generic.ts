@@ -23,8 +23,4 @@ export class GenericHandler {
             serverError: this.errorManifest.generic.serverError
         };
     }
-
-    someCommonMethod (): Object {
-        return {};
-    }
 }
