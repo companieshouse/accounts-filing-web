@@ -107,6 +107,7 @@ const numberValidator = strValidator
     });
 
 // Source: https://urlregex.com
+// eslint-disable-next-line no-useless-escape
 const urlRegex = new RegExp(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, 'i');
 const urlValidator = strValidator
     .map<string>((s) => s.trim())
@@ -119,7 +120,8 @@ const urlValidator = strValidator
 
 
 // Source: https://regexpattern.com/email-address/
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
+// eslint-disable-next-line no-useless-escape
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
 const emailValidator = strValidator
     .map<string>((s) => s.trim())
     .map<string>((s) => {
@@ -127,7 +129,7 @@ const emailValidator = strValidator
             throw new Error(`'${s}' is not a valid email.`);
         }
         return s;
-    }); 
+    });
 
 const portValidator = strValidator
     .map<string>((s) => s.trim())
@@ -143,22 +145,22 @@ const boolValidator = strValidator
     .map<string>((s) => s.trim().toLowerCase())
     .map<boolean>((s) => {
         switch (s) {
-            case "true":
-            case "1":
-            case "yes":
-            case "y":
-            case "on":
-                return true;
-            case "false":
-            case "0":
-            case "no":
-            case "n":
-            case "off":
-                return false;
-            default:
-                throw new Error(
-                    `Invalid boolean value '${s}'. Expected true/false, 1/0, yes/no, y/n, on/off.`
-                );
+                case "true":
+                case "1":
+                case "yes":
+                case "y":
+                case "on":
+                    return true;
+                case "false":
+                case "0":
+                case "no":
+                case "n":
+                case "off":
+                    return false;
+                default:
+                    throw new Error(
+                        `Invalid boolean value '${s}'. Expected true/false, 1/0, yes/no, y/n, on/off.`
+                    );
         }
     });
 
@@ -184,20 +186,20 @@ export function readEnv<S extends Record<string, ValidatorBuilder<unknown>>>(sou
 
     const errors: {key: string, message: string}[] = [];
 
-    for (let [k, v] of Object.entries(schema)) {
+    for (const [k, v] of Object.entries(schema)) {
         const err = { key: k };
         try {
             const value = v.validate(source[k]);
             if (value.isNothing()) {
-                errors.push({...err, message: `Key not found`});
+                errors.push({ ...err, message: `Key not found` });
             } else {
                 vars[k] = value.value;
             }
         } catch (e) {
             if (e instanceof Error) {
-                errors.push({...err, message: e.message});
+                errors.push({ ...err, message: e.message });
             } else {
-                errors.push({...err, message: `${e}`})
+                errors.push({ ...err, message: `${e}` });
             }
         }
     }

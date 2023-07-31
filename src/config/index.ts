@@ -27,21 +27,21 @@ export const env = readEnv(process.env, {
     NODE_SSL_PRIVATE_KEY: str
         .describe("Path to the SSL private key file")
         .default(""),
-        NODE_SSL_CERTIFICATE: str.describe('Path to the SSL certificate file').default(''),
-        NODE_PORT_SSL: port.describe('Port for the HTTPS server').default(3001),
-        NODE_HOSTNAME_SECURE: str.describe('Hostname for the secure HTTPS server').default('localhost'),
-        CACHE_SERVER: str.describe('Cache server URL'),
-        COOKIE_DOMAIN: str.describe('Domain for cookies'),
-        COOKIE_NAME: str.describe('Name for the cookie'),
-        COOKIE_SECRET: str.describe('Secret used for cookie encryption'),
-        APP_NAME: str.describe('Name of the application').default('accounts-filing-web'),
-        LOG_LEVEL: str
-            .in([
-                'ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'MARK', 'OFF',
-                'all', 'trace', 'debug', 'info', 'warn', 'error', 'fatal', 'mark', 'off'
-            ])
-            .describe(
-                'Defines the level of events to be logged. Options are: ' +
+    NODE_SSL_CERTIFICATE: str.describe('Path to the SSL certificate file').default(''),
+    NODE_PORT_SSL: port.describe('Port for the HTTPS server').default(3001),
+    NODE_HOSTNAME_SECURE: str.describe('Hostname for the secure HTTPS server').default('localhost'),
+    CACHE_SERVER: str.describe('Cache server URL'),
+    COOKIE_DOMAIN: str.describe('Domain for cookies'),
+    COOKIE_NAME: str.describe('Name for the cookie'),
+    COOKIE_SECRET: str.describe('Secret used for cookie encryption'),
+    APP_NAME: str.describe('Name of the application').default('accounts-filing-web'),
+    LOG_LEVEL: str
+        .in([
+            'ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'MARK', 'OFF',
+            'all', 'trace', 'debug', 'info', 'warn', 'error', 'fatal', 'mark', 'off'
+        ])
+        .describe(
+            'Defines the level of events to be logged. Options are: ' +
                 'ALL/all (all events will be logged), ' +
                 'TRACE/trace (trace level events will be logged), ' +
                 'DEBUG/debug (debug level events will be logged), ' +
@@ -53,6 +53,6 @@ export const env = readEnv(process.env, {
                 'OFF/off (no events will be logged). ' +
                 'The order from least to most severe is: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < MARK < OFF. ' +
                 'OFF is intended to be used to turn off logging, not as a level for actual logging.'
-            )
-            .default('info'),
+        )
+        .default('info'),
 });
