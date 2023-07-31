@@ -1,34 +1,112 @@
 {
-    "ignorePatterns": ["views/", "node_modules/"],
-    "parserOptions": {
-        "ecmaVersion": 8,
-        "sourceType": "module",
-        "ecmaFeatures": {}
+    "env": {
+        "es2020": true,
+        "node": true,
+        "jest": true
     },
-    "extends": ["standard"],
-    "parser": "@typescript-eslint/parser",
-    "overrides": [
-         {
-            "files": ["*.test.ts"],
-            "rules": {
-                "no-unused-expressions": "off"
-            }
-        }
+    "ignorePatterns": ["views/", "node_modules/"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
-    "rules": {
-        "indent": ["error", 4],
-        "quotes": ["error", "double", { "allowTemplateLiterals": true }],
-        "semi": [2, "always"],
-        "no-unused-vars": "off",
-        "padded-blocks": "off"
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 11,
+        "sourceType": "module"
     },
     "plugins": [
         "@typescript-eslint"
     ],
-    "env": {
-        "node": true,
-        "commonjs": true,
-        "mocha": true,
-        "es6": true
+    "rules": {
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "@typescript-eslint/semi": [
+            "error",
+            "always"
+        ],
+        "@typescript-eslint/type-annotation-spacing": "error",
+        "arrow-spacing": "error",
+        "brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "curly": "error",
+        "eqeqeq": "error",
+        "eol-last": [
+            "warn",
+            "always"
+        ],
+        "indent": [
+            "error",
+            4,
+            {
+                "FunctionExpression": {
+                    "parameters": "first"
+                },
+                "CallExpression": {
+                    "arguments": "first"
+                },
+                "outerIIFEBody": 2,
+                "SwitchCase": 2
+            }
+        ],
+        "key-spacing": [
+            "error",
+            {
+                "afterColon": true
+            }
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "no-irregular-whitespace": "error",
+        "no-trailing-spaces": "error",
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allowFunctionParams": true
+            }
+        ],
+        "no-unused-vars": "off",
+        "no-whitespace-before-property": "error",
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "require-await": "error",
+        "space-infix-ops": "error",
+        "spaced-comment": [
+            "error",
+            "always",
+            {
+                "markers": [
+                    "/",
+                    "*"
+                ]
+            }
+        ]
     }
 }

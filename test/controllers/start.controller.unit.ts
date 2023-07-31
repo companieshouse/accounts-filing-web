@@ -4,22 +4,22 @@ import app from "../../src/app";
 
 describe("start controller tests", () => {
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
-  it("should return start page", async () => {
-    const response = await request(app)
-      .get("/accounts-filing");
+    it("should return start page", async () => {
+        await request(app)
+            .get("/accounts-filing");
 
-    expect(middlewareMocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
-  });
+        expect(middlewareMocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
+    });
 
-  it("should return start page when url has trailing slash", async () => {
-    const response = await request(app)
-      .get("/accounts-filing/");
-      
-    expect(middlewareMocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
-  });
+    it("should return start page when url has trailing slash", async () => {
+        await request(app)
+            .get("/accounts-filing/");
+
+        expect(middlewareMocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
+    });
 
 });

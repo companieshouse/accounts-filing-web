@@ -7,10 +7,9 @@ module.exports = {
     testEnvironment: "node",
     verbose: true,
     testMatch: ["**/test/**/*.unit.[jt]s"],
-    globals: {
-        "ts-jest": {
-            diagnostics: false,
-        },
+    transform: {
+        "^.+\\.tsx?$": ["ts-jest", { diagnostics: false }],
     },
     globalSetup: "./test/global.setup.ts",
+    testTimeout: 10000, // Set the timeout to 10 seconds (or any other appropriate value)
 };

@@ -3,7 +3,7 @@ import mockCompanyAuthenticationMiddleware from "./company.authentication.middle
 import mockSessionMiddleware from "./session.middleware.mock";
 
 export default {
-  mockAuthenticationMiddleware,
-  mockCompanyAuthenticationMiddleware,
-  mockSessionMiddleware,
+    mockAuthenticationMiddleware,
+    mockCompanyAuthenticationMiddleware,
+    mockSessionMiddleware,
 };
