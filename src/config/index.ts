@@ -17,7 +17,7 @@ export const env = readEnv(process.env, {
     CDN_URL_CSS: str.describe("CDN URL for the CSS files").default("/css"),
     CDN_URL_JS: str.describe("CDN URL for the JavaScript files").default("/js"),
     CDN_HOST: str.describe("URL for the CDN"),
-    NODE_PORT: port.describe("Port to run the web server on").default(3000),
+    PORT: port.describe("Port to run the web server on").default(3000),
     NODE_HOSTNAME: str
         .describe("Host name the server is hosted on")
         .default(""),
