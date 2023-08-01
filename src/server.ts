@@ -7,8 +7,8 @@ import { env } from './config';
 
 // start the HTTP server
 const httpServer = http.createServer(app);
-httpServer.listen(env.NODE_PORT, () => {
-    console.log(`Server started at: ${env.NODE_HOSTNAME}:${env.NODE_PORT}`);
+httpServer.listen(env.PORT, () => {
+    console.log(`Server started at: ${env.NODE_HOSTNAME}:${env.PORT}`);
 }).on("error", err => {
     logger.error(`${err.name} - HTTP Server error: ${err.message} - ${err.stack}`);
 });
