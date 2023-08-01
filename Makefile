@@ -23,6 +23,7 @@ lint:
 .PHONY: sonar
 sonar:
 	echo "CODE_ANALYSIS_PULL_REQUEST_KEY = ${CODE_ANALYSIS_PULL_REQUEST_KEY}"
+	cat sonar-project.properties
 	npm run sonarqube
 
 .PHONY: test
