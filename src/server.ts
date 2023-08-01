@@ -4,11 +4,13 @@ import https from "https";
 import { logger }  from "./utils/logger";
 import app from "./app";
 import { env } from './config';
+import { servicePathPrefix } from "./utils/constants/urls";
 
 // start the HTTP server
 const httpServer = http.createServer(app);
 httpServer.listen(env.PORT, () => {
     console.log(`Server started at: ${env.NODE_HOSTNAME}:${env.PORT}`);
+    console.log(`Access at ${env.CHS_URL}${servicePathPrefix}`);
 }).on("error", err => {
     logger.error(`${err.name} - HTTP Server error: ${err.message} - ${err.stack}`);
 });
