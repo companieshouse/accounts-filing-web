@@ -181,7 +181,7 @@ export type Env<S> = S extends Record<string, ValidatorBuilder<unknown>>
     : never;
 
 
-export function readEnv<S extends Record<string, ValidatorBuilder<unknown>>>(source: Record<string, string | undefined>, schema: S): Env<S> {
+export function readEnv<S extends Record<string, ValidatorBuilder<unknown>>>(source: Record<string, string | undefined>, schema: S): Readonly<Env<S>> {
     const vars: Record<string, unknown> = {};
 
     const errors: {key: string, message: string}[] = [];

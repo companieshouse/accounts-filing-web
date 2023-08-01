@@ -16,7 +16,7 @@ export const env = readEnv(process.env, {
         .default(false),
     CDN_URL_CSS: str.describe("CDN URL for the CSS files").default("/css"),
     CDN_URL_JS: str.describe("CDN URL for the JavaScript files").default("/js"),
-    CDN_HOST: str.describe("URL for the CDN"),
+    CDN_HOST: str.map(addProtocolIfMissing).describe("URL for the CDN"),
     PORT: port.describe("Port to run the web server on").default(3000),
     NODE_HOSTNAME: str
         .describe("Host name the server is hosted on")
@@ -56,3 +56,16 @@ export const env = readEnv(process.env, {
         )
         .default('info'),
 });
+
+const protocolRegex = /^(http:\/\/|https:\/\/|\/\/)/i;
+// Some config parameters don't have protocols e.g. CDN_HOST.
+// This funciton adds '//' which is a protocol relative protocol to the url.
+// This means if the site is hosted on http it will try to access http://${CDN_HOST}
+// If the site is hosted on https it will use https://${CDN_HOST}
+function addProtocolIfMissing(url: string): string {
+    if (!protocolRegex.test(url)) {
+        return '//' + url;
+    } else {
+        return url;
+    }
+}
