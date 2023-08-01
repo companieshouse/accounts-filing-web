@@ -1,4 +1,4 @@
-import { Validators, readEnv } from "./validator";
+import { Validators, readEnv, addProtocolIfMissing } from "./validator";
 
 const { str, url, bool, port } = Validators;
 
@@ -56,16 +56,3 @@ export const env = readEnv(process.env, {
         )
         .default('info'),
 });
-
-const protocolRegex = /^(http:\/\/|https:\/\/|\/\/)/i;
-// Some config parameters don't have protocols e.g. CDN_HOST.
-// This funciton adds '//' which is a protocol relative protocol to the url.
-// This means if the site is hosted on http it will try to access http://${CDN_HOST}
-// If the site is hosted on https it will use https://${CDN_HOST}
-function addProtocolIfMissing(url: string): string {
-    if (!protocolRegex.test(url)) {
-        return '//' + url;
-    } else {
-        return url;
-    }
-}
