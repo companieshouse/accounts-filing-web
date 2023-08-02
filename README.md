@@ -1,5 +1,5 @@
 # accounts-filing-web
-Accounts filing web application will allow users to appoint, change and terminate accountss.
+Accounts filing web application will allow users submit accounts by uploading a zip file.
 
 ## Node Versions
 
