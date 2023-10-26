@@ -26,7 +26,7 @@ data "aws_iam_role" "ecs_cluster_iam_role" {
 }
 
 data "aws_lb" "filing_maintain_lb" {
-  name = "alb-${var.environment}-account-filing"
+  name = "${var.environment}-chs-chgovuk"
 }
 
 data "aws_lb_listener" "filing_maintain_lb_listener" {
