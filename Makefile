@@ -28,6 +28,10 @@ sonar:
 test:
 	npm run coverage
 
+.PHONY: test-unit
+test-unit:
+	npm run test
+
 .PHONY: package
 package: build
 ifndef version
@@ -48,3 +52,7 @@ endif
 
 .PHONY: dist
 dist: lint test clean package
+
+.PHONY: security-check
+security-check:
+	npm audit
