@@ -32,7 +32,6 @@ locals {
   chs_api_key          = local.service_secrets["chs_api_key"]
   internal_api_url     = local.service_secrets["internal_api_url"]
   chs_internal_api_key = local.service_secrets["chs_internal_api_key"]
-  cdn_host             = local.service_secrets["cdn_host"]
   account_url          = local.service_secrets["account_url"]
   cookie_secret        = local.service_secrets["cookie_secret"]
   oauth2_auth_uri      = local.service_secrets["oauth2_auth_uri"]
