@@ -80,6 +80,9 @@
     "uuid": "^9.0.0",
     "yargs": "^17.7.2"
   },
+  "overrides": {
+    "glob-parent": "^5.1.2"
+  },
   "nodemonConfig": {
     "watch": [
       "./src",
