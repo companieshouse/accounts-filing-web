@@ -73,6 +73,8 @@
     "nunjucks": "^3.2.4"
   },
   "overrides": {
+    "chokidar": "^3.0.0",
+    "vinyl-fs": "^4.0.0",
     "glob-parent": "^5.1.2"
   },
   "nodemonConfig": {
@@ -89,9 +91,5 @@
   },
   "directories": {
     "test": "test"
-  },
-  "overrides": {
-    "chokidar": "^3.0.0",
-    "vinyl-fs": "^4.0.0"
   }
 }
