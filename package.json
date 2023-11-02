@@ -74,8 +74,7 @@
   },
   "overrides": {
     "chokidar": "^3.0.0",
-    "vinyl-fs": "^4.0.0",
-    "glob-parent": "^5.1.2"
+    "vinyl-fs": "^4.0.0"
   },
   "nodemonConfig": {
     "watch": [
