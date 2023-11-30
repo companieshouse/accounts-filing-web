@@ -7,12 +7,14 @@ import { authenticationMiddleware } from "./middleware/authentication.middleware
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
 import { getRelativeUrl, skipIf } from "./utils";
+import { sessionMiddleware } from "./middleware/session.middleware";
 
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
     const router = Router();
     app.use(servicePathPrefix, router);
 
+    router.use('/', sessionMiddleware);
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
     const isHealthCheckEndpoint = (req: Request) => getRelativeUrl(req).startsWith(healthcheckUrl);
@@ -21,7 +23,7 @@ const routerDispatch = (app: Application) => {
 
     router.use("/", HomeRouter);
     router.use(healthcheckUrl, HealthCheckRouter);
-
+    
     app.use(commonTemplateVariablesMiddleware);
     app.use(errorHandler);
     app.use("*", pageNotFound);
