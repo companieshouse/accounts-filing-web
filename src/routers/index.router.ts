@@ -3,9 +3,9 @@ import { HomeHandler } from "./handlers/index/home";
 
 const router: Router = Router();
 
-router.get("/", async (req: Request, res: Response, _next: NextFunction) => {
+router.get("/", (req: Request, res: Response, _next: NextFunction) => {
     const handler = new HomeHandler();
-    await handler.execute(req, res);
+    handler.execute(req, res);
 });
 
 export default router;
