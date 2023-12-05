@@ -226,3 +226,8 @@ export function addProtocolIfMissing(url: string): string {
         return url;
     }
 }
+
+export const uuidRegex = (uuid: string) => {
+    const check = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return check.test(uuid);
+};

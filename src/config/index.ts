@@ -55,4 +55,5 @@ export const env = readEnv(process.env, {
                 'OFF is intended to be used to turn off logging, not as a level for actual logging.'
         )
         .default('info'),
+    SUBMIT_VALIDATION_URL: url.describe('account validation web submit address to upload file for validation')
 });
