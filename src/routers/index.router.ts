@@ -3,11 +3,10 @@ import { HomeHandler } from "./handlers/index/home";
 
 const router: Router = Router();
 
-router.get("/", async (req: Request, res: Response, _next: NextFunction) => {
+router.get("/",  (req: Request, res: Response, _next: NextFunction) => {
     const handler = new HomeHandler();
-    const params = await Promise.resolve(handler.execute(req, res));
-    const [path, data] = params;
-    res.render(path, data);
+    const params = handler.execute(req, res);
+    res.render(params.link, params.data);
 });
 
 export default router;
