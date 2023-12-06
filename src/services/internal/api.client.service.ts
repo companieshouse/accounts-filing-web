@@ -7,7 +7,7 @@ import { logger } from "../../utils/logger";
 
 /**
  * Creates an instance of the public API client using the CHS API key.
- * 
+ *
  * @returns An instance of the public API client.
  */
 export const createPublicApiKeyClient = (): ApiClient => {
@@ -16,7 +16,7 @@ export const createPublicApiKeyClient = (): ApiClient => {
 
 /**
  * Creates an instance of the private API client using the CHS internal API key.
- * 
+ *
  * @returns An instance of the private API client.
  */
 export const createPrivateApiKeyClient = (): PrivateApiClient => {
