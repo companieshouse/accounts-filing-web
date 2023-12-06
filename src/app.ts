@@ -33,8 +33,8 @@ app.set("view engine", "njk");
 app.use(express.static(path.join(__dirname, "../assets/public"))); // TODO: only in dev mode
 // app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
 
-njk.addGlobal("cdnUrlCss", env.CDN_URL_CSS);
-njk.addGlobal("cdnUrlJs", env.CDN_URL_JS);
+njk.addGlobal("cdnUrlCss", env.CDN_HOST + env.CDN_URL_CSS);
+njk.addGlobal("cdnUrlJs", env.CDN_HOST + env.CDN_URL_JS);
 njk.addGlobal("cdnHost", env.CDN_HOST);
 njk.addGlobal("chsUrl", env.CHS_URL);
 
@@ -51,12 +51,10 @@ logger.info("accounts filing Web has started");
 
 process.on("uncaughtException", (err: any) => {
     logger.error(`${err.name} - uncaughtException: ${err.message} - ${err.stack}`);
-    process.exit(1);
 });
 
 process.on("unhandledRejection", (err: any) => {
     logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
-    process.exit(1);
 });
 
 export default app;
