@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8" />
     <title>{{ title }}</title>
-    <link href="{{ cdnHost }}/stylesheets/govuk-frontend/v3.11.0/govuk-frontend-3.11.0.min.css" rel="stylesheet"/>
+    <link href="{{ cdnHost }}/stylesheets/govuk-frontend/v4.6.0/govuk-frontend-4.6.0.min.css" rel="stylesheet"/>
 
     <link href="{{ cdnUrlCss }}/app.min.css" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ cdnHost }}/images/favicon.ico" rel="icon" type="image/x-icon" />
@@ -16,6 +16,7 @@
         var page = page || {};
     </script>
     {# <script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script> #}
+    <link href="{{cdnHost}}/stylesheets/services/account-validator-web/app.css" rel="stylesheet"/> {# For validation failure style #}
 </head>
 
 {#<script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script>#}
