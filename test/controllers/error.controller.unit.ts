@@ -1,6 +1,6 @@
 jest.mock("../../src/utils/logger");
 
-import mocks from "../mocks/all.middleware.mock";
+import { mockAuthenticationMiddleware } from "../mocks/all.middleware.mock";
 import request from "supertest";
 import app from "../../src/app";
 import { servicePathPrefix } from "../../src/utils/constants/urls";
@@ -19,6 +19,6 @@ describe("Error controller test", () => {
 
         expect(response.status).toEqual(404);
         expect(response.text).toContain(EXPECTED_TEXT);
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 });
