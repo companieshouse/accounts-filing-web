@@ -55,7 +55,7 @@ export class UploadedHandler extends GenericHandler {
             fileId,
             accountsFilingId,
             transactionId
-        }
+        };
 
         if (!this.validateRequest(validationRequest)) {
             logger.error(`File ID [${fileId}] is not valid.`);

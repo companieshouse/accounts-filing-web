@@ -8,7 +8,7 @@ const router: Router = Router();
 /**
  * Route handler for the root path of the router.
  * Responds with a 400 Bad Request status if called, indicating that a UUIDv4 file ID is required.
- * 
+ *
  * @param {Request} _req - The incoming request object (unused in this method).
  * @param {Response} res - The response object used to send the response.
  * @param {NextFunction} _next - The next middleware function in the Express router (unused in this method).
@@ -22,7 +22,7 @@ router.get("/", (_req: Request, res: Response, _next: NextFunction) => {
  * This handler is triggered for a GET request with a specific fileId.
  * It creates an instance of UploadedHandler, executes it to process the request,
  * and then renders the view with the returned data.
- * 
+ *
  * @param {Request} req - The incoming request object, containing the fileId and other request data.
  * @param {Response} res - The response object used to send the response.
  * @param {NextFunction} _next - The next middleware function in the Express router (unused in this method).
