@@ -12,11 +12,11 @@ export class SubmitHandler extends GenericHandler {
         this.SUBMIT_VALIDATION_URL = env.SUBMIT_VALIDATION_URL;
     }
 
-    execute (req: Request, _res: Response): Promise<string> {
+    execute (req: Request, _res: Response): string {
         logger.info(`GET Request to send fileId call back address`);
         const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
         const url = this.getFileUploadUrl(zipPortalBaseURL, this.SUBMIT_VALIDATION_URL);
-        return Promise.resolve(url);
+        return url;
     }
 
     private getFileUploadUrl(zipPortalBaseURL: string, SUBMIT_VALIDATION_URL: string): string{
