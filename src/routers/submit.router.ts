@@ -6,7 +6,10 @@ const router: Router = Router();
 
 router.get(`${submitUrl}`, (req: Request, res: Response, _next: NextFunction) => {
     const submitHandler = new SubmitHandler();
-    res.redirect(submitHandler.execute(req, res ));
+    const params = submitHandler.execute(req, res );
+    if (params.callbackUrl){
+        res.redirect(params.callbackUrl);
+    }
 });
 
 export default router;

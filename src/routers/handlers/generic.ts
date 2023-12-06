@@ -24,3 +24,9 @@ export class GenericHandler {
         };
     }
 }
+
+export type HandlerReturnType = {
+    templatePath?: string,
+    viewData?: Record<symbol, object>,
+    callbackUrl?: string
+};
