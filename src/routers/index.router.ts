@@ -2,12 +2,13 @@ import { Request, Response, Router, NextFunction } from "express";
 import { HomeHandler } from "./handlers/index/home";
 
 const router: Router = Router();
-const routeViews = "router_views/index";
 
-router.get("/", async (req: Request, res: Response, _next: NextFunction) => {
+router.get("/",  (req: Request, res: Response, _next: NextFunction) => {
     const handler = new HomeHandler();
-    const viewData = await handler.execute(req, res);
-    res.render(`${routeViews}/home`, viewData);
+    const params = handler.execute(req, res);
+    if (params.templatePath && params.viewData) {
+        res.render(params.templatePath, params.viewData);
+    }
 });
 
 export default router;
