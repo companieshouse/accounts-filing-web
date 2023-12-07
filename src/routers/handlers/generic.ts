@@ -44,8 +44,7 @@ export abstract class GenericHandler {
     }
 }
 
-export type HandlerReturnType = {
-    templatePath?: string,
-    viewData?: Record<symbol, object>,
-    callbackUrl?: string
-};
+export interface ViewModel<T> {
+    templatePath: string,
+    viewData: T
+}

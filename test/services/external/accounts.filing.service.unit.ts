@@ -40,7 +40,7 @@ function createApiResponse (fileId: string) {
 // checkAccountsFileValidationStatus(fileValidationRequest: AccountsFilingValidationRequest): Promise<Resource<AccountsFileValidationResponse> | ApiErrorResponse>;
 describe('AccountsFilingService', () => {
     let service: AccountsFilingService;
-    let mockGetStatus = jest.fn<Promise<Resource<AccountsFileValidationResponse> | ApiErrorResponse>, [AccountsFilingValidationRequest]>();
+    const mockGetStatus = jest.fn<Promise<Resource<AccountsFileValidationResponse> | ApiErrorResponse>, [AccountsFilingValidationRequest]>();
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -69,7 +69,7 @@ describe('AccountsFilingService', () => {
         const mockErrorResponse = { httpStatusCode: 400, errors: [{ error: 'Some error occurred' }] };
         mockGetStatus.mockResolvedValue(mockErrorResponse);
 
-        const req = { fileId, transactionId: 'some id', accountsFilingId: 'some id' }; 
+        const req = { fileId, transactionId: 'some id', accountsFilingId: 'some id' };
 
         await expect(service.getValidationStatus(req)).rejects.toEqual(mockErrorResponse);
     });
