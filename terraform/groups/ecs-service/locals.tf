@@ -77,6 +77,7 @@ locals {
     { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" },
     { "name" : "LOG_LEVEL", "value" : "${var.log_level}" },
     { "name" : "NODE_ENV", "value" : "${var.node_env}" },
-    { "name" : "TZ", "value" : "${var.tz}" }
+    { "name" : "TZ", "value" : "${var.tz}" },
+    { "name" : "SUBMIT_VALIDATION_URL", "value" : "${var.submit_validation_url}" },
   ]
 }

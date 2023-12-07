@@ -36,28 +36,5 @@ export const env = readEnv(process.env, {
                 'OFF is intended to be used to turn off logging, not as a level for actual logging.'
         )
         .default('info'),
-    NODE_HOSTNAME: str
-        .describe("Host name the server is hosted on")
-        .default(""),
-    NODE_HOSTNAME_SECURE: str.describe('Hostname for the secure HTTPS server').default('localhost'),
-    NODE_PORT_SSL: port.describe('Port for the HTTPS server').default(3001),
-    NODE_SSL_CERTIFICATE: str.describe('Path to the SSL certificate file').default(''),
-    NODE_SSL_ENABLED: str
-        .describe("Flag to enable SSL for the server")
-        .default(false),
-    NODE_SSL_PRIVATE_KEY: str
-        .describe("Path to the SSL private key file")
-        .default(""),
-    NUNJUCKS_LOADER_NO_CACHE: bool
-        .describe(
-            "Flag to control the caching of templates in the Nunjucks loader"
-        )
-        .default(false),
-    NUNJUCKS_LOADER_WATCH: bool
-        .describe(
-            "Flag to enable or disable watching for file changes in the Nunjucks loader"
-        )
-        .default(false),
-    PORT: port.describe("Port to run the web server on").default(3000),
-    SUBMIT_VALIDATION_URL: url.describe('account validation web submit address to upload file for validation')
+    SUBMIT_VALIDATION_URL: url.describe('Account validator web submit path to upload file to be validated')
 });

@@ -92,3 +92,8 @@ variable "node_env" {
 variable "tz" {
   type = string
 }
+
+variable "submit_validation_url" {
+  type = string
+  description = "Account validator web submit path to upload file to be validated"
+}
