@@ -79,20 +79,5 @@
   "overrides": {
     "chokidar": "^3.0.0",
     "vinyl-fs": "^4.0.0"
-  },
-  "nodemonConfig": {
-    "watch": [
-      "./src",
-      "./assets/src"
-    ],
-    "ext": "ts,js,json,njk,scss,env",
-    "legacyWatch": true,
-    "ignore": [
-      "**/*.test.ts"
-    ],
-    "exec": "npm run build && source ./dist/config/.env && node dist/server.js"
-  },
-  "directories": {
-    "test": "test"
   }
 }
