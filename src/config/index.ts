@@ -59,4 +59,5 @@ export const env = readEnv(process.env, {
         )
         .default(false),
     PORT: port.describe("Port to run the web server on").default(3000),
+    SUBMIT_VALIDATION_URL: url.describe('account validation web submit address to upload file for validation')
 });

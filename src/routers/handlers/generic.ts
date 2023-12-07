@@ -43,3 +43,9 @@ export abstract class GenericHandler {
         this.baseViewData.isSignedIn = req.session?.data.signin_info?.signed_in !== undefined ? true : false;
     }
 }
+
+export type HandlerReturnType = {
+    templatePath?: string,
+    viewData?: Record<symbol, object>,
+    callbackUrl?: string
+};

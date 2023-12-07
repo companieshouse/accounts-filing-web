@@ -11,4 +11,6 @@ export const COMPANY_AUTH_PROTECTED_BASE = `/company/:${URL_QUERY_PARAM.PARAM_CO
 export const CONFIRM_COMPANY = '/confirm-company';
 export const CONFIRM_COMPANY_PATH = servicePathPrefix + CONFIRM_COMPANY;
 export const healthcheckUrl = '/healthcheck';
+export const submitUrl = '/submit';
+export const fileIdPlaceholder = '{fileId}';
 export const uploadedUrl = '/uploaded';
