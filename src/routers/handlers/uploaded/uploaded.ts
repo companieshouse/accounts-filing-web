@@ -64,8 +64,8 @@ export class UploadedHandler extends GenericHandler {
                 ...this.baseViewData,
             };
         }
-        
-        let result: Awaited<ReturnType<typeof this.accountsFilingService.getValidationStatus>>
+
+        let result: Awaited<ReturnType<typeof this.accountsFilingService.getValidationStatus>>;
         try {
             result = await this.accountsFilingService.getValidationStatus(validationRequest);
         } catch (error) {
