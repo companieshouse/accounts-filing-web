@@ -64,8 +64,15 @@ export class UploadedHandler extends GenericHandler {
                 ...this.baseViewData,
             };
         }
+        
+        let result: Awaited<ReturnType<typeof this.accountsFilingService.getValidationStatus>>
+        try {
+            result = await this.accountsFilingService.getValidationStatus(validationRequest);
+        } catch (error) {
+            logger.error(`Exception returned from SDK while getting validation status from [${fileId}]. Error: ${JSON.stringify(error, null, 2)}`);
 
-        const result = await this.accountsFilingService.getValidationStatus(validationRequest);
+            throw error;
+        }
 
         logger.info(
             `Got result ${JSON.stringify(result, null, 2)} for file [${fileId}]`
