@@ -1,0 +1,16 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block main_content %}
+    {% set succeeded = result.result.validationStatus !== 'FAILED' %}
+
+    {% if succeeded %}
+        {% include "router_views/uploaded/succeeded.njk" %}
+    {% else %}
+        {% include "router_views/uploaded/failed.njk" %}
+    {% endif %}
+{% endblock %}

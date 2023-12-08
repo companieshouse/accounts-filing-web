@@ -16,7 +16,7 @@
     "build:assets": "gulp build",
     "build:server": "tsc && cp -r ./src/views ./dist/ && cp -r ./src/config ./dist/",
     "build": "npm run build:assets && npm run build:server",
-    "dev": "nodemon --signal SIGTERM --watch src --ignore 'src/**/*.unit.ts' --ext ts --exec 'NODE_OPTIONS=\"--inspect=0.0.0.0\" ts-node ./src/server.ts'",
+    "dev": "nodemon --signal SIGTERM --watch src --ignore 'src/**/*.unit.ts' --ext ts --exec 'node --require ts-node/register --inspect=0.0.0.0:9229 ./src/server.ts'",
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
     "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;",
@@ -45,6 +45,7 @@
     "@types/node": "^20.8.10",
     "@types/nunjucks": "^3.2.5",
     "@types/supertest": "^2.0.15",
+    "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.52.0",
@@ -64,6 +65,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@companieshouse/api-sdk-node": "^2.0.136",
     "@companieshouse/node-session-handler": "^4.1.9",
     "@companieshouse/structured-logging-node": "^2.0.1",
     "@companieshouse/web-security-node": "^2.0.3",
@@ -71,7 +73,9 @@
     "express": "^4.18.2",
     "govuk-frontend": "^4.7.0",
     "ioredis": "^5.3.2",
-    "nunjucks": "^3.2.4"
+    "nunjucks": "^3.2.4",
+    "private-api-sdk-node": "github:companieshouse/private-api-sdk-node#1.0.1",
+    "uuid": "^9.0.1"
   },
   "overrides": {
     "chokidar": "^3.0.0",

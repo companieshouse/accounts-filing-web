@@ -1,0 +1,24 @@
+{% set html %}
+<h3 class="govuk-notification-banner__heading">
+    Your file is not valid 
+</h3>
+<p class="govuk-body">
+    Your accounts file '{{ result.fileName }}' is not valid because:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+    {% for error in result.result.errorMessages %}
+        <li class="wrap-overflow">{{ error.errorMessage }}</li>
+    {% endfor %}
+</ul>
+{% endset %}
+
+{{ govukNotificationBanner({
+    titleText: 'Failure',
+    classes: 'govuk-notification-banner--failure word-break',
+    html: html
+}) }}
+
+<p class="govuk-body">
+    You'll need to update the file. Once it's valid, you'll need to <a class="govuk-link" href='/accounts-filing/submit'>upload your accounts file</a>.
+</p>
+

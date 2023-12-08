@@ -24,7 +24,7 @@
             "localRoot": "${workspaceFolder}",
             "name": "Attach to Remote",
             "port": 9230,
-            "remoteRoot": "/app",
+            "remoteRoot": "/opt",
             "request": "attach",
             "sourceMaps": true,
             "skipFiles": [
