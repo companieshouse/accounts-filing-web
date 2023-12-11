@@ -18,7 +18,7 @@ cookie_name = "__SID"
 piwik_url = "https://matomo.platform.aws.chdev.org"
 
 log_level = "info"
-node_env = "docker"
+node_env = "production"
 tz = "Europe/London"
 submit_validation_url = "https://test-validator-staging.companieshouse.gov.uk/xbrl_validate/submit"
 

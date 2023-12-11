@@ -18,6 +18,6 @@ cookie_name = "__SID"
 piwik_url = "https://matomo.companieshouse.gov.uk"
 
 log_level = "info"
-node_env = "live"
+node_env = "production"
 tz = "Europe/London"
 submit_validation_url = "https://test-validator.companieshouse.gov.uk/xbrl_validate/submit"
