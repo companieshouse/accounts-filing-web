@@ -2,7 +2,6 @@ environment = "live"
 aws_profile = "live-eu-west-2"
 
 api_url = "https://private-api.companieshouse.gov.uk"
-cache_server = "redis"
 cdn_host = "https://db2062spq951s.cloudfront.net"
 
 # scaling configs

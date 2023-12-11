@@ -2,7 +2,6 @@ environment = "staging"
 aws_profile = "staging-eu-west-2"
 
 api_url = "https://private-api-staging.company-information.service.gov.uk"
-cache_server = "redis"
 cdn_host = "https://d6nh3dxv55e16.cloudfront.net"
 
 # scaling configs

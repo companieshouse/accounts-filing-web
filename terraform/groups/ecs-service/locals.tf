@@ -55,6 +55,7 @@ locals {
 
   task_secrets = [
     { "name" : "ACCOUNT_URL", "valueFrom" : "${local.service_secrets_arn_map.account_url}" },
+    { "name" : "CACHE_SERVER", "valueFrom": "${local.service_secrets_arn_map.cache_server}" },
     { "name" : "CHS_API_KEY", "valueFrom" : "${local.service_secrets_arn_map.chs_api_key}" },
     { "name" : "CHS_INTERNAL_API_KEY", "valueFrom" : "${local.service_secrets_arn_map.chs_internal_api_key}" },
     { "name" : "COOKIE_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-cookie-secret}" },
@@ -70,7 +71,6 @@ locals {
   task_environment = [
     { "name" : "API_URL", "value" : "${var.api_url}" },
     { "name" : "PIWIK_URL", "value" : "${var.piwik_url}" },
-    { "name" : "CACHE_SERVER", "value" : "${var.cache_server}" },
     { "name" : "CDN_HOST", "value" : "${var.cdn_host}" },
     { "name" : "CHS_URL", "value" : "${var.chs_url}" },
     { "name" : "COOKIE_DOMAIN", "value" : "${var.cookie_domain}" },
