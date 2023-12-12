@@ -67,11 +67,6 @@ variable "cdn_host" {
 variable "chs_url" {
   type = string
 }
-
-variable "cache_server" {
-  type = string
-}
-
 variable "cookie_domain" {
   type = string
 }
