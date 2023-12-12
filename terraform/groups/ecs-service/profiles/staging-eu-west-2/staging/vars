@@ -2,23 +2,13 @@ environment = "staging"
 aws_profile = "staging-eu-west-2"
 
 api_url = "https://private-api-staging.company-information.service.gov.uk"
-cache_server = "redis"
 cdn_host = "https://d6nh3dxv55e16.cloudfront.net"
-
-# scaling configs
-desired_task_count = 2 # use multi instance in live
-
-required_memory = "4096"
-
 chs_url = "https://staging.company-information.service.gov.uk"
-
 cookie_domain = "company-information.service.gov.uk"
 cookie_name = "__SID"
-
-piwik_url = "https://matomo.platform.aws.chdev.org"
-
+desired_task_count = 2 # use multi instance in live
 log_level = "info"
-node_env = "docker"
-tz = "Europe/London"
+node_env = "production"
+piwik_url = "https://matomo.platform.aws.chdev.org"
 submit_validation_url = "https://test-validator-staging.companieshouse.gov.uk/xbrl_validate/submit"
-
+tz = "Europe/London"
