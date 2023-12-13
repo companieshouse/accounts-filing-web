@@ -13,7 +13,7 @@ const routerDispatch = (app: Application) => {
     const router = Router();
     app.use(servicePathPrefix, router);
 
-    // Routes that do not require auth or session are added to the router before the sessiona and auth middlewares
+    // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use("/", HomeRouter);
     router.use(healthcheckUrl, HealthCheckRouter);
 
