@@ -16,10 +16,10 @@ const routerDispatch = (app: Application) => {
     router.use("/", HomeRouter);
     router.use(healthcheckUrl, HealthCheckRouter);
 
-    router.use('/', sessionMiddleware);
-
+    
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
+    router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
     router.use(`${COMPANY_AUTH_PROTECTED_BASE}`, companyAuthenticationMiddleware);
 
