@@ -15,7 +15,7 @@ const redis = new Redis(`redis://${CACHE_SERVER}`);
 const sessionStore = new SessionStore(redis);
 
 function maskString(s: string, n = 5, mask = "*"): string {
-    return [...s].map((char, index) => (index < s.length - n ? char : mask)).join("");
+    return [...s].map((char, index) => (index < n ? char : mask)).join("");
 }
 
 export const sessionMiddleware = (req: Request, res: Response, next: NextFunction) => {
@@ -23,7 +23,7 @@ export const sessionMiddleware = (req: Request, res: Response, next: NextFunctio
     const configDebugVars = {
         CACHE_SERVER: maskString(CACHE_SERVER),
         COOKIE_DOMAIN: maskString(COOKIE_DOMAIN),
-        COOKIE_NAME: maskString(COOKIE_NAME, 3),
+        COOKIE_NAME: maskString(COOKIE_NAME),
         COOKIE_SECRET: maskString(COOKIE_SECRET)
     };
 
