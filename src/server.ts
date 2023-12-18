@@ -6,6 +6,9 @@ import app from "./app";
 import { env } from './config';
 import { servicePathPrefix } from "./utils/constants/urls";
 
+// TODO: remove once session middleware debugged.
+logger.debug(`Test debug log`);
+
 // start the HTTP server
 const httpServer = http.createServer(app);
 httpServer.listen(env.PORT, () => {
