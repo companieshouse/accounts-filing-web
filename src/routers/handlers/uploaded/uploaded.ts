@@ -5,6 +5,7 @@ import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
+import { getFileUploadUrl } from "../submit/submit";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
@@ -20,8 +21,7 @@ export class UploadedHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService) {
         super({
             title: "Uploaded Handler for handling file upload callbacks",
-            backURL:
-                "http://chs.local/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D", // TODO: Replace with submit page once Okoye's PR is merged
+            backURL: null,
         });
     }
 
@@ -41,6 +41,7 @@ export class UploadedHandler extends GenericHandler {
         _response: Response
     ): Promise<UploadedViewData> {
         super.populateViewData(req);
+        this.baseViewData.backURL = getFileUploadUrl(req);
 
         logger.debug(`Handling GET request for uplaoded file.`);
 
