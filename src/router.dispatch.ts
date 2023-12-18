@@ -11,7 +11,6 @@ import { sessionMiddleware } from "./middleware/session.middleware";
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
     const router = Router();
-    app.use(servicePathPrefix, router);
 
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use("/", HomeRouter);
@@ -25,8 +24,9 @@ const routerDispatch = (app: Application) => {
     router.use(`${COMPANY_AUTH_PROTECTED_BASE}`, companyAuthenticationMiddleware);
 
     router.use(uploadedUrl, FileUpladedRouter);
-    router.use(submitUrl, SubmitRouter );
+    router.use(submitUrl, SubmitRouter);
 
+    app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);
     app.use(errorHandler);
     app.use("*", pageNotFound);
