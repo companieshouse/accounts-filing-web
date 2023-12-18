@@ -15,6 +15,12 @@ describe("UploadedHandler", () => {
         handler = new UploadedHandler(accountsFilingServiceMock);
         mockReq = {
             params: { fileId: validUUIDv4 },
+            protocol: 'http',
+            get: function(s): any {
+                if (s === 'host') {
+                    return 'chs.local';
+                }
+            }
         };
     });
 
