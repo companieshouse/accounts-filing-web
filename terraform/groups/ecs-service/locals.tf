@@ -6,7 +6,7 @@ locals {
   container_port            = "3000" # default node port required here until prod docker container is built allowing port change via env var
   docker_repo               = "accounts-filing-web"
   lb_listener_rule_priority = 16
-  lb_listener_paths         = ["/accounts-filing", "/accounts_filing/*"]
+  lb_listener_paths         = ["/accounts-filing/*"]
   healthcheck_path          = "/accounts-filing/healthcheck" #healthcheck path for accounts-filing-web
   healthcheck_matcher       = "200"                        # no explicit healthcheck in this service yet, change this when added!
 
