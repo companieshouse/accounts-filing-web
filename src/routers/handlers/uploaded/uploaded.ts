@@ -6,7 +6,7 @@ import { AccountsFilingService } from "../../../services/external/accounts.filin
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { getFileUploadUrl } from "../submit/submit";
-import { ContextKeys } from "utils/constants/context.keys";
+import { ContextKeys } from "../../../utils/constants/context.keys";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
