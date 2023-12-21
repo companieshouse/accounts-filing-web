@@ -5,8 +5,8 @@ const router: Router = Router();
 
 router.get('/', (req: Request, res: Response, _next: NextFunction) => {
     const submitHandler = new SubmitHandler();
-    const callbackUrl = submitHandler.execute(req, res);
-    res.redirect(callbackUrl);
+    const validatorRedirectUrl = submitHandler.execute(req, res);
+    res.redirect(validatorRedirectUrl);
 });
 
 export default router;

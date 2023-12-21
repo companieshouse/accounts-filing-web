@@ -21,7 +21,8 @@ export class SubmitHandler extends GenericHandler {
 
 export function getFileUploadUrl(req: Request): string{
     const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
-    const zipPortalCallbackUrl = zipPortalBaseURL + servicePathPrefix + uploadedUrl + `/${fileIdPlaceholder}`;
+    const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${servicePathPrefix}${uploadedUrl}/${fileIdPlaceholder}`);
+    const xbrlValidatorBackUrl = encodeURIComponent(zipPortalBaseURL + servicePathPrefix);
 
-    return `${env.SUBMIT_VALIDATION_URL}?callback=${encodeURIComponent(zipPortalCallbackUrl)}`;
+    return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
 }

@@ -6,6 +6,7 @@ import { AccountsFilingService } from "../../../services/external/accounts.filin
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { getFileUploadUrl } from "../submit/submit";
+import { ContextKeys } from "../../../utils/constants/context.keys";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
@@ -48,9 +49,9 @@ export class UploadedHandler extends GenericHandler {
         const fileId = req.params.fileId;
         // TODO: remove nullish coalescing once the variables have been populated.
         const accountsFilingId =
-            req.session?.getExtraData<string>("accountsFilingId") ?? "Placeholder accountsFilingId";
+            req.session?.getExtraData<string>(ContextKeys.ACCOUNTS_FILING_ID) ?? "Placeholder accountsFilingId";
         const transactionId =
-            req.session?.getExtraData<string>("transactionId") ?? "Placeholder transactionId";
+            req.session?.getExtraData<string>(ContextKeys.TRANSACTION_ID) ?? "Placeholder transactionId";
 
         const validationRequest = {
             fileId,
