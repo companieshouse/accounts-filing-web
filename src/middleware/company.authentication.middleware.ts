@@ -10,7 +10,7 @@ export const companyAuthenticationMiddleware = (req: Request, res: Response, nex
     const authMiddlewareConfig: AuthOptions = {
         chsWebUrl: env.CHS_URL,
         returnUrl: req.originalUrl,
-        companyNumber: companyNumber
+        companyNumber: "CN12345"
     };
 
     return authMiddleware(authMiddlewareConfig)(req, res, next);

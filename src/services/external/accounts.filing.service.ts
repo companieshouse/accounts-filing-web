@@ -3,7 +3,7 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { logger } from "../../utils/logger";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { defaultPrivateApiClient } from "../../services/internal/api.client.service";
-import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
+import { AccountsFilingValidationRequest, AccountsFilingCompanyResponse } from "private-api-sdk-node/dist/services/accounts-filing/types";
 
 
 export class AccountsFilingService {
@@ -37,6 +37,34 @@ export class AccountsFilingService {
 
         return accountValidatorResponse;
     }
+
+    /**
+     * This service will get account filing id when the given company is confimed.
+     * @param companyNumber The company number
+     * @param transactionId The transaction Id
+     * @returns the company response.
+     */
+    async checkCompany(companyNumber: string, transactionId: string): Promise<Resource<AccountsFilingCompanyResponse>> {
+
+        const accountsFilingService = this.privateApiClient.accountsFilingService;
+        const accountsFilingCompanyResponse = await accountsFilingService.confirmCompany(companyNumber, transactionId);
+
+        logger.debug(`Check company Response : ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
+
+        if (accountsFilingCompanyResponse.httpStatusCode !== 200) {
+            logger.error(`company check failed. ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
+            throw accountsFilingCompanyResponse;
+        }
+
+        if (!isResource(accountsFilingCompanyResponse)) {
+            logger.error(`company response did not include a resource. Response: ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
+            throw new Error("company response didn't return a resource");
+        }
+
+        return accountsFilingCompanyResponse;
+    }
+
+
 }
 
 function isResource(o: any): o is Resource<unknown> {
