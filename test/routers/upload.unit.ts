@@ -1,10 +1,10 @@
 import app from "../../src/app";
 import request from "supertest";
-import { servicePathPrefix, submitUrl } from "../../src/utils/constants/urls";
+import { servicePathPrefix, uploadUrl } from "../../src/utils/constants/urls";
 
-describe("submit redirect tests", () => {
+describe("upload redirect tests", () => {
     it("should show status 302 for redirection", async () => {
-        const url = `${servicePathPrefix}${submitUrl}`;
+        const url = `${servicePathPrefix}${uploadUrl}`;
         const resp = await request(app).get(url);
 
         expect(resp.status).toBe(302);
