@@ -23,7 +23,7 @@ export class UploadHandler extends GenericHandler {
 
     async callTransactionApi(req: Request, _res: Response): Promise<string | undefined> {
         const companyName = req.session?.data.signin_info?.company_number;
-        const reference = env.APP_NAME;
+        const reference = env.APP_NAME || throw new Error("APP_NAME variable undefined");
         const description = "Accounts Filing Web";
 
         if(companyName == undefined) {
