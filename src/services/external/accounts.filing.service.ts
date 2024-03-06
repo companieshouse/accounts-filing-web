@@ -49,10 +49,10 @@ export class AccountsFilingService {
         const accountsFilingService = this.privateApiClient.accountsFilingService;
         const accountsFilingCompanyResponse = await accountsFilingService.confirmCompany(companyNumber, transactionId);
 
-        logger.debug(`Check company Response : ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
+        logger.debug(`Confirm company Response : ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
 
         if (accountsFilingCompanyResponse.httpStatusCode !== 200) {
-            logger.error(`company check failed. ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
+            logger.error(`Confirm company failed. ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
             throw accountsFilingCompanyResponse;
         }
 
