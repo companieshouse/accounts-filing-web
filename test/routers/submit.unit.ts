@@ -24,8 +24,8 @@ describe("Submit handler tests", () => {
             },
         };
 
-        // @ts-ignore
-        session.data['signin_info'] = { company_number: "123456"} ;
+        // @ts-expect-error overrides typescript to allow setting the signin_info for testing
+        session.data['signin_info'] = { company_number: "123456" } ;
         session.setExtraData("transactionId", "000000-123456-000000");
     });
 
