@@ -29,33 +29,15 @@ export class AccountsFilingService {
         const accountValidatorResponse =
             await accountsFilingService.checkAccountsFileValidationStatus(req);
 
-        logger.debug(
-            `Response for ${fileId}: ${JSON.stringify(
-                accountValidatorResponse,
-                null,
-                2
-            )}`
-        );
+        logger.debug(`Response for ${fileId}: ${JSON.stringify(accountValidatorResponse, null, 2)}`);
 
         if (accountValidatorResponse.httpStatusCode !== 200) {
-            logger.error(
-                `Non 200 response from account validator API. ${JSON.stringify(
-                    accountValidatorResponse,
-                    null,
-                    2
-                )}`
-            );
+            logger.error(`Non 200 response from account validator API. ${JSON.stringify(accountValidatorResponse, null, 2)}`);
             throw accountValidatorResponse;
         }
 
         if (!isResource(accountValidatorResponse)) {
-            logger.error(
-                `Account validator response did not include a resource. Response: ${JSON.stringify(
-                    accountValidatorResponse,
-                    null,
-                    2
-                )}`
-            );
+            logger.error(`Account validator response did not include a resource. Response: ${JSON.stringify(accountValidatorResponse, null, 2)}`);
             throw new Error("Account validator didn't return a resource");
         }
 
@@ -89,24 +71,12 @@ export class AccountsFilingService {
         );
 
         if (accountsFilingCompanyResponse.httpStatusCode !== 200) {
-            logger.error(
-                `Confirm company failed. ${JSON.stringify(
-                    accountsFilingCompanyResponse,
-                    null,
-                    2
-                )}`
-            );
+            logger.error(`Confirm company failed. ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
             throw accountsFilingCompanyResponse;
         }
-
+        
         if (!isResource(accountsFilingCompanyResponse)) {
-            logger.error(
-                `company response did not include a resource. Response: ${JSON.stringify(
-                    accountsFilingCompanyResponse,
-                    null,
-                    2
-                )}`
-            );
+            logger.error(`company response did not include a resource. Response: ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
             throw new Error("company response didn't return a resource");
         }
 

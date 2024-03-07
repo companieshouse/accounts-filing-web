@@ -39,9 +39,7 @@ export class SubmitHandler extends GenericHandler {
                 transactionId
             );
             if (result.httpStatusCode !== 200) {
-                logger.error(
-                    `check company failed. ${JSON.stringify(result, null, 2)}`
-                );
+                logger.error(`check company failed. ${JSON.stringify(result, null, 2)}`);
                 throw result;
             }
 
@@ -50,13 +48,7 @@ export class SubmitHandler extends GenericHandler {
                 result.resource?.accountsFilingId
             );
         } catch (error) {
-            logger.error(
-                `Exception returned from SDK while confirming company for company number - [${companyNumber}]. Error: ${JSON.stringify(
-                    error,
-                    null,
-                    2
-                )}`
-            );
+            logger.error(`Exception returned from SDK while confirming company for company number - [${companyNumber}]. Error: ${JSON.stringify(error, null, 2)}`);
             throw error;
         }
 
