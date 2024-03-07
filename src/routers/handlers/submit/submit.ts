@@ -21,12 +21,11 @@ export class SubmitHandler extends GenericHandler {
     async execute(req: Request, _res: Response): Promise<string> {
         logger.info(`GET Request to send fileId call back address`);
 
-        const companyNumber = req.session?.getExtraData<string>(
-            ContextKeys.COMPANY_NUMBER
-        );
+        const companyNumber = req.session?.data.signin_info?.company_number;
         if (companyNumber === undefined) {
             throw new Error("Company number in undefined");
         }
+
         const transactionId = req.session?.getExtraData<string>(
             ContextKeys.TRANSACTION_ID
         );
