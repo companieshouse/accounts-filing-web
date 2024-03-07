@@ -74,7 +74,7 @@ export class AccountsFilingService {
             logger.error(`Confirm company failed. ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
             throw accountsFilingCompanyResponse;
         }
-        
+
         if (!isResource(accountsFilingCompanyResponse)) {
             logger.error(`company response did not include a resource. Response: ${JSON.stringify(accountsFilingCompanyResponse, null, 2)}`);
             throw new Error("company response didn't return a resource");
