@@ -77,7 +77,7 @@ describe('AccountsFilingService', () => {
 
 });
 
-//confirmCompany(companyNumber: string, transactionId: string): Promise<Resource<AccountsFilingCompanyResponse>>;
+// confirmCompany(companyNumber: string, transactionId: string): Promise<Resource<AccountsFilingCompanyResponse>>;
 describe('AccountsFilingService', () => {
     let service: AccountsFilingService;
     const mockMyFunction = jest.fn<Promise<Resource<AccountsFilingCompanyResponse>>, [string, string]>();
@@ -90,14 +90,14 @@ describe('AccountsFilingService', () => {
                 confirmCompany: mockMyFunction
             }
         } as unknown as PrivateApiClient);
-        
+
     });
 
     it('should return successfully 200', async () => {
 
-        const mockResponse = { 
-            httpStatusCode: 200, 
-            resource: { 
+        const mockResponse = {
+            httpStatusCode: 200,
+            resource: {
                 accountsFilingId: "65e847f791418a767a51ce5d"
             }
         };

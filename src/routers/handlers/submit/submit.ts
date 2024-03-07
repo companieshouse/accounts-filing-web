@@ -18,11 +18,11 @@ export class SubmitHandler extends GenericHandler {
         logger.info(`GET Request to send fileId call back address`);
 
         const companyNumber = req.session?.getExtraData<string>(ContextKeys.COMPANY_NUMBER);
-        if(companyNumber===undefined){
+        if (companyNumber === undefined){
             throw new Error("Company number in undefined");
         }
         const transactionId = req.session?.getExtraData<string>(ContextKeys.TRANSACTION_ID);
-        if(transactionId===undefined){
+        if (transactionId === undefined){
             throw new Error("transaction Id in undefined");
         }
 

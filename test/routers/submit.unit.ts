@@ -1,7 +1,4 @@
-import app from "../../src/app";
-import request from "supertest";
-import { servicePathPrefix, submitUrl } from "../../src/utils/constants/urls";
-import { session, mockSession } from "../mocks/session.middleware.mock";
+import { session } from "../mocks/session.middleware.mock";
 import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock";
 import { AccountsFilingCompanyResponse } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { SubmitHandler } from "../../src/routers/handlers/submit/submit";
@@ -45,12 +42,12 @@ describe("Submit handler tests", () => {
             resource: { accountsFilingId: "65e847f791418a767a51ce5d" } as AccountsFilingCompanyResponse,
             httpStatusCode: 200,
         };
-        
+
         accountsFilingServiceMock.checkCompany.mockResolvedValue( mockResult );
-        const url = await handler.execute(mockReq as Request, {} as any )
-        
-        const expectedUrl =  'http://chs.locl/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D&backUrl=http%3A%2F%2Fchs.local%2Faccounts-filing'
-        
+        const url = await handler.execute(mockReq as Request, {} as any );
+
+        const expectedUrl =  'http://chs.locl/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D&backUrl=http%3A%2F%2Fchs.local%2Faccounts-filing';
+
         expect(accountsFilingServiceMock.checkCompany).toHaveBeenCalledTimes(1);
         expect(url).toEqual(expectedUrl);
         expect(session.getExtraData(ContextKeys.ACCOUNTS_FILING_ID)).toEqual(mockResult.resource.accountsFilingId);
@@ -66,12 +63,12 @@ describe("Submit handler tests", () => {
         accountsFilingServiceMock.checkCompany.mockResolvedValue(expectedResponse);
 
         try {
-            const url = await handler.execute(mockReq as Request, {} as any )
+            await handler.execute(mockReq as Request, {} as any );
         } catch (error) {
-            
+
             expect(error).toEqual(expectedResponse as unknown as string);
         }
-       
+
     });
 });
 
