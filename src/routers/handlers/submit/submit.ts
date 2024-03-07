@@ -16,8 +16,6 @@ export class SubmitHandler extends GenericHandler {
 
     async execute (req: Request, _res: Response): Promise<string> {
         logger.info(`GET Request to send fileId call back address`);
-        
-       // getTestingData(req); // need to remove.
 
         const companyNumber = req.session?.getExtraData<string>(ContextKeys.COMPANY_NUMBER);
         if(companyNumber===undefined){
@@ -55,14 +53,4 @@ export function getFileUploadUrl(req: Request): string{
     logger.info(`${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`);
 
     return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
-}
-
-//TODO: Once the transaction Id and company number are avaliable in session
-//then we need to delete this function. This is only for dev development and testing to get rid of undefined error.
-// need to remove later.
-function getTestingData(req: Request){
-    req.session?.setExtraData(ContextKeys.COMPANY_NUMBER, "00006400");
-    req.session?.setExtraData(ContextKeys.TRANSACTION_ID, "000000-123456-000000");
-
-    return req;
 }
