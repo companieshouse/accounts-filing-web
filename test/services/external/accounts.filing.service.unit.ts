@@ -77,7 +77,6 @@ describe('AccountsFilingService', () => {
 
 });
 
-// confirmCompany(companyNumber: string, transactionId: string): Promise<Resource<AccountsFilingCompanyResponse>>;
 describe('AccountsFilingService', () => {
     let service: AccountsFilingService;
     const mockMyFunction = jest.fn<Promise<Resource<AccountsFilingCompanyResponse>>, [string, string]>();
