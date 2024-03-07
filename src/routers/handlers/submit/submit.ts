@@ -14,7 +14,7 @@ export class SubmitHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService) {
         super({
             title: "",
-            backURL: `${servicePathPrefix}`,
+            backURL: servicePathPrefix,
         });
     }
 
