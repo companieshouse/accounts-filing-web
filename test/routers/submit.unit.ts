@@ -24,8 +24,8 @@ describe("Submit handler tests", () => {
             },
         };
 
-        session.setExtraData("companyNumber", "123456");
-
+        // @ts-ignore
+        session.data['signin_info'] = { company_number: "123456"} ;
         session.setExtraData("transactionId", "000000-123456-000000");
     });
 
