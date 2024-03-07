@@ -12,8 +12,7 @@ export class TransactionService {
 
         logger.debug(`Created Transaction Record using Company Number: ${companyNumber}, Reference: ${reference}, Description: ${description}`);
 
-        const transactionService = this.apiClient.transaction;
-        const transactionServiceResponse = await transactionService.postTransaction(transactionRecord);
+        const transactionServiceResponse = await this.apiClient.transaction.postTransaction(transactionRecord);
 
         if (transactionServiceResponse.httpStatusCode !== 201) {
             logger.error(`Non 201 response from transaction service. ${companyNumber}`);
