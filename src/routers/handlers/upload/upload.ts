@@ -34,10 +34,6 @@ export class UploadHandler extends GenericHandler {
             logger.error("environment has no app name to be used as a reference")
             throw new Error("no reference")
         }
-        if (description == undefined) {
-            logger.error("transaction description is not set.")
-            throw new Error("no description")
-        }
 
         try{
             const transaction = await this.transactionService.postTransactionRecord(companyName, reference, description)
