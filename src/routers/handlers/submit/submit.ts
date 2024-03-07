@@ -73,9 +73,5 @@ export function getFileUploadUrl(req: Request): string {
         zipPortalBaseURL + servicePathPrefix
     );
 
-    logger.info(
-        `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`
-    );
-
     return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
 }
