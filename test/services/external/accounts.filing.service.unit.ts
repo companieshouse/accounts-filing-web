@@ -1,14 +1,15 @@
 import PrivateApiClient from 'private-api-sdk-node/dist/client';
 import { AccountsFilingService } from '../../../src/services/external/accounts.filing.service';
 import { Resource } from '@companieshouse/api-sdk-node';
-import { AccountsFileValidationResponse, AccountsFilingValidationRequest } from 'private-api-sdk-node/dist/services/accounts-filing/types';
+import { AccountsFileValidationResponse, AccountsFilingCompanyResponse, AccountsFilingValidationRequest } from 'private-api-sdk-node/dist/services/accounts-filing/types';
 import { ApiErrorResponse } from '@companieshouse/api-sdk-node/dist/services/resource';
 
 jest.mock('private-api-sdk-node/dist/client', () => {
     return jest.fn().mockImplementation(() => {
         return {
             accountsFilingService: {
-                checkAccountsFileValidationStatus: jest.fn()
+                checkAccountsFileValidationStatus: jest.fn(),
+                confirmCompany: jest.fn()
             }
         };
     });
@@ -72,6 +73,51 @@ describe('AccountsFilingService', () => {
         const req = { fileId, transactionId: 'some id', accountsFilingId: 'some id' };
 
         await expect(service.getValidationStatus(req)).rejects.toEqual(mockErrorResponse);
+    });
+
+});
+
+describe('AccountsFilingService', () => {
+    let service: AccountsFilingService;
+    const mockMyFunction = jest.fn<Promise<Resource<AccountsFilingCompanyResponse>>, [string, string]>();
+
+    beforeEach(() => {
+        jest.resetAllMocks();
+
+        service = new AccountsFilingService({
+            accountsFilingService: {
+                confirmCompany: mockMyFunction
+            }
+        } as unknown as PrivateApiClient);
+
+    });
+
+    it('should return successfully 200', async () => {
+
+        const mockResponse = {
+            httpStatusCode: 200,
+            resource: {
+                accountsFilingId: "65e847f791418a767a51ce5d"
+            }
+        };
+        mockMyFunction.mockResolvedValue(mockResponse);
+
+        const companyNumber = 'some id';
+        const transactionId =  'some id';
+
+        await expect(service.checkCompany(companyNumber, transactionId)).resolves.toEqual(mockResponse);
+    });
+
+
+    it('should throw an error for non-200 response', async () => {
+
+        const mockErrorResponse = { httpStatusCode: 400, errors: [{ error: 'Some error occurred' }] };
+        mockMyFunction.mockResolvedValue(mockErrorResponse);
+
+        const companyNumber = 'some id';
+        const transactionId =  'some id';
+
+        await expect(service.checkCompany(companyNumber, transactionId)).rejects.toEqual(mockErrorResponse);
     });
 
 });
