@@ -1,5 +1,6 @@
 export default () => {
     process.env.API_URL = "http://api.chs.local";
+    process.env.APP_NAME = "accounts-filing-web";
     process.env.CACHE_SERVER = "cache_server";
     process.env.CDN_HOST = "http://chs.local";
     process.env.CHS_API_KEY = "CHS_API_KEY";

@@ -17,33 +17,42 @@ export class UploadHandler extends GenericHandler {
     async execute (req: Request, _res: Response): Promise<string> {
         logger.info(`GET Request to send fileId call back address`);
         const transactionId = await this.callTransactionApi(req, _res);
-        req.session?.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
+        const transactionIdKey = ContextKeys.TRANSACTION_ID
+        req.session?.setExtraData(transactionIdKey, transactionId);
         return getFileUploadUrl(req);
     }
 
     async callTransactionApi(req: Request, _res: Response): Promise<string | undefined> {
-        const companyName = req.session?.data.signin_info?.company_number;
-        const reference = env.APP_NAME || throw new Error("APP_NAME variable undefined");
+        const companyNumber = this.getCompanyNumber(req);
+        const reference = this.getReference();
         const description = "Accounts Filing Web";
 
-        if(companyName == undefined) {
-            logger.error("session has no company number")
-            throw new Error("no company number")
-        }
-        if(reference == undefined) {
-            logger.error("environment has no app name to be used as a reference")
-            throw new Error("no reference")
-        }
-
         try{
-            const transaction = await this.transactionService.postTransactionRecord(companyName, reference, description)
+            const transaction = await this.transactionService.postTransactionRecord(companyNumber, reference, description)
             return transaction.id;
         } catch (error) {
-            logger.error(`Exception return from SDK while requesting creation of a transaction for company number [${companyName}].`);
+            logger.error(`Exception return from SDK while requesting creation of a transaction for company number [${companyNumber}].`);
             throw new Error("Issue with service")
         }
-
     }
+
+    getReference(): string {
+        const reference = env.APP_NAME;
+        if(reference == undefined) {
+            logger.error("environment has no app name to be used as a reference")
+            throw new Error("APP_NAME variable undefined")
+        }
+        return reference;
+    };
+
+    getCompanyNumber(req: Request): string {
+        const companyNumber = req.session?.data.signin_info?.company_number;
+        if(companyNumber == undefined) {
+            logger.error("session has no company number")
+            throw new Error("No company number")
+        }
+        return companyNumber;
+    };
 
 }
 

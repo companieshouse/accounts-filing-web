@@ -76,4 +76,20 @@ describe('TransactionService', () => {
 
         await expect(service.postTransactionRecord(companyNumber, reference, description)).rejects.toEqual(mockErrorResponse);
     })
+
+    it("should throw error when resource is undefined", async () => {
+        const resource = undefined;
+        const mockResponse = { httpStatusCode: 201, errors: [{ error: 'Some error occurred' }] }
+        mockPostStatus.mockResolvedValue(mockResponse);
+
+        await expect(service.postTransactionRecord(companyNumber, reference, description)).rejects.toEqual(Error("Transaction service didn't return a resource"));
+    })
+
+    it("should throw error when resource obtains a undefined", async () => {
+        const resource = undefined;
+        const mockResponse = { httpStatusCode: 201, resource: undefined}
+        mockPostStatus.mockResolvedValue(mockResponse);
+
+        await expect(service.postTransactionRecord(companyNumber, reference, description)).rejects.toEqual(Error("Transaction service return resource contains a undefined or null"));
+    })
 });
