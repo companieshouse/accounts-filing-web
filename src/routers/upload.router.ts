@@ -2,14 +2,16 @@ import { Request, Response, Router, NextFunction } from "express";
 import { UploadHandler } from "./handlers/upload/upload";
 import { createOAuthApiClient } from "../services/internal/api.client.service";
 import { TransactionService } from "../services/external/transaction.service";
+import { AccountValidatorService } from "private-api-sdk-node/dist/services/account-validator";
 import { handleExceptions } from "../utils/error.handler";
+import { defaultAccountsFilingService } from "../services/external/accounts.filing.service";
 
 const router: Router = Router();
 
 router.get('/', handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const oauthApiClient = createOAuthApiClient(req.session);
     const transactionService = new TransactionService(oauthApiClient);
-    const uploadHandler = new UploadHandler(transactionService);
+    const uploadHandler = new UploadHandler(defaultAccountsFilingService, transactionService);
     const validatorRedirectUrl = await uploadHandler.execute(req, res);
     res.redirect(validatorRedirectUrl);
 }));

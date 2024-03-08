@@ -1,13 +1,17 @@
 import { logger } from "../../../utils/logger";
 import { GenericHandler } from "../generic";
 import { env } from "../../../config";
-import { fileIdPlaceholder, servicePathPrefix, uploadedUrl } from "../../../utils/constants/urls";
+import { fileIdPlaceholder,
+         servicePathPrefix,
+         uploadedUrl 
+} from "../../../utils/constants/urls";
 import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { TransactionService } from "../../../services/external/transaction.service";
+import { AccountsFilingService } from "services/external/accounts.filing.service";
 
 export class UploadHandler extends GenericHandler {
-    constructor (private transactionService: TransactionService) {
+    constructor (private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
         super({
             title: '',
             backURL: `${servicePathPrefix}`
@@ -16,14 +20,40 @@ export class UploadHandler extends GenericHandler {
 
     async execute (req: Request, _res: Response): Promise<string> {
         logger.info(`GET Request to send fileId call back address`);
-        const transactionId = await this.callTransactionApi(req, _res);
+
+        const companyNumber = this.getCompanyNumber(req);
+
+        const transactionId = await this.callTransactionApi(companyNumber);
         const transactionIdKey = ContextKeys.TRANSACTION_ID
         req.session?.setExtraData(transactionIdKey, transactionId);
+        
+        if (transactionId === undefined) {
+            throw new Error("transaction Id in undefined");
+        }
+
+        try {
+            const result = await this.accountsFilingService.checkCompany(
+                companyNumber,
+                transactionId
+            );
+            if (result.httpStatusCode !== 200) {
+                logger.error(`check company failed. ${JSON.stringify(result, null, 2)}`);
+                throw result;
+            }
+
+            req.session?.setExtraData(
+                ContextKeys.ACCOUNTS_FILING_ID,
+                result.resource?.accountsFilingId
+            );
+        } catch (error) {
+            logger.error(`Exception returned from SDK while confirming company for company number - [${companyNumber}]. Error: ${JSON.stringify(error, null, 2)}`);
+            throw error;
+        }
+
         return getFileUploadUrl(req);
     }
 
-    async callTransactionApi(req: Request, _res: Response): Promise<string | undefined> {
-        const companyNumber = this.getCompanyNumber(req);
+    async callTransactionApi(companyNumber: string): Promise<string | undefined> {
         const reference = this.getReference();
         const description = "Accounts Filing Web";
 
@@ -32,7 +62,7 @@ export class UploadHandler extends GenericHandler {
             return transaction.id;
         } catch (error) {
             logger.error(`Exception return from SDK while requesting creation of a transaction for company number [${companyNumber}].`);
-            throw new Error("Issue with service")
+            return undefined;
         }
     }
 
@@ -49,7 +79,7 @@ export class UploadHandler extends GenericHandler {
         const companyNumber = req.session?.data.signin_info?.company_number;
         if(companyNumber == undefined) {
             logger.error("session has no company number")
-            throw new Error("No company number")
+            throw new Error("Company number in undefined")
         }
         return companyNumber;
     };
