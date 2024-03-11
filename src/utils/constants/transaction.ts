@@ -1,5 +1,7 @@
-export const TRANSACTION_REFERENCE = "AccountsFilingReference";
-export const TRANSACTION_DESCRIPTION = "Confirmation Statement Transaction";
+import { env } from "../../config";
+
+export const TRANSACTION_REFERENCE = env.APP_NAME;
+export const TRANSACTION_DESCRIPTION = "Accounts Filing Web";
 
 export const TransactionStatuses = {
     CLOSED: "closed",

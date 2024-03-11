@@ -1,6 +1,6 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
-import { servicePathPrefix, COMPANY_AUTH_PROTECTED_BASE, healthcheckUrl, Urls } from "./utils/constants/urls";
+import { servicePathPrefix, COMPANY_AUTH_PROTECTED_BASE, Urls } from "./utils/constants/urls";
 import { HomeRouter, HealthCheckRouter, FileUpladedRouter, CheckYourAnswersRouter, UploadRouter } from "./routers";
 
 
@@ -15,8 +15,8 @@ const routerDispatch = (app: Application) => {
     const router = Router();
 
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
-    router.use("/", HomeRouter);
-    router.use(healthcheckUrl, HealthCheckRouter);
+    router.use(Urls.HOME, HomeRouter);
+    router.use(Urls.HEALTHCHECK, HealthCheckRouter);
 
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");

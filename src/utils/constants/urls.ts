@@ -27,8 +27,4 @@ export const PrefixedUrls = Object.fromEntries(
 export const CONFIRM_COMPANY = '/confirm-company';
 export const CONFIRM_COMPANY_PATH = servicePathPrefix + CONFIRM_COMPANY;
 
-export const healthcheckUrl = Urls.HEALTHCHECK;
-export const uploadUrl = Urls.UPLOAD;
-
 export const fileIdPlaceholder = '{fileId}';
-export const uploadedUrl = Urls.UPLOADED;

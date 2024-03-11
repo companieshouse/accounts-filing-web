@@ -51,39 +51,45 @@ export function must<T>(value: T | Error | undefined): T {
     return value;
 }
 
-export function getRequiredStringValue(
-    session: Session,
+export function getRequiredValue<T>(
+    session: Session | undefined,
     key: string,
     errorText: string
-): string | Error {
+): T | Error {
+    if (session === undefined) {
+        throw createAndLogError(`Unable to get value from session as session is undefined`);
+    }
+
     const value =
         key === "company_number"
             ? session.data.signin_info?.company_number
             : session.getExtraData(key);
-    if (typeof value === "string") {
-        return value;
+
+    if (value !== undefined && value !== null) {
+        return value as T;
     }
+
     return new Error(errorText);
 }
 
-export function getTransactionId(session: Session): string | Error {
-    return getRequiredStringValue(
+export function getTransactionId(session?: Session): string | Error {
+    return getRequiredValue(
         session,
         ContextKeys.TRANSACTION_ID,
         "Unable to find transactionId in session"
     );
 }
 
-export function getAccountsFilingId(session: Session): string | Error {
-    return getRequiredStringValue(
+export function getAccountsFilingId(session?: Session): string | Error {
+    return getRequiredValue(
         session,
         ContextKeys.ACCOUNTS_FILING_ID,
         "Unable to find accountsFilingId in session"
     );
 }
 
-export function getCompanyNumber(session: Session): string | Error {
-    return getRequiredStringValue(
+export function getCompanyNumber(session?: Session): string | Error {
+    return getRequiredValue(
         session,
         "company_number",
         "Unable to find company number in session"
@@ -94,13 +100,8 @@ export function setValidationResult(session: Session | undefined, validationResp
     session?.setExtraData(ContextKeys.VALIDATION_STATUS, validationResponse);
 }
 
-export function getValidationResult(session: Session | undefined): AccountValidatorResponse | Error {
-    const status = session?.getExtraData(ContextKeys.VALIDATION_STATUS);
-    if (status === undefined) {
-        return new Error(`Validation status not found in session`);
-    }
-
-    return status as AccountValidatorResponse;
+export function getValidationResult(session?: Session | undefined): AccountValidatorResponse | Error {
+    return getRequiredValue(session, ContextKeys.VALIDATION_STATUS, "Unable to find validation status in session");
 }
 
 export function checkUserSignedIn(session: Session): boolean {
