@@ -1,9 +1,11 @@
-import { session } from "../mocks/session.middleware.mock";
 import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock";
 import { AccountsFilingCompanyResponse } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { SubmitHandler } from "../../src/routers/handlers/submit/submit";
 import { Request } from "express";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
+import { getSessionRequest } from "../mocks/session.mock";
+
+let session = getSessionRequest();
 
 describe("Submit handler tests", () => {
     let handler = new SubmitHandler(accountsFilingServiceMock);
@@ -11,6 +13,8 @@ describe("Submit handler tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+
+        session = getSessionRequest();
 
         handler = new SubmitHandler(accountsFilingServiceMock);
         mockReq = {
