@@ -2,8 +2,8 @@ import { logger } from "../../../utils/logger";
 import { GenericHandler } from "../generic";
 import { env } from "../../../config";
 import { fileIdPlaceholder,
-         servicePathPrefix,
-         uploadedUrl 
+    servicePathPrefix,
+    uploadedUrl
 } from "../../../utils/constants/urls";
 import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
@@ -25,7 +25,7 @@ export class UploadHandler extends GenericHandler {
 
         const transactionId = await this.callTransactionApi(companyNumber);
         req.session?.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
-        
+
         if (transactionId === undefined) {
             throw new Error("transaction Id in undefined");
         }
@@ -56,8 +56,8 @@ export class UploadHandler extends GenericHandler {
         const reference = this.getReference();
         const description = "Accounts Filing Web";
 
-        try{
-            const transaction = await this.transactionService.postTransactionRecord(companyNumber, reference, description)
+        try {
+            const transaction = await this.transactionService.postTransactionRecord(companyNumber, reference, description);
             return transaction.id;
         } catch (error) {
             logger.error(`Exception return from SDK while requesting creation of a transaction for company number [${companyNumber}].`);
@@ -67,21 +67,21 @@ export class UploadHandler extends GenericHandler {
 
     getReference(): string {
         const reference = env.APP_NAME;
-        if(reference == undefined) {
-            logger.error("environment has no app name to be used as a reference")
-            throw new Error("APP_NAME variable undefined")
+        if (reference === undefined) {
+            logger.error("environment has no app name to be used as a reference");
+            throw new Error("APP_NAME variable undefined");
         }
         return reference;
-    };
+    }
 
     getCompanyNumber(req: Request): string {
         const companyNumber = req.session?.data.signin_info?.company_number;
-        if(companyNumber == undefined) {
-            logger.error("session has no company number")
-            throw new Error("Company number in undefined")
+        if (companyNumber === undefined) {
+            logger.error("session has no company number");
+            throw new Error("Company number in undefined");
         }
         return companyNumber;
-    };
+    }
 
 }
 

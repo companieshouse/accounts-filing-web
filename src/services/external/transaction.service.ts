@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { getAccountsFilingId, getCompanyNumber, getTransactionId, must } from "../../utils/session";
 import { headers } from "../../utils/constants/headers";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE, TransactionStatuses } from "../../utils/constants/transaction";
-import { createPublicOAuthApiClient, makeApiCall } from "../../services/internal/api.client.service";
+import { makeApiCall } from "../../services/internal/api.client.service";
 
 
 export class TransactionService {
@@ -95,9 +95,9 @@ export class TransactionService {
 
         logger.debug(`Created Transaction Record using Company Number: ${companyNumber}, Reference: ${reference}, Description: ${description}`);
 
-
-        const apiClient = createPublicOAuthApiClient(this.session);
-        const transactionServiceResponse = await apiClient.transaction.postTransaction(transactionRecord);
+        const transactionServiceResponse = await makeApiCall(this.session, async apiClient => {
+            return await apiClient.transaction.postTransaction(transactionRecord);
+        });
 
         if (transactionServiceResponse.httpStatusCode !== 201) {
             logger.error(`Non 201 response from transaction service. ${companyNumber}`);
