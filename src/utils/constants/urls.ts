@@ -14,3 +14,4 @@ export const healthcheckUrl = '/healthcheck';
 export const uploadUrl = '/upload';
 export const fileIdPlaceholder = '{fileId}';
 export const uploadedUrl = '/uploaded';
+export const COMPANY_SEARCH = '/company-search';

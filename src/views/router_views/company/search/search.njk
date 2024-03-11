@@ -1,0 +1,36 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block main_content %}
+
+<form class="form" action="04-confirm-company" method="post">
+
+{{ govukInput({
+  label: {
+    text: "What company are you filing accounts for?",
+    classes: "govuk-label--xl",
+    isPageHeading: true
+  },
+  hint: {
+    text: "Enter the company name or number."
+  },
+    classes: "govuk-!-width-one-half",
+  id: "company-number",
+  name: "company-number",
+  value: data['company-number']
+  }) 
+}}
+
+{{ govukButton({
+  text: "Continue",
+  href: confirmCompanyLink
+}) }}
+
+</form>
+
+{% endblock %}
