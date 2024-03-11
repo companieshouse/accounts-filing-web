@@ -24,8 +24,7 @@ export class UploadHandler extends GenericHandler {
         const companyNumber = this.getCompanyNumber(req);
 
         const transactionId = await this.callTransactionApi(companyNumber);
-        const transactionIdKey = ContextKeys.TRANSACTION_ID
-        req.session?.setExtraData(transactionIdKey, transactionId);
+        req.session?.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
         
         if (transactionId === undefined) {
             throw new Error("transaction Id in undefined");
