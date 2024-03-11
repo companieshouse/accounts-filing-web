@@ -77,7 +77,7 @@ export class UploadedHandler extends GenericHandler {
 
             setValidationResult(req.session, validationResult);
 
-            logger.info(
+            logger.debug(
                 `Got result ${JSON.stringify(result, null, 2)} for file [${fileId}]`
             );
 
