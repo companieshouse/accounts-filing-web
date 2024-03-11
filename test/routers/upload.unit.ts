@@ -1,22 +1,59 @@
+import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { Request, Response } from "express";
+import { UploadHandler } from "../../src/routers/handlers/upload/upload";
+import { TransactionService as LocalTransactionService } from "../../src/services/external/transaction.service";
+
 import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock";
 import { AccountsFilingCompanyResponse } from "private-api-sdk-node/dist/services/accounts-filing/types";
-import { SubmitHandler } from "../../src/routers/handlers/submit/submit";
-import { Request } from "express";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { getSessionRequest } from "../mocks/session.mock";
 
 let session = getSessionRequest();
 
-describe("Submit handler tests", () => {
-    let handler = new SubmitHandler(accountsFilingServiceMock);
+jest.mock('@companieshouse/api-sdk-node/dist/client', () => {
+    return jest.fn().mockImplementation(() => {
+        return {
+            transactionService: {
+                postTransactionRecord: jest.fn()
+            }
+        }
+    })
+})
+
+jest.mock('../../src/utils/constants/context.keys', () => {
+    return {
+        ContextKeys: {
+            TRANSACTION_ID: "transactionId",
+            ACCOUNTS_FILING_ID: "accountFilingId"
+        }
+    }
+})
+
+describe("UploadHandler", () => {
+
+    const companyNumber = "123456";
+
+    let req: Request;
+
+    let res: Response;
+
+    let handler: UploadHandler;
+
     let mockReq: Partial<Request>;
 
+    const mockPostTransactionRecord = jest.fn<Promise<Transaction>, [string, string, string]>();
+
     beforeEach(() => {
-        jest.clearAllMocks();
+        jest.resetAllMocks();
+
+        handler = new UploadHandler(
+            accountsFilingServiceMock,
+            {
+                postTransactionRecord: mockPostTransactionRecord
+            } as unknown as LocalTransactionService);
 
         session = getSessionRequest();
 
-        handler = new SubmitHandler(accountsFilingServiceMock);
         mockReq = {
             session: session,
             params: {},
@@ -29,9 +66,12 @@ describe("Submit handler tests", () => {
         };
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
-        session.data['signin_info'] = { company_number: "123456" } ;
+        session.data['signin_info'] = { company_number: companyNumber };
+        session.data.signin_info['access_token'] = { "access_token": "access_token" };
         session.setExtraData("transactionId", "000000-123456-000000");
-    });
+
+        res = {} as unknown as Response;
+    })
 
     it("should return 200 with file upload url ", async () => {
         const mockResult = {
@@ -40,6 +80,8 @@ describe("Submit handler tests", () => {
             } as AccountsFilingCompanyResponse,
             httpStatusCode: 200,
         };
+
+        mockPostTransactionRecord.mockResolvedValue({ id: 1 } as unknown as Transaction)
 
         accountsFilingServiceMock.checkCompany.mockResolvedValue(mockResult);
         const url = await handler.execute(mockReq as Request, {} as any);
@@ -60,6 +102,7 @@ describe("Submit handler tests", () => {
             httpStatusCode: 500,
         };
 
+        mockPostTransactionRecord.mockResolvedValue({ id: 1 } as unknown as Transaction)
         accountsFilingServiceMock.checkCompany.mockResolvedValue(
             expectedResponse
         );
@@ -70,4 +113,13 @@ describe("Submit handler tests", () => {
             expect(error).toEqual(expectedResponse as unknown as string);
         }
     });
-});
+
+    it("should return transaction id for callTransactionApi calls", async () => {
+        mockPostTransactionRecord.mockResolvedValue({ id: 1 } as unknown as Transaction)
+        await expect(handler.callTransactionApi(companyNumber)).resolves.toEqual(1);
+    })
+
+    it("should throw Issue with service if postTransactionRecord fails for callTransactionApi calls", async () => {
+        await expect(handler.callTransactionApi(companyNumber)).resolves.toEqual(undefined);
+    })
+})

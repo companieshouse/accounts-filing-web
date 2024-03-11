@@ -1,6 +1,7 @@
 export const mockApiClient = {
     transaction: {
         putTransaction: jest.fn(),
+        postTransaction: jest.fn()
     }
 };
 export const mockCreatePublicOAuthApiClient = jest.fn();

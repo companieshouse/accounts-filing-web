@@ -4,8 +4,9 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { createPrivateApiClient } from "private-api-sdk-node";
 import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { createAndLogError, logger } from "../../utils/logger";
-import { Session } from "@companieshouse/node-session-handler";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { getAccessToken } from "../../utils/session";
+import { Session } from "@companieshouse/node-session-handler";
 
 /**
  * Creates an instance of the OAuth API client using a session object.
@@ -42,6 +43,18 @@ export function createPrivateApiKeyClient(): PrivateApiClient {
         env.INTERNAL_API_URL
     );
 }
+
+/**
+ * Creates an instance of the API client using users OAuth tokens.
+ * @param session 
+ * @returns An instance of the API client
+ */
+export const createOAuthApiClient = (session: Session | undefined): ApiClient => {
+    if(session == undefined) {
+        throw new Error("Session undefined")
+    }
+    return createApiClient(undefined, getAccessToken(session), env.API_URL);
+  };
 
 /**
  * Masks a string by replacing characters after a specified position with a mask character.

@@ -13,7 +13,7 @@ export const COMPANY_AUTH_PROTECTED_BASE = `/company/:${URL_QUERY_PARAM.PARAM_CO
 export const Urls = {
     HOME: "/",
     HEALTHCHECK: "/healthcheck",
-    SUBMIT: "/submit",
+    UPLOAD: "/upload",
     UPLOADED: "/uploaded",
     CHECK_YOUR_ANSWERS: "/check-your-answers",
     CONFIRMATION: "/confirmation-submission"
@@ -26,7 +26,9 @@ export const PrefixedUrls = Object.fromEntries(
 
 export const CONFIRM_COMPANY = '/confirm-company';
 export const CONFIRM_COMPANY_PATH = servicePathPrefix + CONFIRM_COMPANY;
+
 export const healthcheckUrl = Urls.HEALTHCHECK;
-export const submitUrl = Urls.SUBMIT;
+export const uploadUrl = Urls.UPLOAD;
+
 export const fileIdPlaceholder = '{fileId}';
 export const uploadedUrl = Urls.UPLOADED;

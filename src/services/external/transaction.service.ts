@@ -89,10 +89,12 @@ export class TransactionService {
         return castedSdkResponse;
     }
 
+
     async postTransactionRecord(companyNumber: string, reference: string, description: string): Promise<Transaction> {
         const transactionRecord = this.createTransactionRecord(companyNumber, reference, description);
 
         logger.debug(`Created Transaction Record using Company Number: ${companyNumber}, Reference: ${reference}, Description: ${description}`);
+
 
         const apiClient = createPublicOAuthApiClient(this.session);
         const transactionServiceResponse = await apiClient.transaction.postTransaction(transactionRecord);
@@ -110,10 +112,10 @@ export class TransactionService {
             companyName: companyNumber,
             description: description,
             reference: reference
+
         };
         return transaction;
     }
-
 }
 
 function getTransaction(transactionResource: Resource<Transaction> | ApiErrorResponse): Transaction {
@@ -121,6 +123,7 @@ function getTransaction(transactionResource: Resource<Transaction> | ApiErrorRes
         logger.error(`Transaction service response did not include a resource.`);
         throw new Error("Transaction service didn't return a resource");
     }
+
 
     if (transactionResource.resource === undefined || transactionResource.resource === null){
         throw new Error("Transaction service return resource contains a undefined or null");
@@ -132,3 +135,4 @@ function getTransaction(transactionResource: Resource<Transaction> | ApiErrorRes
 function isResource(o: any): o is Resource<unknown> {
     return o !== null && o !== undefined && 'resource' in o;
 }
+

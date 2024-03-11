@@ -5,7 +5,7 @@ import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
-import { getFileUploadUrl } from "../submit/submit";
+import { getFileUploadUrl } from "../upload/upload";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { setValidationResult } from "../../../utils/session";
 
@@ -45,7 +45,7 @@ export class UploadedHandler extends GenericHandler {
         super.populateViewData(req);
         this.baseViewData.backURL = getFileUploadUrl(req);
 
-        logger.debug(`Handling GET request for uplaoded file.`);
+        logger.debug(`Handling GET request for uploaded file.`);
 
         const fileId = req.params.fileId;
         // TODO: remove nullish coalescing once the variables have been populated.
