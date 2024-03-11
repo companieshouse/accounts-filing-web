@@ -1,0 +1,56 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block main_content %}
+    <h1 class="govuk-heading-l">Check your answers </h1>
+
+            {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: "Type of accounts"
+            },
+            value: {
+              text: typeOfAccounts
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "type of accounts"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "File uploaded"
+            },
+            value: {
+              text: fileName
+            },
+            actions: {
+              items: [
+                {
+                  href: Urls.SUBMIT,
+                  text: "Change",
+                  visuallyHiddenText: "file uploaded"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+    <form method="POST" action="{{Urls.CHECK_YOUR_ANSWERS}}">
+        {{ govukButton({
+            text: "Submit accounts",
+            type: "submit"
+        }) }}
+    </form>
+
+{% endblock %}

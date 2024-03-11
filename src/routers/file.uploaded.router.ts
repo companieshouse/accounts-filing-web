@@ -2,6 +2,7 @@ import { Request, Response, Router, NextFunction } from "express";
 import { UploadedHandler } from "./handlers/uploaded/uploaded";
 import { logger } from "../utils/logger";
 import { defaultAccountsFilingService } from "../services/external/accounts.filing.service";
+import { handleExceptions } from "../utils/error.handler";
 
 const router: Router = Router();
 
@@ -31,7 +32,7 @@ router.get("/:fileId", async (req: Request, res: Response, _next: NextFunction) 
 
     logger.debug("Uploaded endpoint triggered.");
     const handler = new UploadedHandler(defaultAccountsFilingService);
-    const viewData = await handler.execute(req, res);
+    const viewData = await handler.executeGet(req, res);
 
     logger.debug(`Uploaded view data: ${JSON.stringify(viewData, null, 2)}`);
 

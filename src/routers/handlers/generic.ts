@@ -1,6 +1,7 @@
 // Generic handler is the base handler that is extended by all other handlers
 // It contains methods that are common to multiple route handlers
 
+import { PrefixedUrls } from "../../utils/constants/urls";
 import errorManifest from "../../utils/error_manifests/default";
 import { Request } from "express";
 
@@ -9,14 +10,16 @@ export interface BaseViewData {
     title: string
     isSignedIn: boolean
     backURL: string | null
+    Urls: typeof PrefixedUrls
 }
 
 const defaultBaseViewData = {
     errors: {},
     isSignedIn: false,
+    Urls: PrefixedUrls,
 };
 
-type GenericHandlerArgs = Omit<BaseViewData, 'isSignedIn' | 'errors'>;
+type GenericHandlerArgs = Omit<BaseViewData, 'isSignedIn' | 'errors' | 'Urls'>;
 
 export abstract class GenericHandler {
     errorManifest: any;
