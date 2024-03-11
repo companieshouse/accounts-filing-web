@@ -4,6 +4,8 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { createPrivateApiClient } from "private-api-sdk-node";
 import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { logger } from "../../utils/logger";
+import { getAccessToken } from "../../utils/session";
+import { Session } from "@companieshouse/node-session-handler";
 
 /**
  * Creates an instance of the public API client using the CHS API key.
@@ -23,6 +25,18 @@ export const createPrivateApiKeyClient = (): PrivateApiClient => {
     logger.info(`Creating private API client with key ${maskString(env.CHS_INTERNAL_API_KEY)}`);
     return createPrivateApiClient(env.CHS_INTERNAL_API_KEY, undefined, env.INTERNAL_API_URL);
 };
+
+/**
+ * Creates an instance of the API client using users OAuth tokens.
+ * @param session 
+ * @returns An instance of the API client
+ */
+export const createOAuthApiClient = (session: Session | undefined): ApiClient => {
+    if(session == undefined) {
+        throw new Error("Session undefined")
+    }
+    return createApiClient(undefined, getAccessToken(session), env.API_URL);
+  };
 
 /**
  * Masks a string by replacing characters after a specified position with a mask character.
