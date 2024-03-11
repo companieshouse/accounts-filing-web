@@ -1,14 +1,12 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler } from "./../generic";
-import { createAndLogError, logger } from "../../../utils/logger";
+import { logger } from "../../../utils/logger";
 import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { getFileUploadUrl } from "../submit/submit";
 import { ContextKeys } from "../../../utils/constants/context.keys";
-import { TransactionService } from "../../../services/external/transaction.service";
-import { servicePathPrefix } from "../../../utils/constants/urls";
 import { setValidationResult } from "../../../utils/session";
 
 /**
@@ -82,7 +80,7 @@ export class UploadedHandler extends GenericHandler {
             logger.info(
                 `Got result ${JSON.stringify(result, null, 2)} for file [${fileId}]`
             );
-    
+
             return {
                 ...this.baseViewData,
                 result: validationResult,
@@ -93,11 +91,11 @@ export class UploadedHandler extends GenericHandler {
             throw error;
         }
 
-        
+
     }
 
 
-    
+
 
     /**
      * Validates the provided request parameters.

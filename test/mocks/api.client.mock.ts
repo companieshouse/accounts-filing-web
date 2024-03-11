@@ -1,5 +1,3 @@
-import ApiClient from "@companieshouse/api-sdk-node/dist/client";
-
 export const mockApiClient = {
     transaction: {
         putTransaction: jest.fn(),
@@ -14,5 +12,5 @@ jest.mock("../../src/services/internal/api.client.service", () => {
         makeApiCall: async (session: any, fn: any) => {
             return await fn(mockApiClient);
         },
-    }
+    };
 });

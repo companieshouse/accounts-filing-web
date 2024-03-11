@@ -15,7 +15,7 @@ describe("Check your answers test", () => {
 
     it("Should render the page on get request", async () => {
         const fileName = "fileName";
-        
+
         setValidationResult(mockSession, {
             fileId: "fileId",
             fileName: fileName
@@ -31,7 +31,7 @@ describe("Check your answers test", () => {
 
     it("Should close the transaction and navigate to the confirmation page when recieving  apost request", async () => {
         mockTranactionService.closeTransaction.mockResolvedValue(undefined);
-        
+
         const resp = await request(app).post(PrefixedUrls.CHECK_YOUR_ANSWERS);
 
         expect(mockTranactionService.closeTransaction).toHaveBeenCalledTimes(1);

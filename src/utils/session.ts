@@ -100,7 +100,7 @@ export function getValidationResult(session: Session | undefined): AccountValida
         return new Error(`Validation status not found in session`);
     }
 
-    return status as AccountValidatorResponse
+    return status as AccountValidatorResponse;
 }
 
 export function checkUserSignedIn(session: Session): boolean {

@@ -42,11 +42,11 @@ export class TransactionService {
 
     /**
      * Updates a given transaction associated with a company number and specific accounts filing ID.
-     * 
+     *
      * This function constructs the transaction reference, sets the transaction details, and then
-     * tries to update the transaction using the API client. If the update is unsuccessful or no 
+     * tries to update the transaction using the API client. If the update is unsuccessful or no
      * response is received, it throws an error. Successful API responses are logged and returned.
-     * 
+     *
      * @param {string} companyNumber - The unique identifier for the company.
      * @param {string} accountsFilingId - The identifier for the specific account filing.
      * @param {string} transactionId - The unique identifier for the transaction to update.
@@ -73,7 +73,7 @@ export class TransactionService {
         const sdkResponse = await makeApiCall(this.session, async apiClient => {
             return await apiClient.transaction.putTransaction(transaction);
         });
-        
+
         if (!sdkResponse) {
             throw createAndLogError(`Transaction API PUT request returned no response for transaction id ${transactionId}, company number ${companyNumber}`);
         }
@@ -101,19 +101,19 @@ export class TransactionService {
             logger.error(`Non 201 response from transaction service. ${companyNumber}`);
             throw transactionServiceResponse;
         }
-        
-        return getTransaction(transactionServiceResponse)
+
+        return getTransaction(transactionServiceResponse);
     }
-    
+
     createTransactionRecord(companyNumber: string, reference: string, description: string): Transaction {
         const transaction: Transaction = {
             companyName: companyNumber,
             description: description,
             reference: reference
-        }
+        };
         return transaction;
-    } 
-    
+    }
+
 }
 
 function getTransaction(transactionResource: Resource<Transaction> | ApiErrorResponse): Transaction {
@@ -122,12 +122,12 @@ function getTransaction(transactionResource: Resource<Transaction> | ApiErrorRes
         throw new Error("Transaction service didn't return a resource");
     }
 
-    if(transactionResource.resource == undefined || transactionResource.resource == null){
+    if (transactionResource.resource === undefined || transactionResource.resource === null){
         throw new Error("Transaction service return resource contains a undefined or null");
     }
 
-    return transactionResource.resource
-} 
+    return transactionResource.resource;
+}
 
 function isResource(o: any): o is Resource<unknown> {
     return o !== null && o !== undefined && 'resource' in o;

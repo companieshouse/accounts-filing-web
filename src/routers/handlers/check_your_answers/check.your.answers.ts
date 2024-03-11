@@ -7,8 +7,8 @@ import { getValidationResult, must } from "../../../utils/session";
 
 interface CheckYourAnswersViewData extends BaseViewData {
     fileName: string
-    typeOfAccounts: string 
-}   
+    typeOfAccounts: string
+}
 
 export class CheckYourAnswersHandler extends GenericHandler {
     constructor() {
@@ -26,16 +26,16 @@ export class CheckYourAnswersHandler extends GenericHandler {
         super.populateViewData(req);
 
         const validationStatus = must(getValidationResult(req.session));
-        this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`
+        this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`;
 
         return {
             ...this.baseViewData,
             fileName: validationStatus.fileName,
-            typeOfAccounts: "Placeholder" // TODO: This needs to be replaced by a value representing what the user chose at the type of accounts page. 
+            typeOfAccounts: "Placeholder" // TODO: This needs to be replaced by a value representing what the user chose at the type of accounts page.
         };
     }
 
-    async executePost(req: Request, res: Response) {
+    async executePost(req: Request, _res: Response) {
         if (req.session === undefined) {
             throw createAndLogError("File uploaded POST. Request session is undefined. Unable to close transaction.");
         }

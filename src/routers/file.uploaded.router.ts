@@ -28,7 +28,7 @@ router.get("/", (_req: Request, res: Response, _next: NextFunction) => {
  * @param {Response} res - The response object used to send the response.
  * @param {NextFunction} _next - The next middleware function in the Express router (unused in this method).
  */
-router.get("/:fileId", async (req: Request, res: Response, _next: NextFunction) => {
+router.get("/:fileId", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
     logger.debug("Uploaded endpoint triggered.");
     const handler = new UploadedHandler(defaultAccountsFilingService);
@@ -37,6 +37,6 @@ router.get("/:fileId", async (req: Request, res: Response, _next: NextFunction) 
     logger.debug(`Uploaded view data: ${JSON.stringify(viewData, null, 2)}`);
 
     res.render(`router_views/uploaded/uploaded.njk`, viewData);
-});
+}));
 
 export default router;

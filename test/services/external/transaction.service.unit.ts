@@ -1,4 +1,4 @@
-import { mockApiClient, mockCreatePublicOAuthApiClient } from "../../mocks/api.client.mock";
+import { mockApiClient } from "../../mocks/api.client.mock";
 
 import { Session } from "@companieshouse/node-session-handler";
 import { getSessionRequest } from "../../mocks/session.mock";
@@ -22,7 +22,7 @@ describe("Close transaction tests", () => {
 
         const transactionService = new TransactionService(session);
 
-        expect(transactionService['session']).toEqual(session)
+        expect(transactionService['session']).toEqual(session);
     });
 
     it("Should throw an exception if company number not present in the session", async () => {
@@ -32,7 +32,7 @@ describe("Close transaction tests", () => {
 
         session.data.signin_info!.company_number = undefined;
 
-        expect(transactionService.closeTransaction()).rejects.toThrow("Unable to find company number in session")
+        expect(transactionService.closeTransaction()).rejects.toThrow("Unable to find company number in session");
     });
 
     it("Should throw an exception if accounts filing id is not present in session", async () => {
@@ -43,7 +43,7 @@ describe("Close transaction tests", () => {
         // Set company number so that it doesn't throw an exception
         session.data.signin_info!.company_number = "00006400";
         session.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, undefined);
-    
+
 
         expect(transactionService.closeTransaction()).rejects.toThrow("Unable to find accountsFilingId in session");
     });
@@ -56,7 +56,7 @@ describe("Close transaction tests", () => {
         // Set company number and accounts filing id so that they doesn't throw an exception
         session.data.signin_info!.company_number = "00006400";
         session.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, "accountsFilingId test value");
-    
+
         session.setExtraData(ContextKeys.TRANSACTION_ID, undefined);
 
         expect(transactionService.closeTransaction()).rejects.toThrow("Unable to find transactionId in session");
@@ -68,22 +68,22 @@ describe("Close transaction tests", () => {
         const transactionService = new TransactionService(session);
 
         const expectedPaymentUrl = "payment url";
-        // Mock the 'putTransaction' method. 
+        // Mock the 'putTransaction' method.
         // This test only tests the 'closeTransaction' method so it is fine to mock it.
         const apiResponse = {
             headers: {
                 [headers.PAYMENT_REQUIRED]: expectedPaymentUrl
             },
-        }
+        };
         transactionService.putTransaction = jest.fn().mockReturnValue(apiResponse);
 
         // Mock session values
-        
+
         session.data.signin_info!.company_number = testCompanyNumber;
         session.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, testAccountsFilingId);
         session.setExtraData(ContextKeys.TRANSACTION_ID, testTransactionId);
 
-        
+
         const actualPaymentUrl = await transactionService.closeTransaction();
 
         expect(actualPaymentUrl).toBe(expectedPaymentUrl);
@@ -92,7 +92,7 @@ describe("Close transaction tests", () => {
             testCompanyNumber,
             testAccountsFilingId,
             testTransactionId,
-            TransactionStatuses.CLOSED 
+            TransactionStatuses.CLOSED
         );
     });
 });
@@ -101,13 +101,13 @@ describe("Close transaction tests", () => {
 describe("Put transaction tests", () => {
     beforeEach(() => {
         jest.clearAllMocks();
-    })
+    });
 
     it("Should call the SDK transaction service", async () => {
         const mockReturnedTransaction: Transaction = {
             reference: "test reference",
             description: "test description"
-        }
+        };
 
         mockApiClient.transaction.putTransaction.mockResolvedValue({
             httpStatusCode: 200,
@@ -118,7 +118,7 @@ describe("Put transaction tests", () => {
         const transactionService = new TransactionService({} as Session);
 
         const resp = await transactionService.putTransaction(testCompanyNumber, testAccountsFilingId, testTransactionId, TransactionStatuses.CLOSED);
-    
+
         expect(mockApiClient.transaction.putTransaction).toHaveBeenCalledTimes(1);
         expect(resp.resource).toEqual(mockReturnedTransaction);
     });

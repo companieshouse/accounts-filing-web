@@ -24,14 +24,6 @@ export function createPublicOAuthApiClient(session: Session): ApiClient {
     throw createAndLogError("Error creating public OAuth API client. Unable to access OAuth token.");
 }
 
-/**
- * Creates an instance of the public API client using the CHS API key.
- *
- * @returns An instance of the public API client.
- */
-function createPublicApiKeyClient(): ApiClient {
-    return createApiClient(env.CHS_API_KEY, undefined, env.API_URL);
-}
 
 /**
  * Creates an instance of the private API client using the CHS internal API key.
@@ -80,27 +72,27 @@ function maskString(s: string, n = 5, mask = "*"): string {
  * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
  * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.
  */
-export async function makeApiCall(session: Session, fn: (apiClient: ApiClient) => Promise<ApiResponse<unknown> | ApiErrorResponse>): Promise<ApiResponse<unknown> | ApiErrorResponse> {    
-    let client = createPublicOAuthApiClient(session);
+export async function makeApiCall(session: Session, fn: (apiClient: ApiClient) => Promise<ApiResponse<unknown> | ApiErrorResponse>): Promise<ApiResponse<unknown> | ApiErrorResponse> {
+    const client = createPublicOAuthApiClient(session);
 
-    let response = await fn(client);
+    const response = await fn(client);
 
-    // TODO: this code was copied from the overseas entity web service. They had this code to retry the API call if it failed with a refreshed OAUTH token. 
-    // For now this isn't necessary but may be in the future, so the retry code has been left in for now, but commented out. 
-    // if (response && response.httpStatusCode === 401) {  
-        // const responseMsg = `Retrying call on after unauthorised response`;
-        // logger.debug(`${responseMsg} - ${JSON.stringify(response)}`);
+    // TODO: this code was copied from the overseas entity web service. They had this code to retry the API call if it failed with a refreshed OAUTH token.
+    // For now this isn't necessary but may be in the future, so the retry code has been left in for now, but commented out.
+    // if (response && response.httpStatusCode === 401) {
+    // const responseMsg = `Retrying call on after unauthorised response`;
+    // logger.debug(`${responseMsg} - ${JSON.stringify(response)}`);
 
-        // const accessToken = await refreshToken(session);
-        // logger.debug(`New access token: ${accessToken}`);
+    // const accessToken = await refreshToken(session);
+    // logger.debug(`New access token: ${accessToken}`);
 
-        // client = createPublicOAuthApiClient(session);
-        // response = await fn(client);
+    // client = createPublicOAuthApiClient(session);
+    // response = await fn(client);
     // }
 
     // logger.debug("Call successful.");
 
     return response;
-};
+}
 
 export const defaultPrivateApiClient = createPrivateApiKeyClient();

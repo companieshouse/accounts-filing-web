@@ -8,7 +8,7 @@ import {
 } from "../../../utils/constants/urls";
 import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
-import { AccountsFilingService } from "services/external/accounts.filing.service";
+import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
 
 export class SubmitHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService) {
@@ -61,9 +61,72 @@ export function getFileUploadUrl(req: Request): string {
     const zipPortalCallbackUrl = encodeURIComponent(
         `${zipPortalBaseURL}${servicePathPrefix}${uploadedUrl}/${fileIdPlaceholder}`
     );
-    const xbrlValidatorBackUrl = encodeURIComponent(
-        zipPortalBaseURL + servicePathPrefix
-    );
+    const xbrlValidatorBackUrl = encodeURIComponent(zipPortalBaseURL + servicePathPrefix);
 
     return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
 }
+
+// TODO: remove before committing
+// async function testPopulate(req: Request) {
+//     const companyNumber = "0064000";
+//     // TODO: remove befire committing. Just creating a dumy transaction to test closing.
+//     const ts = new TransactionService(req.session!);
+//     const resp = await ts.postTransactionRecord(companyNumber, "reference", "description");
+
+//     const accountsFilingId = "65e847f791418a767a51ce5d";
+//     req.session?.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, accountsFilingId);
+//     const transactionId = resp.id ?? "NO ID";
+//     req.session?.setExtraData<string>(ContextKeys.TRANSACTION_ID, transactionId);
+
+
+//     // @ts-expect-error Override company number
+//     req.session?.data.signin_info?.company_number = companyNumber;
+
+//     // Add resource
+//     await makeApiCall(req.session!, async apiClient => {
+//         return await apiClient.transaction.putTransaction({
+//             reference: "reference",
+//             description: "description",
+//             id: transactionId,
+//             companyNumber: companyNumber,
+//             resources: {
+//                 "testResource": {
+//                     kind: "test",
+//                     links: {
+//                         resource: ""
+//                     }
+//                 }
+//             }
+//         });
+//     });
+// }
+
+// export interface Transaction {
+//     id?: string;
+//     etag?: string;
+//     links?: {
+//         self: string;
+//     };
+//     reference: string;
+//     status?: string;
+//     kind?: string;
+//     companyName?: string;
+//     companyNumber?: string;
+//     createdAt?: string;
+//     createdBy?: {
+//         language: string;
+//         id: string;
+//         email: string;
+//     };
+//     updatedAt?: string;
+//     description: string;
+//     resources?: {
+//         [key: string]: {
+//             kind: string;
+//             links: {
+//                 resource: string;
+//                 costs?: string;
+//             };
+//         };
+//     };
+// }
