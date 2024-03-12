@@ -43,7 +43,6 @@ export class CheckYourAnswersHandler extends GenericHandler {
         const transactionService = new TransactionService(req.session);
         await transactionService.closeTransaction();
 
-        const nextPage = PrefixedUrls.CONFIRMATION;
-        return nextPage;
+        return PrefixedUrls.CONFIRMATION;
     }
 }
