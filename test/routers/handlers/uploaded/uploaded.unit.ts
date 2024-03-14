@@ -38,7 +38,7 @@ describe("UploadedHandler", () => {
                 httpStatusCode: 200,
             });
 
-            await handler.execute(mockReq as Request, {} as any);
+            await handler.executeGet(mockReq as Request, {} as any);
 
             const expectedCallValue = {
                 accountsFilingId: "Placeholder accountsFilingId",
@@ -60,7 +60,7 @@ describe("UploadedHandler", () => {
                 mockResult
             );
 
-            const result = await handler.execute(mockReq as Request, {} as any);
+            const result = await handler.executeGet(mockReq as Request, {} as any);
 
             expect(result.result).toEqual(mockResult.resource);
         });
@@ -68,7 +68,7 @@ describe("UploadedHandler", () => {
         it("should not call getValidationStatus with invalid fileId", async () => {
             setRequestFileID("invalid-uuid");
 
-            await handler.execute(mockReq as Request, {} as any);
+            await handler.executeGet(mockReq as Request, {} as any);
 
             expect(
                 accountsFilingServiceMock.getValidationStatus
@@ -78,7 +78,7 @@ describe("UploadedHandler", () => {
         it("should not return result with invalid fileId", async () => {
             setRequestFileID("invalid-uuid");
 
-            const result = await handler.execute(mockReq as Request, {} as any);
+            const result = await handler.executeGet(mockReq as Request, {} as any);
 
             expect(result.result).toBeUndefined();
         });
