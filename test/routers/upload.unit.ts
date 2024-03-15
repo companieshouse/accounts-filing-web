@@ -2,10 +2,13 @@ import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transact
 import { Request } from "express";
 import { UploadHandler } from "../../src/routers/handlers/upload/upload";
 import { TransactionService as LocalTransactionService } from "../../src/services/external/transaction.service";
+
 import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock";
-import { session } from "../mocks/session.middleware.mock";
 import { AccountsFilingCompanyResponse } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
+import { getSessionRequest } from "../mocks/session.mock";
+
+let session = getSessionRequest();
 
 jest.mock('@companieshouse/api-sdk-node/dist/client', () => {
     return jest.fn().mockImplementation(() => {
@@ -44,6 +47,8 @@ describe("UploadHandler", () => {
             {
                 postTransactionRecord: mockPostTransactionRecord
             } as unknown as LocalTransactionService);
+
+        session = getSessionRequest();
 
         mockReq = {
             session: session,

@@ -1,14 +1,15 @@
 import { logger } from "../../../utils/logger";
 import { GenericHandler } from "../generic";
 import { env } from "../../../config";
-import { CONFIRM_COMPANY_PATH, fileIdPlaceholder,
+import { PrefixedUrls, fileIdPlaceholder,
     servicePathPrefix,
-    uploadedUrl
 } from "../../../utils/constants/urls";
 import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { AccountsFilingService } from "services/external/accounts.filing.service";
+import { getCompanyNumber, must } from "../../../utils/session";
+import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
 
 export class UploadHandler extends GenericHandler {
     constructor (private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
@@ -21,7 +22,7 @@ export class UploadHandler extends GenericHandler {
     async execute (req: Request, _res: Response): Promise<string> {
         logger.info(`GET Request to send fileId call back address`);
 
-        const companyNumber = this.getCompanyNumber(req);
+        const companyNumber = must(getCompanyNumber(req.session));
 
         const transactionId = await this.callTransactionApi(companyNumber);
         req.session?.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
@@ -53,11 +54,8 @@ export class UploadHandler extends GenericHandler {
     }
 
     async callTransactionApi(companyNumber: string): Promise<string | undefined> {
-        const reference = this.getReference();
-        const description = "Accounts Filing Web";
-
         try {
-            const transaction = await this.transactionService.postTransactionRecord(companyNumber, reference, description);
+            const transaction = await this.transactionService.postTransactionRecord(companyNumber, TRANSACTION_REFERENCE, TRANSACTION_DESCRIPTION);
             return transaction.id;
         } catch (error) {
             logger.error(`Exception return from SDK while requesting creation of a transaction for company number [${companyNumber}].`);
@@ -86,8 +84,8 @@ export class UploadHandler extends GenericHandler {
 
     private getRedirectUrl(req: Request, companyNumber: string): string{
         const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
-        const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${servicePathPrefix}${uploadedUrl}/${fileIdPlaceholder}`);
-        const xbrlValidatorBackUrl = encodeURIComponent(`${zipPortalBaseURL}${CONFIRM_COMPANY_PATH}?companyNumber=${companyNumber}`);
+        const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${servicePathPrefix}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
+        const xbrlValidatorBackUrl = encodeURIComponent(`${zipPortalBaseURL}${PrefixedUrls.HOME}?companyNumber=${companyNumber}`);
 
         return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
     }

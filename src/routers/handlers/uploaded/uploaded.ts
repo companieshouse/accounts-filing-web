@@ -7,7 +7,8 @@ import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/acc
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { env } from "../../../config";
 import { ContextKeys } from "../../../utils/constants/context.keys";
-import { fileIdPlaceholder, servicePathPrefix, uploadedUrl } from "../../../utils/constants/urls";
+import { setValidationResult } from "../../../utils/session";
+import { PrefixedUrls, fileIdPlaceholder } from "../../../utils/constants/urls";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
@@ -38,7 +39,7 @@ export class UploadedHandler extends GenericHandler {
      * @returns {Promise<UploadedViewData>} A promise that resolves to the view data for the processed file.
      *         This data includes the base view data and, if the file ID is valid, the result of the file validation.
      */
-    async execute(
+    async executeGet(
         req: Request,
         _response: Response
     ): Promise<UploadedViewData> {
@@ -68,24 +69,34 @@ export class UploadedHandler extends GenericHandler {
             };
         }
 
-        let result: Awaited<ReturnType<typeof this.accountsFilingService.getValidationStatus>>;
         try {
-            result = await this.accountsFilingService.getValidationStatus(validationRequest);
+            const result = await this.accountsFilingService.getValidationStatus(validationRequest);
+            const validationResult = result.resource;
+            if (validationResult === undefined) {
+                throw new Error(`Validation result response empty`);
+            }
+
+            setValidationResult(req.session, validationResult);
+
+            logger.debug(
+                `Got result ${JSON.stringify(result, null, 2)} for file [${fileId}]`
+            );
+
+            return {
+                ...this.baseViewData,
+                result: validationResult,
+            };
         } catch (error) {
             logger.error(`Exception returned from SDK while getting validation status from [${fileId}]. Error: ${JSON.stringify(error, null, 2)}`);
 
             throw error;
         }
 
-        logger.info(
-            `Got result ${JSON.stringify(result, null, 2)} for file [${fileId}]`
-        );
 
-        return {
-            ...this.baseViewData,
-            result: result.resource,
-        };
     }
+
+
+
 
     /**
      * Validates the provided request parameters.
@@ -116,8 +127,8 @@ export class UploadedHandler extends GenericHandler {
 
     private getFileUploadUrl(req: Request): string{
         const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
-        const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${servicePathPrefix}${uploadedUrl}/${fileIdPlaceholder}`);
-        const xbrlValidatorBackUrl = encodeURIComponent(zipPortalBaseURL + servicePathPrefix);
+        const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${PrefixedUrls.HOME}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
+        const xbrlValidatorBackUrl = encodeURIComponent(zipPortalBaseURL + PrefixedUrls.HOME);
 
         return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
     }
