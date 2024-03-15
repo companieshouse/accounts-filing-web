@@ -1,0 +1,104 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+
+{% block main_content %}
+
+{% set address %}
+    {{companyProfile.address.addressLineOne}}
+    <br/>
+    {{companyProfile.address.addressLineTwo}}
+    <br/>
+    {{companyProfile.address.postalCode}}
+{% endset %}
+
+<div class="govuk-grid-row">
+
+
+   <h1 class="govuk-heading-xl">Confirm this is the correct company</h1>
+
+            <h1 class="govuk-heading-l">{{companyProfile.companyName}}</h1>
+
+
+ 
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "Company number	"
+      },
+    value: {
+            text: companyProfile.companyNumber
+      }
+    },
+    {
+      key: {
+        text: "Status"
+      },
+      value: {
+        html: companyProfile.companyStatus | capitalize
+      }
+    },
+        {
+      key: {
+        text: "Incorporation date"
+      },
+      value: {
+        text: companyProfile.dateOfCreation
+      }
+    },
+        {
+      key: {
+        text: "Company type	"
+      },
+      value: {
+        text: companyProfile.type | capitalize
+      }
+    },
+        {
+      key: {
+        text: "Registered office address"
+      },
+      value: {
+        html: address
+      }
+    },
+        {
+      key: {
+        text: "Last accounts made up to"
+      },
+      value: {
+      text: companyProfile.madeUpTo
+      }
+    },
+        {
+      key: {
+        text: "Next accounts due "
+      },
+      value: {
+      html: companyProfile.nextDue
+      }
+    }
+
+  ]
+}) }}
+
+
+   {{ govukButton({
+  text: "Confirm and continue",
+  href: uploadLink
+}) }}  
+
+<p><a href="{{ changeCompanyUrl }}">Choose a different company</a></p>
+
+
+</div>
+
+{% endblock %}
