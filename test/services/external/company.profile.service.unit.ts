@@ -19,7 +19,7 @@ function createApiResponse () {
         companyName: "COMPANY_NAME_???",
         companyNumber: "00000000",
         companyStatus: "active",
-        dateOfCreation: "1000-01-01",
+        dateOfCreation: "1999-12-31",
         type: "type",
         registeredOfficeAddress: {
             addressLineOne: "line one",
@@ -65,7 +65,7 @@ describe("CompanyProfileService", () => {
                 companyName: "COMPANY_NAME_???",
                 companyNumber: "00000000",
                 companyStatus: "active",
-                dateOfCreation: "31 December 999",
+                dateOfCreation: "31 December 1999",
                 type: "type",
                 address: {
                     "addressLineOne": "line one",
