@@ -63,7 +63,17 @@ describe("CompanyConfirmHandler", () => {
                 backURL: '/accounts-filing/company-search/',
                 companyProfile: {},
                 uploadLink: '/accounts-filing/company/12345678/uploaded',
-                changeCompanyUrl: '/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=%7BcompanyNumber%7D'
+                changeCompanyUrl: '/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=%7BcompanyNumber%7D',
+                Urls: {
+                    HOME: "/accounts-filing/",
+                    HEALTHCHECK: "/accounts-filing/healthcheck",
+                    UPLOAD: "/accounts-filing/upload",
+                    UPLOADED: "/accounts-filing/uploaded",
+                    CHECK_YOUR_ANSWERS: "/accounts-filing/check-your-answers",
+                    CONFIRMATION: "/accounts-filing/confirmation-submission",
+                    COMPANY_SEARCH: "/accounts-filing/company-search",
+                    CONFIRM_COMPANY: "/accounts-filing/confirm-company",
+                  }
             };
 
             expect(

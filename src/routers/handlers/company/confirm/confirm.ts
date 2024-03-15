@@ -1,4 +1,4 @@
-import { COMPANY_AUTH_UPLOAD, COMPANY_LOOKUP, COMPANY_SEARCH, servicePathPrefix } from "../../../../utils/constants/urls";
+import { COMPANY_AUTH_UPLOAD, COMPANY_LOOKUP, PrefixedUrls, servicePathPrefix } from "../../../../utils/constants/urls";
 import { logger } from "../../../../utils/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
@@ -11,7 +11,7 @@ export class CompanyConfirmHandler extends GenericHandler {
     constructor(private companyProfileService: CompanyProfileService) {
         super({
             title: "Confirm company – Accounts Filing – GOV.UK ",
-            backURL: `${servicePathPrefix}${COMPANY_SEARCH}/`
+            backURL: `${PrefixedUrls.COMPANY_SEARCH}/`
         });
     }
 
