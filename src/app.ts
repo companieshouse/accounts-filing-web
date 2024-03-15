@@ -5,6 +5,7 @@ import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
 import routerDispatch from "./router.dispatch";
 import { env } from './config';
+import { SIGN_OUT } from "./utils/constants/urls";
 
 const app = express();
 app.disable("x-powered-by");
@@ -37,6 +38,7 @@ njk.addGlobal("cdnUrlCss", env.CDN_HOST + env.CDN_URL_CSS);
 njk.addGlobal("cdnUrlJs", env.CDN_HOST + env.CDN_URL_JS);
 njk.addGlobal("cdnHost", env.CDN_HOST);
 njk.addGlobal("chsUrl", env.CHS_URL);
+njk.addGlobal("signoutURL", SIGN_OUT);
 
 
 app.use(express.json());
