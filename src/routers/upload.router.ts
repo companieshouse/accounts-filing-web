@@ -2,7 +2,6 @@ import { Request, Response, Router, NextFunction } from "express";
 import { UploadHandler } from "./handlers/upload/upload";
 import { createOAuthApiClient } from "../services/internal/api.client.service";
 import { TransactionService } from "../services/external/transaction.service";
-import { AccountValidatorService } from "private-api-sdk-node/dist/services/account-validator";
 import { handleExceptions } from "../utils/error.handler";
 import { defaultAccountsFilingService } from "../services/external/accounts.filing.service";
 

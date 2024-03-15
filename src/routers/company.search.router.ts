@@ -1,21 +1,14 @@
 import { NextFunction, Router, Request, Response } from "express";
-import { CompanySearchHandler as CompanySearchHandler } from "./handlers/company/search/search";
+import { logger } from "../utils/logger";
+import { COMPANY_LOOKUP } from "../utils/constants/urls";
+import { handleExceptions } from "../utils/error.handler";
 
 const router: Router = Router();
 
-router.get("/", (req: Request, res: Response, _next: NextFunction) => {
-    const handler = new CompanySearchHandler();
-    const params = handler.execute(req, res);
-    if (params.templatePath && params.viewData) {
-        res.render(params.templatePath, params.viewData);
-    }
-})
+router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+    logger.info(`Get request for serving company filing name/number entry page`);
+    return res.redirect(COMPANY_LOOKUP);
 
-router.post("/", async (req: Request, res: Response, _next: NextFunction) => {
-})
-
-router.get("/:companyId", async (req: Request, res: Response, _next: NextFunction) => {
-
-})
+}));
 
 export default router;

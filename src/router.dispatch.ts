@@ -1,7 +1,7 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
-import { servicePathPrefix, COMPANY_AUTH_PROTECTED_BASE, healthcheckUrl, uploadedUrl, uploadUrl, COMPANY_SEARCH } from "./utils/constants/urls";
-import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter } from "./routers";
+import { servicePathPrefix, COMPANY_AUTH_PROTECTED_BASE, healthcheckUrl, uploadedUrl, COMPANY_SEARCH, CONFIRM_COMPANY, COMPANY_AUTH_UPLOAD } from "./utils/constants/urls";
+import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter, CompanyConfirmRouter } from "./routers";
 import { errorHandler, pageNotFound } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
@@ -20,11 +20,12 @@ const routerDispatch = (app: Application) => {
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
-    router.use(`${COMPANY_AUTH_PROTECTED_BASE}`, companyAuthenticationMiddleware);
+    router.use(COMPANY_AUTH_PROTECTED_BASE, companyAuthenticationMiddleware);
 
     router.use(uploadedUrl, FileUpladedRouter);
-    router.use(uploadUrl, UploadRouter);
+    router.use(COMPANY_AUTH_UPLOAD, UploadRouter);
     router.use(COMPANY_SEARCH, CompanySearchRouter);
+    router.use(CONFIRM_COMPANY, CompanyConfirmRouter);
 
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);
