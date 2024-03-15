@@ -28,15 +28,15 @@ export const createPrivateApiKeyClient = (): PrivateApiClient => {
 
 /**
  * Creates an instance of the API client using users OAuth tokens.
- * @param session 
+ * @param session
  * @returns An instance of the API client
  */
 export const createOAuthApiClient = (session: Session | undefined): ApiClient => {
-    if(session == undefined) {
-        throw new Error("Session undefined")
+    if (session === undefined) {
+        throw new Error("Session undefined");
     }
     return createApiClient(undefined, getAccessToken(session), env.API_URL);
-  };
+};
 
 /**
  * Masks a string by replacing characters after a specified position with a mask character.
