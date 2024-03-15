@@ -5,8 +5,9 @@ import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
-import { getFileUploadUrl } from "../upload/upload";
+import { env } from "../../../config";
 import { ContextKeys } from "../../../utils/constants/context.keys";
+import { fileIdPlaceholder, servicePathPrefix, uploadedUrl } from "../../../utils/constants/urls";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
@@ -42,7 +43,7 @@ export class UploadedHandler extends GenericHandler {
         _response: Response
     ): Promise<UploadedViewData> {
         super.populateViewData(req);
-        this.baseViewData.backURL = getFileUploadUrl(req);
+        this.baseViewData.backURL = this.getFileUploadUrl(req);
 
         logger.debug(`Handling GET request for uploaded file.`);
 
@@ -111,5 +112,13 @@ export class UploadedHandler extends GenericHandler {
             typeof transactionId === "string" && transactionId.trim() !== "";
 
         return fileIdValid && filingIdValid && transactionIdValid;
+    }
+
+    private getFileUploadUrl(req: Request): string{
+        const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
+        const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${servicePathPrefix}${uploadedUrl}/${fileIdPlaceholder}`);
+        const xbrlValidatorBackUrl = encodeURIComponent(zipPortalBaseURL + servicePathPrefix);
+
+        return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
     }
 }
