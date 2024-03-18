@@ -73,7 +73,7 @@ describe("CompanyConfirmHandler", () => {
                     CONFIRMATION: "/accounts-filing/confirmation-submission",
                     COMPANY_SEARCH: "/accounts-filing/company-search",
                     CONFIRM_COMPANY: "/accounts-filing/confirm-company",
-                  }
+                }
             };
 
             expect(

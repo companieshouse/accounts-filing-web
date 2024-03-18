@@ -9,6 +9,7 @@ import { env } from "../../../config";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { setValidationResult } from "../../../utils/session";
 import { PrefixedUrls, fileIdPlaceholder } from "../../../utils/constants/urls";
+import { RedirectUrl } from "../../../utils/url/redirect.url";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
@@ -126,10 +127,9 @@ export class UploadedHandler extends GenericHandler {
     }
 
     private getFileUploadUrl(req: Request): string{
-        const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
-        const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${PrefixedUrls.HOME}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
-        const xbrlValidatorBackUrl = encodeURIComponent(zipPortalBaseURL + PrefixedUrls.HOME);
-
-        return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
+        const base = RedirectUrl.getUriBase(req);
+        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.HOME}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
+        const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.HOME}`);
+        return RedirectUrl.getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, xbrlValidatorBackUrl);
     }
 }

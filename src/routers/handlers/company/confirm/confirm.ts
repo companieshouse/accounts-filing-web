@@ -7,6 +7,7 @@ import { AccountsFilingCompanyProfile } from "../../../../types/confirm.company.
 import { ValidateCompanyNumber } from "../../../../utils/validate/validate.company.number";
 
 export class CompanyConfirmHandler extends GenericHandler {
+    static routeViews: string = "router_views/company/confirm/confirm";
 
     constructor(private companyProfileService: CompanyProfileService) {
         super({
@@ -17,7 +18,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
     async execute(req: Request, _res: Response): Promise<ViewModel<CompanyFilingIdData>> {
 
-        const routeViews: string = "router_views/company/confirm";
+
         const companyNumber = req.query?.companyNumber as string;
 
         if (!companyNumber) {
@@ -33,7 +34,7 @@ export class CompanyConfirmHandler extends GenericHandler {
         const confirmCompanyLink: string = `${servicePathPrefix}${COMPANY_AUTH_UPLOAD}`.replace(":companyNumber", companyNumber);
 
         logger.info(`Serving company profile data`);
-        return { templatePath: `${routeViews}/confirm`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: confirmCompanyLink, changeCompanyUrl: COMPANY_LOOKUP } };
+        return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: confirmCompanyLink, changeCompanyUrl: COMPANY_LOOKUP } };
     }
 
 }
