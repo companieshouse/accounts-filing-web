@@ -1,7 +1,8 @@
 import { logger } from "../../../utils/logger";
 import { GenericHandler } from "../generic";
 import { env } from "../../../config";
-import { PrefixedUrls, fileIdPlaceholder,
+import {
+    PrefixedUrls,
     servicePathPrefix,
 } from "../../../utils/constants/urls";
 import { Request, Response } from "express";
@@ -10,16 +11,17 @@ import { TransactionService } from "../../../services/external/transaction.servi
 import { AccountsFilingService } from "services/external/accounts.filing.service";
 import { getCompanyNumber, must } from "../../../utils/session";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
+import { RedirectUrl } from "../../../utils/url/redirect.url";
 
 export class UploadHandler extends GenericHandler {
-    constructor (private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
+    constructor(private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
         super({
             title: '',
             backURL: `${servicePathPrefix}`
         });
     }
 
-    async execute (req: Request, _res: Response): Promise<string> {
+    async execute(req: Request, _res: Response): Promise<string> {
         logger.info(`GET Request to send fileId call back address`);
 
         const companyNumber = must(getCompanyNumber(req.session));
@@ -63,31 +65,11 @@ export class UploadHandler extends GenericHandler {
         }
     }
 
-    getReference(): string {
-        const reference = env.APP_NAME;
-        if (reference === undefined) {
-            logger.error("environment has no app name to be used as a reference");
-            throw new Error(`Internal issue`);
-        }
-        return reference;
-    }
-
-    getCompanyNumber(req: Request): string {
-        const companyNumber = req.session?.data.signin_info?.company_number;
-        if (companyNumber === undefined) {
-            logger.error("session has no company number");
-            throw new Error("Company number in undefined");
-        }
-        return companyNumber;
-    }
-
-
-    private getRedirectUrl(req: Request, companyNumber: string): string{
-        const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
-        const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
-        const xbrlValidatorBackUrl = encodeURIComponent(`${zipPortalBaseURL}${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
-
-        return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
+    private getRedirectUrl(req: Request, companyNumber: string): string {
+        const base = RedirectUrl.getUriBase(req);
+        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}`);
+        const confirmCompanyBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
+        return RedirectUrl.getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, confirmCompanyBackUrl);
     }
 
 }
