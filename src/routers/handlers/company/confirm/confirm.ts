@@ -31,7 +31,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         const companyProfile: AccountsFilingCompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
 
-        const confirmCompanyLink: string = `${servicePathPrefix}${COMPANY_AUTH_UPLOAD}`.replace(":companyNumber", companyNumber);
+        const confirmCompanyLink = PrefixedUrls.COMPANY_AUTH_UPLOAD.replace(":companyNumber", companyNumber);
 
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: confirmCompanyLink, changeCompanyUrl: COMPANY_LOOKUP } };
