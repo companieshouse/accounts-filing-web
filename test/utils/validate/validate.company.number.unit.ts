@@ -40,7 +40,7 @@ describe("ValidateCompanyNumber", () => {
         ).toBe(true);
     });
 
-    it("should return true when it is alphanumeric", () => {
+    it("should return false when it a invalid alphanumeric string", () => {
         expect(
             ValidateCompanyNumber.isValid(alphanumeric)
         ).toBe(false);
