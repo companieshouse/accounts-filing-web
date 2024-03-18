@@ -67,7 +67,7 @@ export class UploadHandler extends GenericHandler {
         const reference = env.APP_NAME;
         if (reference === undefined) {
             logger.error("environment has no app name to be used as a reference");
-            throw new Error("APP_NAME variable undefined");
+            throw new Error(`Internal issue`);
         }
         return reference;
     }
