@@ -4,7 +4,7 @@ export class ValidateCompanyNumber {
 
 
     static isValid(companyNumber: string): boolean {
-        const capCompanyNumber = companyNumber.trim().toLocaleUpperCase();
+        const capCompanyNumber = companyNumber.toLocaleUpperCase();
         return this.COMPANY_NUMBER_REGEX.test(capCompanyNumber);
     }
 
