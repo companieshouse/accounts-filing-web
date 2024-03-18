@@ -10,10 +10,8 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
     const oauthApiClient = createOAuthApiClient(req.session);
     const companyProfileService = new CompanyProfileService(oauthApiClient);
     const handler = new CompanyConfirmHandler(companyProfileService);
-    const params = await handler.execute(req, res);
-    if (params.templatePath && params.viewData) {
-        res.render(params.templatePath, params.viewData);
-    }
+    const { templatePath, viewData } = await handler.execute(req, res);
+    res.render(templatePath, viewData);
 }));
 
 export default router;
