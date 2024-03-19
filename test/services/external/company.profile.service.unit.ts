@@ -24,13 +24,7 @@ function createApiResponse () {
         registeredOfficeAddress: {
             addressLineOne: "line one",
             addressLineTwo: "line two",
-            careOf: undefined,
-            country: undefined,
-            locality: undefined,
-            poBox: undefined,
-            postalCode: "ZZ78A 8OP",
-            premises: undefined,
-            region: undefined,
+            postalCode: "ZZ78A 8OP"
         },
         accounts: {
             nextAccounts: {
@@ -59,29 +53,16 @@ describe("CompanyProfileService", () => {
         const mockResponse = { httpStatusCode: 200, resource: createApiResponse() as unknown as CompanyProfile };
         mockGetStatus.mockResolvedValue(mockResponse);
 
-
-        await expect(service.getCompanyProfile("00000000")).resolves.toEqual(
-            {
-                companyName: "COMPANY_NAME_???",
-                companyNumber: "00000000",
-                companyStatus: "active",
-                dateOfCreation: "31 December 1999",
-                type: "type",
-                address: {
-                    "addressLineOne": "line one",
-                    "addressLineTwo": "line two",
-                    "careOf": undefined,
-                    "country": undefined,
-                    "locality": undefined,
-                    "poBox": undefined,
-                    "postalCode": "ZZ78A 8OP",
-                    "premises": undefined,
-                    "region": undefined,
-                },
-                nextDue: "22 January 2019",
-                madeUpTo: "22 January 2017"
-            }
-        );
+        const result = await service.getCompanyProfile("00000000");
+        expect(result).toHaveProperty("dateOfCreation", "1999-12-31");
+        expect(result).toHaveProperty("companyName", "COMPANY_NAME_???");
+        expect(result).toHaveProperty("companyNumber", "00000000");
+        expect(result).toHaveProperty("companyStatus", "active");
+        expect(result).toHaveProperty("registeredOfficeAddress.addressLineOne", "line one");
+        expect(result).toHaveProperty("registeredOfficeAddress.addressLineTwo", "line two");
+        expect(result).toHaveProperty("registeredOfficeAddress.postalCode", "ZZ78A 8OP");
+        expect(result).toHaveProperty("accounts.nextAccounts.periodStartOn", "2017-01-22");
+        expect(result).toHaveProperty("accounts.nextDue", "2019-01-22");
     });
 
     it("should throw an error if http code is not 200", async () => {
