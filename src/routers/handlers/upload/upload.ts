@@ -67,7 +67,7 @@ export class UploadHandler extends GenericHandler {
 
     private getRedirectUrl(req: Request, companyNumber: string): string {
         const base = RedirectUrl.getUriBase(req);
-        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}`);
+        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.COMPANY_AUTH_UPLOAD}`);
         const confirmCompanyBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
         return RedirectUrl.getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, confirmCompanyBackUrl);
     }

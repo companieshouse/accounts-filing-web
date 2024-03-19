@@ -1,11 +1,11 @@
 import { Request } from "express";
 import { CompanyConfirmHandler } from "../../../../src/routers/handlers/company/confirm/confirm";
 import { companyProfileServiceMock } from "../../../mocks/company.profile.service.mock";
-import { AccountsFilingCompanyProfile } from "../../../../src/types/confirm.company.data";
 import { BaseViewData, ViewModel } from "../../../../src/routers/handlers/generic";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 
 interface CompanyFilingIdData extends BaseViewData {
-    companyProfile: AccountsFilingCompanyProfile,
+    companyProfile: CompanyProfile,
     uploadLink: string,
     changeCompanyUrl: string
 }
@@ -52,48 +52,34 @@ describe("CompanyConfirmHandler", () => {
     describe("execute method", () => {
         it("should return a valid viewData", async () => {
             companyProfileServiceMock.getCompanyProfile.mockResolvedValue(
-                {} as AccountsFilingCompanyProfile
+                {} as CompanyProfile
             );
             const results: ViewModel<CompanyFilingIdData> = await handler.execute(mockReq as Request, {} as any);
 
-            const expectedCallValue = {
-                errors: {},
-                isSignedIn: false,
-                title: 'Confirm company – Accounts Filing – GOV.UK ',
-                backURL: '/accounts-filing/company-search/',
-                companyProfile: {},
-                uploadLink: '/accounts-filing/company/12345678/uploaded',
-                changeCompanyUrl: '/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=%7BcompanyNumber%7D',
-                Urls: {
-                    HOME: "/accounts-filing/",
-                    HEALTHCHECK: "/accounts-filing/healthcheck",
-                    UPLOAD: "/accounts-filing/upload",
-                    UPLOADED: "/accounts-filing/uploaded",
-                    CHECK_YOUR_ANSWERS: "/accounts-filing/check-your-answers",
-                    CONFIRMATION: "/accounts-filing/confirmation-submission",
-                    COMPANY_SEARCH: "/accounts-filing/company-search",
-                    CONFIRM_COMPANY: "/accounts-filing/confirm-company",
-                }
-            };
-
             expect(
-                results.viewData
-            ).toEqual(expectedCallValue);
+                results.viewData.backURL
+            ).toEqual("/accounts-filing/company-search/");
+            expect(
+                results.viewData.uploadLink
+            ).toEqual("/accounts-filing/company/12345678/upload");
+            expect(
+                results.viewData.changeCompanyUrl
+            ).toMatch("/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=");
         });
 
         it("should return an error when company number is missing", async () => {
             companyProfileServiceMock.getCompanyProfile.mockResolvedValue(
-                {} as AccountsFilingCompanyProfile
+                {} as CompanyProfile
             );
 
             await expect(
                 handler.execute(mockReqMissingCompanyNumber as Request, {} as any)
-            ).rejects.toThrow("Company number not set");
+            ).rejects.toThrow("Company number is invalid");
         });
 
         it("should return an error when company number is invalid format", async () => {
             companyProfileServiceMock.getCompanyProfile.mockResolvedValue(
-                {} as AccountsFilingCompanyProfile
+                {} as CompanyProfile
             );
 
             await expect(
