@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import routerDispatch from "./router.dispatch";
 import { env } from './config';
 import { SIGN_OUT } from "./utils/constants/urls";
+import { FormatDate } from "./utils/format/format.date";
+import { FormatProfileType } from "./utils/format/format.profile.type";
 
 const app = express();
 app.disable("x-powered-by");
@@ -39,6 +41,10 @@ njk.addGlobal("cdnUrlJs", env.CDN_HOST + env.CDN_URL_JS);
 njk.addGlobal("cdnHost", env.CDN_HOST);
 njk.addGlobal("chsUrl", env.CHS_URL);
 njk.addGlobal("signoutURL", SIGN_OUT);
+
+
+njk.addFilter("formatDate", FormatDate.formatToUKString);
+njk.addFilter("formatProfileType", FormatProfileType.formatType);
 
 
 app.use(express.json());
