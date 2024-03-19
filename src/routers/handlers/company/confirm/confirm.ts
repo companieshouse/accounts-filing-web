@@ -1,10 +1,10 @@
-import { COMPANY_AUTH_UPLOAD, COMPANY_LOOKUP, PrefixedUrls, servicePathPrefix } from "../../../../utils/constants/urls";
+import { COMPANY_LOOKUP, PrefixedUrls } from "../../../../utils/constants/urls";
 import { logger } from "../../../../utils/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
-import { AccountsFilingCompanyProfile } from "../../../../types/confirm.company.data";
 import { ValidateCompanyNumber } from "../../../../utils/validate/validate.company.number";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 
 export class CompanyConfirmHandler extends GenericHandler {
     static routeViews: string = "router_views/company/confirm/confirm";
@@ -16,31 +16,37 @@ export class CompanyConfirmHandler extends GenericHandler {
         });
     }
 
-    async execute(req: Request, _res: Response): Promise<ViewModel<CompanyFilingIdData>> {
+    async execute(req: Request, _res: Response): Promise<ViewModel<ConfirmCompanyViewData>> {
 
 
         const companyNumber = req.query?.companyNumber as string;
 
-        if (!companyNumber) {
-            throw new Error("Company number not set");
-        }
-
         if (!ValidateCompanyNumber.isValid(companyNumber)){
+            this.logInvalidCompanyNumber(companyNumber);
             throw new Error("Company number is invalid");
         }
 
-        const companyProfile: AccountsFilingCompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
+        const companyProfile: CompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
 
-        const confirmCompanyLink: string = `${servicePathPrefix}${COMPANY_AUTH_UPLOAD}`.replace(":companyNumber", companyNumber);
+        const confirmCompanyLink: string = PrefixedUrls.COMPANY_AUTH_UPLOAD.replace(":companyNumber", companyNumber);
 
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: confirmCompanyLink, changeCompanyUrl: COMPANY_LOOKUP } };
     }
 
+
+    private logInvalidCompanyNumber(companyNumber: string) {
+        if (companyNumber) {
+            const invalidCompanyNumber = encodeURIComponent(companyNumber.substring(0, 7));
+            logger.error(`An invalid company number entered. Total length of input: ${companyNumber.length}. First 8 encoded characters: ${invalidCompanyNumber}.`);
+        } else {
+            logger.error('An invalid company number entered of null or undefined.');
+        }
+    }
 }
 
-interface CompanyFilingIdData extends BaseViewData {
-    companyProfile: AccountsFilingCompanyProfile,
+interface ConfirmCompanyViewData extends BaseViewData {
+    companyProfile: CompanyProfile,
     uploadLink: string,
     changeCompanyUrl: string
 }
