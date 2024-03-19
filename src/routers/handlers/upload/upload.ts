@@ -11,7 +11,7 @@ import { TransactionService } from "../../../services/external/transaction.servi
 import { AccountsFilingService } from "services/external/accounts.filing.service";
 import { getCompanyNumber, must } from "../../../utils/session";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
-import { RedirectUrl } from "../../../utils/url/redirect.url";
+import { getUriBase, getRedirectUrl } from "../../../utils/url/redirect.url";
 
 export class UploadHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
@@ -66,10 +66,10 @@ export class UploadHandler extends GenericHandler {
     }
 
     private getRedirectUrl(req: Request, companyNumber: string): string {
-        const base = RedirectUrl.getUriBase(req);
-        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.COMPANY_AUTH_UPLOAD}`);
+        const base = getUriBase(req);
+        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOAD}`);
         const confirmCompanyBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
-        return RedirectUrl.getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, confirmCompanyBackUrl);
+        return getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, confirmCompanyBackUrl);
     }
 
 }

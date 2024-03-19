@@ -27,4 +27,5 @@ export const PrefixedUrls = Object.fromEntries(
 
 export const fileIdPlaceholder = '{fileId}';
 export const COMPANY_LOOKUP = `/company-lookup/search?forward=${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=%7BcompanyNumber%7D`;
+export const COMPANY_LOOKUP_2 = `/company-lookup/search?forward=${PrefixedUrls.CONFIRM_COMPANY}/:companyNumber`;
 export const SIGN_OUT = '/signout';
