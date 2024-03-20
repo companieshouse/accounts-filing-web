@@ -3,6 +3,7 @@ import { GenericHandler } from "../generic";
 import { env } from "../../../config";
 import {
     PrefixedUrls,
+    fileIdPlaceholder,
     servicePathPrefix,
 } from "../../../utils/constants/urls";
 import { Request, Response } from "express";
@@ -52,6 +53,8 @@ export class UploadHandler extends GenericHandler {
             throw error;
         }
 
+        // Temperory redirect until additional pages are added.
+        // Will need to be changed in future.
         return this.getRedirectUrl(req, companyNumber);
     }
 
@@ -67,7 +70,7 @@ export class UploadHandler extends GenericHandler {
 
     private getRedirectUrl(req: Request, companyNumber: string): string {
         const base = getUriBase(req);
-        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOAD}`);
+        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
         const confirmCompanyBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
         return getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, confirmCompanyBackUrl);
     }
