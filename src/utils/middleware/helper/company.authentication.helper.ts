@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { must } from "../../../utils/session";
+import { getCompanyNumber, must } from "../../../utils/session";
 import { logger } from "../../../utils/logger";
 import { URL_QUERY_PARAM } from "../../../utils/constants/urls";
 
@@ -15,7 +15,7 @@ export class CompanyAuthenticationHelper {
             companyNumber = req.params[URL_QUERY_PARAM.PARAM_COMPANY_NUMBER];
         } else {
             logger.debug("Using session value for companyNumber");
-            companyNumber = must(req.session?.data.signin_info?.company_number);
+            companyNumber = must(getCompanyNumber(req.session));
         }
 
         return companyNumber;
