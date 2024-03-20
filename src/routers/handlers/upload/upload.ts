@@ -1,6 +1,5 @@
 import { logger } from "../../../utils/logger";
 import { GenericHandler } from "../generic";
-import { env } from "../../../config";
 import {
     PrefixedUrls,
     fileIdPlaceholder,
@@ -72,7 +71,7 @@ export class UploadHandler extends GenericHandler {
         const base = getUriBase(req);
         const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
         const confirmCompanyBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
-        return getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, confirmCompanyBackUrl);
+        return getRedirectUrl(zipPortalCallbackUrl, confirmCompanyBackUrl);
     }
 
 }

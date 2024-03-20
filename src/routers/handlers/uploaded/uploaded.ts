@@ -5,7 +5,6 @@ import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
-import { env } from "../../../config";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { setValidationResult } from "../../../utils/session";
 import { PrefixedUrls, fileIdPlaceholder } from "../../../utils/constants/urls";
@@ -130,6 +129,6 @@ export class UploadedHandler extends GenericHandler {
         const base = getUriBase(req);
         const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.HOME}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
         const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.HOME}`);
-        return getRedirectUrl(env.SUBMIT_VALIDATION_URL, zipPortalCallbackUrl, xbrlValidatorBackUrl);
+        return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl);
     }
 }

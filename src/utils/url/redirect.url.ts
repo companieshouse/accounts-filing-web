@@ -1,11 +1,12 @@
 import { Request } from 'express';
+import { env } from "../../config";
 
 function redirectUrl(base: string, callback: string, redirect: string): string {
     return `${base}?callback=${callback}&backUrl=${redirect}`;
 }
 
-function getRedirectUrl(base: string, callback: string, redirect: string): string {
-    return redirectUrl(base, callback, redirect);
+function getRedirectUrl(callback: string, redirect: string): string {
+    return redirectUrl(env.SUBMIT_VALIDATION_URL, callback, redirect);
 }
 
 /**
