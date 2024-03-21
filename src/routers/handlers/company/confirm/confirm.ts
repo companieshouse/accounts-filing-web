@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
 import { ValidateCompanyNumber } from "../../../../utils/validate/validate.company.number";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
+import { formatPostCompanyAuthUrl } from "../../../../utils/format/format";
 
 export class CompanyConfirmHandler extends GenericHandler {
     static routeViews: string = "router_views/company/confirm/confirm";
@@ -28,7 +29,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         const companyProfile: CompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
 
-        const confirmCompanyLink = PrefixedUrls.COMPANY_AUTH_UPLOAD.replace(":companyNumber", companyNumber);
+        const confirmCompanyLink = formatPostCompanyAuthUrl(PrefixedUrls.UPLOAD, companyNumber);
 
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: confirmCompanyLink, changeCompanyUrl: COMPANY_LOOKUP } };

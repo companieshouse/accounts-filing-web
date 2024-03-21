@@ -5,7 +5,6 @@ import { CompanyAuthenticationHelper } from "../utils/middleware/helper/company.
 
 export const companyAuthenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
-    // Will use param value over session value
     const companyNumber = CompanyAuthenticationHelper.getCompanyNumberFromRequest(req);
 
     const authMiddlewareConfig: AuthOptions = {

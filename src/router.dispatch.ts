@@ -1,6 +1,6 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
-import { servicePathPrefix, Urls } from "./utils/constants/urls";
+import { COMPANY_AUTH_PROTECTED_BASE, servicePathPrefix, Urls } from "./utils/constants/urls";
 import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter, CompanyConfirmRouter, CheckYourAnswersRouter } from "./routers";
 
 
@@ -22,15 +22,11 @@ const routerDispatch = (app: Application) => {
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
+    router.use(COMPANY_AUTH_PROTECTED_BASE, companyAuthenticationMiddleware);
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
 
-    // Everything post this middleware will be company authenticated
-    // Ensures that param value is used before session
-    router.use(Urls.COMPANY_AUTH_PROTECTED_BASE, companyAuthenticationMiddleware);
-    router.use(userAuthRegex, companyAuthenticationMiddleware);
-
-    router.use(Urls.COMPANY_AUTH_UPLOAD, UploadRouter);
+    router.use(Urls.UPLOAD, UploadRouter);
     router.use(Urls.UPLOADED, FileUpladedRouter);
     router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
 
