@@ -3,7 +3,7 @@ import { logger } from "../../../../utils/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
-import { ValidateCompanyNumber } from "../../../../utils/validate/validate.company.number";
+import { ValidateCompanyNumberFormat } from "../../../../utils/validate/validate.company.number";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { formatPostCompanyAuthUrl } from "../../../../utils/format/format";
 
@@ -22,7 +22,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         const companyNumber = req.query?.companyNumber as string;
 
-        if (!ValidateCompanyNumber.isValid(companyNumber)){
+        if (!ValidateCompanyNumberFormat.isValid(companyNumber)){
             this.logInvalidCompanyNumber(companyNumber);
             throw new Error("Company number is invalid");
         }

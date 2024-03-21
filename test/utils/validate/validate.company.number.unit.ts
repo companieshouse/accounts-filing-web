@@ -1,8 +1,8 @@
-import { ValidateCompanyNumber } from "../../../src/utils/validate/validate.company.number";
+import { ValidateCompanyNumberFormat } from "../../../src/utils/validate/validate.company.number";
 
 
 
-describe("ValidateCompanyNumber", () => {
+describe("ValidateCompanyNumberFormat", () => {
 
     const tooLong = "123456789";
     const tooShort = "123456";
@@ -18,53 +18,53 @@ describe("ValidateCompanyNumber", () => {
 
     it("should return false when length is not 8", () => {
         expect(
-            ValidateCompanyNumber.isValid(tooLong)
+            ValidateCompanyNumberFormat.isValid(tooLong)
         ).toBe(false);
         expect(
-            ValidateCompanyNumber.isValid(tooShort)
+            ValidateCompanyNumberFormat.isValid(tooShort)
         ).toBe(false);
         expect(
-            ValidateCompanyNumber.isValid(twoNumbers)
+            ValidateCompanyNumberFormat.isValid(twoNumbers)
         ).toBe(false);
     });
 
     it("should return false when using special charactors", () => {
         expect(
-            ValidateCompanyNumber.isValid(specialChars)
+            ValidateCompanyNumberFormat.isValid(specialChars)
         ).toBe(false);
     });
 
     it("should return true when only numbers", () => {
         expect(
-            ValidateCompanyNumber.isValid(numeric)
+            ValidateCompanyNumberFormat.isValid(numeric)
         ).toBe(true);
     });
 
     it("should return false when it a invalid alphanumeric string", () => {
         expect(
-            ValidateCompanyNumber.isValid(alphanumeric)
+            ValidateCompanyNumberFormat.isValid(alphanumeric)
         ).toBe(false);
         expect(
-            ValidateCompanyNumber.isValid(alphanumeric2)
+            ValidateCompanyNumberFormat.isValid(alphanumeric2)
         ).toBe(false);
     });
 
     it("should return true if start with SC or NI", () => {
         expect(
-            ValidateCompanyNumber.isValid(niFull)
+            ValidateCompanyNumberFormat.isValid(niFull)
         ).toBe(true);
         expect(
-            ValidateCompanyNumber.isValid(scFull)
+            ValidateCompanyNumberFormat.isValid(scFull)
         ).toBe(true);
 
     });
 
     it("should return false if it only SC or NI", () => {
         expect(
-            ValidateCompanyNumber.isValid(scOnly)
+            ValidateCompanyNumberFormat.isValid(scOnly)
         ).toBe(false);
         expect(
-            ValidateCompanyNumber.isValid(niOnly)
+            ValidateCompanyNumberFormat.isValid(niOnly)
         ).toBe(false);
     });
 });
