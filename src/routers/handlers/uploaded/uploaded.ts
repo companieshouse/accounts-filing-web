@@ -7,8 +7,7 @@ import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/acc
 import { AccountsFilingValidationRequest } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { setValidationResult } from "../../../utils/session";
-import { PrefixedUrls, fileIdPlaceholder } from "../../../utils/constants/urls";
-import { getRedirectUrl, getUriBase } from "../../../utils/url/redirect.url";
+import { constructValidatorRedirect } from "../../../utils/url";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
@@ -44,7 +43,7 @@ export class UploadedHandler extends GenericHandler {
         _response: Response
     ): Promise<UploadedViewData> {
         super.populateViewData(req);
-        this.baseViewData.backURL = this.getFileUploadUrl(req);
+        this.baseViewData.backURL = constructValidatorRedirect(req);
 
         logger.debug(`Handling GET request for uploaded file.`);
 
@@ -125,10 +124,4 @@ export class UploadedHandler extends GenericHandler {
         return fileIdValid && filingIdValid && transactionIdValid;
     }
 
-    private getFileUploadUrl(req: Request): string{
-        const base = getUriBase(req);
-        const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.HOME}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
-        const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.HOME}`);
-        return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl);
-    }
 }

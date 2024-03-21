@@ -6,8 +6,6 @@ export enum URL_QUERY_PARAM {
     PARAM_SUBMISSION_ID = "submissionId",
 }
 
-export const COMPANY_AUTH_PROTECTED_BASE = `/company/:${URL_QUERY_PARAM.PARAM_COMPANY_NUMBER}`;
-
 // Object containing the pages Urls within the service
 export const Urls = {
     HOME: "/",
@@ -15,10 +13,9 @@ export const Urls = {
     CONFIRMATION: "/confirmation-submission",
     COMPANY_SEARCH: '/company-search',
     CONFIRM_COMPANY: '/confirm-company',
-    // Post companyNumber being set
-    UPLOAD: `${COMPANY_AUTH_PROTECTED_BASE}/upload`,
-    UPLOADED: `${COMPANY_AUTH_PROTECTED_BASE}/uploaded`,
-    CHECK_YOUR_ANSWERS: `${COMPANY_AUTH_PROTECTED_BASE}/check-your-answers`,
+    UPLOAD: "/upload",
+    UPLOADED: "/uploaded",
+    CHECK_YOUR_ANSWERS: "/check-your-answers",
 } as const;
 
 
