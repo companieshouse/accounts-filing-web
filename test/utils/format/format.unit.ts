@@ -1,4 +1,4 @@
-import { formatPostCompanyAuthUrl, formatToUKString, formatType } from "../../../src/utils/format/format";
+import { formatToUKString, formatType } from "../../../src/utils/format/format";
 
 describe("formatToUKString", () => {
 
@@ -8,18 +8,6 @@ describe("formatToUKString", () => {
         expect(formatToUKString(date)).toEqual(
             "31 December 1999"
         );
-    });
-});
-
-describe("formatPostCompanyAuthUrl", () => {
-
-    const url = "/abc/:companyNumber/123";
-    const companyNumber = "set";
-
-    it("should insert the companyNumber into url", () => {
-        expect(
-            formatPostCompanyAuthUrl(url, companyNumber)
-        ).toEqual("/abc/set/123");
     });
 });
 

@@ -22,10 +22,10 @@ const routerDispatch = (app: Application) => {
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
-    router.use(Urls.CONFIRM_COMPANY, companyAuthenticationMiddleware, CompanyConfirmRouter);
+    router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
 
-    router.use(Urls.UPLOAD, UploadRouter);
+    router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
     router.use(Urls.UPLOADED, FileUpladedRouter);
     router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
 

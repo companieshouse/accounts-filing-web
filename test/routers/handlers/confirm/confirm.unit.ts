@@ -53,17 +53,6 @@ describe("company auth test", () => {
         await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`).expect(200);
     });
 
-    it("redirect to company auth when there is not companyNumber in session", async () => {
-        await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`).expect(302);
-    });
-
-    it("redirect to company auth when the companyNumber query parameter does not match what is in the session", async () => {
-        // @ts-expect-error because signin_info read only
-        mockSession.data.signin_info?.company_number = "NO";
-
-        await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`).expect(302);
-    });
-
 });
 
 describe("CompanyConfirmHandler", () => {
@@ -98,7 +87,7 @@ describe("CompanyConfirmHandler", () => {
             ).toEqual("/accounts-filing/company-search/");
             expect(
                 results.viewData.uploadLink
-            ).toEqual("/accounts-filing/upload");
+            ).toEqual("/accounts-filing/upload/?companyNumber=12345678");
             expect(
                 results.viewData.changeCompanyUrl
             ).toMatch("/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=");
