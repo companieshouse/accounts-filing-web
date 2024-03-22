@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
-import { URL_QUERY_PARAM } from "../utils/constants/urls";
 import { env } from "../config";
+import { CompanyAuthenticationHelper } from "../utils/middleware/helper/company.authentication.helper";
+import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.number.format";
 
 export const companyAuthenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
-    const companyNumber: string = req.params[URL_QUERY_PARAM.PARAM_COMPANY_NUMBER];
+    const companyNumber = CompanyAuthenticationHelper.getCompanyNumberFromRequest(req);
+
+    checkCompanyNumberFormatIsValidate(companyNumber);
 
     const authMiddlewareConfig: AuthOptions = {
         chsWebUrl: env.CHS_URL,

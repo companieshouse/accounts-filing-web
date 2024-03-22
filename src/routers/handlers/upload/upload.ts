@@ -1,7 +1,6 @@
 import { logger } from "../../../utils/logger";
 import { GenericHandler } from "../generic";
-import { env } from "../../../config";
-import { PrefixedUrls, fileIdPlaceholder,
+import {
     servicePathPrefix,
 } from "../../../utils/constants/urls";
 import { Request, Response } from "express";
@@ -10,16 +9,17 @@ import { TransactionService } from "../../../services/external/transaction.servi
 import { AccountsFilingService } from "services/external/accounts.filing.service";
 import { getCompanyNumber, must } from "../../../utils/session";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
+import { constructValidatorRedirect } from "../../../utils/url";
 
 export class UploadHandler extends GenericHandler {
-    constructor (private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
+    constructor(private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
         super({
             title: '',
             backURL: `${servicePathPrefix}`
         });
     }
 
-    async execute (req: Request, _res: Response): Promise<string> {
+    async execute(req: Request, _res: Response): Promise<string> {
         logger.info(`GET Request to send fileId call back address`);
 
         const companyNumber = must(getCompanyNumber(req.session));
@@ -50,7 +50,7 @@ export class UploadHandler extends GenericHandler {
             throw error;
         }
 
-        return getFileUploadUrl(req);
+        return constructValidatorRedirect(req);
     }
 
     async callTransactionApi(companyNumber: string): Promise<string | undefined> {
@@ -62,13 +62,7 @@ export class UploadHandler extends GenericHandler {
             return undefined;
         }
     }
+
+
 }
 
-
-export function getFileUploadUrl(req: Request): string{
-    const zipPortalBaseURL = `${req.protocol}://${req.get('host')}`;
-    const zipPortalCallbackUrl = encodeURIComponent(`${zipPortalBaseURL}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
-    const xbrlValidatorBackUrl = encodeURIComponent(zipPortalBaseURL + PrefixedUrls.HOME);
-
-    return `${env.SUBMIT_VALIDATION_URL}?callback=${zipPortalCallbackUrl}&backUrl=${xbrlValidatorBackUrl}`;
-}

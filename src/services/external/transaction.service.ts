@@ -124,7 +124,6 @@ function getTransaction(transactionResource: Resource<Transaction> | ApiErrorRes
         throw new Error("Transaction service didn't return a resource");
     }
 
-
     if (transactionResource.resource === undefined || transactionResource.resource === null){
         throw new Error("Transaction service return resource contains a undefined or null");
     }
@@ -135,4 +134,3 @@ function getTransaction(transactionResource: Resource<Transaction> | ApiErrorRes
 function isResource(o: any): o is Resource<unknown> {
     return o !== null && o !== undefined && 'resource' in o;
 }
-

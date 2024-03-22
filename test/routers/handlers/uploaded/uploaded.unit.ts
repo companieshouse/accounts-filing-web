@@ -2,6 +2,8 @@ import { Request } from "express";
 import { UploadedHandler } from "../../../../src/routers/handlers/uploaded/uploaded";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { accountsFilingServiceMock } from "../../../mocks/accounts.filing.service.mock";
+import { Session } from "@companieshouse/node-session-handler";
+import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
 const validUUIDv4 = "bffebd2c-3848-43d2-a37a-78a93983ff52";
 
@@ -9,12 +11,33 @@ describe("UploadedHandler", () => {
     let handler: UploadedHandler;
     let mockReq: Partial<Request>;
 
+    const session = {
+        data: {
+            signin_info: {
+                company_number: "00000000"
+            }
+        },
+        getExtraData: jest.fn((input) => {
+            if (input === ContextKeys.ACCOUNTS_FILING_ID){
+                return undefined;
+            } else if (input === ContextKeys.TRANSACTION_ID){
+                return undefined;
+            }
+        }),
+        setExtraData: jest.fn((input) => {
+            if (input === ContextKeys.VALIDATION_STATUS){
+                return "invalid-uuid";
+            }
+        })
+    } as unknown as Session;
+
     beforeEach(() => {
         jest.clearAllMocks();
 
         handler = new UploadedHandler(accountsFilingServiceMock);
         mockReq = {
             params: { fileId: validUUIDv4 },
+            session: session,
             protocol: 'http',
             get: function(s): any {
                 if (s === 'host') {

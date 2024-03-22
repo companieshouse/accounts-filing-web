@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
-import { PrefixedUrls } from "../../../utils/constants/urls";
 
 export class HomeHandler extends GenericHandler {
 
@@ -12,13 +11,10 @@ export class HomeHandler extends GenericHandler {
         });
     }
 
-    execute (_req: Request, _res: Response): ViewModel<HomeViewData> {
+    execute (_req: Request, _res: Response): ViewModel<BaseViewData> {
         const routeViews = "router_views/index";
         logger.info(`GET request for to serve home page`);
-        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, uploadLink: PrefixedUrls.UPLOAD } };
+        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData } };
     }
 }
 
-interface HomeViewData extends BaseViewData {
-    uploadLink: string
-}
