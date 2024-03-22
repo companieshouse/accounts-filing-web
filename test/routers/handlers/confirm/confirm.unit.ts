@@ -70,8 +70,6 @@ describe("CompanyConfirmHandler", () => {
 
     let handler: CompanyConfirmHandler;
     let mockReq: Partial<Request>;
-    let mockReqMissingCompanyNumber: Partial<Request>;
-    let mockReqInvalidCompanyNumber: Partial<Request>;
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -79,23 +77,6 @@ describe("CompanyConfirmHandler", () => {
         handler = new CompanyConfirmHandler(companyProfileServiceMock);
         mockReq = {
             query: { companyNumber: '12345678' },
-            protocol: 'http',
-            get: function (s): any {
-                if (s === 'host') {
-                    return 'chs.local';
-                }
-            }
-        };
-        mockReqMissingCompanyNumber = {
-            protocol: 'http',
-            get: function (s): any {
-                if (s === 'host') {
-                    return 'chs.local';
-                }
-            }
-        };
-        mockReqInvalidCompanyNumber = {
-            query: { companyNumber: '123456' },
             protocol: 'http',
             get: function (s): any {
                 if (s === 'host') {
@@ -121,26 +102,6 @@ describe("CompanyConfirmHandler", () => {
             expect(
                 results.viewData.changeCompanyUrl
             ).toMatch("/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=");
-        });
-
-        it("should return an error when company number is missing", async () => {
-            companyProfileServiceMock.getCompanyProfile.mockResolvedValue(
-                {} as CompanyProfile
-            );
-
-            await expect(
-                handler.execute(mockReqMissingCompanyNumber as Request, {} as any)
-            ).rejects.toThrow("Company number is invalid");
-        });
-
-        it("should return an error when company number is invalid format", async () => {
-            companyProfileServiceMock.getCompanyProfile.mockResolvedValue(
-                {} as CompanyProfile
-            );
-
-            await expect(
-                handler.execute(mockReqInvalidCompanyNumber as Request, {} as any)
-            ).rejects.toThrow("Company number is invalid");
         });
     });
 
