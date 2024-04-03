@@ -1,12 +1,15 @@
 import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { Resource } from "@companieshouse/api-sdk-node";
-import { logger } from "../../utils/logger";
+import { createAndLogError, logger } from "../../utils/logger";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { defaultPrivateApiClient } from "../../services/internal/api.client.service";
 import {
     AccountsFilingValidationRequest,
     AccountsFilingCompanyResponse,
+    PackageAccountsType
 } from "private-api-sdk-node/dist/services/accounts-filing/types";
+import { getAccountsFilingId, getTransactionId, must } from "../../utils/session";
+import { Session } from "@companieshouse/node-session-handler";
 
 export class AccountsFilingService {
     constructor(private privateApiClient: PrivateApiClient) {}
@@ -81,6 +84,34 @@ export class AccountsFilingService {
         }
 
         return accountsFilingCompanyResponse;
+    }
+
+
+    /**
+     * Sets the package accounts type of a transaction by making a PUT request to the accounts-filing-api
+     * via the private-api-sdk-node library. If the request fails, an Error is thrown.
+     *
+     * @param {Session | undefined} session - The request session, used to retrieve the transactionId and accountsFilingId.
+     * @param {PackageAccountsType} packageAccountsType - The type of package accounts to be set for the transaction.
+     * @throws Will throw an error if the transactionId or accountsFilingId cannot be retrieved from the session,
+     * or if the API call to set the package accounts type is unsuccessful.
+     */
+    public async setPackageAccountsType(session: Session | undefined, packageAccountsType: PackageAccountsType) {
+        try {
+            const transactionId = must(getTransactionId(session));
+            const accountsFilingId = must(getAccountsFilingId(session));
+
+            const resp = await this.privateApiClient.accountsFilingService.setPackageAccountsType(transactionId, accountsFilingId, packageAccountsType);
+
+            // If the call fails resp.value is an Error object with an error message, so we throw it.
+            // If it succeeded we just return undefined.
+            if (resp.isFailure()) {
+                throw resp.value;
+            }
+        } catch (error) {
+            const errMsg = error instanceof Error ? error.message : `${error}`;
+            throw createAndLogError(`Failed to set package accounts type. Error occurred while trying to retrieve transactionId or accountsFilingId: ${errMsg}`);
+        }
     }
 }
 
