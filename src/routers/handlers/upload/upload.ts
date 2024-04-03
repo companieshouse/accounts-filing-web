@@ -1,13 +1,13 @@
 import { logger } from "../../../utils/logger";
 import { GenericHandler } from "../generic";
 import {
-    servicePathPrefix,
+    PrefixedUrls,
 } from "../../../utils/constants/urls";
 import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { AccountsFilingService } from "services/external/accounts.filing.service";
-import { getCompanyNumber, must } from "../../../utils/session";
+import { getCompanyNumber,  must } from "../../../utils/session";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
 import { constructValidatorRedirect } from "../../../utils/url";
 
@@ -15,7 +15,7 @@ export class UploadHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
         super({
             title: '',
-            backURL: `${servicePathPrefix}`
+            backURL: PrefixedUrls.HOME
         });
     }
 
@@ -50,6 +50,8 @@ export class UploadHandler extends GenericHandler {
             throw error;
         }
 
+        await this.accountsFilingService.setPackageAccountsType(req.session, "UKSEF");
+
         return constructValidatorRedirect(req);
     }
 
@@ -62,7 +64,5 @@ export class UploadHandler extends GenericHandler {
             return undefined;
         }
     }
-
-
 }
 
