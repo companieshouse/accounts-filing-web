@@ -40,6 +40,9 @@ njk.addGlobal("cdnUrlJs", env.CDN_HOST + env.CDN_URL_JS);
 njk.addGlobal("cdnHost", env.CDN_HOST);
 njk.addGlobal("chsUrl", env.CHS_URL);
 njk.addGlobal("signoutURL", SIGN_OUT);
+njk.addGlobal("contactUs", env.CONTACT_US_LINK);
+njk.addGlobal("developerLink", env.DEVELOPERS_LINK);
+njk.addGlobal("policies", env.POLICIES_LINK);
 
 
 njk.addFilter("formatDate", formatToUKString);
