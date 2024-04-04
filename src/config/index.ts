@@ -12,9 +12,17 @@ export const env = readEnv(process.env, {
     CHS_API_KEY: str.describe("API key for CHS service"),
     CHS_INTERNAL_API_KEY: str.describe("API key with internal app privileges"),
     CHS_URL: url.describe("This host URL for CHS"),
+    CONTACT_US_LINK: str
+        .describe("Link to contact us")
+        .default(
+            "https://www.gov.uk/government/organisations/companies-house#org-contacts"
+        ),
     COOKIE_DOMAIN: str.describe('Domain for cookies'),
     COOKIE_NAME: str.describe('Name for the cookie'),
     COOKIE_SECRET: str.describe('Secret used for cookie encryption'),
+    DEVELOPERS_LINK: str
+        .describe("Link for developers")
+        .default("https://developer.companieshouse.gov.uk/"),
     INTERNAL_API_URL: url.describe("Internal API base URL for internal service interaction"),
     LOG_LEVEL: str
         .in([
@@ -59,5 +67,8 @@ export const env = readEnv(process.env, {
         )
         .default(false),
     PORT: port.describe("Port to run the web server on").default(3000),
+    POLICIES_LINK: str
+        .describe("Link to policies")
+        .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
     SUBMIT_VALIDATION_URL: url.describe('Account validator web submit path to upload file to be validated')
 });
