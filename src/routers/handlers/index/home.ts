@@ -7,7 +7,7 @@ export class HomeHandler extends GenericHandler {
 
     constructor () {
         super({
-            title: "Home handler for index router",
+            title: "File package accounts with Companies House",
             backURL: null
         });
     }
