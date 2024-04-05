@@ -2,24 +2,58 @@
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% block main_content %}
+
+    {% set packageZip %}
+        <p class="govuk-body">
+            You must package your accounts file using a zip file format. <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software">Read the Technical Interface Specification</a> to find out how to structure your file.
+        </p>
+    {% endset %}
+
     <h1 class="govuk-heading-xl">
-        Zip File Accounts Upload Service
+        File package accounts with Companies House
     </h1>
 
     <p class="govuk-body">
-        Use this service to upload your zip file accounts for validation and submission to the Companies House register.
+        Use this service to file your iXBRL package accounts with Companies House.
     </p>
 
     <p class="govuk-body">
-        You can use this service to upload:
+        You can only file for:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
-        <li>Single instance zip file accounts – if the file is valid, it will be submitted to the Companies House register</li>
-        <li>Multiple instance zip file accounts – if all files are valid, they will be submitted to the Companies House register</li>
+        <li>Community Interest Companies (CIC) - there is a £15 fee to file</li>
+        <li>overseas companies - there is a £33 fee to file</li>
+        <li>audit exempt subsidiary accounts</li>
+        <li>dormant exempt subsidiary accounts</li>
+        <li>limited partnership accounts</li>
+        <li>UKSEF accounts for listed companies </li>
+        <li>group package accounts - section 400, parent incorporated under UK law</li>
+        <li>group package accounts - section 401, parent incorporated under non-UK law</li>
+        <li>Welsh accounts with an English translation</li>
     </ul>
+
+    {{ govukInsetText({
+        html: packageZip
+    }) }}
+
+    <p class="govuk-body">You'll need:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>to sign in or create a Companies House account</li>
+        <li>the company name or number</li>
+        <li>the company authentication code</li>
+        <li>to pay the fee using a credit or debit card, if relevant</li>
+    </ul>
+
+    <br>
+
+    <p class="govuk-body">
+        This service will time out if you do not use it for 60 minutes. Your answers will not be saved.
+    </p> 
 
     {{ govukButton({
         text: "Start now",
@@ -28,11 +62,15 @@
         isStartButton: true
     }) }}
 
+    <h2 class="govuk-heading-m">
+        Get help to prepare package accounts
+    </h2>
+
     <p class="govuk-body">
-        For full details and information on validation rules, email <a href="mailto:support@companieshouse.gov.uk">support@companieshouse.gov.uk</a> to request the Companies House Account Submission Guide.
+        You can find details of all available taxonomies and guidance for filers and developers on the <a href="https://www.frc.org.uk/library/standards-codes-policy/accounting-and-reporting/frc-taxonomies/">Financial Reporting Council (FRC) website</a>.
     </p>
 
     <p class="govuk-body">
-        You can find details of all available taxonomies and guidance for filers and developers on the <a href="https://www.frc.org.uk/accountants/frc-taxonomies">Financial Reporting Council (FRC) website</a>.
+       Check if your accounts files are valid using the <a href="https://test-validator.companieshouse.gov.uk/xbrl_validate">iXBRL accounts test service</a>.
     </p>
 {% endblock %}
