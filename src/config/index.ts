@@ -12,6 +12,11 @@ export const env = readEnv(process.env, {
     CHS_API_KEY: str.describe("API key for CHS service"),
     CHS_INTERNAL_API_KEY: str.describe("API key with internal app privileges"),
     CHS_URL: url.describe("This host URL for CHS"),
+    CIC_FEE: str
+        .describe("Fee for filing Community Interest Companies account")
+        .default(
+            "15"
+        ),
     CONTACT_US_LINK: str
         .describe("Link to contact us")
         .default(
@@ -66,6 +71,11 @@ export const env = readEnv(process.env, {
             "Flag to enable or disable watching for file changes in the Nunjucks loader"
         )
         .default(false),
+    OVERSEAS_FEE: str
+        .describe("Fee for filing oversea companies")
+        .default(
+            "33"
+        ),
     PORT: port.describe("Port to run the web server on").default(3000),
     POLICIES_LINK: str
         .describe("Link to policies")
