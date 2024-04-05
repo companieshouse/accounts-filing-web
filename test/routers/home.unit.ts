@@ -8,6 +8,6 @@ describe("home page tests", () => {
         const resp = await request(app).get(url);
 
         expect(resp.status).toBe(200);
-        expect(resp.text).toContain(`Zip File Accounts Upload Service`);
+        expect(resp.text).toContain(`File package accounts with Companies House`);
     });
 });
