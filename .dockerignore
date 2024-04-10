@@ -2,6 +2,7 @@
 !api-enumerations
 !dist
 !docker_start.sh
+!node_modules
 !src
 !views
 !package.json
