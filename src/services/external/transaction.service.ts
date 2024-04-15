@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { getAccountsFilingId, getCompanyNumber, getTransactionId, must } from "../../utils/session";
 import { headers } from "../../utils/constants/headers";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE, TransactionStatuses } from "../../utils/constants/transaction";
-import { makeApiCall } from "../../services/internal/api.client.service";
+import { makeApiCall, makeApiKeyCall } from "../../services/internal/api.client.service";
 
 
 export class TransactionService {
@@ -70,7 +70,7 @@ export class TransactionService {
         };
 
         logger.debug(`Updating transaction id ${transactionId} with company number ${companyNumber}, status ${transactionStatus}`);
-        const sdkResponse = await makeApiCall(this.session, async apiClient => {
+        const sdkResponse = await makeApiKeyCall(async apiClient => {
             return await apiClient.transaction.putTransaction(transaction);
         });
 
