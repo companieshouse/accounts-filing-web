@@ -45,6 +45,28 @@ export function createPrivateApiKeyClient(): PrivateApiClient {
 }
 
 /**
+ * Creates an instance of the ApiClient configured with the API key.
+ * The API client facilitates interaction with the API by handling
+ * requests and responses with the provided credentials and base URL.
+ *
+ * @returns {ApiClient} An instance of the ApiClient.
+ */
+export function createApiKeyClient(): ApiClient {
+    logger.info(
+        `Creating API client with key ${maskString(
+            env.CHS_INTERNAL_API_KEY
+        )}`
+    );
+    return createApiClient(
+        env.CHS_INTERNAL_API_KEY,
+        undefined,
+        env.API_URL
+    );
+}
+
+type ApiClientCall = (apiClient: ApiClient) => Promise<ApiResponse<unknown> | ApiErrorResponse>;
+
+/**
  * Creates an instance of the API client using users OAuth tokens.
  * @param session
  * @returns An instance of the API client
@@ -85,7 +107,7 @@ function maskString(s: string, n = 5, mask = "*"): string {
  * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
  * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.
  */
-export async function makeApiCall(session: Session, fn: (apiClient: ApiClient) => Promise<ApiResponse<unknown> | ApiErrorResponse>): Promise<ApiResponse<unknown> | ApiErrorResponse> {
+export async function makeApiCall(session: Session, fn: ApiClientCall): Promise<ApiResponse<unknown> | ApiErrorResponse> {
     const client = createPublicOAuthApiClient(session);
 
     const response = await fn(client);
@@ -106,6 +128,20 @@ export async function makeApiCall(session: Session, fn: (apiClient: ApiClient) =
     // logger.debug("Call successful.");
 
     return response;
+}
+
+/**
+ * Executes a given API call function using an API key-authorized API client.
+ *
+ * This function handles the creation of the ApiClient with the internal API key and then performs the API call by invoking the provided function `fn`.
+ *
+ * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
+ * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.
+ */
+export async function makeApiKeyCall(fn: ApiClientCall): Promise<ApiResponse<unknown> | ApiErrorResponse> {
+    const client = createApiKeyClient();
+
+    return await fn(client);
 }
 
 export const defaultPrivateApiClient = createPrivateApiKeyClient();
