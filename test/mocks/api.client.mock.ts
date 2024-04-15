@@ -13,5 +13,8 @@ jest.mock("../../src/services/internal/api.client.service", () => {
         makeApiCall: async (session: any, fn: any) => {
             return await fn(mockApiClient);
         },
+        makeApiKeyCall: async (fn: any) => {
+            return await fn(mockApiClient);
+        },
     };
 });
