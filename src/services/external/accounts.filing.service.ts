@@ -7,7 +7,7 @@ import {
     AccountsFilingValidationRequest,
     AccountsFilingCompanyResponse,
     PackageAccountsType,
-    ConfirmCompanyRequest    
+    ConfirmCompanyRequest
 } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { getAccountsFilingId, getTransactionId, must } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
