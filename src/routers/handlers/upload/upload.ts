@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { AccountsFilingService } from "services/external/accounts.filing.service";
-import { getCompanyNumber,  must } from "../../../utils/session";
+import { getCompanyNumber,  must, setPackageType } from "../../../utils/session";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
 import { constructValidatorRedirect } from "../../../utils/url";
 
@@ -50,7 +50,9 @@ export class UploadHandler extends GenericHandler {
             throw error;
         }
 
-        await this.accountsFilingService.setPackageAccountsType(req.session, "UKSEF");
+        setPackageType(req.session, "UKSEF");
+
+        await this.accountsFilingService.setTransactionPackageType(req.session);
 
         return constructValidatorRedirect(req);
     }
