@@ -5,6 +5,7 @@ import { getSessionRequest } from "../../../mocks/session.mock";
 import request from "supertest";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
+import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
 describe("company auth test", () => {
     beforeEach(() => {
@@ -29,6 +30,7 @@ describe("company auth test", () => {
         });
 
         mockSession.data.signin_info!.company_number = "00000000";
+        mockSession.setExtraData(ContextKeys.COMPANY_NAME, "Test Company");
 
         const resp = await request(app).get(`${PrefixedUrls.UPLOAD}/?companyNumber=00000000`);
         expect(resp.statusCode).toEqual(302);

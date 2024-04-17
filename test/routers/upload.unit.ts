@@ -65,6 +65,7 @@ describe("UploadHandler", () => {
         session.data['signin_info'] = { company_number: companyNumber };
         session.data.signin_info['access_token'] = { "access_token": "access_token" };
         session.setExtraData("transactionId", "000000-123456-000000");
+        session.setExtraData(ContextKeys.COMPANY_NAME, "Test Company");
     });
 
     it("should return 200 with file upload url ", async () => {
