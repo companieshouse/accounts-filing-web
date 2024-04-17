@@ -32,9 +32,14 @@ export class UploadHandler extends GenericHandler {
         }
 
         try {
+            const companyName = must(getCompanyName(req.session));
+            const companyConfirmRequest = {
+                companyName
+            };
             const result = await this.accountsFilingService.checkCompany(
                 companyNumber,
-                transactionId
+                transactionId,
+                companyConfirmRequest
             );
             if (result.httpStatusCode !== 200) {
                 logger.error(`check company failed. ${JSON.stringify(result, null, 2)}`);

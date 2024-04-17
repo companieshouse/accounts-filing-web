@@ -5,10 +5,12 @@ import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/acc
 import { defaultPrivateApiClient } from "../../services/internal/api.client.service";
 import {
     AccountsFilingValidationRequest,
-    AccountsFilingCompanyResponse
+    AccountsFilingCompanyResponse,
+    ConfirmCompanyRequest
 } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { getAccountsFilingId, getPackageType, getTransactionId, must } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
+
 
 export class AccountsFilingService {
     constructor(private privateApiClient: PrivateApiClient) {}
@@ -54,14 +56,16 @@ export class AccountsFilingService {
      */
     async checkCompany(
         companyNumber: string,
-        transactionId: string
+        transactionId: string,
+        confirmCompanyRequest: ConfirmCompanyRequest
     ): Promise<Resource<AccountsFilingCompanyResponse>> {
         const accountsFilingService =
             this.privateApiClient.accountsFilingService;
         const accountsFilingCompanyResponse =
             await accountsFilingService.confirmCompany(
                 companyNumber,
-                transactionId
+                transactionId,
+                confirmCompanyRequest
             );
 
         logger.debug(

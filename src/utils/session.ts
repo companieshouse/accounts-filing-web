@@ -134,3 +134,11 @@ export function setPackageType(session: Session | undefined, packageType: Packag
 export function getPackageType(session?: Session): PackageType | undefined {
     return session?.getExtraData(ContextKeys.PACKAGE_TYPE);
 }
+
+export function setCompanyName(session: Session | undefined, companyName: String) {
+    session?.setExtraData(ContextKeys.COMPANY_NAME, companyName);
+}
+
+export function getCompanyName(session?: Session | undefined): String | Error {
+    return getRequiredValue(session, ContextKeys.COMPANY_NAME, "Unable to find company name in session");
+}
