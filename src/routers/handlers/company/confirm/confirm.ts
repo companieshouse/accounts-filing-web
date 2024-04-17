@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { checkCompanyNumberFormatIsValidate as companyNumberMustBeValid } from "../../../../utils/format/company.number.format";
+import { setCompanyName } from "../../../../utils/session";
 
 export class CompanyConfirmHandler extends GenericHandler {
     static routeViews: string = "router_views/company/confirm/confirm";
@@ -25,6 +26,8 @@ export class CompanyConfirmHandler extends GenericHandler {
         const companyProfile: CompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
 
         const confirmCompanyLink = `${PrefixedUrls.UPLOAD}/?${URL_QUERY_PARAM.PARAM_COMPANY_NUMBER}=${companyNumber}`;
+
+        setCompanyName(req.session, companyProfile.companyName);
 
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: confirmCompanyLink, changeCompanyUrl: COMPANY_LOOKUP } };

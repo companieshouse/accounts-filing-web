@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { AccountsFilingService } from "services/external/accounts.filing.service";
-import { getCompanyNumber,  must } from "../../../utils/session";
+import { getCompanyName, getCompanyNumber,  must } from "../../../utils/session";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
 import { constructValidatorRedirect } from "../../../utils/url";
 
@@ -32,9 +32,14 @@ export class UploadHandler extends GenericHandler {
         }
 
         try {
+            const companyName = must(getCompanyName(req.session));
+            const companyConfirmRequest = {
+                companyName
+            };
             const result = await this.accountsFilingService.checkCompany(
                 companyNumber,
-                transactionId
+                transactionId,
+                companyConfirmRequest
             );
             if (result.httpStatusCode !== 200) {
                 logger.error(`check company failed. ${JSON.stringify(result, null, 2)}`);

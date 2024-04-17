@@ -125,3 +125,11 @@ export function setAccessToken(session: Session, accessToken: string) {
 
     acccessTokenObject.access_token = accessToken;
 }
+
+export function setCompanyName(session: Session | undefined, companyName: String) {
+    session?.setExtraData(ContextKeys.COMPANY_NAME, companyName);
+}
+
+export function getCompanyName(session?: Session | undefined): String | Error {
+    return getRequiredValue(session, ContextKeys.COMPANY_NAME, "Unable to find company name in session");
+}
