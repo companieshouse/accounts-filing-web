@@ -107,8 +107,12 @@ describe('AccountsFilingService', () => {
 
         const companyNumber = 'some id';
         const transactionId =  'some id';
+        const companyName = 'some company';
+        const companyConfirmRequest = {
+            companyName
+        };
 
-        await expect(service.checkCompany(companyNumber, transactionId)).resolves.toEqual(mockResponse);
+        await expect(service.checkCompany(companyNumber, transactionId, companyConfirmRequest)).resolves.toEqual(mockResponse);
     });
 
 
@@ -119,8 +123,12 @@ describe('AccountsFilingService', () => {
 
         const companyNumber = 'some id';
         const transactionId =  'some id';
+        const companyName = 'some company';
+        const companyConfirmRequest = {
+            companyName
+        };
 
-        await expect(service.checkCompany(companyNumber, transactionId)).rejects.toEqual(mockErrorResponse);
+        await expect(service.checkCompany(companyNumber, transactionId, companyConfirmRequest)).rejects.toEqual(mockErrorResponse);
     });
 
 
