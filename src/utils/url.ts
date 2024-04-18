@@ -9,12 +9,8 @@ function constructRedirectUrl(base: string, queries: {[key: string]: string|Pack
     return `${base}?${queryParams}`;
 }
 
-function getRedirectUrl(callback: string, redirect: string, packageType?: PackageType): string {
-    if (packageType){
-        return constructRedirectUrl(env.SUBMIT_VALIDATION_URL, { callback, backUrl: redirect, packageType });
-    } else {
-        return constructRedirectUrl(env.SUBMIT_VALIDATION_URL, { callback, backUrl: redirect });
-    }
+function getRedirectUrl(callback: string, redirect: string, packageType: PackageType): string {
+    return constructRedirectUrl(env.SUBMIT_VALIDATION_URL, { callback, backUrl: redirect, packageType });
 
 }
 
@@ -33,7 +29,7 @@ function constructValidatorRedirect(req: Request): string{
     const companyNumber = must(getCompanyNumber(req.session));
     const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
     const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?${URL_QUERY_PARAM.PARAM_COMPANY_NUMBER}=${companyNumber}`);
-    const packageType = getPackageType(req.session);
+    const packageType = must(getPackageType(req.session));
     return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl, packageType);
 }
 
