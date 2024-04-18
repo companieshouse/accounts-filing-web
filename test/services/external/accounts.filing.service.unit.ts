@@ -148,7 +148,7 @@ describe('AccountsFilingService', () => {
 
 
             session = new Session();
-            session.setExtraData(ContextKeys.PACKAGE_TYPE, "UKSEF");
+            session.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         });
 
         it("should return nothing when successful", async () => {

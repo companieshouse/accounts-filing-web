@@ -55,7 +55,7 @@ export class UploadHandler extends GenericHandler {
             throw error;
         }
 
-        setPackageType(req.session, "UKSEF");
+        setPackageType(req.session, "uksef");
 
         await this.accountsFilingService.setTransactionPackageType(req.session);
 

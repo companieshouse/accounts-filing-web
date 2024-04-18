@@ -82,7 +82,7 @@ describe("UploadHandler", () => {
         const url = await handler.execute(mockReq as Request, {} as any);
 
         const expectedUrl =
-        "http://chs.locl/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D&backUrl=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fconfirm-company%3FcompanyNumber%3D123456&packageType=UKSEF";
+        "http://chs.locl/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D&backUrl=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fconfirm-company%3FcompanyNumber%3D123456&packageType=uksef";
 
         expect(accountsFilingServiceMock.checkCompany).toHaveBeenCalledTimes(1);
         expect(url).toEqual(expectedUrl);
