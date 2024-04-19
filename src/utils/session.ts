@@ -1,6 +1,6 @@
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
-import { ISignInInfo } from "@companieshouse/node-session-handler/lib/session/model/SessionInterfaces";
+import { ISignInInfo, IUserProfile } from "@companieshouse/node-session-handler/lib/session/model/SessionInterfaces";
 import { AccessTokenKeys } from "@companieshouse/node-session-handler/lib/session/keys/AccessTokenKeys";
 import { Session } from "@companieshouse/node-session-handler";
 import { ContextKeys } from "./constants/context.keys";
@@ -9,6 +9,11 @@ import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/acc
 
 export function getSignInInfo(session: Session): ISignInInfo | undefined {
     return session?.data?.[SessionKey.SignInInfo];
+}
+
+export function getUserProfile(session: Session): IUserProfile | undefined {
+    const signInInfo = getSignInInfo(session);
+    return signInInfo?.user_profile;
 }
 
 export function getAccessToken(session: Session): string {
@@ -130,6 +135,6 @@ export function setCompanyName(session: Session | undefined, companyName: String
     session?.setExtraData(ContextKeys.COMPANY_NAME, companyName);
 }
 
-export function getCompanyName(session?: Session | undefined): String | Error {
+export function getCompanyName(session?: Session | undefined): string | Error {
     return getRequiredValue(session, ContextKeys.COMPANY_NAME, "Unable to find company name in session");
 }

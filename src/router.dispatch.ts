@@ -1,8 +1,7 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
 import { servicePathPrefix, Urls } from "./utils/constants/urls";
-import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter, CompanyConfirmRouter, CheckYourAnswersRouter } from "./routers";
-
+import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter, CompanyConfirmRouter, CheckYourAnswersRouter, AccountSubmittedRouter } from "./routers";
 
 import { errorHandler, pageNotFound } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
@@ -28,6 +27,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
     router.use(Urls.UPLOADED, FileUpladedRouter);
     router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
+    router.use(Urls.ACCOUNTS_SUBMITTED, AccountSubmittedRouter);
 
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);

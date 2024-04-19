@@ -1,5 +1,5 @@
 import { mockSession } from "../../../mocks/session.middleware.mock";
-import { mockTranactionService } from "../../../mocks/transaction.service.mock";
+import { mockTransactionService } from "../../../mocks/transaction.service.mock";
 
 import app from "../../../../src/app";
 import request from "supertest";
@@ -30,11 +30,11 @@ describe("Check your answers test", () => {
     });
 
     it("Should close the transaction and navigate to the confirmation page when recieving  apost request", async () => {
-        mockTranactionService.closeTransaction.mockResolvedValue(undefined);
+        mockTransactionService.closeTransaction.mockResolvedValue(undefined);
 
         const resp = await request(app).post(PrefixedUrls.CHECK_YOUR_ANSWERS);
 
-        expect(mockTranactionService.closeTransaction).toHaveBeenCalledTimes(1);
+        expect(mockTransactionService.closeTransaction).toHaveBeenCalledTimes(1);
 
         // It Should redirect to the confirmation page
         expect(resp.status).toBe(302);
