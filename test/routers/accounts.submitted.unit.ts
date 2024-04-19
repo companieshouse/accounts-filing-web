@@ -52,6 +52,7 @@ describe("accounts submitted tests", () => {
         });
         expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
     });
+
     it("Should contain company name error when no company name provided", async () => {
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, null);
         expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
@@ -69,8 +70,9 @@ describe("accounts submitted tests", () => {
 
     it("should handle successful submission", async () => {
 
-        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
+        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED).query({ payment: "37.55" });
         expect(response.statusCode).toBe(200);
+        expect(response.text).toContain("37.55");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);

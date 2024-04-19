@@ -8,7 +8,7 @@ import { checkCompanyNumberFormatIsValidate } from "./../../../utils/format/comp
 interface AccountsSubmittedViewData extends BaseViewData {
         transactionId: string | Error,
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
-        payment: number
+        payment: string
         userEmail: string
 }
 
@@ -34,7 +34,10 @@ export class AccountsSubmittedHandler extends GenericHandler{
         const transactionId = getTransactionId(req.session);
         const companyNumber = getCompanyNumber(req.session);
         const userEmail = getUserProfile(req.session!)!.email;
-        const payment = 13;
+
+        // Payment will be set on the previous page
+        const payment = this.getPaymentFromQuery(req.query);
+
         const props: Record<string, string | Error> = { companyName, companyNumber, transactionId };
 
         if (typeof userEmail === "undefined") {
@@ -57,5 +60,9 @@ export class AccountsSubmittedHandler extends GenericHandler{
             payment,
             userEmail: userEmail as string
         };
+    }
+
+    getPaymentFromQuery(query: any): string{
+        return query.payment ?? 0;
     }
 }
