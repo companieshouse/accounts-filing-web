@@ -1,14 +1,17 @@
 import { Request } from 'express';
 import { env } from "../config";
-import { getCompanyNumber, must } from './session';
+import { getCompanyNumber, getPackageType, must } from './session';
 import { PrefixedUrls, URL_QUERY_PARAM, fileIdPlaceholder } from './constants/urls';
+import { PackageType } from 'private-api-sdk-node/dist/services/accounts-filing/types';
 
-function redirectUrl(base: string, callback: string, redirect: string): string {
-    return `${base}?callback=${callback}&backUrl=${redirect}`;
+function constructRedirectUrl(base: string, queries: {[key: string]: string|PackageType}): string {
+    const queryParams = Object.entries(queries).flatMap((value, _index) => {return `${value[0]}=${value[1]}`;}).join("&");
+    return `${base}?${queryParams}`;
 }
 
-function getRedirectUrl(callback: string, redirect: string): string {
-    return redirectUrl(env.SUBMIT_VALIDATION_URL, callback, redirect);
+function getRedirectUrl(callback: string, redirect: string, packageType: PackageType): string {
+    return constructRedirectUrl(env.SUBMIT_VALIDATION_URL, { callback, backUrl: redirect, packageType });
+
 }
 
 /**
@@ -26,7 +29,8 @@ function constructValidatorRedirect(req: Request): string{
     const companyNumber = must(getCompanyNumber(req.session));
     const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
     const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?${URL_QUERY_PARAM.PARAM_COMPANY_NUMBER}=${companyNumber}`);
-    return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl);
+    const packageType = must(getPackageType(req.session));
+    return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl, packageType);
 }
 
 export { constructValidatorRedirect };

@@ -22,6 +22,8 @@ describe("UploadedHandler", () => {
                 return undefined;
             } else if (input === ContextKeys.TRANSACTION_ID){
                 return undefined;
+            } else if (input === ContextKeys.PACKAGE_TYPE){
+                return "uksef";
             }
         }),
         setExtraData: jest.fn((input) => {

@@ -1,7 +1,7 @@
 import PrivateApiClient from 'private-api-sdk-node/dist/client';
 import { AccountsFilingService } from '../../../src/services/external/accounts.filing.service';
 import { Resource } from '@companieshouse/api-sdk-node';
-import { AccountsFileValidationResponse, AccountsFilingCompanyResponse, AccountsFilingValidationRequest, PackageAccountsType } from 'private-api-sdk-node/dist/services/accounts-filing/types';
+import { AccountsFileValidationResponse, AccountsFilingCompanyResponse, AccountsFilingValidationRequest, PackageType } from 'private-api-sdk-node/dist/services/accounts-filing/types';
 import { ApiErrorResponse } from '@companieshouse/api-sdk-node/dist/services/resource';
 import { Failure, Result, Success } from '@companieshouse/api-sdk-node/dist/services/result';
 import { Session } from '@companieshouse/node-session-handler';
@@ -130,9 +130,9 @@ describe('AccountsFilingService', () => {
     });
 
 
-    describe("AccountsFilingService.setPackageAccountsType tests", () => {
+    describe("AccountsFilingService.setPackageType tests", () => {
         let service: AccountsFilingService;
-        const mockSetPackageAccountsType = jest.fn<Promise<Result<void, Error>>, [string, string, PackageAccountsType]>();
+        const mockSetPackageType = jest.fn<Promise<Result<void, Error>>, [string, string, PackageType]>();
         let session: Session;
 
         const mockTransactionId = (txId: string) => {
@@ -148,28 +148,29 @@ describe('AccountsFilingService', () => {
 
             service = new AccountsFilingService({
                 accountsFilingService: {
-                    setPackageAccountsType: mockSetPackageAccountsType
+                    setPackageType: mockSetPackageType
                 }
             } as unknown as PrivateApiClient);
 
 
             session = new Session();
+            session.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         });
 
         it("should return nothing when successful", async () => {
             mockTransactionId("tx_id");
             mockaccountsFilingId("af_id");
 
-            mockSetPackageAccountsType.mockResolvedValue(new Success(undefined));
+            mockSetPackageType.mockResolvedValue(new Success(undefined));
 
-            const returnValue = await service.setPackageAccountsType(session, "UKSEF");
+            const returnValue = await service.setTransactionPackageType(session);
 
             expect(returnValue).toBeUndefined();
         });
 
         it("should throw an error if the transaction id is not in the session", async () => {
             expect(() => {
-                return service.setPackageAccountsType(session, "UKSEF");
+                return service.setTransactionPackageType(session);
             }).rejects.toThrow("Unable to find transactionId in session");
         });
 
@@ -178,7 +179,7 @@ describe('AccountsFilingService', () => {
             mockTransactionId("tx_id");
 
             expect(() => {
-                return service.setPackageAccountsType(session, "UKSEF");
+                return service.setTransactionPackageType(session);
             }).rejects.toThrow("Unable to find accountsFilingId in session");
         });
 
@@ -186,10 +187,10 @@ describe('AccountsFilingService', () => {
             mockTransactionId("tx_id");
             mockaccountsFilingId("af_id");
 
-            mockSetPackageAccountsType.mockResolvedValue(new Failure(new Error("Some error")));
+            mockSetPackageType.mockResolvedValue(new Failure(new Error("Some error")));
 
             expect(() => {
-                return service.setPackageAccountsType(session, "UKSEF");
+                return service.setTransactionPackageType(session);
             }).rejects.toThrow("Some error");
         });
     });

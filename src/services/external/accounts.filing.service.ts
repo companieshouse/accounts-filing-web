@@ -6,10 +6,9 @@ import { defaultPrivateApiClient } from "../../services/internal/api.client.serv
 import {
     AccountsFilingValidationRequest,
     AccountsFilingCompanyResponse,
-    PackageAccountsType,
     ConfirmCompanyRequest
 } from "private-api-sdk-node/dist/services/accounts-filing/types";
-import { getAccountsFilingId, getTransactionId, must } from "../../utils/session";
+import { getAccountsFilingId, getPackageType, getTransactionId, must } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
 
 
@@ -96,16 +95,16 @@ export class AccountsFilingService {
      * via the private-api-sdk-node library. If the request fails, an Error is thrown.
      *
      * @param {Session | undefined} session - The request session, used to retrieve the transactionId and accountsFilingId.
-     * @param {PackageAccountsType} packageAccountsType - The type of package accounts to be set for the transaction.
-     * @throws Will throw an error if the transactionId or accountsFilingId cannot be retrieved from the session,
+     * @throws Will throw an error if the transactionId, packageType or accountsFilingId cannot be retrieved from the session,
      * or if the API call to set the package accounts type is unsuccessful.
      */
-    public async setPackageAccountsType(session: Session | undefined, packageAccountsType: PackageAccountsType) {
+    public async setTransactionPackageType(session: Session | undefined) {
         try {
             const transactionId = must(getTransactionId(session));
             const accountsFilingId = must(getAccountsFilingId(session));
+            const packageType = must(getPackageType(session));
 
-            const resp = await this.privateApiClient.accountsFilingService.setPackageAccountsType(transactionId, accountsFilingId, packageAccountsType);
+            const resp = await this.privateApiClient.accountsFilingService.setPackageType(transactionId, accountsFilingId, packageType);
 
             // If the call fails resp.value is an Error object with an error message, so we throw it.
             // If it succeeded we just return undefined.
