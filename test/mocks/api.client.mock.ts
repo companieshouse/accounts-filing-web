@@ -2,8 +2,14 @@ export const mockApiClient = {
     transaction: {
         putTransaction: jest.fn(),
         postTransaction: jest.fn()
+    },
+    accountsFilingService: {
+        checkAccountsFileValidationStatus: jest.fn(),
+        confirmCompany: jest.fn(),
+        setPackageType: jest.fn(),
     }
 };
+
 export const mockCreatePublicOAuthApiClient = jest.fn();
 export const mockMakeApiCall = jest.fn();
 

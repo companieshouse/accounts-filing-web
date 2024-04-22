@@ -1,20 +1,13 @@
-import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { Resource } from "@companieshouse/api-sdk-node";
 import { createAndLogError, logger } from "../../utils/logger";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
-import { defaultPrivateApiClient } from "../../services/internal/api.client.service";
-import {
-    AccountsFilingValidationRequest,
-    AccountsFilingCompanyResponse,
-    ConfirmCompanyRequest
-} from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { getAccountsFilingId, getPackageType, getTransactionId, must } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
+import { AccountsFilingCompanyResponse, AccountsFilingValidationRequest, ConfirmCompanyRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
+import { makeApiKeyCall } from "../../services/internal/api.client.service";
 
 
 export class AccountsFilingService {
-    constructor(private privateApiClient: PrivateApiClient) {}
-
     /**
      * Asynchronously retrieves the validation status of an accounts filing request.
      *
@@ -28,10 +21,9 @@ export class AccountsFilingService {
         const fileId = req.fileId;
         logger.debug(`Getting validation status for file ${fileId}`);
 
-        const accountsFilingService =
-            this.privateApiClient.accountsFilingService;
-        const accountValidatorResponse =
-            await accountsFilingService.checkAccountsFileValidationStatus(req);
+        const accountValidatorResponse = await makeApiKeyCall(async apiClient => {
+            return await apiClient.accountsFilingService.checkAccountsFileValidationStatus(req);
+        });
 
         logger.debug(`Response for ${fileId}: ${JSON.stringify(accountValidatorResponse, null, 2)}`);
 
@@ -59,14 +51,14 @@ export class AccountsFilingService {
         transactionId: string,
         confirmCompanyRequest: ConfirmCompanyRequest
     ): Promise<Resource<AccountsFilingCompanyResponse>> {
-        const accountsFilingService =
-            this.privateApiClient.accountsFilingService;
-        const accountsFilingCompanyResponse =
-            await accountsFilingService.confirmCompany(
+
+        const accountsFilingCompanyResponse = await makeApiKeyCall(async apiClient => {
+            return await apiClient.accountsFilingService.confirmCompany(
                 companyNumber,
                 transactionId,
                 confirmCompanyRequest
             );
+        });
 
         logger.debug(
             `Confirm company Response : ${JSON.stringify(
@@ -104,7 +96,9 @@ export class AccountsFilingService {
             const accountsFilingId = must(getAccountsFilingId(session));
             const packageType = must(getPackageType(session));
 
-            const resp = await this.privateApiClient.accountsFilingService.setPackageType(transactionId, accountsFilingId, packageType);
+            const resp = await makeApiKeyCall(async apiClient => {
+                return await apiClient.accountsFilingService.setPackageType(transactionId, accountsFilingId, packageType);
+            });
 
             // If the call fails resp.value is an Error object with an error message, so we throw it.
             // If it succeeded we just return undefined.
@@ -122,6 +116,4 @@ function isResource(o: any): o is Resource<unknown> {
     return o !== null && o !== undefined && "resource" in o;
 }
 
-export const defaultAccountsFilingService = new AccountsFilingService(
-    defaultPrivateApiClient
-);
+export const defaultAccountsFilingService = new AccountsFilingService();
