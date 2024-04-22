@@ -4,7 +4,6 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { createPrivateApiClient } from "private-api-sdk-node";
 import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { createAndLogError, logger } from "../../utils/logger";
-import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { getAccessToken } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
 
@@ -64,7 +63,7 @@ export function createApiKeyClient(): ApiClient {
     );
 }
 
-type ApiClientCall = (apiClient: ApiClient) => Promise<ApiResponse<unknown> | ApiErrorResponse>;
+type ApiClientCall<T> = (apiClient: ApiClient) => T;
 
 /**
  * Creates an instance of the API client using users OAuth tokens.
@@ -107,7 +106,7 @@ function maskString(s: string, n = 5, mask = "*"): string {
  * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
  * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.
  */
-export async function makeApiCall(session: Session, fn: ApiClientCall): Promise<ApiResponse<unknown> | ApiErrorResponse> {
+export async function makeApiCall<T>(session: Session, fn: ApiClientCall<T>): Promise<T> {
     const client = createPublicOAuthApiClient(session);
 
     const response = await fn(client);
@@ -131,14 +130,14 @@ export async function makeApiCall(session: Session, fn: ApiClientCall): Promise<
 }
 
 /**
- * Executes a given API call function using an API key-authorized API client.
+ * Executes a given API call function using an API key-authorised API client.
  *
- * This function handles the creation of the ApiClient with the internal API key and then performs the API call by invoking the provided function `fn`.
+ * This function handles the creation of the ApiClient with the internal API key and then performs the API call by invoking the provided function `fn`. It is important to note that this function is designed to facilitate calls to the non-internal API, enabling external data access and operations.
  *
  * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
  * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.
  */
-export async function makeApiKeyCall(fn: ApiClientCall): Promise<ApiResponse<unknown> | ApiErrorResponse> {
+export async function makeApiKeyCall<T>(fn: ApiClientCall<T>): Promise<T> {
     const client = createApiKeyClient();
 
     return await fn(client);

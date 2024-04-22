@@ -4,9 +4,9 @@ import { UploadHandler } from "../../src/routers/handlers/upload/upload";
 import { TransactionService as LocalTransactionService } from "../../src/services/external/transaction.service";
 
 import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock";
-import { AccountsFilingCompanyResponse } from "private-api-sdk-node/dist/services/accounts-filing/types";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { getSessionRequest } from "../mocks/session.mock";
+import { AccountsFilingCompanyResponse } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 
 let session = getSessionRequest();
 

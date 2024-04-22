@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { env } from "../config";
 import { getCompanyNumber, getPackageType, must } from './session';
 import { PrefixedUrls, URL_QUERY_PARAM, fileIdPlaceholder } from './constants/urls';
-import { PackageType } from 'private-api-sdk-node/dist/services/accounts-filing/types';
+import { PackageType } from '@companieshouse/api-sdk-node/dist/services/accounts-filing/types';
 
 function constructRedirectUrl(base: string, queries: {[key: string]: string|PackageType}): string {
     const queryParams = Object.entries(queries).flatMap((value, _index) => {return `${value[0]}=${value[1]}`;}).join("&");
