@@ -33,7 +33,7 @@
                         text: "Payment received" 
                     },
                     {
-                        text: "£" + payment
+                        text: payment
                     } 
                 ]
             ]   
@@ -49,6 +49,6 @@
     <p class="govuk-body">If it is rejected, we'll email to tell you what to do next. If you paid to file the accounts, we will refund the fee.</p>
 
     <h2 class="govuk-heading-m">File more package accounts</h2>
-    <a href="https://upload-accounts-prototype-28bdf03329ea.herokuapp.com/v1/06-choose-your-package-accounts">File more package accounts for {{companyProfile.companyName}} ({{companyProfile.companyNumber}})</a>
-    <a href="https://upload-accounts-prototype-28bdf03329ea.herokuapp.com/v1/06-choose-your-package-accounts">File mpackage accounts for a different company</a>
+    <a href={{ prefixedUrls.UPLOAD }}>File more package accounts for {{companyProfile.companyName}} ({{companyProfile.companyNumber}})</a>
+    <a href={{ prefixedUrls.HOME }}>File more package accounts for a different company</a>
 {% endblock %}

@@ -1,9 +1,8 @@
-import { PrefixedUrls } from "../../../utils/constants/urls";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { getCompanyName, getCompanyNumber, getTransactionId, getUserProfile } from "./../../../utils/session";
+import { getCompanyName, getCompanyNumber, getPaymentType, getTransactionId, getUserProfile } from "./../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import { checkCompanyNumberFormatIsValidate } from "./../../../utils/format/company.number.format";
+import { getPayment } from "./../../../utils/constants/paymentTypes";
 
 interface AccountsSubmittedViewData extends BaseViewData {
         transactionId: string | Error,
@@ -24,7 +23,6 @@ export class AccountsSubmittedHandler extends GenericHandler{
     ): Promise<AccountsSubmittedViewData> {
 
         super.populateViewData(req);
-        this.baseViewData.backURL = PrefixedUrls.PAYMENT;
 
         if (typeof req.session === "undefined"){
             throw new Error("Session not properly set");
@@ -35,20 +33,19 @@ export class AccountsSubmittedHandler extends GenericHandler{
         const companyNumber = getCompanyNumber(req.session);
         const userEmail = getUserProfile(req.session!)!.email;
 
-        // Payment will be set on the previous page
-        const payment = this.getPaymentFromQuery(req.query);
+        const payment = getPayment(getPaymentType(req.session));
 
         const props: Record<string, string | Error> = { companyName, companyNumber, transactionId };
 
         if (typeof userEmail === "undefined") {
             this.baseViewData.errors["userEmail"] = new Error("User Email is not defined");
         }
+
         for (const key in props) {
             if (props[key] instanceof Error){
                 this.baseViewData.errors[key] = (props[key] as Error);
             }
         }
-        checkCompanyNumberFormatIsValidate(companyNumber as string);
 
         return {
             ...this.baseViewData,
@@ -60,9 +57,5 @@ export class AccountsSubmittedHandler extends GenericHandler{
             payment,
             userEmail: userEmail as string
         };
-    }
-
-    getPaymentFromQuery(query: any): string{
-        return query.payment ?? 0;
     }
 }

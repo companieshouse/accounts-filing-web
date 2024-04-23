@@ -6,6 +6,7 @@ import express from "express";
 import { mockTransactionService } from "../mocks/transaction.service.mock";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
+import { AccountType } from "../../src/utils/constants/paymentTypes";
 
 
 const session = {
@@ -69,10 +70,13 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission", async () => {
-
-        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED).query({ payment: "37.55" });
+        mockSession.setExtraData(ContextKeys.PAYMENT_TYPE, AccountType.OC.name );
+        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
         expect(response.statusCode).toBe(200);
-        expect(response.text).toContain("37.55");
+        expect(response.text).toContain("33");
+        expect(response.text).toContain(PrefixedUrls.HOME);
+        expect(response.text).toContain(PrefixedUrls.UPLOAD);
+        expect(response.text).not.toContain("govuk-back-link");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
