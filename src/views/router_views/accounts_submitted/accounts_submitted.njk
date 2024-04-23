@@ -11,32 +11,7 @@
 
     {{ govukTable({
         firstCellIsHeader: false,
-        rows: [
-                [
-                    {
-                        text: "Company number" 
-                    },
-                    {
-                        text: companyProfile.companyNumber
-                    } 
-                ],
-                [
-                    {
-                        text: "Company name" 
-                    },
-                    {
-                        text: companyProfile.companyName
-                    } 
-                ],
-                [
-                    {
-                        text: "Payment received" 
-                    },
-                    {
-                        text: "£" + payment if payment != "-" else payment
-                    } 
-                ]
-            ]   
+        rows: rows
     })
 
     }}

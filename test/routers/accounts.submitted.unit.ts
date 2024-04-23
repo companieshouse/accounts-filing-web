@@ -70,11 +70,47 @@ describe("accounts submitted tests", () => {
         expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
     });
 
-    it("should handle successful submission", async () => {
+    it("should handle successful submission with overseas accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.overseas.name);
         const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
         expect(response.statusCode).toBe(200);
+        expect(response.text).toContain("Payment received");
         expect(response.text).toContain(env.OVERSEAS_FEE);
+        expect(response.text).toContain(PrefixedUrls.HOME);
+        expect(response.text).toContain(PrefixedUrls.UPLOAD);
+        expect(response.text).not.toContain("govuk-back-link");
+        for (const key in session) {
+            if (key === "userProfile") {
+                expect(response.text).toContain(session[key]["email"]);
+                continue;
+            }
+            expect(response.text).toContain(session[key]);
+        }
+    });
+
+    it("should handle successful submission with cic accounts", async () => {
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.cic.name);
+        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
+        expect(response.statusCode).toBe(200);
+        expect(response.text).toContain("Payment received");
+        expect(response.text).toContain(env.CIC_FEE);
+        expect(response.text).toContain(PrefixedUrls.HOME);
+        expect(response.text).toContain(PrefixedUrls.UPLOAD);
+        expect(response.text).not.toContain("govuk-back-link");
+        for (const key in session) {
+            if (key === "userProfile") {
+                expect(response.text).toContain(session[key]["email"]);
+                continue;
+            }
+            expect(response.text).toContain(session[key]);
+        }
+    });
+
+    it("should handle successful submission with welsh accounts", async () => {
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.welsh.name);
+        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
+        expect(response.statusCode).toBe(200);
+        expect(response.text).not.toContain("Payment received");
         expect(response.text).toContain(PrefixedUrls.HOME);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
         expect(response.text).not.toContain("govuk-back-link");

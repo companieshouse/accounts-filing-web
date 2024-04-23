@@ -9,6 +9,7 @@ interface AccountsSubmittedViewData extends BaseViewData {
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
         payment: string
         userEmail: string
+        rows: typeof AccountsSubmittedHandler.rows
 }
 
 export class AccountsSubmittedHandler extends GenericHandler{
@@ -18,6 +19,7 @@ export class AccountsSubmittedHandler extends GenericHandler{
             backURL: null
         });
     }
+    public static rows: Array<Array<{}>>;
 
     async execute(req: Request, _response: Response
     ): Promise<AccountsSubmittedViewData> {
@@ -51,6 +53,11 @@ export class AccountsSubmittedHandler extends GenericHandler{
             }
         }
 
+        this.setTableRows(payment, {
+            companyName: companyName as string,
+            companyNumber: companyNumber as string,
+        });
+
         return {
             ...this.baseViewData,
             transactionId,
@@ -59,7 +66,32 @@ export class AccountsSubmittedHandler extends GenericHandler{
                 companyNumber: companyNumber as string,
             },
             payment,
-            userEmail: userEmail as string
+            userEmail: userEmail as string,
+            rows: AccountsSubmittedHandler.rows
         };
     }
+
+    setTableRows(payment: string, companyProfile: {companyName: string, companyNumber: string}): void{
+        AccountsSubmittedHandler.rows = [
+            [
+                { text: "Company number" },
+                { text: companyProfile.companyNumber }
+            ],
+            [
+                { text: "Company name" },
+                { text: companyProfile.companyName }
+            ]
+        ];
+
+        if (payment !== "-") {
+            AccountsSubmittedHandler.rows.push(
+                [
+                    { text: "Payment received" },
+                    { text: `£${payment}` }
+                ]
+            );
+        }
+    }
 }
+
+
