@@ -122,4 +122,9 @@ describe("accounts submitted tests", () => {
             expect(response.text).toContain(session[key]);
         }
     });
+
+    it("should throw error for unsuccessful submission with league of legends account", async () => {
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "League of Legends");
+        expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
+    });
 });

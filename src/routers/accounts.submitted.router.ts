@@ -9,10 +9,6 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
     const handler = new AccountsSubmittedHandler();
     const viewData = await handler.execute(req, res);
 
-    /**
-     * @Todo:should redirect to previous page with
-     * errors when page is built
-     *  */
     if (Object.entries(viewData.errors).length !== 0){
         throw viewData.errors[Object.keys(viewData.errors)[0]];
     }
