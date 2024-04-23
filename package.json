@@ -44,7 +44,7 @@
     "@types/luxon": "^3.3.3",
     "@types/node": "^20.8.10",
     "@types/nunjucks": "^3.2.5",
-    "@types/supertest": "^2.0.15",
+    "@types/supertest": "^6.0.2",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
@@ -65,8 +65,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^2.0.154",
-    "@companieshouse/node-session-handler": "^5.0.1",
+    "@companieshouse/api-sdk-node": "^2.0.155",
+    "@companieshouse/node-session-handler": "^5.0.2",
     "@companieshouse/structured-logging-node": "^2.0.1",
     "@companieshouse/web-security-node": "^2.0.5",
     "cookie-parser": "^1.4.6",
