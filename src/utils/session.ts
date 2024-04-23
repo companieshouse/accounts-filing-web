@@ -147,12 +147,4 @@ export function getCompanyName(session?: Session | undefined): string | Error {
     return getRequiredValue(session, ContextKeys.COMPANY_NAME, "Unable to find company name in session");
 }
 
-export function setPaymentType(session: Session | undefined, paymentType: String) {
-    session?.setExtraData(ContextKeys.PACKAGE_TYPE, paymentType);
-}
-
-export function getPaymentType(session?: Session | undefined): string | Error {
-    return getRequiredValue(session, ContextKeys.PACKAGE_TYPE, "Unable to find payment type in session");
-}
-
 

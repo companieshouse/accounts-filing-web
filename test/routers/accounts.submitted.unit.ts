@@ -6,7 +6,8 @@ import express from "express";
 import { mockTransactionService } from "../mocks/transaction.service.mock";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
-import { AccountType } from "../../src/utils/constants/paymentTypes";
+import { Account } from "../../src/utils/constants/paymentTypes";
+import { env } from "../../src/config";
 
 
 const session = {
@@ -70,10 +71,10 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission", async () => {
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, AccountType.OC.name );
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.overseas.name);
         const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
         expect(response.statusCode).toBe(200);
-        expect(response.text).toContain("33");
+        expect(response.text).toContain(env.OVERSEAS_FEE);
         expect(response.text).toContain(PrefixedUrls.HOME);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
         expect(response.text).not.toContain("govuk-back-link");
