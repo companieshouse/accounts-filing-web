@@ -1,21 +1,13 @@
-import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { Resource } from "@companieshouse/api-sdk-node";
 import { createAndLogError, logger } from "../../utils/logger";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
-import { defaultPrivateApiClient } from "../../services/internal/api.client.service";
-import {
-    AccountsFilingValidationRequest,
-    AccountsFilingCompanyResponse,
-    PackageAccountsType,
-    ConfirmCompanyRequest
-} from "private-api-sdk-node/dist/services/accounts-filing/types";
-import { getAccountsFilingId, getTransactionId, must } from "../../utils/session";
+import { getAccountsFilingId, getPackageType, getTransactionId, must } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
+import { AccountsFilingCompanyResponse, AccountsFilingValidationRequest, ConfirmCompanyRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
+import { makeApiKeyCall } from "../../services/internal/api.client.service";
 
 
 export class AccountsFilingService {
-    constructor(private privateApiClient: PrivateApiClient) {}
-
     /**
      * Asynchronously retrieves the validation status of an accounts filing request.
      *
@@ -29,10 +21,9 @@ export class AccountsFilingService {
         const fileId = req.fileId;
         logger.debug(`Getting validation status for file ${fileId}`);
 
-        const accountsFilingService =
-            this.privateApiClient.accountsFilingService;
-        const accountValidatorResponse =
-            await accountsFilingService.checkAccountsFileValidationStatus(req);
+        const accountValidatorResponse = await makeApiKeyCall(async apiClient => {
+            return await apiClient.accountsFilingService.checkAccountsFileValidationStatus(req);
+        });
 
         logger.debug(`Response for ${fileId}: ${JSON.stringify(accountValidatorResponse, null, 2)}`);
 
@@ -60,14 +51,14 @@ export class AccountsFilingService {
         transactionId: string,
         confirmCompanyRequest: ConfirmCompanyRequest
     ): Promise<Resource<AccountsFilingCompanyResponse>> {
-        const accountsFilingService =
-            this.privateApiClient.accountsFilingService;
-        const accountsFilingCompanyResponse =
-            await accountsFilingService.confirmCompany(
+
+        const accountsFilingCompanyResponse = await makeApiKeyCall(async apiClient => {
+            return await apiClient.accountsFilingService.confirmCompany(
                 companyNumber,
                 transactionId,
                 confirmCompanyRequest
             );
+        });
 
         logger.debug(
             `Confirm company Response : ${JSON.stringify(
@@ -96,16 +87,18 @@ export class AccountsFilingService {
      * via the private-api-sdk-node library. If the request fails, an Error is thrown.
      *
      * @param {Session | undefined} session - The request session, used to retrieve the transactionId and accountsFilingId.
-     * @param {PackageAccountsType} packageAccountsType - The type of package accounts to be set for the transaction.
-     * @throws Will throw an error if the transactionId or accountsFilingId cannot be retrieved from the session,
+     * @throws Will throw an error if the transactionId, packageType or accountsFilingId cannot be retrieved from the session,
      * or if the API call to set the package accounts type is unsuccessful.
      */
-    public async setPackageAccountsType(session: Session | undefined, packageAccountsType: PackageAccountsType) {
+    public async setTransactionPackageType(session: Session | undefined) {
         try {
             const transactionId = must(getTransactionId(session));
             const accountsFilingId = must(getAccountsFilingId(session));
+            const packageType = must(getPackageType(session));
 
-            const resp = await this.privateApiClient.accountsFilingService.setPackageAccountsType(transactionId, accountsFilingId, packageAccountsType);
+            const resp = await makeApiKeyCall(async apiClient => {
+                return await apiClient.accountsFilingService.setPackageType(transactionId, accountsFilingId, packageType);
+            });
 
             // If the call fails resp.value is an Error object with an error message, so we throw it.
             // If it succeeded we just return undefined.
@@ -123,6 +116,4 @@ function isResource(o: any): o is Resource<unknown> {
     return o !== null && o !== undefined && "resource" in o;
 }
 
-export const defaultAccountsFilingService = new AccountsFilingService(
-    defaultPrivateApiClient
-);
+export const defaultAccountsFilingService = new AccountsFilingService();

@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { ContextKeys } from "./constants/context.keys";
 import { createAndLogError } from "./logger";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
-
+import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 export function getSignInInfo(session: Session): ISignInInfo | undefined {
     return session?.data?.[SessionKey.SignInInfo];
 }
@@ -131,6 +131,14 @@ export function setAccessToken(session: Session, accessToken: string) {
     acccessTokenObject.access_token = accessToken;
 }
 
+export function setPackageType(session: Session | undefined, packageType: PackageType): void {
+    session?.setExtraData(ContextKeys.PACKAGE_TYPE, packageType);
+}
+
+export function getPackageType(session?: Session): PackageType | undefined {
+    return session?.getExtraData(ContextKeys.PACKAGE_TYPE);
+}
+
 export function setCompanyName(session: Session | undefined, companyName: String) {
     session?.setExtraData(ContextKeys.COMPANY_NAME, companyName);
 }
@@ -140,11 +148,11 @@ export function getCompanyName(session?: Session | undefined): string | Error {
 }
 
 export function setPaymentType(session: Session | undefined, paymentType: String) {
-    session?.setExtraData(ContextKeys.PAYMENT_TYPE, paymentType);
+    session?.setExtraData(ContextKeys.PACKAGE_TYPE, paymentType);
 }
 
 export function getPaymentType(session?: Session | undefined): string | Error {
-    return getRequiredValue(session, ContextKeys.PAYMENT_TYPE, "Unable to find payment type in session");
+    return getRequiredValue(session, ContextKeys.PACKAGE_TYPE, "Unable to find payment type in session");
 }
 
 

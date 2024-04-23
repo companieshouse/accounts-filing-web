@@ -70,7 +70,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission", async () => {
-        mockSession.setExtraData(ContextKeys.PAYMENT_TYPE, AccountType.OC.name );
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, AccountType.OC.name );
         const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("33");
