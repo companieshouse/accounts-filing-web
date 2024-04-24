@@ -16,7 +16,6 @@ export const Urls = {
     UPLOAD: "/upload",
     UPLOADED: "/uploaded",
     CHECK_YOUR_ANSWERS: "/check-your-answers",
-    ACCOUNTS_SUBMITTED: "/accounts-submitted",
     PAYMENT: "/payment"
 } as const;
 

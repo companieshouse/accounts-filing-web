@@ -44,7 +44,7 @@ describe("accounts submitted tests", () => {
 
     it("should throw error when session not properly set", async () => {
         resetMockSession();
-        expect(await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
+        expect(await request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain email error when no email provided", async () => {
@@ -52,27 +52,27 @@ describe("accounts submitted tests", () => {
             value: {},
             writable: true
         });
-        expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
+        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain company name error when no company name provided", async () => {
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, null);
-        expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
+        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain transaction id error when no transaction id provided", async () => {
         mockSession.setExtraData(ContextKeys.TRANSACTION_ID, null);
-        expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
+        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain company number error when no company number provided", async () => {
         mockSession.data.signin_info!.company_number = undefined;
-        expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
+        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("should handle successful submission with overseas accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.overseas.name);
-        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
+        const response = await request(app).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
         expect(response.text).toContain(env.OVERSEAS_FEE);
@@ -90,7 +90,7 @@ describe("accounts submitted tests", () => {
 
     it("should handle successful submission with cic accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.cic.name);
-        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
+        const response = await request(app).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
         expect(response.text).toContain(env.CIC_FEE);
@@ -108,7 +108,7 @@ describe("accounts submitted tests", () => {
 
     it("should handle successful submission with welsh accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.welsh.name);
-        const response = await request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED);
+        const response = await request(app).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).not.toContain("Payment received");
         expect(response.text).toContain(PrefixedUrls.HOME);
@@ -125,6 +125,6 @@ describe("accounts submitted tests", () => {
 
     it("should throw error for unsuccessful submission with league of legends account", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "League of Legends");
-        expect(request(app).get(PrefixedUrls.ACCOUNTS_SUBMITTED)).rejects.toThrow;
+        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 });

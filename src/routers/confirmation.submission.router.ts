@@ -1,12 +1,12 @@
 
 import { handleExceptions } from "../utils/error.handler";
-import { AccountsSubmittedHandler } from "./handlers/accounts_submitted/accounts.submitted";
+import { ConfirmationSubmissionHandler } from "./handlers/confirmation_submission/confirmation.submission";
 import { NextFunction, Request, Response, Router } from "express";
 
 const router = Router();
 
 router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    const handler = new AccountsSubmittedHandler();
+    const handler = new ConfirmationSubmissionHandler();
     const viewData = await handler.execute(req, res);
 
     if (Object.entries(viewData.errors).length !== 0){
