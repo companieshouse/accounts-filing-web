@@ -1,18 +1,18 @@
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { getCompanyName, getCompanyNumber, getPackageType, getTransactionId, getUserProfile } from "./../../../utils/session";
+import { getCompanyName, getCompanyNumber, getPackageType, getTransactionId, getUserProfile } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import { getAccountType } from "./../../../utils/constants/paymentTypes";
+import { getAccountType } from "../../../utils/constants/paymentTypes";
 
-interface AccountsSubmittedViewData extends BaseViewData {
+interface ConfirmationSubmissionViewData extends BaseViewData {
         transactionId: string | Error,
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
         payment: string
         userEmail: string
-        rows: typeof AccountsSubmittedHandler.rows
+        rows: typeof ConfirmationSubmissionHandler.rows
 }
 
-export class AccountsSubmittedHandler extends GenericHandler{
+export class ConfirmationSubmissionHandler extends GenericHandler{
     constructor() {
         super({
             title: "Accounts Submitted",
@@ -22,7 +22,7 @@ export class AccountsSubmittedHandler extends GenericHandler{
     public static rows: Array<Array<{}>>;
 
     async execute(req: Request, _response: Response
-    ): Promise<AccountsSubmittedViewData> {
+    ): Promise<ConfirmationSubmissionViewData> {
 
         super.populateViewData(req);
 
@@ -67,12 +67,12 @@ export class AccountsSubmittedHandler extends GenericHandler{
             },
             payment,
             userEmail: userEmail as string,
-            rows: AccountsSubmittedHandler.rows
+            rows: ConfirmationSubmissionHandler.rows
         };
     }
 
     setTableRows(payment: string, companyProfile: {companyName: string, companyNumber: string}): void{
-        AccountsSubmittedHandler.rows = [
+        ConfirmationSubmissionHandler.rows = [
             [
                 { text: "Company number" },
                 { text: companyProfile.companyNumber }
@@ -84,7 +84,7 @@ export class AccountsSubmittedHandler extends GenericHandler{
         ];
 
         if (payment !== "-") {
-            AccountsSubmittedHandler.rows.push(
+            ConfirmationSubmissionHandler.rows.push(
                 [
                     { text: "Payment received" },
                     { text: `£${payment}` }

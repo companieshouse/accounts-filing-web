@@ -5,8 +5,8 @@ import CheckYourAnswersRouter  from './check.your.answers.router';
 import UploadRouter from './upload.router';
 import CompanySearchRouter from './company.search.router';
 import CompanyConfirmRouter from './company.confirm.router';
-import AccountSubmittedRouter from './accounts.submitted.router';
+import ConfirmationSubmissionRouter from './confirmation.submission.router';
 
 export { HealthCheckRouter, HomeRouter, FileUpladedRouter, UploadRouter,
     CheckYourAnswersRouter, CompanySearchRouter, CompanyConfirmRouter,
-    AccountSubmittedRouter };
+    ConfirmationSubmissionRouter };
