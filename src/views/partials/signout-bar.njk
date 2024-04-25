@@ -1,9 +1,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        {% if title != "Accounts Submitted" %}
-            <a class="govuk-back-link" href="{{ backURL }}">Back</a>
-        {% endif %}
+        <a class="govuk-back-link" href="{{ backURL }}" style="{{'visibility: hidden;' if title == "Accounts Submitted"}}">Back</a>
     </div>
     <div class="govuk-grid-column-one-half govuk-!-text-align-right govuk-!-static-margin-top-3">
         <a class="govuk-link" href="{{ signoutURL }}" data-event-id="signout" id="user-signout">Sign out</a>

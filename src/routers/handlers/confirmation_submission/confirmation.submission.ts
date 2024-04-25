@@ -1,11 +1,11 @@
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { getCompanyName, getCompanyNumber, getPackageType, getTransactionId, getUserProfile } from "../../../utils/session";
+import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserProfile } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { getAccountType } from "../../../utils/constants/paymentTypes";
 
 interface ConfirmationSubmissionViewData extends BaseViewData {
-        transactionId: string | Error,
+        accountsFilingId: string | Error,
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
         payment: string
         userEmail: string
@@ -31,7 +31,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         }
 
         const companyName = getCompanyName(req.session);
-        const transactionId = getTransactionId(req.session);
+        const accountsFilingId = getAccountsFilingId(req.session);
         const companyNumber = getCompanyNumber(req.session);
         const userEmail = getUserProfile(req.session)?.email;
         const packageType = getPackageType(req.session);
@@ -41,7 +41,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         }
         const payment = getAccountType(packageType).fee;
 
-        const props: Record<string, string | Error> = { companyName, companyNumber, transactionId };
+        const props: Record<string, string | Error> = { companyName, companyNumber, accountsFilingId };
 
         if (typeof userEmail === "undefined") {
             this.baseViewData.errors["userEmail"] = new Error("User Email is not defined");
@@ -60,7 +60,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
 
         return {
             ...this.baseViewData,
-            transactionId,
+            accountsFilingId,
             companyProfile: {
                 companyName: companyName as string,
                 companyNumber: companyNumber as string,
