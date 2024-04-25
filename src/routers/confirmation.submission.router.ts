@@ -13,7 +13,7 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
         throw viewData.errors[Object.keys(viewData.errors)[0]];
     }
 
-    res.render("router_views/accounts_submitted/accounts_submitted", viewData);
+    res.render("router_views/confirmation_submission/confirmation_submission", viewData);
 }));
 
 export default router;

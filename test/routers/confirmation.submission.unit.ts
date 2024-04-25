@@ -3,7 +3,6 @@ import { getSessionRequest } from "../mocks/session.mock";
 import request from "supertest";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import express from "express";
-import { mockTransactionService } from "../mocks/transaction.service.mock";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { Account } from "../../src/utils/constants/paymentTypes";
@@ -14,13 +13,12 @@ const session = {
     companyName: 'Test Company',
     companyNumber: '00006400',
     accountsFilingId: '78910',
-    userProfile: { email: 'test@companieshouse.gov.uk.com' }
+    userProfile: { email: 'test@companieshouse.gov.uk' }
 };
 
 describe("accounts submitted tests", () => {
     beforeEach(() => {
         Object.assign(mockSession, getSessionRequest());
-        mockTransactionService.postTransactionRecord.mockResolvedValue({ id: "1" });
         mockSession.data.signin_info!.company_number = session.companyNumber;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, session.companyName);
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, session.accountsFilingId);
@@ -60,7 +58,7 @@ describe("accounts submitted tests", () => {
         expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
-    it("Should contain transaction id error when no transaction id provided", async () => {
+    it("Should contain transaction id error when no accounts filing id provided", async () => {
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, null);
         expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
