@@ -49,7 +49,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
 
         for (const key in props) {
             if (props[key] instanceof Error){
-                this.baseViewData.errors[key] = (props[key] as Error);
+                this.baseViewData.errors[key] = (props[key]);
             }
         }
 
