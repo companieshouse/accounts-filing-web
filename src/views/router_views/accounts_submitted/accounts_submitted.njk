@@ -6,11 +6,11 @@
 {% block main_content %}
     {{ govukPanel({
         titleText: "Accounts submitted",
-        html: "Your reference number<br><strong>" + transactionId + "</strong>"
+        html: "Your reference is<br><strong>" + accountsFilingId + "</strong>"
     }) }}
 
     {{ govukTable({
-        firstCellIsHeader: false,
+        firstCellIsHeader: true,
         rows: rows
     })
 
@@ -20,10 +20,10 @@
 
     <h2 class="govuk-heading-m">What happens next</h2>
 
-    <p class="govuk-body">We will create your presenter accounts file. We'll email you to confirm if it's accepted.</p>
+    <p class="govuk-body">We will process your accounts file. We'll email you to confirm if it's accepted.</p>
     <p class="govuk-body">If it is rejected, we'll email to tell you what to do next. If you paid to file the accounts, we will refund the fee.</p>
 
     <h2 class="govuk-heading-m">File more package accounts</h2>
-    <a href={{ prefixedUrls.UPLOAD }}>File more package accounts for {{companyProfile.companyName}} ({{companyProfile.companyNumber}})</a>
-    <a href={{ prefixedUrls.HOME }}>File more package accounts for a different company</a>
+    <p class="govuk-body"><a href={{ prefixedUrls.UPLOAD }}>File more package accounts for {{companyProfile.companyName}} ({{companyProfile.companyNumber}})</a></p>
+    <p class="govuk-body"><a href={{ prefixedUrls.HOME }}>File more package accounts for a different company</a></p>
 {% endblock %}

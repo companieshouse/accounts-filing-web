@@ -13,7 +13,7 @@ import { env } from "../../src/config";
 const session = {
     companyName: 'Test Company',
     companyNumber: '00006400',
-    transactionId: '78910',
+    accountsFilingId: '78910',
     userProfile: { email: 'test@companieshouse.gov.uk.com' }
 };
 
@@ -23,7 +23,7 @@ describe("accounts submitted tests", () => {
         mockTransactionService.postTransactionRecord.mockResolvedValue({ id: "1" });
         mockSession.data.signin_info!.company_number = session.companyNumber;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, session.companyName);
-        mockSession.setExtraData(ContextKeys.TRANSACTION_ID, session.transactionId);
+        mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, session.accountsFilingId);
 
         Object.defineProperty(mockSession.data.signin_info, "user_profile", {
             value: session.userProfile,
@@ -61,7 +61,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("Should contain transaction id error when no transaction id provided", async () => {
-        mockSession.setExtraData(ContextKeys.TRANSACTION_ID, null);
+        mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, null);
         expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
@@ -78,7 +78,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain(env.OVERSEAS_FEE);
         expect(response.text).toContain(PrefixedUrls.HOME);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
-        expect(response.text).not.toContain("govuk-back-link");
+        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
@@ -96,7 +96,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain(env.CIC_FEE);
         expect(response.text).toContain(PrefixedUrls.HOME);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
-        expect(response.text).not.toContain("govuk-back-link");
+        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
@@ -113,7 +113,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).not.toContain("Payment received");
         expect(response.text).toContain(PrefixedUrls.HOME);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
-        expect(response.text).not.toContain("govuk-back-link");
+        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
