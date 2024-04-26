@@ -5,7 +5,7 @@ import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
 import routerDispatch from "./router.dispatch";
 import { env } from './config';
-import { PrefixedUrls, SIGN_OUT } from "./utils/constants/urls";
+import { SIGN_OUT } from "./utils/constants/urls";
 import { formatToUKString, formatType } from "./utils/format/format";
 
 const app = express();
