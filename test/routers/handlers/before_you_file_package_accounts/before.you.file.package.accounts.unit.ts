@@ -1,5 +1,3 @@
-
-
 import app from "../../../../src/app";
 import request from "supertest";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
