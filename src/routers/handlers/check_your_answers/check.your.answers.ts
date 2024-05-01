@@ -3,9 +3,8 @@ import { BaseViewData, GenericHandler } from "./../generic";
 import { createAndLogError } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
-import { getPackageType, getValidationResult, must } from "../../../utils/session";
-import { getAccountType } from "../../../utils/constants/paymentTypes";
-import { constructValidatorRedirect } from "../../../utils/url";
+import { getCompanyNumber, getPackageType, getValidationResult, must } from "../../../utils/session";
+import { getAccountsType } from "../../../utils/constants/paymentTypes";
 import { Session } from "@companieshouse/node-session-handler";
 
 interface CheckYourAnswersViewData extends BaseViewData {
@@ -31,12 +30,13 @@ export class CheckYourAnswersHandler extends GenericHandler {
         const accountsTypeFullName = this.getAccountsTypeFullName(req.session);
 
         const validationStatus = must(getValidationResult(req.session));
-        const xbrlUploadUri = constructValidatorRedirect(req);
-        this.baseViewData.backURL = xbrlUploadUri;
+        this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`;
+
+        const companyNumber = must(getCompanyNumber(req.session));
 
         return {
             ...this.baseViewData,
-            changeTypeOfAccountsUrl: xbrlUploadUri,
+            changeTypeOfAccountsUrl: `${PrefixedUrls.UPLOAD}?companyNumber=${companyNumber}`,
             fileName: validationStatus.fileName,
             typeOfAccounts: accountsTypeFullName
         };
@@ -56,7 +56,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
 
     private getAccountsTypeFullName(session: Session | undefined) {
         const typeOfAccounts = must(getPackageType(session));
-        const accountsType = getAccountType(typeOfAccounts);
+        const accountsType = getAccountsType(typeOfAccounts);
         if (accountsType === undefined) {
             throw createAndLogError(`Failed to match ${typeOfAccounts} to a known accounts type.`);
         }
