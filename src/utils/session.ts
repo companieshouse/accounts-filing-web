@@ -109,6 +109,10 @@ export function getValidationResult(session?: Session | undefined): AccountValid
     return getRequiredValue(session, ContextKeys.VALIDATION_STATUS, "Unable to find validation status in session");
 }
 
+export function deleteValidationResult(session?: Session | undefined) {
+    session?.deleteExtraData(ContextKeys.VALIDATION_STATUS);
+}
+
 export function checkUserSignedIn(session: Session): boolean {
     const signInInfo = getSignInInfo(session);
     return signInInfo?.[SignInInfoKeys.SignedIn] === 1;
@@ -135,8 +139,12 @@ export function setPackageType(session: Session | undefined, packageType: Packag
     session?.setExtraData(ContextKeys.PACKAGE_TYPE, packageType);
 }
 
-export function getPackageType(session?: Session): PackageType | undefined {
-    return session?.getExtraData(ContextKeys.PACKAGE_TYPE);
+export function getPackageType(session?: Session): PackageType | Error {
+    return getRequiredValue(
+        session,
+        ContextKeys.PACKAGE_TYPE,
+        "Unable to find package type in session"
+    );
 }
 
 export function setCompanyName(session: Session | undefined, companyName: String) {
@@ -146,5 +154,3 @@ export function setCompanyName(session: Session | undefined, companyName: String
 export function getCompanyName(session?: Session | undefined): string | Error {
     return getRequiredValue(session, ContextKeys.COMPANY_NAME, "Unable to find company name in session");
 }
-
-
