@@ -1,8 +1,8 @@
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserProfile } from "../../../utils/session";
+import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserProfile, must } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import { getAccountType } from "../../../utils/constants/paymentTypes";
+import { getAccountsType } from "../../../utils/constants/paymentTypes";
 
 interface ConfirmationSubmissionViewData extends BaseViewData {
         accountsFilingId: string | Error,
@@ -34,12 +34,12 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         const accountsFilingId = getAccountsFilingId(req.session);
         const companyNumber = getCompanyNumber(req.session);
         const userEmail = getUserProfile(req.session)?.email;
-        const packageType = getPackageType(req.session);
+        const packageType = must(getPackageType(req.session));
 
         if (typeof packageType === "undefined") {
             throw new Error(`PackageType: ${packageType} is not supported at the moment`);
         }
-        const payment = getAccountType(packageType).fee;
+        const payment = getAccountsType(packageType).fee;
 
         const props: Record<string, string | Error> = { companyName, companyNumber, accountsFilingId };
 

@@ -24,7 +24,9 @@ jest.mock('../../src/utils/constants/context.keys', () => {
     return {
         ContextKeys: {
             TRANSACTION_ID: "transactionId",
-            ACCOUNTS_FILING_ID: "accountFilingId"
+            ACCOUNTS_FILING_ID: "accountFilingId",
+            COMPANY_NAME: "companyName",
+            PACKAGE_TYPE: "packageType"
         }
     };
 });

@@ -8,6 +8,9 @@
     <h1 class="govuk-heading-l">Check your answers </h1>
 
             {{ govukSummaryList({
+        classes: [
+          "govuk-!-margin-bottom-9"
+          ],
         rows: [
           {
             key: {
@@ -36,7 +39,7 @@
             actions: {
               items: [
                 {
-                  href: Urls.UPLOAD,
+                  href: changeTypeOfAccountsUrl,
                   text: "Change",
                   visuallyHiddenText: "file uploaded"
                 }

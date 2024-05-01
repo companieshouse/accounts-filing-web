@@ -16,6 +16,6 @@ export const Account: AccountTypes =  {
     welsh: { name: "welsh", description: "Welsh Accounts with English translation", fee: "-" }
 };
 
-export function getAccountType(packageType: string): AccountType {
+export function getAccountsType(packageType: string): AccountType {
     return Account[packageType];
 }
