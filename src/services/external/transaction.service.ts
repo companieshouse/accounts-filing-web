@@ -91,8 +91,8 @@ export class TransactionService {
 
 
     async postTransactionRecord(companyNumber: string, companyName: string, reference: string, description: string): Promise<Transaction> {
-        
-        const transactionRecord : Transaction = {
+
+        const transactionRecord: Transaction = {
             companyNumber: companyNumber,
             companyName: companyName,
             description: description,
