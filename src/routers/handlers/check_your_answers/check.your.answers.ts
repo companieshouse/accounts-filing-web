@@ -3,11 +3,15 @@ import { BaseViewData, GenericHandler } from "./../generic";
 import { createAndLogError } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
-import { getValidationResult, must } from "../../../utils/session";
+import { getPackageType, getValidationResult, must } from "../../../utils/session";
+import { getAccountType } from "../../../utils/constants/paymentTypes";
+import { constructValidatorRedirect } from "../../../utils/url";
+import { Session } from "@companieshouse/node-session-handler";
 
 interface CheckYourAnswersViewData extends BaseViewData {
     fileName: string
     typeOfAccounts: string
+    changeTypeOfAccountsUrl: string
 }
 
 export class CheckYourAnswersHandler extends GenericHandler {
@@ -24,16 +28,20 @@ export class CheckYourAnswersHandler extends GenericHandler {
         _response: Response
     ): Promise<CheckYourAnswersViewData> {
         super.populateViewData(req);
+        const accountsTypeFullName = this.getAccountsTypeFullName(req.session);
 
         const validationStatus = must(getValidationResult(req.session));
-        this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`;
+        const xbrlUploadUri = constructValidatorRedirect(req);
+        this.baseViewData.backURL = xbrlUploadUri;
 
         return {
             ...this.baseViewData,
+            changeTypeOfAccountsUrl: xbrlUploadUri,
             fileName: validationStatus.fileName,
-            typeOfAccounts: "Placeholder" // TODO: This needs to be replaced by a value representing what the user chose at the type of accounts page.
+            typeOfAccounts: accountsTypeFullName
         };
     }
+
 
     async executePost(req: Request, _res: Response) {
         if (req.session === undefined) {
@@ -44,5 +52,14 @@ export class CheckYourAnswersHandler extends GenericHandler {
         await transactionService.closeTransaction();
 
         return PrefixedUrls.CONFIRMATION;
+    }
+
+    private getAccountsTypeFullName(session: Session | undefined) {
+        const typeOfAccounts = must(getPackageType(session));
+        const accountsType = getAccountType(typeOfAccounts);
+        if (accountsType === undefined) {
+            throw createAndLogError(`Failed to match ${typeOfAccounts} to a known accounts type.`);
+        }
+        return accountsType.description;
     }
 }

@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 import { ContextKeys } from "../../../utils/constants/context.keys";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { AccountsFilingService } from "services/external/accounts.filing.service";
-import { getCompanyName, getCompanyNumber,  must, setPackageType } from "../../../utils/session";
+import { deleteValidationResult, getCompanyName, getCompanyNumber,  must, setPackageType } from "../../../utils/session";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE } from "../../../utils/constants/transaction";
 import { constructValidatorRedirect } from "../../../utils/url";
 
@@ -20,9 +20,13 @@ export class UploadHandler extends GenericHandler {
     }
 
     async execute(req: Request, _res: Response): Promise<string> {
+
         logger.info(`GET Request to send fileId call back address`);
 
         const companyNumber = must(getCompanyNumber(req.session));
+
+        logger.debug(`Ensured that validation status has been removed from session for request on company number: ${companyNumber}`);
+        deleteValidationResult(req.session);
 
         const transactionId = await this.callTransactionApi(companyNumber);
         req.session?.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
@@ -55,10 +59,11 @@ export class UploadHandler extends GenericHandler {
             throw error;
         }
 
+        // TODO: Temporary location for setting package type. Remove when funcationality is in place.
         setPackageType(req.session, "uksef");
 
-        await this.accountsFilingService.setTransactionPackageType(req.session);
 
+        await this.accountsFilingService.setTransactionPackageType(req.session);
         return constructValidatorRedirect(req);
     }
 
