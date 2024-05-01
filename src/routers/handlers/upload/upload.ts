@@ -23,8 +23,9 @@ export class UploadHandler extends GenericHandler {
         logger.info(`GET Request to send fileId call back address`);
 
         const companyNumber = must(getCompanyNumber(req.session));
+        const companyName = must(getCompanyName(req.session));
 
-        const transactionId = await this.callTransactionApi(companyNumber);
+        const transactionId = await this.callTransactionApi(companyNumber, companyName);
         req.session?.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
 
         if (transactionId === undefined) {
@@ -32,7 +33,6 @@ export class UploadHandler extends GenericHandler {
         }
 
         try {
-            const companyName = must(getCompanyName(req.session));
             const companyConfirmRequest = {
                 companyName
             };
@@ -62,9 +62,9 @@ export class UploadHandler extends GenericHandler {
         return constructValidatorRedirect(req);
     }
 
-    async callTransactionApi(companyNumber: string): Promise<string | undefined> {
+    async callTransactionApi(companyNumber: string, companyName: string): Promise<string | undefined> {
         try {
-            const transaction = await this.transactionService.postTransactionRecord(companyNumber, TRANSACTION_REFERENCE, TRANSACTION_DESCRIPTION);
+            const transaction = await this.transactionService.postTransactionRecord(companyNumber, companyName, TRANSACTION_REFERENCE, TRANSACTION_DESCRIPTION);
             return transaction.id;
         } catch (error) {
             logger.error(`Exception return from SDK while requesting creation of a transaction for company number [${companyNumber}].`);
