@@ -6,7 +6,8 @@ import UploadRouter from './upload.router';
 import CompanySearchRouter from './company.search.router';
 import CompanyConfirmRouter from './company.confirm.router';
 import ConfirmationSubmissionRouter from './confirmation.submission.router';
+import BeforeYouFilePackageAccountsRouter from './before.you.file.package.accounts.router';
 
 export { HealthCheckRouter, HomeRouter, FileUpladedRouter, UploadRouter,
     CheckYourAnswersRouter, CompanySearchRouter, CompanyConfirmRouter,
-    ConfirmationSubmissionRouter };
+    ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter };
