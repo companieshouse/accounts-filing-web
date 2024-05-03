@@ -1,11 +1,11 @@
-import { COMPANY_LOOKUP, PrefixedUrls, URL_QUERY_PARAM } from "../../../../utils/constants/urls";
+import { COMPANY_LOOKUP, PrefixedUrls } from "../../../../utils/constants/urls";
 import { logger } from "../../../../utils/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { checkCompanyNumberFormatIsValidate as companyNumberMustBeValid } from "../../../../utils/format/company.number.format";
-import { setCompanyName } from "../../../../utils/session";
+import { setCompanyName, setExtraDataCompanyNumber } from "../../../../utils/session";
 
 export class CompanyConfirmHandler extends GenericHandler {
     static routeViews: string = "router_views/company/confirm/confirm";
@@ -22,10 +22,12 @@ export class CompanyConfirmHandler extends GenericHandler {
         const companyNumber = req.query?.companyNumber as string;
 
         companyNumberMustBeValid(companyNumber);
+        // Set company number for the life of the session.
+        setExtraDataCompanyNumber(req.session, companyNumber);
 
         const companyProfile: CompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
 
-        const confirmCompanyLink = `${PrefixedUrls.UPLOAD}/?${URL_QUERY_PARAM.PARAM_COMPANY_NUMBER}=${companyNumber}`;
+        const confirmCompanyLink = `${PrefixedUrls.UPLOAD}`;
 
         setCompanyName(req.session, companyProfile.companyName);
 

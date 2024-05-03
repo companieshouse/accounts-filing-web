@@ -22,6 +22,7 @@ describe("accounts submitted tests", () => {
         mockSession.data.signin_info!.company_number = session.companyNumber;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, session.companyName);
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, session.accountsFilingId);
+        mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, session.companyNumber);
 
         Object.defineProperty(mockSession.data.signin_info, "user_profile", {
             value: session.userProfile,
@@ -124,5 +125,19 @@ describe("accounts submitted tests", () => {
     it("should throw error for unsuccessful submission with league of legends account", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "League of Legends");
         expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
+    });
+
+    it("Should redirect to sigin when company number do not match", async () => {
+
+        // @ts-expect-error overrides typescript to allow setting the signin_info for testing
+        mockSession.data['signin_info']['signed_in'] = 1;
+        mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
+
+
+        const resp = await request(app).get(PrefixedUrls.CONFIRMATION);
+
+        expect(resp.status).toBe(302);
+        // The make sure it redirects to the sigin page
+        expect(resp.headers.location).toContain("signin");
     });
 });

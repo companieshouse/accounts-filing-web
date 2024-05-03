@@ -3,7 +3,7 @@ import { BaseViewData, GenericHandler } from "./../generic";
 import { createAndLogError } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
-import { getCompanyNumber, getPackageType, getValidationResult, must } from "../../../utils/session";
+import { getPackageType, getValidationResult, must } from "../../../utils/session";
 import { getAccountsType } from "../../../utils/constants/paymentTypes";
 import { Session } from "@companieshouse/node-session-handler";
 
@@ -32,11 +32,9 @@ export class CheckYourAnswersHandler extends GenericHandler {
         const validationStatus = must(getValidationResult(req.session));
         this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`;
 
-        const companyNumber = must(getCompanyNumber(req.session));
-
         return {
             ...this.baseViewData,
-            changeTypeOfAccountsUrl: `${PrefixedUrls.UPLOAD}?companyNumber=${companyNumber}`,
+            changeTypeOfAccountsUrl: `${PrefixedUrls.UPLOAD}`,
             fileName: validationStatus.fileName,
             typeOfAccounts: accountsTypeFullName
         };
