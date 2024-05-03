@@ -10,7 +10,7 @@ import { getPaymentResourceUri, PAYMENT_REDIRECT_URI } from "../../utils/url";
 export const startPaymentsSession = async (session: Session, paymentSessionUrl: string, accountsFilingId: string, transactionId: string): Promise<ApiResponse<Payment>> => {
     const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
     const resourceWithHost = getPaymentResourceUri(transactionId);
-    const reference: string = "Accounts_Filing_" + accountsFilingId;
+    const reference: string = "Package_Account_" + accountsFilingId;
     const state = uuidv4();
 
     session.setExtraData("payment-nonce", state);
