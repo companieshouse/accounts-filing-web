@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { env } from "../config";
-import { CompanyAuthenticationHelper } from "../utils/middleware/helper/company.authentication.helper";
 import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.number.format";
+import { getCompanyNumberFromExtraData } from "../utils/session";
 
 export const companyAuthenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
-    const companyNumber = CompanyAuthenticationHelper.getCompanyNumberFromExtraData(req);
-
+    const companyNumber = getCompanyNumberFromExtraData(req.session);
+    
     checkCompanyNumberFormatIsValidate(companyNumber);
 
     const authMiddlewareConfig: AuthOptions = {

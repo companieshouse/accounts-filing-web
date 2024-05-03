@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
-import { deleteExtraDataCompanyNumber } from "../../../utils/session";
 
 export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
     static routeViews: string = "router_views/before_you_file_package_accounts/before_you_file_package_accounts";
@@ -14,8 +13,6 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
     }
 
     execute (req: Request, _res: Response): ViewModel<BaseViewData> {
-        // Clear company number if has been set before, if login already.
-        deleteExtraDataCompanyNumber(req.session);
         logger.info(`GET request to serve before you file package accounts page`);
         return { templatePath: `${BeforeYouFilePackageAccountsHandler.routeViews}`, viewData: this.baseViewData };
     }

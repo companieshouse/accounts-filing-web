@@ -159,6 +159,7 @@ export function setExtraDataCompanyNumber(session: Session | undefined, companyN
     session?.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
 }
 
-export function deleteExtraDataCompanyNumber(session: Session | undefined) {
-    session?.deleteExtraData(ContextKeys.COMPANY_NUMBER);
+export function getCompanyNumberFromExtraData(session: Session | undefined): string | undefined {
+    const companyNumber: string | undefined = session?.getExtraData(ContextKeys.COMPANY_NUMBER);
+    return companyNumber;
 }
