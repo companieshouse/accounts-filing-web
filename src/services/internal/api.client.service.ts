@@ -9,7 +9,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import { AccessTokenKeys } from "@companieshouse/node-session-handler/lib/session/keys/AccessTokenKeys";
- 
+
 /**
  * Creates an instance of the OAuth API client using a session object.
  *
@@ -151,8 +151,7 @@ export const defaultPrivateApiClient = createPrivateApiKeyClient();
 export const createPaymentApiClient = (session: Session, paymentUrl: string): ApiClient => {
     const oAuth = session.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.AccessToken]?.[AccessTokenKeys.AccessToken];
     if (oAuth) {
-      return createApiClient(undefined, oAuth, paymentUrl);
+        return createApiClient(undefined, oAuth, paymentUrl);
     }
     throw createAndLogError("Error getting session keys for creating payment api client");
-  };
-  
+};

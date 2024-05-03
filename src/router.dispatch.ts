@@ -28,7 +28,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
     router.use(Urls.UPLOADED, FileUpladedRouter);
     router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
-    router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter)
+    router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
     router.use(Urls.CONFIRMATION, ConfirmationSubmissionRouter);
 
     app.use(servicePathPrefix, router);

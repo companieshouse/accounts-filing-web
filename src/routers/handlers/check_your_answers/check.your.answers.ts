@@ -6,10 +6,10 @@ import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getCompanyNumber, getPackageType, getValidationResult, must } from "../../../utils/session";
 import { getAccountsType } from "../../../utils/constants/paymentTypes";
 import { Session } from "@companieshouse/node-session-handler";
-import { getAccountsFilingId, getTransactionId} from "../../../utils/session";
+import { getAccountsFilingId, getTransactionId } from "../../../utils/session";
 import { startPaymentsSession } from "../../../services/external/payment.service";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment"
+import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 
 interface CheckYourAnswersViewData extends BaseViewData {
     fileName: string
@@ -59,15 +59,14 @@ export class CheckYourAnswersHandler extends GenericHandler {
             return PrefixedUrls.CONFIRMATION;
         } else {
             // Payment required, start the payment journey
-            const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(req.session, paymentUrl, 
-                                                                    must(getAccountsFilingId(req.session)), must(getTransactionId(req.session)));
+            const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(req.session, paymentUrl,
+                                                                                     must(getAccountsFilingId(req.session)), must(getTransactionId(req.session)));
             if (!paymentResponse.resource) {
                 throw createAndLogError("No resource in payment response");
-            }  
-            else{
+            } else {
                 return paymentResponse.resource.links.journey;
-            }    
-        }    
+            }
+        }
     }
 
     private getAccountsTypeFullName(session: Session | undefined) {

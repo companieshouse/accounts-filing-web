@@ -8,32 +8,31 @@ import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource
 import { getPaymentResourceUri, PAYMENT_REDIRECT_URI } from "../../utils/url";
 
 export const startPaymentsSession = async (session: Session, paymentSessionUrl: string, accountsFilingId: string, transactionId: string): Promise<ApiResponse<Payment>> => {
-  const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
-  const resourceWithHost = getPaymentResourceUri(transactionId);
-  const reference: string = "Accounts_Filing_" + accountsFilingId;
-  const redirectUri = PAYMENT_REDIRECT_URI;
-  const state = uuidv4();
+    const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
+    const resourceWithHost = getPaymentResourceUri(transactionId);
+    const reference: string = "Accounts_Filing_" + accountsFilingId;
+    const state = uuidv4();
 
-  session.setExtraData("payment-nonce", state);
+    session.setExtraData("payment-nonce", state);
 
-  const createPaymentRequest: CreatePaymentRequest = {
-    redirectUri: redirectUri,
-    reference: reference,
-    resource: resourceWithHost,
-    state: state,
-  };
-  const paymentResult = await apiClient.payment.createPaymentWithFullUrl(createPaymentRequest);
+    const createPaymentRequest: CreatePaymentRequest = {
+        redirectUri: PAYMENT_REDIRECT_URI,
+        reference: reference,
+        resource: resourceWithHost,
+        state: state,
+    };
+    const paymentResult = await apiClient.payment.createPaymentWithFullUrl(createPaymentRequest);
 
-  if (paymentResult.isFailure()) {
-    const errorResponse = paymentResult.value;
-    logger.error(`payment.service failure to create payment - http response status code = ${errorResponse?.httpStatusCode} - ${JSON.stringify(errorResponse?.errors)}`);
-    if (errorResponse.httpStatusCode === 401 || errorResponse.httpStatusCode === 429) {
-      return Promise.reject(createAndLogError(`payment.service Http status code ${errorResponse.httpStatusCode} - Failed to create payment,  ${JSON.stringify(errorResponse?.errors) || "Unknown Error"}`));
+    if (paymentResult.isFailure()) {
+        const errorResponse = paymentResult.value;
+        logger.error(`payment.service failure to create payment session - http response status code = ${errorResponse?.httpStatusCode} - ${JSON.stringify(errorResponse?.errors)}`);
+        if (errorResponse.httpStatusCode === 401 || errorResponse.httpStatusCode === 429) {
+            return Promise.reject(createAndLogError(`payment.service Http status code ${errorResponse.httpStatusCode} - Failed to create payment,  ${JSON.stringify(errorResponse?.errors) || "Unknown Error"}`));
+        } else {
+            return Promise.reject(createAndLogError(`payment.service Unknown Error ${JSON.stringify(errorResponse?.errors) || "No Errors found in response"}`));
+        }
     } else {
-      return Promise.reject(createAndLogError(`payment.service Unknown Error ${JSON.stringify(errorResponse?.errors) || "No Errors found in response"}`));
+        logger.info(`Payment session has been created`);
+        return paymentResult.value;
     }
-  } else {
-    logger.info(`Create payment, status_code=${paymentResult.value.httpStatusCode}`);
-    return paymentResult.value;
-  }
 };
