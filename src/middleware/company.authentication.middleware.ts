@@ -7,7 +7,7 @@ import { getCompanyNumberFromExtraData } from "../utils/session";
 export const companyAuthenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     const companyNumber = getCompanyNumberFromExtraData(req.session);
-    
+
     checkCompanyNumberFormatIsValidate(companyNumber);
 
     const authMiddlewareConfig: AuthOptions = {
