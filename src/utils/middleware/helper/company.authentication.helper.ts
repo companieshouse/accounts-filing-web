@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { createAndLogError } from "../../../utils/logger";
 import { URL_QUERY_PARAM } from "../../../utils/constants/urls";
+import { ContextKeys } from "../../../utils/constants/context.keys";
 
 
 export class CompanyAuthenticationHelper {
@@ -13,4 +14,8 @@ export class CompanyAuthenticationHelper {
         return companyNumber;
     }
 
+    static getCompanyNumberFromExtraData(req: Request): string | undefined {
+        const companyNumber: string | undefined = req.session?.getExtraData(ContextKeys.COMPANY_NUMBER);
+        return companyNumber;
+    }
 }

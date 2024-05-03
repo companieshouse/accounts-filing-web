@@ -96,7 +96,7 @@ export function getAccountsFilingId(session?: Session): string | Error {
 export function getCompanyNumber(session?: Session): string | Error {
     return getRequiredValue(
         session,
-        "company_number",
+        ContextKeys.COMPANY_NUMBER,
         "Unable to find company number in session"
     );
 }
@@ -147,10 +147,18 @@ export function getPackageType(session?: Session): PackageType | Error {
     );
 }
 
-export function setCompanyName(session: Session | undefined, companyName: String) {
+export function setCompanyName(session: Session | undefined, companyName: string) {
     session?.setExtraData(ContextKeys.COMPANY_NAME, companyName);
 }
 
 export function getCompanyName(session?: Session | undefined): string | Error {
     return getRequiredValue(session, ContextKeys.COMPANY_NAME, "Unable to find company name in session");
+}
+
+export function setExtraDataCompanyNumber(session: Session | undefined, companyNumber: string) {
+    session?.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
+}
+
+export function deleteExtraDataCompanyNumber(session: Session | undefined) {
+    session?.deleteExtraData(ContextKeys.COMPANY_NUMBER);
 }

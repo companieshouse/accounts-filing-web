@@ -6,7 +6,7 @@ import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.numb
 
 export const companyAuthenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
-    const companyNumber = CompanyAuthenticationHelper.getCompanyNumberFromRequest(req);
+    const companyNumber = CompanyAuthenticationHelper.getCompanyNumberFromExtraData(req);
 
     checkCompanyNumberFormatIsValidate(companyNumber);
 

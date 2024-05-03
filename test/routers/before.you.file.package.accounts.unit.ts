@@ -1,6 +1,6 @@
-import app from "../../../../src/app";
+import app from "../../src/app";
 import request from "supertest";
-import { PrefixedUrls } from "../../../../src/utils/constants/urls";
+import { PrefixedUrls } from "../../src/utils/constants/urls";
 
 
 describe("Before you file package accounts test", () => {

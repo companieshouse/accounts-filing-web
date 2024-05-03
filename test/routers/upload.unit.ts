@@ -26,7 +26,8 @@ jest.mock('../../src/utils/constants/context.keys', () => {
             TRANSACTION_ID: "transactionId",
             ACCOUNTS_FILING_ID: "accountFilingId",
             COMPANY_NAME: "companyName",
-            PACKAGE_TYPE: "packageType"
+            PACKAGE_TYPE: "packageType",
+            COMPANY_NUMBER: "company_number"
         }
     };
 });
@@ -34,6 +35,8 @@ jest.mock('../../src/utils/constants/context.keys', () => {
 describe("UploadHandler", () => {
 
     const companyNumber = "123456";
+
+    const companyName = "Test Company";
 
     let handler: UploadHandler;
 
@@ -52,6 +55,13 @@ describe("UploadHandler", () => {
 
         session = getSessionRequest();
 
+        // @ts-expect-error overrides typescript to allow setting the signin_info for testing
+        session.data['signin_info'] = { company_number: companyNumber };
+        session.data.signin_info['access_token'] = { "access_token": "access_token" };
+        session.setExtraData("transactionId", "000000-123456-000000");
+        session.setExtraData(ContextKeys.COMPANY_NAME, companyName);
+        session.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
+
         mockReq = {
             session: session,
             params: {},
@@ -63,11 +73,6 @@ describe("UploadHandler", () => {
             },
         };
 
-        // @ts-expect-error overrides typescript to allow setting the signin_info for testing
-        session.data['signin_info'] = { company_number: companyNumber };
-        session.data.signin_info['access_token'] = { "access_token": "access_token" };
-        session.setExtraData("transactionId", "000000-123456-000000");
-        session.setExtraData(ContextKeys.COMPANY_NAME, "Test Company");
     });
 
     it("should return 200 with file upload url ", async () => {
@@ -113,10 +118,10 @@ describe("UploadHandler", () => {
 
     it("should return transaction id for callTransactionApi calls", async () => {
         mockPostTransactionRecord.mockResolvedValue({ id: 1 } as unknown as Transaction);
-        await expect(handler.callTransactionApi(companyNumber)).resolves.toEqual(1);
+        await expect(handler.callTransactionApi(companyNumber, companyName)).resolves.toEqual(1);
     });
 
     it("should throw Issue with service if postTransactionRecord fails for callTransactionApi calls", async () => {
-        await expect(handler.callTransactionApi(companyNumber)).resolves.toEqual(undefined);
+        await expect(handler.callTransactionApi(companyNumber, companyName)).resolves.toEqual(undefined);
     });
 });

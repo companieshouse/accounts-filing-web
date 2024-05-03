@@ -87,7 +87,7 @@ describe("CompanyConfirmHandler", () => {
             ).toEqual("/accounts-filing/company-search/");
             expect(
                 results.viewData.uploadLink
-            ).toEqual("/accounts-filing/upload/?companyNumber=12345678");
+            ).toEqual("/accounts-filing/upload");
             expect(
                 results.viewData.changeCompanyUrl
             ).toMatch("/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=");
