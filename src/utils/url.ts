@@ -34,3 +34,9 @@ function constructValidatorRedirect(req: Request): string{
 }
 
 export { constructValidatorRedirect };
+
+export const getPaymentResourceUri = (transactionId: string): string => {
+    return env.API_URL + `/transactions/${transactionId}/payment`;
+};
+
+export const PAYMENT_REDIRECT_URI = `${env.CHS_URL}${PrefixedUrls.PAYMENT_CALLBACK}`;
