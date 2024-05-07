@@ -32,7 +32,7 @@ export class ChooseYourPackageAccountHandler extends GenericHandler {
         if ("value" in packageAccount && packageAccount["value"] in PackageAccounts){
             setPackageType(req.session, packageAccount);
         } else {
-            throw new Error("Package Account type must be set");
+            this.baseViewData.errors.packageAccount = new Error("Package Account type must be set");
         }
 
         this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;

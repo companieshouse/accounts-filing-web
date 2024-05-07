@@ -59,4 +59,8 @@ describe("package account selection test", () => {
         const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE).send({value: PackageAccounts.overseas.name}).expect(302);
     });
 
+    it("should throw a packageAccount error", async () => {
+        expect(await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE).expect(500)).rejects.toThrow;
+    });
+
 });

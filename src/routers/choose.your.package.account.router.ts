@@ -16,7 +16,7 @@ router.post('/', handleExceptions(async (req: Request, res: Response) => {
     const viewData = await handler.executePost(req, res);
 
     if (Object.entries(viewData.errors).length > 0){
-        throw viewData.errors[0];
+        throw viewData.errors.packageAccount;
     }
 
     res.redirect(Urls.UPLOADED);
