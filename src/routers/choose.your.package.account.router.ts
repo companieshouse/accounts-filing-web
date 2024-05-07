@@ -19,7 +19,7 @@ router.post('/', handleExceptions(async (req: Request, res: Response) => {
         throw viewData.errors.packageAccount;
     }
 
-    res.redirect(Urls.UPLOADED);
+    res.redirect(Urls.UPLOAD);
 }));
 
 export default router;

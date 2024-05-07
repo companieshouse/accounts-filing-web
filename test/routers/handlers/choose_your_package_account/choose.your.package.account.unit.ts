@@ -3,7 +3,7 @@ import request from "supertest";
 import app from "./../../../../src/app";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
-import { PrefixedUrls } from "../../../../src/utils/constants/urls";
+import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
 import { PackageAccounts, getPackageItems } from "../../../../src/utils/constants/packageAccounts";
 
 
@@ -55,8 +55,9 @@ describe("package account selection test", () => {
         expect(response.text).toContain(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${viewDataPackageSelectionPage.session.companyNumber}`);
     });
 
-    it("should set the package account correctly", async () => {
+    it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
         const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE).send({value: PackageAccounts.overseas.name}).expect(302);
+        expect(response.text).toContain(Urls.UPLOAD)
     });
 
     it("should throw a packageAccount error", async () => {
