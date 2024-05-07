@@ -21,7 +21,7 @@ export const startPaymentsSession = async (session: Session, paymentSessionUrl: 
         resource: resourceWithHost,
         state: state,
     };
-    logger.debug(`Redirect URI - ${createPaymentRequest.redirectUri} , Resource - ${createPaymentRequest.resource}`)
+    logger.debug(`Redirect URI - ${createPaymentRequest.redirectUri} , Resource - ${createPaymentRequest.resource}`);
 
     const paymentResult = await apiClient.payment.createPaymentWithFullUrl(createPaymentRequest);
 
