@@ -18,6 +18,7 @@ export const Urls = {
     CHECK_YOUR_ANSWERS: "/check-your-answers",
     PAYMENT: "/payment",
     BEFORE_YOU_FILE_PACKAGE_ACCOUNTS: "/before-you-file-package-accounts",
+    CHOOSE_YOUR_ACCOUNT_PACKAGE: "/choose-your-account-package"
 } as const;
 
 

@@ -5,7 +5,7 @@ import { ContextKeys } from "../../src/utils/constants/context.keys";
 import express from "express";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
-import { Account } from "../../src/utils/constants/paymentTypes";
+import { PackageAccounts } from "../../src/utils/constants/packageAccounts";
 import { env } from "../../src/config";
 
 
@@ -70,7 +70,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with overseas accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.overseas.name);
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.overseas.name);
         const response = await request(app).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
@@ -88,7 +88,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with cic accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.cic.name);
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.cic.name);
         const response = await request(app).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
@@ -106,7 +106,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with welsh accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, Account.welsh.name);
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.welsh.name);
         const response = await request(app).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).not.toContain("Payment received");

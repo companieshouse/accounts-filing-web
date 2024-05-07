@@ -7,7 +7,7 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { setValidationResult } from "../../src/utils/session";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { Account } from "../../src/utils/constants/paymentTypes";
+import { PackageAccounts } from "../../src/utils/constants/packageAccounts";
 import { getSessionRequest } from "../mocks/session.mock";
 
 
@@ -31,7 +31,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, Account.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.uksef.name);
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
         mockSession.data['signin_info']['signed_in'] = 1;
 
@@ -52,7 +52,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, Account.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.uksef.name);
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
         mockSession.data['signin_info']['signed_in'] = 1;
 
@@ -73,7 +73,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, Account.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.uksef.name);
         mockSession.data['signin_info']['signed_in'] = 1;
 
         const resp = await request(app).get(PrefixedUrls.CHECK_YOUR_ANSWERS);

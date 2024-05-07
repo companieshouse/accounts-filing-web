@@ -4,7 +4,7 @@ import { createAndLogError } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getPackageType, getValidationResult, must } from "../../../utils/session";
-import { getAccountsType } from "../../../utils/constants/paymentTypes";
+import { getAccountType } from "../../../utils/constants/packageAccounts";
 import { Session } from "@companieshouse/node-session-handler";
 
 interface CheckYourAnswersViewData extends BaseViewData {
@@ -54,7 +54,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
 
     private getAccountsTypeFullName(session: Session | undefined) {
         const typeOfAccounts = must(getPackageType(session));
-        const accountsType = getAccountsType(typeOfAccounts);
+        const accountsType = getAccountType(typeOfAccounts);
         if (accountsType === undefined) {
             throw createAndLogError(`Failed to match ${typeOfAccounts} to a known accounts type.`);
         }
