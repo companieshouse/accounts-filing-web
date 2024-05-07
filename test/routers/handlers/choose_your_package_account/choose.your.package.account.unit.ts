@@ -4,7 +4,7 @@ import app from "./../../../../src/app";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
-import { getPackageItems } from "../../../../src/utils/constants/packageAccounts";
+import { PackageAccounts, getPackageItems } from "../../../../src/utils/constants/packageAccounts";
 
 
 const viewDataPackageSelectionPage = {
@@ -53,6 +53,10 @@ describe("package account selection test", () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${viewDataPackageSelectionPage.session.companyNumber}`);
+    });
+
+    it("should set the package account correctly", async () => {
+        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE).send({value: PackageAccounts.overseas.name}).expect(302);
     });
 
 });
