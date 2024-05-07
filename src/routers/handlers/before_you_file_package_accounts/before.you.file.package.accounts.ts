@@ -13,7 +13,6 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
     }
 
     execute (_req: Request, _res: Response): ViewModel<BaseViewData> {
-
         logger.info(`GET request to serve before you file package accounts page`);
         return { templatePath: `${BeforeYouFilePackageAccountsHandler.routeViews}`, viewData: this.baseViewData };
     }
