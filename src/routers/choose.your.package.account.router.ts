@@ -6,7 +6,13 @@ const router = Router();
 
 router.get('/', handleExceptions(async (req: Request, res: Response) => {
     const handler = new ChooseYourPackageAccountHandler();
-    const viewData = await handler.execute(req, res);
+    const viewData = await handler.executeGet(req, res);
+    res.render("router_views/choose_your_package_accounts/choose_your_package_accounts", viewData);
+}));
+
+router.post('/', handleExceptions(async (req: Request, res: Response) => {
+    const handler = new ChooseYourPackageAccountHandler();
+    const viewData = await handler.executePost(req, res);
     res.render("router_views/choose_your_package_accounts/choose_your_package_accounts", viewData);
 }));
 

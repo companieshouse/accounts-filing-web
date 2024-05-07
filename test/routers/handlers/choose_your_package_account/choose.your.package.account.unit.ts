@@ -32,11 +32,13 @@ describe("package account selection test", () => {
 
     it("should render package selection page with the correct page title", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE);
+        expect(response.statusCode).toBe(200);
         expect(response.text).toContain(viewDataPackageSelectionPage.title);
     });
 
     it("should render all package account types on the package page", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE);
+        expect(response.statusCode).toBe(200);
         getPackageItems().forEach(item => {
             expect(response.text).toContain(item.value);
             expect(response.text).toContain(item.text);
@@ -49,6 +51,7 @@ describe("package account selection test", () => {
 
     it("should contain the correct backlink", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE);
+        expect(response.statusCode).toBe(200);
         expect(response.text).toContain(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${viewDataPackageSelectionPage.session.companyNumber}`);
     });
 
