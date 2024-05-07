@@ -15,7 +15,6 @@ import { startPaymentsSession } from "../../src/services/external/payment.servic
 import { mockPayment, PAYMENT_JOURNEY_URL } from "../mocks/payment.mock";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { logger } from "../../src/utils/logger";
 const mockStartPaymentsSession = startPaymentsSession as jest.Mock;
 
 const mockPaymentHeaders = {

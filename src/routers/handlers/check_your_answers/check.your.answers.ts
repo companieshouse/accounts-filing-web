@@ -60,7 +60,8 @@ export class CheckYourAnswersHandler extends GenericHandler {
             // Payment required, start the payment journey
             logger.debug(`Received payment url ${paymentUrl} from closeTransaction, payment journey started`);
             const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(req.session, paymentUrl,
-                                                                                     must(getAccountsFilingId(req.session)), must(getTransactionId(req.session)));
+                                                                                     must(getAccountsFilingId(req.session)),
+                                                                                     must(getTransactionId(req.session)));
             if (!paymentResponse.resource) {
                 throw createAndLogError("No resource in payment response");
             } else {

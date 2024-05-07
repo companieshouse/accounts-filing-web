@@ -7,7 +7,8 @@ import { createAndLogError, logger } from "../../utils/logger";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { getPaymentResourceUri, PAYMENT_REDIRECT_URI } from "../../utils/url";
 
-export const startPaymentsSession = async (session: Session, paymentSessionUrl: string, accountsFilingId: string, transactionId: string): Promise<ApiResponse<Payment>> => {
+export const startPaymentsSession = async (session: Session, paymentSessionUrl: string,
+                                           accountsFilingId: string, transactionId: string): Promise<ApiResponse<Payment>> => {
     const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
     const resourceWithHost = getPaymentResourceUri(transactionId);
     const reference: string = `Package_Account_${accountsFilingId}`;
