@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler } from "./../generic";
-import { createAndLogError } from "../../../utils/logger";
+import { createAndLogError, logger } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getCompanyNumber, getPackageType, getValidationResult, must } from "../../../utils/session";
@@ -56,14 +56,17 @@ export class CheckYourAnswersHandler extends GenericHandler {
         const paymentUrl: string | undefined = await transactionService.closeTransaction();
 
         if (!paymentUrl) {
+            logger.debug(`No payment url ${paymentUrl} from closeTransaction, journey redirected to confirmation page`);
             return PrefixedUrls.CONFIRMATION;
         } else {
             // Payment required, start the payment journey
+            logger.debug(`Received payment url ${paymentUrl} from closeTransaction, payment journey started`);
             const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(req.session, paymentUrl,
                                                                                      must(getAccountsFilingId(req.session)), must(getTransactionId(req.session)));
             if (!paymentResponse.resource) {
                 throw createAndLogError("No resource in payment response");
             } else {
+                logger.debug(`Redirecting to payment URL : ${paymentResponse.resource.links.journey}`);
                 return paymentResponse.resource.links.journey;
             }
         }
