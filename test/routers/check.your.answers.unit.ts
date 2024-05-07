@@ -118,7 +118,6 @@ describe("Check your answers test", () => {
     });
 
     it("Should close the transaction and navigate to the payment jouney when receiving a payment url from close transaction", async () => {
-        logger.info("Adhvikkkkkkkkk");
         mockTransactionService.closeTransaction.mockResolvedValue(PAYMENT_URL);
         mockStartPaymentsSession.mockResolvedValueOnce(mockPaymentResponse);
         mockSession.data['signin_info'] = { company_number: "00000000" };
