@@ -9,7 +9,7 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { setValidationResult } from "../../src/utils/session";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { PackageAccounts } from "../../src/utils/constants/PackageTypeDetails";
+import { PackageTypeDetails } from "../../src/utils/constants/PackageTypeDetails";
 import { getSessionRequest } from "../mocks/session.mock";
 import { startPaymentsSession } from "../../src/services/external/payment.service";
 import { mockPayment, PAYMENT_JOURNEY_URL } from "../mocks/payment.mock";
@@ -47,7 +47,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
         mockSession.data['signin_info']['signed_in'] = 1;
 
@@ -68,7 +68,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
         mockSession.data['signin_info']['signed_in'] = 1;
 
@@ -89,7 +89,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageAccounts.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
         mockSession.data['signin_info']['signed_in'] = 1;
 
         const resp = await request(app).get(PrefixedUrls.CHECK_YOUR_ANSWERS);

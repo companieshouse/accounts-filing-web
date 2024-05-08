@@ -41,4 +41,4 @@ Object.entries(PackageTypeDetails).forEach(
 
 const getPackageItems = () => packageItems;
 
-export { getPackageItems, getAccountsType as getAccountType, PackageTypeDetails as PackageAccounts, AccountsTypes as AccountTypes, AccountsType as AccountType, PackageAccountType };
+export { getPackageItems, getAccountsType, PackageTypeDetails, AccountsTypes, AccountsType, PackageAccountType };

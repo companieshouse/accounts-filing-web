@@ -2,7 +2,7 @@ import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getCompanyNumber, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { PackageAccountType, getPackageItems, PackageAccounts } from "../../../utils/constants/PackageTypeDetails";
+import { PackageAccountType, getPackageItems, PackageTypeDetails } from "../../../utils/constants/PackageTypeDetails";
 import { logger } from "../../../utils/logger";
 import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 
@@ -11,7 +11,7 @@ interface ChooseYourPackageAccountViewData extends BaseViewData {
     packageAccounts?: PackageType
 }
 
-export class ChooseYourPackageAccountHandler extends GenericHandler {
+export class ChooseYourPackageAccountsHandler extends GenericHandler {
     private packageAccountsItems = getPackageItems();
     constructor() {
         super({
@@ -27,10 +27,10 @@ export class ChooseYourPackageAccountHandler extends GenericHandler {
         logger.info(`post request made for ${this.constructor.name}`);
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
-        const packageAccounts = req.body;
+        const packageTypeChoice = req.body;
 
-        if ("value" in packageAccounts && packageAccounts["value"] in PackageAccounts){
-            setPackageType(req.session, packageAccounts);
+        if ("value" in packageTypeChoice && packageTypeChoice["value"] in PackageTypeDetails){
+            setPackageType(req.session, packageTypeChoice);
         } else {
             this.baseViewData.errors.packageAccountsError = new Error("Package Accounts type must be set");
         }
