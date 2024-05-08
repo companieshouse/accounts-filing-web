@@ -1,8 +1,7 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
 import { servicePathPrefix, Urls } from "./utils/constants/urls";
-import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter, CompanyConfirmRouter, CheckYourAnswersRouter } from "./routers";
-
+import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter, CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter, PaymentCallbackRouter } from "./routers";
 
 import { errorHandler, pageNotFound } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
@@ -17,6 +16,7 @@ const routerDispatch = (app: Application) => {
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use(Urls.HOME, HomeRouter);
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
+    router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
 
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
@@ -26,8 +26,10 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
 
     router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
-    router.use(Urls.UPLOADED, FileUpladedRouter);
-    router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
+    router.use(Urls.UPLOADED, companyAuthenticationMiddleware, FileUpladedRouter);
+    router.use(Urls.CHECK_YOUR_ANSWERS, companyAuthenticationMiddleware, CheckYourAnswersRouter);
+    router.use(Urls.CONFIRMATION, companyAuthenticationMiddleware, ConfirmationSubmissionRouter);
+    router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);

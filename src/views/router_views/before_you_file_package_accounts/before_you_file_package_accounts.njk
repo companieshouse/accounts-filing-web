@@ -1,0 +1,27 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block main_content %}
+
+    <h1 class="govuk-heading-l">
+        Before you file package accounts
+    </h1>
+
+    <p class="govuk-body">
+        You must <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software">read the technical interface specification (TIS)</a> to find out:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>how to structure your zip file</li>
+        <li>if you need to include forms in your accounts package</li>
+    </ul>
+
+    {{ govukButton({
+        text: "Continue",
+        href: Urls.COMPANY_SEARCH,
+        classes: "",
+        isStartButton: false
+    }) }}
+
+{% endblock %}

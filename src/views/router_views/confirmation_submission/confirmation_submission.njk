@@ -1,0 +1,29 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% block main_content %}
+    {{ govukPanel({
+        titleText: "Accounts submitted",
+        html: "Your reference is<br><strong>" + accountsFilingId + "</strong>"
+    }) }}
+
+    {{ govukTable({
+        firstCellIsHeader: true,
+        rows: rows
+    })
+
+    }}
+
+    <p class="govuk-body">We have sent a confirmation email to <span class="govuk-!-font-weight-bold">{{ userEmail }}</span></p>
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+
+    <p class="govuk-body">We will process your accounts file. We'll email you to confirm if it's accepted.</p>
+    <p class="govuk-body">If it is rejected, we'll email to tell you what to do next. If you paid to file the accounts, we will refund the fee.</p>
+
+    <h2 class="govuk-heading-m">File more package accounts</h2>
+    <p class="govuk-body"><a href={{ Urls.UPLOAD }}>File more package accounts for {{companyProfile.companyName}} ({{companyProfile.companyNumber}})</a></p>
+    <p class="govuk-body"><a href={{ Urls.COMPANY_SEARCH }}>File more package accounts for a different company</a></p>
+{% endblock %}

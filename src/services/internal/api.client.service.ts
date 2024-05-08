@@ -4,9 +4,11 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { createPrivateApiClient } from "private-api-sdk-node";
 import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { createAndLogError, logger } from "../../utils/logger";
-import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { getAccessToken } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
+import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
+import { AccessTokenKeys } from "@companieshouse/node-session-handler/lib/session/keys/AccessTokenKeys";
 
 /**
  * Creates an instance of the OAuth API client using a session object.
@@ -43,6 +45,28 @@ export function createPrivateApiKeyClient(): PrivateApiClient {
         env.INTERNAL_API_URL
     );
 }
+
+/**
+ * Creates an instance of the ApiClient configured with the API key.
+ * The API client facilitates interaction with the API by handling
+ * requests and responses with the provided credentials and base URL.
+ *
+ * @returns {ApiClient} An instance of the ApiClient.
+ */
+export function createApiKeyClient(): ApiClient {
+    logger.info(
+        `Creating API client with key ${maskString(
+            env.CHS_INTERNAL_API_KEY
+        )}`
+    );
+    return createApiClient(
+        env.CHS_INTERNAL_API_KEY,
+        undefined,
+        env.API_URL
+    );
+}
+
+type ApiClientCall<T> = (apiClient: ApiClient) => T;
 
 /**
  * Creates an instance of the API client using users OAuth tokens.
@@ -85,7 +109,7 @@ function maskString(s: string, n = 5, mask = "*"): string {
  * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
  * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.
  */
-export async function makeApiCall(session: Session, fn: (apiClient: ApiClient) => Promise<ApiResponse<unknown> | ApiErrorResponse>): Promise<ApiResponse<unknown> | ApiErrorResponse> {
+export async function makeApiCall<T>(session: Session, fn: ApiClientCall<T>): Promise<T> {
     const client = createPublicOAuthApiClient(session);
 
     const response = await fn(client);
@@ -108,4 +132,26 @@ export async function makeApiCall(session: Session, fn: (apiClient: ApiClient) =
     return response;
 }
 
+/**
+ * Executes a given API call function using an API key-authorised API client.
+ *
+ * This function handles the creation of the ApiClient with the internal API key and then performs the API call by invoking the provided function `fn`. It is important to note that this function is designed to facilitate calls to the non-internal API, enabling external data access and operations.
+ *
+ * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
+ * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.
+ */
+export async function makeApiKeyCall<T>(fn: ApiClientCall<T>): Promise<T> {
+    const client = createApiKeyClient();
+
+    return await fn(client);
+}
+
 export const defaultPrivateApiClient = createPrivateApiKeyClient();
+
+export const createPaymentApiClient = (session: Session, paymentUrl: string): ApiClient => {
+    const oAuth = session.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.AccessToken]?.[AccessTokenKeys.AccessToken];
+    if (oAuth) {
+        return createApiClient(undefined, oAuth, paymentUrl);
+    }
+    throw createAndLogError("Error getting session keys for creating payment api client");
+};

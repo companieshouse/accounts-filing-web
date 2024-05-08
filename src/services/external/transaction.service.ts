@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { getAccountsFilingId, getCompanyNumber, getTransactionId, must } from "../../utils/session";
 import { headers } from "../../utils/constants/headers";
 import { TRANSACTION_DESCRIPTION, TRANSACTION_REFERENCE, TransactionStatuses } from "../../utils/constants/transaction";
-import { makeApiCall } from "../../services/internal/api.client.service";
+import { makeApiCall, makeApiKeyCall } from "../../services/internal/api.client.service";
 
 
 export class TransactionService {
@@ -70,7 +70,7 @@ export class TransactionService {
         };
 
         logger.debug(`Updating transaction id ${transactionId} with company number ${companyNumber}, status ${transactionStatus}`);
-        const sdkResponse = await makeApiCall(this.session, async apiClient => {
+        const sdkResponse = await makeApiKeyCall(async apiClient => {
             return await apiClient.transaction.putTransaction(transaction);
         });
 
@@ -90,10 +90,16 @@ export class TransactionService {
     }
 
 
-    async postTransactionRecord(companyNumber: string, reference: string, description: string): Promise<Transaction> {
-        const transactionRecord = this.createTransactionRecord(companyNumber, reference, description);
+    async postTransactionRecord(companyNumber: string, companyName: string, reference: string, description: string): Promise<Transaction> {
 
-        logger.debug(`Created Transaction Record using Company Number: ${companyNumber}, Reference: ${reference}, Description: ${description}`);
+        const transactionRecord: Transaction = {
+            companyNumber: companyNumber,
+            companyName: companyName,
+            description: description,
+            reference: reference
+        };
+
+        logger.debug(`Creating Transaction Record using Company Number: ${companyNumber}, Reference: ${reference}, Description: ${description}`);
 
         const transactionServiceResponse = await makeApiCall(this.session, async apiClient => {
             return await apiClient.transaction.postTransaction(transactionRecord);
@@ -105,16 +111,6 @@ export class TransactionService {
         }
 
         return getTransaction(transactionServiceResponse);
-    }
-
-    createTransactionRecord(companyNumber: string, reference: string, description: string): Transaction {
-        const transaction: Transaction = {
-            companyName: companyNumber,
-            description: description,
-            reference: reference
-
-        };
-        return transaction;
     }
 }
 

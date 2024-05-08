@@ -6,7 +6,9 @@ import errorManifest from "../../utils/error_manifests/default";
 import { Request } from "express";
 
 export interface BaseViewData {
-    errors: any
+    errors: {
+        [key: string]: any
+    }
     title: string
     isSignedIn: boolean
     backURL: string | null

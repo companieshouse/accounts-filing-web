@@ -1,22 +1,8 @@
-import PrivateApiClient from 'private-api-sdk-node/dist/client';
+import { mockApiClient } from '../../mocks/api.client.mock';
 import { AccountsFilingService } from '../../../src/services/external/accounts.filing.service';
-import { Resource } from '@companieshouse/api-sdk-node';
-import { AccountsFileValidationResponse, AccountsFilingCompanyResponse, AccountsFilingValidationRequest, PackageAccountsType } from 'private-api-sdk-node/dist/services/accounts-filing/types';
-import { ApiErrorResponse } from '@companieshouse/api-sdk-node/dist/services/resource';
-import { Failure, Result, Success } from '@companieshouse/api-sdk-node/dist/services/result';
+import { Failure, Success } from '@companieshouse/api-sdk-node/dist/services/result';
 import { Session } from '@companieshouse/node-session-handler';
 import { ContextKeys } from '../../../src/utils/constants/context.keys';
-
-jest.mock('private-api-sdk-node/dist/client', () => {
-    return jest.fn().mockImplementation(() => {
-        return {
-            accountsFilingService: {
-                checkAccountsFileValidationStatus: jest.fn(),
-                confirmCompany: jest.fn()
-            }
-        };
-    });
-});
 
 function createApiResponse (fileId: string) {
     return {
@@ -41,26 +27,21 @@ function createApiResponse (fileId: string) {
         }
     };
 }
-// checkAccountsFileValidationStatus(fileValidationRequest: AccountsFilingValidationRequest): Promise<Resource<AccountsFileValidationResponse> | ApiErrorResponse>;
+
 describe('AccountsFilingService', () => {
     let service: AccountsFilingService;
-    const mockGetStatus = jest.fn<Promise<Resource<AccountsFileValidationResponse> | ApiErrorResponse>, [AccountsFilingValidationRequest]>();
 
     beforeEach(() => {
         jest.resetAllMocks();
 
-        service = new AccountsFilingService({
-            accountsFilingService: {
-                checkAccountsFileValidationStatus: mockGetStatus
-            }
-        } as unknown as PrivateApiClient);
+        service = new AccountsFilingService();
     });
 
     it('should successfully retrieve validation status for a valid request', async () => {
         const fileId = 'f2918b78-c344-4953-b8d1-20a6fce00267';
 
         const mockResponse = { httpStatusCode: 200, resource: createApiResponse(fileId) };
-        mockGetStatus.mockResolvedValue(mockResponse);
+        mockApiClient.accountsFilingService.checkAccountsFileValidationStatus.mockResolvedValue(mockResponse);
 
         const req = { fileId, transactionId: 'some id', accountsFilingId: 'some id' };
         await expect(service.getValidationStatus(req)).resolves.toEqual(mockResponse);
@@ -71,7 +52,7 @@ describe('AccountsFilingService', () => {
         const fileId = 'f2918b78-c344-4953-b8d1-20a6fce00267';
 
         const mockErrorResponse = { httpStatusCode: 400, errors: [{ error: 'Some error occurred' }] };
-        mockGetStatus.mockResolvedValue(mockErrorResponse);
+        mockApiClient.accountsFilingService.checkAccountsFileValidationStatus.mockResolvedValue(mockErrorResponse);
 
         const req = { fileId, transactionId: 'some id', accountsFilingId: 'some id' };
 
@@ -82,17 +63,11 @@ describe('AccountsFilingService', () => {
 
 describe('AccountsFilingService', () => {
     let service: AccountsFilingService;
-    const mockMyFunction = jest.fn<Promise<Resource<AccountsFilingCompanyResponse>>, [string, string]>();
 
     beforeEach(() => {
         jest.resetAllMocks();
 
-        service = new AccountsFilingService({
-            accountsFilingService: {
-                confirmCompany: mockMyFunction
-            }
-        } as unknown as PrivateApiClient);
-
+        service = new AccountsFilingService();
     });
 
     it('should return successfully 200', async () => {
@@ -103,30 +78,38 @@ describe('AccountsFilingService', () => {
                 accountsFilingId: "65e847f791418a767a51ce5d"
             }
         };
-        mockMyFunction.mockResolvedValue(mockResponse);
+
+        mockApiClient.accountsFilingService.confirmCompany.mockResolvedValue(mockResponse);
 
         const companyNumber = 'some id';
         const transactionId =  'some id';
+        const companyName = 'some company';
+        const companyConfirmRequest = {
+            companyName
+        };
 
-        await expect(service.checkCompany(companyNumber, transactionId)).resolves.toEqual(mockResponse);
+        const resp = await service.checkCompany(companyNumber, transactionId, companyConfirmRequest);
+        expect(resp).toEqual(mockResponse);
     });
 
 
     it('should throw an error for non-200 response', async () => {
-
         const mockErrorResponse = { httpStatusCode: 400, errors: [{ error: 'Some error occurred' }] };
-        mockMyFunction.mockResolvedValue(mockErrorResponse);
+        mockApiClient.accountsFilingService.confirmCompany.mockResolvedValue(mockErrorResponse);
 
         const companyNumber = 'some id';
         const transactionId =  'some id';
-
-        await expect(service.checkCompany(companyNumber, transactionId)).rejects.toEqual(mockErrorResponse);
+        const companyName = 'some company';
+        const companyConfirmRequest = {
+            companyName
+        };
+        const resp = service.checkCompany(companyNumber, transactionId, companyConfirmRequest);
+        expect(resp).rejects.toEqual(mockErrorResponse);
     });
 
 
-    describe("AccountsFilingService.setPackageAccountsType tests", () => {
+    describe("AccountsFilingService.setPackageType tests", () => {
         let service: AccountsFilingService;
-        const mockSetPackageAccountsType = jest.fn<Promise<Result<void, Error>>, [string, string, PackageAccountsType]>();
         let session: Session;
 
         const mockTransactionId = (txId: string) => {
@@ -140,30 +123,27 @@ describe('AccountsFilingService', () => {
         beforeEach(() => {
             jest.resetAllMocks();
 
-            service = new AccountsFilingService({
-                accountsFilingService: {
-                    setPackageAccountsType: mockSetPackageAccountsType
-                }
-            } as unknown as PrivateApiClient);
+            service = new AccountsFilingService();
 
 
             session = new Session();
+            session.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         });
 
         it("should return nothing when successful", async () => {
             mockTransactionId("tx_id");
             mockaccountsFilingId("af_id");
 
-            mockSetPackageAccountsType.mockResolvedValue(new Success(undefined));
+            mockApiClient.accountsFilingService.setPackageType.mockResolvedValue(new Success(undefined));
 
-            const returnValue = await service.setPackageAccountsType(session, "UKSEF");
+            const returnValue = await service.setTransactionPackageType(session);
 
             expect(returnValue).toBeUndefined();
         });
 
         it("should throw an error if the transaction id is not in the session", async () => {
             expect(() => {
-                return service.setPackageAccountsType(session, "UKSEF");
+                return service.setTransactionPackageType(session);
             }).rejects.toThrow("Unable to find transactionId in session");
         });
 
@@ -172,7 +152,7 @@ describe('AccountsFilingService', () => {
             mockTransactionId("tx_id");
 
             expect(() => {
-                return service.setPackageAccountsType(session, "UKSEF");
+                return service.setTransactionPackageType(session);
             }).rejects.toThrow("Unable to find accountsFilingId in session");
         });
 
@@ -180,10 +160,10 @@ describe('AccountsFilingService', () => {
             mockTransactionId("tx_id");
             mockaccountsFilingId("af_id");
 
-            mockSetPackageAccountsType.mockResolvedValue(new Failure(new Error("Some error")));
+            mockApiClient.accountsFilingService.setPackageType.mockResolvedValue(new Failure(new Error("Some error")));
 
             expect(() => {
-                return service.setPackageAccountsType(session, "UKSEF");
+                return service.setTransactionPackageType(session);
             }).rejects.toThrow("Some error");
         });
     });

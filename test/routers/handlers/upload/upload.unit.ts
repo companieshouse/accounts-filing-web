@@ -1,12 +1,16 @@
-import { mockTranactionService } from "../../../mocks/transaction.service.mock";
+import { mockTransactionService } from "../../../mocks/transaction.service.mock";
 import { mockDefaultAccountsFilingService } from "../../../mocks/accounts.filing.service.mock";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
 import request from "supertest";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
+import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
 describe("company auth test", () => {
+
+    const companyNumber = "00000000";
+
     beforeEach(() => {
         jest.clearAllMocks();
 
@@ -20,7 +24,7 @@ describe("company auth test", () => {
 
         Object.assign(mockSession, getSessionRequest());
 
-        mockTranactionService.postTransactionRecord.mockResolvedValue({ id: "1" });
+        mockTransactionService.postTransactionRecord.mockResolvedValue({ id: "1" });
         mockDefaultAccountsFilingService.checkCompany.mockResolvedValue({
             httpStatusCode: 200,
             resource: {
@@ -28,22 +32,38 @@ describe("company auth test", () => {
             }
         });
 
-        mockSession.data.signin_info!.company_number = "00000000";
+        mockSession.data.signin_info!.company_number = companyNumber;
+        mockSession.setExtraData(ContextKeys.COMPANY_NAME, "Test Company");
+        mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
 
-        const resp = await request(app).get(`${PrefixedUrls.UPLOAD}/?companyNumber=00000000`);
+        const resp = await request(app).get(`${PrefixedUrls.UPLOAD}`);
         expect(resp.statusCode).toEqual(302);
         expect(resp.headers["location"]).toContain("xbrl_validate");
     });
 
     it("redirect to company auth when there is not companyNumber in session", async () => {
-        await request(app).get(`${PrefixedUrls.UPLOAD}/?companyNumber=00000000`).expect(302);
+        await request(app).get(`${PrefixedUrls.UPLOAD}`).expect(500);
     });
 
-    it("redirect to company auth when the companyNumber query parameter does not match what is in the session", async () => {
+    it("redirect to company auth when the companyNumber no extraData session", async () => {
         // @ts-expect-error because signin_info read only
         mockSession.data.signin_info?.company_number = "NO";
 
-        await request(app).get(`${PrefixedUrls.UPLOAD}/?companyNumber=00000000`).expect(302);
+        await request(app).get(`${PrefixedUrls.UPLOAD}`).expect(500);
+    });
+
+    it("redirect to company auth when the companyNumber extraData session does not match what is in the session", async () => {
+        // @ts-expect-error because signin_info read only
+        mockSession.data.signin_info?.company_number = "NO";
+        mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
+
+        await request(app).get(`${PrefixedUrls.UPLOAD}`).expect(302);
+    });
+
+    it("redirect to company auth when the companyNumber extraData session but nothing in the signin_info", async () => {
+        mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
+
+        await request(app).get(`${PrefixedUrls.UPLOAD}`).expect(302);
     });
 
 });

@@ -151,6 +151,7 @@ describe("Put transaction tests", () => {
 
 function createApiResponse(
     companyNumber: string,
+    companyName: string,
     reference: string,
     description: string
 ) {
@@ -163,7 +164,7 @@ function createApiResponse(
         reference,
         status: "open",
         kind: "transaction",
-        companyName: undefined,
+        companyName,
         companyNumber,
         createdAt: "2000-01-01T13:00:00Z",
         createdBy: {
@@ -179,6 +180,7 @@ function createApiResponse(
 
 describe('TransactionService', () => {
     const companyNumber = "0";
+    const companyName = "Some Company";
     const reference = "accounts-filing-web";
     const description = "accounts filing web";
 
@@ -193,31 +195,31 @@ describe('TransactionService', () => {
     });
 
     it("should response when http code is 201", async () => {
-        const resource = createApiResponse(companyNumber, reference, description);
+        const resource = createApiResponse(companyNumber, companyName, reference, description);
         const mockResponse = { httpStatusCode: 201, resource };
         mockPostStatus.mockResolvedValue(mockResponse);
 
-        await expect(service.postTransactionRecord(companyNumber, reference, description)).resolves.toEqual(resource);
+        await expect(service.postTransactionRecord(companyNumber, companyName, reference, description)).resolves.toEqual(resource);
     });
 
     it("should throw error response when http code is 418", async () => {
         const mockErrorResponse = { httpStatusCode: 418, errors: [{ error: 'Some error occurred' }] };
         mockPostStatus.mockResolvedValue(mockErrorResponse);
 
-        await expect(service.postTransactionRecord(companyNumber, reference, description)).rejects.toEqual(mockErrorResponse);
+        await expect(service.postTransactionRecord(companyNumber, companyName, reference, description)).rejects.toEqual(mockErrorResponse);
     });
 
     it("should throw error when resource is undefined", async () => {
         const mockResponse = { httpStatusCode: 201, errors: [{ error: 'Some error occurred' }] };
         mockPostStatus.mockResolvedValue(mockResponse);
 
-        await expect(service.postTransactionRecord(companyNumber, reference, description)).rejects.toEqual(Error("Transaction service didn't return a resource"));
+        await expect(service.postTransactionRecord(companyNumber, companyName, reference, description)).rejects.toEqual(Error("Transaction service didn't return a resource"));
     });
 
     it("should throw error when resource obtains a undefined", async () => {
         const mockResponse = { httpStatusCode: 201, resource: undefined };
         mockPostStatus.mockResolvedValue(mockResponse);
 
-        await expect(service.postTransactionRecord(companyNumber, reference, description)).rejects.toEqual(Error("Transaction service return resource contains a undefined or null"));
+        await expect(service.postTransactionRecord(companyNumber, companyName, reference, description)).rejects.toEqual(Error("Transaction service return resource contains a undefined or null"));
     });
 });
