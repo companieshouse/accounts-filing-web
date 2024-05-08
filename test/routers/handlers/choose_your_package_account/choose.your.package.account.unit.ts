@@ -4,7 +4,7 @@ import app from "./../../../../src/app";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
 import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
-import { PackageAccounts, getPackageItems } from "../../../../src/utils/constants/packageAccounts";
+import { PackageAccounts, getPackageItems } from "../../../../src/utils/constants/PackageTypeDetails";
 
 
 const viewDataPackageSelectionPage = {
@@ -31,13 +31,13 @@ describe("package account selection test", () => {
     });
 
     it("should render package selection page with the correct page title", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE);
+        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain(viewDataPackageSelectionPage.title);
     });
 
     it("should render all package account types on the package page", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE);
+        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
         getPackageItems().forEach(item => {
             expect(response.text).toContain(item.value);
@@ -50,18 +50,18 @@ describe("package account selection test", () => {
     });
 
     it("should contain the correct backlink", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE);
+        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${viewDataPackageSelectionPage.session.companyNumber}`);
     });
 
     it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
-        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE).send({value: PackageAccounts.overseas.name}).expect(302);
+        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({value: PackageAccounts.overseas.name}).expect(302);
         expect(response.text).toContain(Urls.UPLOAD)
     });
 
     it("should throw a packageAccount error", async () => {
-        expect(await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNT_PACKAGE).expect(500)).rejects.toThrow;
+        expect(await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).expect(500)).rejects.toThrow;
     });
 
 });

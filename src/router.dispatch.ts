@@ -25,9 +25,8 @@ const routerDispatch = (app: Application) => {
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
-    router.use(Urls.CHOOSE_YOUR_ACCOUNT_PACKAGE, ChooseYourPackageAccountRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
-
+    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, ChooseYourPackageAccountRouter);
     router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
     router.use(Urls.UPLOADED, companyAuthenticationMiddleware, FileUpladedRouter);
     router.use(Urls.CHECK_YOUR_ANSWERS, companyAuthenticationMiddleware, CheckYourAnswersRouter);

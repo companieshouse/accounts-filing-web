@@ -2,7 +2,7 @@ import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
 import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserProfile, must } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import { getAccountType } from "../../../utils/constants/packageAccounts";
+import { getAccountType } from "../../../utils/constants/PackageTypeDetails";
 
 interface ConfirmationSubmissionViewData extends BaseViewData {
         accountsFilingId: string | Error,

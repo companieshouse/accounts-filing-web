@@ -5,7 +5,7 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import request from "supertest";
 import app from "../../src/app";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { PackageAccounts } from "../../src/utils/constants/packageAccounts";
+import { PackageAccounts } from "../../src/utils/constants/PackageTypeDetails";
 
 
 describe("Check your answers test", () => {

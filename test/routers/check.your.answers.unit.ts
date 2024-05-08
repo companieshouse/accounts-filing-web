@@ -9,7 +9,7 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { setValidationResult } from "../../src/utils/session";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { PackageAccounts } from "../../src/utils/constants/packageAccounts";
+import { PackageAccounts } from "../../src/utils/constants/PackageTypeDetails";
 import { getSessionRequest } from "../mocks/session.mock";
 import { startPaymentsSession } from "../../src/services/external/payment.service";
 import { mockPayment, PAYMENT_JOURNEY_URL } from "../mocks/payment.mock";

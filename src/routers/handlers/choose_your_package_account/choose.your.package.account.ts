@@ -1,18 +1,18 @@
 import { PrefixedUrls } from "../../../utils/constants/urls";
-import { getCompanyNumber, getPackageType, setPackageType } from "../../../utils/session";
+import { getCompanyNumber, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { PackageAccountType, getPackageItems, PackageAccounts } from "../../../utils/constants/packageAccounts";
+import { PackageAccountType, getPackageItems, PackageAccounts } from "../../../utils/constants/PackageTypeDetails";
 import { logger } from "../../../utils/logger";
 import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 
 interface ChooseYourPackageAccountViewData extends BaseViewData {
-    packageAccountItems: Array<PackageAccountType>
-    packageAccount?: PackageType
+    packageAccountsItems: Array<PackageAccountType>
+    packageAccounts?: PackageType
 }
 
 export class ChooseYourPackageAccountHandler extends GenericHandler {
-    private packageAccountItems = getPackageItems();
+    private packageAccountsItems = getPackageItems();
     constructor() {
         super({
             title: "What package accounts are you submitting?",
@@ -27,19 +27,19 @@ export class ChooseYourPackageAccountHandler extends GenericHandler {
         logger.info(`post request made for ${this.constructor.name}`);
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
-        const packageAccount = req.body;
+        const packageAccounts = req.body;
 
-        if ("value" in packageAccount && packageAccount["value"] in PackageAccounts){
-            setPackageType(req.session, packageAccount);
+        if ("value" in packageAccounts && packageAccounts["value"] in PackageAccounts){
+            setPackageType(req.session, packageAccounts);
         } else {
-            this.baseViewData.errors.packageAccount = new Error("Package Account type must be set");
+            this.baseViewData.errors.packageAccount = new Error("Package Accounts type must be set");
         }
 
         this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
 
         return {
             ...this.baseViewData,
-            packageAccountItems: this.packageAccountItems
+            packageAccountsItems: this.packageAccountsItems
         };
     }
 
@@ -55,7 +55,7 @@ export class ChooseYourPackageAccountHandler extends GenericHandler {
 
         return {
             ...this.baseViewData,
-            packageAccountItems: this.packageAccountItems
+            packageAccountsItems: this.packageAccountsItems
         };
     }
 }

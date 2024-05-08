@@ -5,7 +5,7 @@ import { ContextKeys } from "../../src/utils/constants/context.keys";
 import express from "express";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
-import { PackageAccounts } from "../../src/utils/constants/packageAccounts";
+import { PackageAccounts } from "../../src/utils/constants/PackageTypeDetails";
 import { env } from "../../src/config";
 
 

@@ -4,7 +4,7 @@ import { createAndLogError, logger } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getPackageType, getValidationResult, must } from "../../../utils/session";
-import { getAccountType } from "../../../utils/constants/packageAccounts";
+import { getAccountType } from "../../../utils/constants/PackageTypeDetails";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAccountsFilingId, getTransactionId } from "../../../utils/session";
 import { startPaymentsSession } from "../../../services/external/payment.service";
