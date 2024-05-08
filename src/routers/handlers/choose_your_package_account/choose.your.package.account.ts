@@ -2,12 +2,12 @@ import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getCompanyNumber, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { PackageAccountType, getPackageItems, PackageTypeDetails } from "../../../utils/constants/PackageTypeDetails";
+import { PackageAccountsType, getPackageItems, PackageTypeDetails } from "../../../utils/constants/PackageTypeDetails";
 import { logger } from "../../../utils/logger";
 import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 
-interface ChooseYourPackageAccountViewData extends BaseViewData {
-    packageAccountsItems: Array<PackageAccountType>
+interface ChooseYourPackageAccountsViewData extends BaseViewData {
+    packageAccountsItems: Array<PackageAccountsType>
     packageAccounts?: PackageType
 }
 
@@ -23,7 +23,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
     async executePost (
         req: Request,
         _response: Response
-    ): Promise<ChooseYourPackageAccountViewData> {
+    ): Promise<ChooseYourPackageAccountsViewData> {
         logger.info(`post request made for ${this.constructor.name}`);
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
@@ -46,7 +46,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
     async executeGet(
         req: Request,
         _response: Response
-    ): Promise<ChooseYourPackageAccountViewData>{
+    ): Promise<ChooseYourPackageAccountsViewData>{
         logger.info(`get request made for ${this.constructor.name}`);
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);

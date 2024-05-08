@@ -13,8 +13,7 @@ const viewDataPackageSelectionPage = {
     session: {
         companyName: 'Test Company',
         companyNumber: '00006400',
-        accountsFilingId: '78910',
-        userProfile: { email: 'test@companieshouse.gov.uk' }
+        accountsFilingId: '78910'
     }
 };
 

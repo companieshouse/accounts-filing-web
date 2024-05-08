@@ -1,10 +1,10 @@
 import { env } from "../../config";
 
-type AccountsType = Record< "name" | "description" | "fee", string | string |string>;
+type PackageType = Record< "name" | "description" | "fee", string | string |string>;
 
-type AccountsTypes = Record<string, AccountsType>;
+type PackageTypes = Record<string, PackageType>;
 
-const PackageTypeDetails: AccountsTypes =  {
+const PackageTypeDetails: PackageTypes =  {
     cic: { name: "cic", description: "Community Interest Company (CIC) accounts", fee: env.CIC_FEE },
     overseas: { name: "overseas", description: "Overseas company accounts", fee: env.OVERSEAS_FEE },
     "audit-exempt-subsidiary": { name: "audit-exempt-subsidiary", description: "Audit exempt subsidiary accounts", fee: "-" },
@@ -16,12 +16,12 @@ const PackageTypeDetails: AccountsTypes =  {
     welsh: { name: "welsh", description: "Welsh accounts with an English translation", fee: "-" }
 };
 
-function getAccountsType(packageType: string): AccountsType {
+function getDetailsForPackageType(packageType: string): PackageType {
     return PackageTypeDetails[packageType];
 }
 
-type PackageAccountType = Record<string, string | Record<string, string | null>>;
-const packageItems: Array<PackageAccountType> = [];
+type PackageAccountsType = Record<string, string | Record<string, string | null>>;
+const packageItems: Array<PackageAccountsType> = [];
 
 Object.entries(PackageTypeDetails).forEach(
     ([key, value]) => {
@@ -41,4 +41,4 @@ Object.entries(PackageTypeDetails).forEach(
 
 const getPackageItems = () => packageItems;
 
-export { getPackageItems, getAccountsType, PackageTypeDetails, AccountsTypes, AccountsType, PackageAccountType };
+export { getPackageItems, getDetailsForPackageType, PackageTypeDetails, PackageAccountsType };
