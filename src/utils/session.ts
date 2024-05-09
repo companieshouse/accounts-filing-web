@@ -5,8 +5,8 @@ import { AccessTokenKeys } from "@companieshouse/node-session-handler/lib/sessio
 import { Session } from "@companieshouse/node-session-handler";
 import { ContextKeys } from "./constants/context.keys";
 import { createAndLogError } from "./logger";
-import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
+import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
 export function getSignInInfo(session: Session): ISignInInfo | undefined {
     return session?.data?.[SessionKey.SignInInfo];
 }
