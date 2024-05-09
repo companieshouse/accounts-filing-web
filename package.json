@@ -65,7 +65,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^2.0.155",
+    "@companieshouse/api-sdk-node": "^2.0.160",
     "@companieshouse/node-session-handler": "^5.0.2",
     "@companieshouse/structured-logging-node": "^2.0.1",
     "@companieshouse/web-security-node": "^2.0.5",
