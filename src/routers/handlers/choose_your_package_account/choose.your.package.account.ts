@@ -1,4 +1,4 @@
-import { PrefixedUrls } from "../../../utils/constants/urls";
+import { PrefixedUrls, Urls } from "../../../utils/constants/urls";
 import { getCompanyNumber, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
@@ -7,8 +7,9 @@ import { logger } from "../../../utils/logger";
 import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 
 interface ChooseYourPackageAccountsViewData extends BaseViewData {
-    packageAccountsItems: Array<PackageAccountsType>
-    packageAccounts?: PackageType
+    packageAccountsItems: Array<PackageAccountsType>,
+    packageAccounts?: PackageType,
+    uploadLink: string
 }
 
 export class ChooseYourPackageAccountsHandler extends GenericHandler {
@@ -39,7 +40,8 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
         return {
             ...this.baseViewData,
-            packageAccountsItems: this.packageAccountsItems
+            packageAccountsItems: this.packageAccountsItems,
+            uploadLink: Urls.UPLOAD
         };
     }
 
@@ -55,7 +57,8 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
         return {
             ...this.baseViewData,
-            packageAccountsItems: this.packageAccountsItems
+            packageAccountsItems: this.packageAccountsItems,
+            uploadLink: PrefixedUrls.UPLOAD
         };
     }
 }
