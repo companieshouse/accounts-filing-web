@@ -15,7 +15,6 @@ interface CheckYourAnswersViewData extends BaseViewData {
     fileName: string
     typeOfAccounts: string
     changeTypeOfAccountsUrl: string
-    choosePackageAccountsLink: string
 }
 
 export class CheckYourAnswersHandler extends GenericHandler {
@@ -41,8 +40,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
             ...this.baseViewData,
             changeTypeOfAccountsUrl: `${PrefixedUrls.UPLOAD}`,
             fileName: validationStatus.fileName,
-            typeOfAccounts: accountsTypeFullName,
-            choosePackageAccountsLink: PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE
+            typeOfAccounts: accountsTypeFullName
         };
     }
 
