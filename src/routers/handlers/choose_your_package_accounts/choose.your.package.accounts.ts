@@ -31,7 +31,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         const packageTypeChoice = req.body;
 
         if ("value" in packageTypeChoice && packageTypeChoice["value"] in PackageTypeDetails){
-            setPackageType(req.session, packageTypeChoice);
+            setPackageType(req.session, packageTypeChoice.value);
         } else {
             this.baseViewData.errors.packageAccountsError = new Error("Package Accounts type must be set");
         }
