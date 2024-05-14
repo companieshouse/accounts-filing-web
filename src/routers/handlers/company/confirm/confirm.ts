@@ -13,7 +13,7 @@ export class CompanyConfirmHandler extends GenericHandler {
     constructor(private companyProfileService: CompanyProfileService) {
         super({
             title: "Confirm company – Accounts Filing – GOV.UK ",
-            backURL: `${PrefixedUrls.COMPANY_SEARCH}/`
+            backURL: `${PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE}/`
         });
     }
 
@@ -27,18 +27,18 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         const companyProfile: CompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
 
-        const chooseAccountsPackageLink = `${PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE}`;
+        const uploadLink = PrefixedUrls.UPLOAD;
 
         setCompanyName(req.session, companyProfile.companyName);
 
         logger.info(`Serving company profile data`);
-        return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, chooseAccountsPackageLink: chooseAccountsPackageLink, changeCompanyUrl: COMPANY_LOOKUP } };
+        return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: uploadLink, changeCompanyUrl: COMPANY_LOOKUP } };
     }
 
 }
 
 interface ConfirmCompanyViewData extends BaseViewData {
     companyProfile: CompanyProfile,
-    chooseAccountsPackageLink: string,
+    uploadLink: string,
     changeCompanyUrl: string
 }

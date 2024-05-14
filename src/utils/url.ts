@@ -28,7 +28,7 @@ function constructValidatorRedirect(req: Request): string{
     const base = getUriHost(req);
     const companyNumber = must(getCompanyNumber(req.session));
     const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
-    const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CONFIRM_COMPANY}?${URL_QUERY_PARAM.PARAM_COMPANY_NUMBER}=${companyNumber}`);
+    const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE}?${URL_QUERY_PARAM.PARAM_COMPANY_NUMBER}=${companyNumber}`);
     const packageType = must(getPackageType(req.session));
     return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl, packageType);
 }

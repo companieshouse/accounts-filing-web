@@ -60,10 +60,6 @@ export class UploadHandler extends GenericHandler {
             throw error;
         }
 
-        // TODO: Temporary location for setting package type. Remove when funcationality is in place.
-        setPackageType(req.session, "uksef");
-
-
         await this.accountsFilingService.setTransactionPackageType(req.session);
         return constructValidatorRedirect(req);
     }

@@ -1,10 +1,10 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { createAndLogError, logger } from "../../utils/logger";
-import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { getAccountsFilingId, getPackageType, getTransactionId, must } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
 import { AccountsFilingCompanyResponse, AccountsFilingValidationRequest, ConfirmCompanyRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 import { makeApiKeyCall } from "../../services/internal/api.client.service";
+import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
 
 
 export class AccountsFilingService {

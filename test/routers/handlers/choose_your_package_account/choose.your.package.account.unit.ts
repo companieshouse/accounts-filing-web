@@ -3,7 +3,7 @@ import request from "supertest";
 import app from "./../../../../src/app";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
-import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
+import { PrefixedUrls, Urls, servicePathPrefix } from "../../../../src/utils/constants/urls";
 import { PackageTypeDetails, getPackageItems } from "../../../../src/utils/constants/PackageTypeDetails";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
@@ -57,14 +57,15 @@ describe("package account selection test", () => {
     });
 
     it("should contain the correct backlink", async () => {
+        const encodedUrl = `%2F${servicePathPrefix.substring(1)}%2F${Urls.CONFIRM_COMPANY.substring(1)}%3FcompanyNumber%3D${viewDataPackageSelectionPage.session.companyNumber}`;
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
-        expect(response.text).toContain(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${viewDataPackageSelectionPage.session.companyNumber}`);
+        expect(response.text).toContain(encodedUrl);
     });
 
     it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
         const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ value: PackageTypeDetails.overseas.name }).expect(302);
-        expect(response.text).toContain(Urls.UPLOAD);
+        expect(response.text).toContain(Urls.CONFIRM_COMPANY.substring(1));
     });
 
     it("should throw a packageAccount error", async () => {

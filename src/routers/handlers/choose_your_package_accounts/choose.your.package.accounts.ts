@@ -1,4 +1,4 @@
-import { PrefixedUrls, Urls } from "../../../utils/constants/urls";
+import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getCompanyNumber, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
@@ -9,7 +9,7 @@ import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts
 interface ChooseYourPackageAccountsViewData extends BaseViewData {
     packageAccountsItems: Array<PackageAccountsType>,
     packageAccounts?: PackageType,
-    uploadLink: string
+    continueButtonLink: string
 }
 
 export class ChooseYourPackageAccountsHandler extends GenericHandler {
@@ -36,12 +36,12 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             this.baseViewData.errors.packageAccountsError = new Error("Package Accounts type must be set");
         }
 
-        this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
+        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`);
 
         return {
             ...this.baseViewData,
             packageAccountsItems: this.packageAccountsItems,
-            uploadLink: Urls.UPLOAD
+            continueButtonLink: encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`)
         };
     }
 
@@ -53,12 +53,12 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
 
-        this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
+        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`);
 
         return {
             ...this.baseViewData,
             packageAccountsItems: this.packageAccountsItems,
-            uploadLink: PrefixedUrls.UPLOAD
+            continueButtonLink: encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`)
         };
     }
 }
