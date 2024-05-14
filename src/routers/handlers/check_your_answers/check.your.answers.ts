@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { BaseViewData, GenericHandler } from "./../generic";
 import { createAndLogError, logger } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
-import { PrefixedUrls, Urls } from "../../../utils/constants/urls";
+import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getPackageType, getValidationResult, must } from "../../../utils/session";
 import { getDetailsForPackageType } from "../../../utils/constants/PackageTypeDetails";
 import { Session } from "@companieshouse/node-session-handler";
@@ -42,7 +42,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
             changeTypeOfAccountsUrl: `${PrefixedUrls.UPLOAD}`,
             fileName: validationStatus.fileName,
             typeOfAccounts: accountsTypeFullName,
-            choosePackageAccountsLink: Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE
+            choosePackageAccountsLink: PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE
         };
     }
 
