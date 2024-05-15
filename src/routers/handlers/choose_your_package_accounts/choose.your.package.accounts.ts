@@ -35,7 +35,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             this.baseViewData.errors.packageAccountsError = new Error("Package Accounts type must be set");
         }
 
-        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
+        this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
 
         return {
             ...this.baseViewData,
@@ -51,7 +51,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
 
-        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`);
+        this.baseViewData.backURL = `${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`;
 
         return {
             ...this.baseViewData,
