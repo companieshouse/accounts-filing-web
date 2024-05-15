@@ -8,8 +8,7 @@ import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts
 
 interface ChooseYourPackageAccountsViewData extends BaseViewData {
     packageAccountsItems: Array<PackageAccountsType>,
-    packageAccounts?: PackageType,
-    continueButtonLink: string
+    packageAccounts?: PackageType
 }
 
 export class ChooseYourPackageAccountsHandler extends GenericHandler {
@@ -40,8 +39,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
         return {
             ...this.baseViewData,
-            packageAccountsItems: this.packageAccountsItems,
-            continueButtonLink: PrefixedUrls.UPLOAD
+            packageAccountsItems: this.packageAccountsItems
         };
     }
 
@@ -57,8 +55,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
         return {
             ...this.baseViewData,
-            packageAccountsItems: this.packageAccountsItems,
-            continueButtonLink: PrefixedUrls.UPLOAD
+            packageAccountsItems: this.packageAccountsItems
         };
     }
 }
