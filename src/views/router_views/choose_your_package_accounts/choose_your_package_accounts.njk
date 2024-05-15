@@ -5,25 +5,27 @@
 
 {% block main_content %}
 
-  {{ 
-    govukRadios({
-      name: "PackageAccounts",
-      fieldset: {
-        legend: {
-          text: title,
-          isPageHeading: true,
-          classes: "govuk-fieldset__legend--l"
-        }
-      },
-      items: packageAccountsItems
-    }) 
-  }}
+  <form  method="post">
+    {{ 
+      govukRadios({
+        name: "PackageAccounts",
+        fieldset: {
+          legend: {
+            text: title,
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: packageAccountsItems
+      }) 
+    }}
 
-  {{ 
-    govukButton({
-      text: "Confirm and continue",
-      href: Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE
-    }) 
-  }} 
+    {{ 
+      govukButton({
+        text: "Confirm and continue"
+      }) 
+    }} 
+
+  </form>
 
 {% endblock %}
