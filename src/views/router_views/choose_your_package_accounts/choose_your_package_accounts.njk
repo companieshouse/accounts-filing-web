@@ -1,6 +1,7 @@
 {% extends "layouts/default.njk" %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block main_content %}
 
@@ -17,5 +18,11 @@
       items: packageAccountsItems
     }) 
   }}
+
+  {{ 
+    govukButton({
+      text: "Confirm and continue"
+    }) 
+  }} 
 
 {% endblock %}

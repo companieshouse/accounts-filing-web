@@ -7,6 +7,7 @@ import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { getSessionRequest } from "../mocks/session.mock";
 import { AccountsFilingCompanyResponse } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
+import { PackageTypeDetails } from "../../src/utils/constants/PackageTypeDetails";
 
 let session = getSessionRequest();
 
@@ -61,6 +62,7 @@ describe("UploadHandler", () => {
         session.setExtraData("transactionId", "000000-123456-000000");
         session.setExtraData(ContextKeys.COMPANY_NAME, companyName);
         session.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
+        session.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
 
         mockReq = {
             session: session,

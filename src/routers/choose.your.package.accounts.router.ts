@@ -1,7 +1,7 @@
 import { Router, Response, Request } from "express";
 import { handleExceptions } from "../utils/error.handler";
-import { ChooseYourPackageAccountsHandler } from "./handlers/choose_your_package_account/choose.your.package.account";
-import { Urls } from "../utils/constants/urls";
+import { ChooseYourPackageAccountsHandler } from "./handlers/choose_your_package_accounts/choose.your.package.accounts";
+import { PrefixedUrls } from "../utils/constants/urls";
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router.post('/', handleExceptions(async (req: Request, res: Response) => {
         throw viewData.errors.packageAccountsError;
     }
 
-    res.redirect(Urls.UPLOAD);
+    res.redirect(PrefixedUrls.UPLOAD);
 }));
 
 export default router;

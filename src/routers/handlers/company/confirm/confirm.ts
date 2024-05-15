@@ -27,18 +27,18 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         const companyProfile: CompanyProfile = await this.companyProfileService.getCompanyProfile(companyNumber);
 
-        const confirmCompanyLink = `${PrefixedUrls.UPLOAD}`;
+        const chooseAccountsPackageLink = PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE;
 
         setCompanyName(req.session, companyProfile.companyName);
 
         logger.info(`Serving company profile data`);
-        return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, uploadLink: confirmCompanyLink, changeCompanyUrl: COMPANY_LOOKUP } };
+        return { templatePath: `${CompanyConfirmHandler.routeViews}`, viewData: { ...this.baseViewData, companyProfile: companyProfile, chooseAccountsPackageLink: chooseAccountsPackageLink, changeCompanyUrl: COMPANY_LOOKUP } };
     }
 
 }
 
 interface ConfirmCompanyViewData extends BaseViewData {
     companyProfile: CompanyProfile,
-    uploadLink: string,
+    chooseAccountsPackageLink: string,
     changeCompanyUrl: string
 }

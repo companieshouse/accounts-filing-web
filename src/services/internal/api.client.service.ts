@@ -114,28 +114,14 @@ export async function makeApiCall<T>(session: Session, fn: ApiClientCall<T>): Pr
 
     const response = await fn(client);
 
-    // TODO: this code was copied from the overseas entity web service. They had this code to retry the API call if it failed with a refreshed OAUTH token.
-    // For now this isn't necessary but may be in the future, so the retry code has been left in for now, but commented out.
-    // if (response && response.httpStatusCode === 401) {
-    // const responseMsg = `Retrying call on after unauthorised response`;
-    // logger.debug(`${responseMsg} - ${JSON.stringify(response)}`);
-
-    // const accessToken = await refreshToken(session);
-    // logger.debug(`New access token: ${accessToken}`);
-
-    // client = createPublicOAuthApiClient(session);
-    // response = await fn(client);
-    // }
-
-    // logger.debug("Call successful.");
-
     return response;
 }
 
 /**
  * Executes a given API call function using an API key-authorised API client.
  *
- * This function handles the creation of the ApiClient with the internal API key and then performs the API call by invoking the provided function `fn`. It is important to note that this function is designed to facilitate calls to the non-internal API, enabling external data access and operations.
+ * This function handles the creation of the ApiClient with the internal API key and then performs the API call by invoking the provided function `fn`.
+ * It is important to note that this function is designed to facilitate calls to the non-internal API, enabling external data access and operations.
  *
  * @param fn - A function that takes an ApiClient as an argument and returns a Promise of ApiResponse or ApiErrorResponse.
  * @returns The Promise of ApiResponse or ApiErrorResponse resulting from the API call function.

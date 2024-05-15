@@ -7,7 +7,7 @@ import { logger } from "../../../utils/logger";
 import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 
 interface ChooseYourPackageAccountsViewData extends BaseViewData {
-    packageAccountsItems: Array<PackageAccountsType>
+    packageAccountsItems: Array<PackageAccountsType>,
     packageAccounts?: PackageType
 }
 
@@ -30,12 +30,12 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         const packageTypeChoice = req.body;
 
         if ("value" in packageTypeChoice && packageTypeChoice["value"] in PackageTypeDetails){
-            setPackageType(req.session, packageTypeChoice);
+            setPackageType(req.session, packageTypeChoice.value);
         } else {
             this.baseViewData.errors.packageAccountsError = new Error("Package Accounts type must be set");
         }
 
-        this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
+        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
 
         return {
             ...this.baseViewData,
@@ -51,7 +51,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
 
-        this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
+        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`);
 
         return {
             ...this.baseViewData,
