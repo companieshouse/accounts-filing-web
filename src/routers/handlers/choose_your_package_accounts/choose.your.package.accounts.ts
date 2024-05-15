@@ -36,12 +36,12 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             this.baseViewData.errors.packageAccountsError = new Error("Package Accounts type must be set");
         }
 
-        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`);
+        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
 
         return {
             ...this.baseViewData,
             packageAccountsItems: this.packageAccountsItems,
-            continueButtonLink: encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`)
+            continueButtonLink: PrefixedUrls.UPLOAD
         };
     }
 
@@ -58,7 +58,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         return {
             ...this.baseViewData,
             packageAccountsItems: this.packageAccountsItems,
-            continueButtonLink: encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`)
+            continueButtonLink: PrefixedUrls.UPLOAD
         };
     }
 }
