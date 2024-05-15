@@ -51,7 +51,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
 
-        this.baseViewData.backURL = `${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`;
+        this.baseViewData.backURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
 
         return {
             ...this.baseViewData,

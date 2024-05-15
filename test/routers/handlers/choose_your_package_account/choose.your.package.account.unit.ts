@@ -57,10 +57,10 @@ describe("package account selection test", () => {
     });
 
     it("should contain the correct backlink", async () => {
-        const encodedUrl = `${servicePathPrefix}${Urls.COMPANY_SEARCH}?companyNumber=${viewDataPackageSelectionPage.session.companyNumber}`;
+        const backUrl = PrefixedUrls.CONFIRM_COMPANY;
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
-        expect(response.text).toContain(encodedUrl);
+        expect(response.text).toContain(backUrl);
     });
 
     it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
