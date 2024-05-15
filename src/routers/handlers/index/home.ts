@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
-import { env } from "../../../config";
+import { fees } from "../choose_your_package_accounts/package.type.radio.options";
 
 export class HomeHandler extends GenericHandler {
 
@@ -16,19 +16,11 @@ export class HomeHandler extends GenericHandler {
         const routeViews = "router_views/index";
         logger.info(`GET request for to serve home page`);
 
-        // Fees to be displayed on home for filings
-        const fees = {
-            CIC: env.CIC_FEE,
-            OC: env.OVERSEAS_FEE
-        };
 
-        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees: fees } };
+        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees } };
     }
 }
 
 interface HomeViewData extends BaseViewData {
-    fees: {
-        CIC: string,
-        OC: string
-    }
+    fees: typeof fees
 }

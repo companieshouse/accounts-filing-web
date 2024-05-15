@@ -1,3 +1,5 @@
+import { packageTypeFieldName } from "../../routers/handlers/choose_your_package_accounts/constants";
+
 const errorManifest = {
     generic: {
         serverError: {
@@ -19,7 +21,13 @@ const errorManifest = {
                 inline: "Enter an email address in the correct format, like name@example.com"
             }
         }
+    },
+    [packageTypeFieldName]: {
+        nothingSelected: {
+            summary: "Select the type of package accounts you are uploading",
+            inline: ""
+        }
     }
-};
+} as const;
 
 export default errorManifest;

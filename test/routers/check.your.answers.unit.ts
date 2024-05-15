@@ -9,12 +9,12 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { setValidationResult } from "../../src/utils/session";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { PackageTypeDetails } from "../../src/utils/constants/PackageTypeDetails";
 import { getSessionRequest } from "../mocks/session.mock";
 import { startPaymentsSession } from "../../src/services/external/payment.service";
 import { mockPayment, PAYMENT_JOURNEY_URL } from "../mocks/payment.mock";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { getPackageTypeOption } from "../../src/routers/handlers/choose_your_package_accounts/package.type.radio.options";
 const mockStartPaymentsSession = startPaymentsSession as jest.Mock;
 
 const mockPaymentHeaders = {
@@ -47,7 +47,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, getPackageTypeOption('uksef').name);
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
         mockSession.data['signin_info']['signed_in'] = 1;
 
@@ -68,7 +68,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, getPackageTypeOption('uksef').name);
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
         mockSession.data['signin_info']['signed_in'] = 1;
 
@@ -89,7 +89,7 @@ describe("Check your answers test", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, getPackageTypeOption('uksef').name);
         mockSession.data['signin_info']['signed_in'] = 1;
 
         const resp = await request(app).get(PrefixedUrls.CHECK_YOUR_ANSWERS);
@@ -119,6 +119,7 @@ describe("Check your answers test", () => {
     it("Should close the transaction and navigate to the payment jouney when receiving a payment url from close transaction", async () => {
         mockTransactionService.closeTransaction.mockResolvedValue(PAYMENT_URL);
         mockStartPaymentsSession.mockResolvedValueOnce(mockPaymentResponse);
+        // @ts-expect-error overwriting readonly signin_info for testing purposes
         mockSession.data['signin_info'] = { company_number: "00000000" };
         mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, "mockAccFilingId");

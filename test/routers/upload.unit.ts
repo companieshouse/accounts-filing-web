@@ -7,7 +7,7 @@ import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { getSessionRequest } from "../mocks/session.mock";
 import { AccountsFilingCompanyResponse } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
-import { PackageTypeDetails } from "../../src/utils/constants/PackageTypeDetails";
+import { getPackageTypeOption } from "../../src/routers/handlers/choose_your_package_accounts/package.type.radio.options";
 
 let session = getSessionRequest();
 
@@ -62,7 +62,7 @@ describe("UploadHandler", () => {
         session.setExtraData("transactionId", "000000-123456-000000");
         session.setExtraData(ContextKeys.COMPANY_NAME, companyName);
         session.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
-        session.setExtraData(ContextKeys.PACKAGE_TYPE, PackageTypeDetails.uksef.name);
+        session.setExtraData(ContextKeys.PACKAGE_TYPE, getPackageTypeOption('uksef').name);
 
         mockReq = {
             session: session,
@@ -91,7 +91,7 @@ describe("UploadHandler", () => {
         const url = await handler.execute(mockReq as Request, {} as any);
 
         const expectedUrl =
-        "http://chs.locl/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D&backUrl=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fconfirm-company%3FcompanyNumber%3D123456&packageType=uksef";
+            "http://chs.locl/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D&backUrl=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fchoose-your-accounts-package&packageType=uksef"
 
         expect(accountsFilingServiceMock.checkCompany).toHaveBeenCalledTimes(1);
         expect(url).toEqual(expectedUrl);
