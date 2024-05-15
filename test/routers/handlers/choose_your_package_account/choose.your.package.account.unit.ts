@@ -3,7 +3,7 @@ import request from "supertest";
 import app from "./../../../../src/app";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
-import { PrefixedUrls, Urls, servicePathPrefix } from "../../../../src/utils/constants/urls";
+import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
 import { PackageTypeDetails, getPackageItems } from "../../../../src/utils/constants/PackageTypeDetails";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
