@@ -29,10 +29,10 @@ export abstract class GenericHandler {
 
     constructor (args: GenericHandlerArgs) {
         this.errorManifest = errorManifest;
-        this.baseViewData = {
+        this.baseViewData = structuredClone({
             ...defaultBaseViewData,
             ...args
-        };
+        });
     }
 
     processHandlerException (err: any): Object {
