@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
-import { fees } from "../choose_your_package_accounts/package.type.radio.options";
+import { fees } from "../../../utils/constants/fees";
 
 export class HomeHandler extends GenericHandler {
 

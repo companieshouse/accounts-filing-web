@@ -1,17 +1,5 @@
-import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
+import { env } from "../../../config";
 import { logger } from "../../../utils/logger";
-
-export const fees: Record<PackageType, number> = {
-    "cic": 15,
-    "overseas": 33,
-    uksef: 0,
-    welsh: 0,
-    "limited-partnership": 0,
-    "group-package-400": 0,
-    "group-package-401": 0,
-    "audit-exempt-subsidiary": 0,
-    "filing-exempt-subsidiary": 0
-};
 
 export interface PackageTypeOption {
     name: string
@@ -23,12 +11,12 @@ export const packageTypeOptions: PackageTypeOption[] = [
     {
         name: "cic",
         description: "Community Interest Company (CIC) accounts",
-        hint: getHint(fees.cic),
+        hint: getHint(env.CIC_FEE),
     },
     {
         name: "overseas",
         description: "Overseas company accounts",
-        hint: getHint(fees.overseas),
+        hint: getHint(env.OVERSEAS_FEE),
     },
     {
         name: "audit-exempt-subsidiary",
@@ -77,7 +65,7 @@ export function getPackageTypeOption(packageType: string): PackageTypeOption {
     return radioButton;
 }
 
-function getHint(fee: number): string  {
+function getHint(fee: string): string  {
     return `There is a £${fee} fee to file.`;
 }
 
