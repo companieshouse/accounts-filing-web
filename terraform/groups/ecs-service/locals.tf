@@ -77,6 +77,7 @@ locals {
     { "name" : "CHS_URL", "value" : "${var.chs_url}" },
     { "name" : "COOKIE_DOMAIN", "value" : "${var.cookie_domain}" },
     { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" },
+    { "name" : "FEEDBACK_LINK", "value" : "${var.feedback_link}" },
     { "name" : "LOG_LEVEL", "value" : "${var.log_level}" },
     { "name" : "NODE_ENV", "value" : "${var.node_env}" },
     { "name" : "TZ", "value" : "${var.tz}" },

@@ -76,6 +76,10 @@ variable "cookie_name" {
   default = "__SID"
 }
 
+variable "feedback_link" {
+  type    = string
+}
+
 variable "piwik_url" {
   type = string
 }
