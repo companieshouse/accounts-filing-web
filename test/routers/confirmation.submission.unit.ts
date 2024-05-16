@@ -72,7 +72,7 @@ describe("accounts submitted tests", () => {
     it("should handle successful submission with overseas accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, getPackageTypeOption('overseas').name);
         setExtraDataCompanyNumber(mockSession, "00006400");
-        
+
         const response = await request(app).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
