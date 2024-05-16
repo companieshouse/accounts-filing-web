@@ -73,7 +73,6 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             return { url: PrefixedUrls.UPLOAD };
         }
 
-        logger.error(`Package choice ${JSON.stringify(packageTypeChoice)} invalid. Rendering error.`);
         viewData.errors[packageTypeFieldName] = errorManifest[packageTypeFieldName].nothingSelected;
 
         return {
