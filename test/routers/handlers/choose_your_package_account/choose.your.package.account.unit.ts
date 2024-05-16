@@ -5,9 +5,9 @@ import { mockSession, resetMockSession } from "../../../mocks/session.middleware
 import { getSessionRequest } from "../../../mocks/session.mock";
 import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
-import { getPackageTypeOption, getPackageTypeOptionsRadioButtonData } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.radio.options";
 import { packageTypeFieldName } from "../../../../src/routers/handlers/choose_your_package_accounts/constants";
 import errorManifest from "../../../../src/utils/error_manifests/default";
+import { getPackageTypeOptionsRadioButtonData, packageTypeOption } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 
 
 const viewDataPackageSelectionPage = {
@@ -66,7 +66,7 @@ describe("package account selection test", () => {
     });
 
     it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
-        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ [packageTypeFieldName]: getPackageTypeOption('overseas').name }).expect(302);
+        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ [packageTypeFieldName]: packageTypeOption('overseas').name }).expect(302);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
     });
 

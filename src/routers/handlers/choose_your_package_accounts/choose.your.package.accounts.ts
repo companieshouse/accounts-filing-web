@@ -4,7 +4,7 @@ import { BaseViewData, GenericHandler, Redirect, ViewModel } from "../generic";
 import { Request, Response } from "express";
 import { logger } from "../../../utils/logger";
 import { isPackageType, PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
-import { getPackageTypeOptionsRadioButtonData } from "./package.type.radio.options";
+import { getPackageTypeOptionsRadioButtonData } from "./package.type.options";
 import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
 

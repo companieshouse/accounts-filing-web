@@ -4,7 +4,7 @@ import { createAndLogError, logger } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getPackageType, getValidationResult, must } from "../../../utils/session";
-import { getPackageTypeOption } from "../choose_your_package_accounts/package.type.radio.options";
+import { packageTypeOption } from "../choose_your_package_accounts/package.type.options";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAccountsFilingId, getTransactionId } from "../../../utils/session";
 import { startPaymentsSession } from "../../../services/external/payment.service";
@@ -73,7 +73,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
 
     private getAccountsTypeFullName(session: Session | undefined) {
         const typeOfAccounts = must(getPackageType(session));
-        const accountsType = getPackageTypeOption(typeOfAccounts);
+        const accountsType = packageTypeOption(typeOfAccounts);
         if (accountsType === undefined) {
             throw createAndLogError(`Failed to match ${typeOfAccounts} to a known accounts type.`);
         }

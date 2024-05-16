@@ -50,7 +50,7 @@ export const packageTypeOptions: PackageTypeOption[] = [
     },
 ];
 
-export function getPackageTypeOption(packageType: string): PackageTypeOption {
+export function packageTypeOption(packageType: string): PackageTypeOption {
     const radioButton = packageTypeOptions.find(b => b.name === packageType);
     if (radioButton === undefined) {
         logger.error(

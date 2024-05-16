@@ -6,7 +6,7 @@ import request from "supertest";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
-import { getPackageTypeOption } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.radio.options";
+import { packageTypeOption } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 
 describe("company auth test", () => {
 
@@ -36,7 +36,7 @@ describe("company auth test", () => {
         mockSession.data.signin_info!.company_number = companyNumber;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, "Test Company");
         mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, getPackageTypeOption('uksef').name);
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('uksef').name);
 
         const resp = await request(app).get(`${PrefixedUrls.UPLOAD}`);
         expect(resp.statusCode).toEqual(302);
