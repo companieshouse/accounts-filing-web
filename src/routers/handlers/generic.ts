@@ -3,7 +3,7 @@
 
 import { PrefixedUrls } from "../../utils/constants/urls";
 import errorManifest from "../../utils/error_manifests/default";
-import { Request } from "express";
+import { Request, Response } from "express";
 
 export interface BaseViewData {
     errors: {
@@ -29,10 +29,10 @@ export abstract class GenericHandler {
 
     constructor (args: GenericHandlerArgs) {
         this.errorManifest = errorManifest;
-        this.baseViewData = {
+        this.baseViewData = structuredClone({
             ...defaultBaseViewData,
             ...args
-        };
+        });
     }
 
     processHandlerException (err: any): Object {
@@ -52,4 +52,16 @@ export abstract class GenericHandler {
 export interface ViewModel<T> {
     templatePath: string,
     viewData: T
+}
+
+export interface Redirect {
+    url: string
+}
+
+export function isRedirect(o: any): o is Redirect {
+    return o !== undefined && o !== null && typeof o === 'object' && 'url' in o && typeof o.url === 'string';
+}
+
+export function executeViewModel(res: Response, vm: ViewModel<any>) {
+    res.render(vm.templatePath, vm.viewData);
 }

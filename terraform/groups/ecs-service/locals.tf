@@ -75,10 +75,13 @@ locals {
     { "name" : "PIWIK_URL", "value" : "${var.piwik_url}" },
     { "name" : "CDN_HOST", "value" : "${var.cdn_host}" },
     { "name" : "CHS_URL", "value" : "${var.chs_url}" },
+    { "name" : "CIC_FEE", "value" : "${var.cic_fee}" },
     { "name" : "COOKIE_DOMAIN", "value" : "${var.cookie_domain}" },
     { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" },
+    { "name" : "FEEDBACK_LINK", "value" : "${var.feedback_link}" },
     { "name" : "LOG_LEVEL", "value" : "${var.log_level}" },
     { "name" : "NODE_ENV", "value" : "${var.node_env}" },
+    { "name" : "OVERSEAS_FEE", "value" : "${var.overseas_fee}" },
     { "name" : "TZ", "value" : "${var.tz}" },
     { "name" : "SUBMIT_VALIDATION_URL", "value" : "${var.submit_validation_url}" },
   ]

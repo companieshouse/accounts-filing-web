@@ -12,11 +12,7 @@ export const env = readEnv(process.env, {
     CHS_API_KEY: str.describe("API key for CHS service"),
     CHS_INTERNAL_API_KEY: str.describe("API key with internal app privileges"),
     CHS_URL: url.describe("This host URL for CHS"),
-    CIC_FEE: str
-        .describe("Fee for filing Community Interest Companies account")
-        .default(
-            "15"
-        ),
+    CIC_FEE: str.describe("Fee for CIC package submissions"),
     CONTACT_US_LINK: str
         .describe("Link to contact us")
         .default(
@@ -28,6 +24,7 @@ export const env = readEnv(process.env, {
     DEVELOPERS_LINK: str
         .describe("Link for developers")
         .default("https://developer.companieshouse.gov.uk/"),
+    FEEDBACK_LINK: url.describe("Link to feedback form for the service"),
     INTERNAL_API_URL: url.describe("Internal API base URL for internal service interaction"),
     LOG_LEVEL: str
         .in([
@@ -71,11 +68,7 @@ export const env = readEnv(process.env, {
             "Flag to enable or disable watching for file changes in the Nunjucks loader"
         )
         .default(false),
-    OVERSEAS_FEE: str
-        .describe("Fee for filing oversea companies")
-        .default(
-            "33"
-        ),
+    OVERSEAS_FEE: str.describe("Fee for overseas package accounst submissions"),
     PORT: port.describe("Port to run the web server on").default(3000),
     POLICIES_LINK: str
         .describe("Link to policies")

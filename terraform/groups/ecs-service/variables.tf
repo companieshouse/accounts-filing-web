@@ -64,9 +64,15 @@ variable "api_url" {
 variable "cdn_host" {
   type = string
 }
+
 variable "chs_url" {
   type = string
 }
+
+variable "cic_fee" {
+  type = string
+}
+
 variable "cookie_domain" {
   type = string
 }
@@ -76,11 +82,19 @@ variable "cookie_name" {
   default = "__SID"
 }
 
+variable "feedback_link" {
+  type    = string
+}
+
 variable "piwik_url" {
   type = string
 }
 
 variable "node_env" {
+  type = string
+}
+
+variable "overseas_fee" {
   type = string
 }
 

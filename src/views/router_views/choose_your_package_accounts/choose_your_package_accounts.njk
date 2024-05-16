@@ -5,24 +5,33 @@
 
 {% block main_content %}
 
-  {{ 
-    govukRadios({
-      name: "PackageAccounts",
-      fieldset: {
-        legend: {
-          text: title,
-          isPageHeading: true,
-          classes: "govuk-fieldset__legend--l"
-        }
-      },
-      items: packageAccountsItems
-    }) 
-  }}
+    {% set errorMessage = undefined %}
+    {% if errors[packageTypeFieldName] %}
+        {% set errorMessage = { text: errors[packageTypeFieldName].summary } %}
+    {% endif %}
 
-  {{ 
-    govukButton({
-      text: "Confirm and continue"
-    }) 
-  }} 
+  <form  method="post">
+    {{ 
+      govukRadios({
+        name: packageTypeFieldName,
+        fieldset: {
+          legend: {
+            text: title,
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        errorMessage: errorMessage,
+        items: packageAccountsItems
+      }) 
+    }}
+
+    {{ 
+      govukButton({
+        text: "Confirm and continue"
+      }) 
+    }} 
+
+  </form>
 
 {% endblock %}

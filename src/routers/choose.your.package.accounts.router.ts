@@ -1,25 +1,25 @@
 import { Router, Response, Request } from "express";
 import { handleExceptions } from "../utils/error.handler";
 import { ChooseYourPackageAccountsHandler } from "./handlers/choose_your_package_accounts/choose.your.package.accounts";
-import { PrefixedUrls } from "../utils/constants/urls";
+import { executeViewModel, isRedirect } from "./handlers/generic";
 
 const router = Router();
 
 router.get('/', handleExceptions(async (req: Request, res: Response) => {
     const handler = new ChooseYourPackageAccountsHandler();
-    const viewData = await handler.executeGet(req, res);
-    res.render("router_views/choose_your_package_accounts/choose_your_package_accounts", viewData);
+    const viewModel = await handler.executeGet(req, res);
+    executeViewModel(res, viewModel);
 }));
 
 router.post('/', handleExceptions(async (req: Request, res: Response) => {
     const handler = new ChooseYourPackageAccountsHandler();
-    const viewData = await handler.executePost(req, res);
+    const handlerResult = await handler.executePost(req, res);
 
-    if (Object.entries(viewData.errors).length > 0){
-        throw viewData.errors.packageAccountsError;
+    if (isRedirect(handlerResult)) {
+        res.redirect(handlerResult.url);
+    } else {
+        executeViewModel(res, handlerResult);
     }
-
-    res.redirect(PrefixedUrls.UPLOAD);
 }));
 
 export default router;
