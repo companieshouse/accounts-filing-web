@@ -3,7 +3,7 @@ import request from "supertest";
 import app from "./../../../../src/app";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
-import { PrefixedUrls, Urls, servicePathPrefix } from "../../../../src/utils/constants/urls";
+import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
 import { PackageTypeDetails, getPackageItems } from "../../../../src/utils/constants/PackageTypeDetails";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
@@ -57,19 +57,15 @@ describe("package account selection test", () => {
     });
 
     it("should contain the correct backlink", async () => {
-        const encodedUrl = `%2F${servicePathPrefix.substring(1)}%2F${Urls.COMPANY_SEARCH.substring(1)}%3FcompanyNumber%3D${viewDataPackageSelectionPage.session.companyNumber}`;
+        const backUrl = Urls.CONFIRM_COMPANY;
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
-        expect(response.text).toContain(encodedUrl);
+        expect(response.text).toContain(backUrl);
     });
 
-    it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
-        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ value: PackageTypeDetails.overseas.name }).expect(302);
-        expect(response.text).toContain(Urls.UPLOAD.substring(1));
-    });
-
-    it("should throw a packageAccount error", async () => {
-        expect(await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).expect(500)).rejects.toThrow;
+    it(`should redirect to ${PrefixedUrls.UPLOAD}`, async () => {
+        const redirect = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ PackageAccounts: PackageTypeDetails.overseas.name }).expect(302);
+        expect(redirect.text).toContain(PrefixedUrls.UPLOAD);
     });
 
 });

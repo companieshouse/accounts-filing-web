@@ -1,4 +1,4 @@
-import { PrefixedUrls } from "../../../utils/constants/urls";
+import { PrefixedUrls, Urls } from "../../../utils/constants/urls";
 import { getCompanyNumber, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
@@ -8,10 +8,12 @@ import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts
 
 interface ChooseYourPackageAccountsViewData extends BaseViewData {
     packageAccountsItems: Array<PackageAccountsType>,
-    packageAccounts?: PackageType
+    packageAccounts?: PackageType,
+    template: string
 }
 
 export class ChooseYourPackageAccountsHandler extends GenericHandler {
+    private static template: string = "router_views/choose_your_package_accounts/choose_your_package_accounts";
     private packageAccountsItems = getPackageItems();
     constructor() {
         super({
@@ -23,24 +25,17 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
     async executePost (
         req: Request,
         _response: Response
-    ): Promise<ChooseYourPackageAccountsViewData> {
+    ): Promise<string | {redirect: string}> {
         logger.info(`post request made for ${this.constructor.name}`);
         super.populateViewData(req);
-        const companyNumber = getCompanyNumber(req.session);
-        const packageTypeChoice = req.body;
+        const packageTypeChoice = (Object.assign({}, req.body)).PackageAccounts;
 
-        if ("value" in packageTypeChoice && packageTypeChoice["value"] in PackageTypeDetails){
-            setPackageType(req.session, packageTypeChoice.value);
+        if (packageTypeChoice in PackageTypeDetails){
+            setPackageType(req.session, packageTypeChoice);
+            return { redirect: PrefixedUrls.UPLOAD };
         } else {
-            this.baseViewData.errors.packageAccountsError = new Error("Package Accounts type must be set");
+            return ChooseYourPackageAccountsHandler.template;
         }
-
-        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`);
-
-        return {
-            ...this.baseViewData,
-            packageAccountsItems: this.packageAccountsItems
-        };
     }
 
     async executeGet(
@@ -51,11 +46,12 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         super.populateViewData(req);
         const companyNumber = getCompanyNumber(req.session);
 
-        this.baseViewData.backURL = encodeURIComponent(`${PrefixedUrls.COMPANY_SEARCH}?companyNumber=${companyNumber}`);
+        this.baseViewData.backURL = `${Urls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`;
 
         return {
             ...this.baseViewData,
-            packageAccountsItems: this.packageAccountsItems
+            packageAccountsItems: this.packageAccountsItems,
+            template: ChooseYourPackageAccountsHandler.template
         };
     }
 }

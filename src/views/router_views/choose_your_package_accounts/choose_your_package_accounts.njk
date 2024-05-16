@@ -4,7 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block main_content %}
-
+ <form method="POST" action="{{Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE}}">
   {{ 
     govukRadios({
       name: "PackageAccounts",
@@ -19,10 +19,12 @@
     }) 
   }}
 
-  {{ 
-    govukButton({
-      text: "Confirm and continue"
-    }) 
-  }} 
+    {{ 
+      govukButton({
+        text: "Continue",
+        type: "submit"
+      }) 
+    }} 
+  </form>
 
 {% endblock %}
