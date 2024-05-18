@@ -31,7 +31,6 @@ import { getSessionRequest } from "../../../mocks/session.mock";
 
 interface CompanyFilingIdData extends BaseViewData {
     companyProfile: CompanyProfile,
-    uploadLink: string,
     changeCompanyUrl: string
 }
 
@@ -85,9 +84,6 @@ describe("CompanyConfirmHandler", () => {
             expect(
                 results.viewData.backURL
             ).toEqual("/accounts-filing/company-search/");
-            expect(
-                results.viewData.uploadLink
-            ).toEqual("/accounts-filing/upload");
             expect(
                 results.viewData.changeCompanyUrl
             ).toMatch("/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=");

@@ -43,6 +43,7 @@ njk.addGlobal("signoutURL", SIGN_OUT);
 njk.addGlobal("contactUs", env.CONTACT_US_LINK);
 njk.addGlobal("developerLink", env.DEVELOPERS_LINK);
 njk.addGlobal("policies", env.POLICIES_LINK);
+njk.addGlobal("feedbackLink", env.FEEDBACK_LINK);
 
 njk.addFilter("formatDate", formatToUKString);
 njk.addFilter("formatProfileType", formatType);
