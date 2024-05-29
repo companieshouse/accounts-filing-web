@@ -23,7 +23,6 @@
         ]
     },
     "ts-node": {
-        // "swc": true,
         "esm": true
     },
     "lib": ["esnext"],
