@@ -1,13 +1,11 @@
-import { defaultAccountsFilingService } from "../../src/services/external/accounts.filing.service";
+export const mockAccountsFilingService = {
+    getValidationStatus: jest.fn(),
+    checkCompany: jest.fn(),
+    setTransactionPackageType: jest.fn()
+};
 
-defaultAccountsFilingService.checkCompany = jest.fn();
-
-export const mockDefaultAccountsFilingService = defaultAccountsFilingService as jest.Mocked<typeof defaultAccountsFilingService>;
-
-import PrivateApiClient from "private-api-sdk-node/dist/client";
-import { AccountsFilingService } from "../../src/services/external/accounts.filing.service";
-
-jest.mock("../../src/services/external/accounts.filing.service");
-
-export const accountsFilingServiceMock = new AccountsFilingService({} as PrivateApiClient) as jest.Mocked<AccountsFilingService>;
-
+jest.mock("../../src/services/external/accounts.filing.service", () => {
+    return {
+        AccountsFilingService: jest.fn().mockImplementation(() => mockAccountsFilingService)
+    }
+});

@@ -1,7 +1,7 @@
 import { Request, Response, Router, NextFunction } from "express";
 import { UploadedHandler } from "./handlers/uploaded/uploaded";
 import { logger } from "../utils/logger";
-import { defaultAccountsFilingService } from "../services/external/accounts.filing.service";
+import { AccountsFilingService } from "../services/external/accounts.filing.service";
 import { handleExceptions } from "../utils/error.handler";
 
 const router: Router = Router();
@@ -31,7 +31,7 @@ router.get("/", (_req: Request, res: Response, _next: NextFunction) => {
 router.get("/:fileId", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
     logger.debug("Uploaded endpoint triggered.");
-    const handler = new UploadedHandler(defaultAccountsFilingService);
+    const handler = new UploadedHandler(new AccountsFilingService(req.session!));
     const viewData = await handler.executeGet(req, res);
 
     logger.debug(`Uploaded view data: ${JSON.stringify(viewData, null, 2)}`);

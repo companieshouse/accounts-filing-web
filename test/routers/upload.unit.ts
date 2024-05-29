@@ -3,7 +3,7 @@ import { Request } from "express";
 import { UploadHandler } from "../../src/routers/handlers/upload/upload";
 import { TransactionService as LocalTransactionService } from "../../src/services/external/transaction.service";
 
-import { accountsFilingServiceMock } from "../mocks/accounts.filing.service.mock";
+import { mockAccountsFilingService } from "../mocks/accounts.filing.service.mock";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { getSessionRequest } from "../mocks/session.mock";
 import { AccountsFilingCompanyResponse } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
@@ -49,7 +49,7 @@ describe("UploadHandler", () => {
         jest.resetAllMocks();
 
         handler = new UploadHandler(
-            accountsFilingServiceMock,
+            mockAccountsFilingService,
             {
                 postTransactionRecord: mockPostTransactionRecord
             } as unknown as LocalTransactionService);
@@ -87,13 +87,13 @@ describe("UploadHandler", () => {
 
         mockPostTransactionRecord.mockResolvedValue({ id: 1 } as unknown as Transaction);
 
-        accountsFilingServiceMock.checkCompany.mockResolvedValue(mockResult);
+        mockAccountsFilingService.checkCompany.mockResolvedValue(mockResult);
         const url = await handler.execute(mockReq as Request, {} as any);
 
         const expectedUrl =
             "http://chs.locl/xbrl_validate/submit?callback=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fuploaded%2F%7BfileId%7D&backUrl=http%3A%2F%2Fchs.local%2Faccounts-filing%2Fchoose-your-accounts-package&packageType=uksef";
 
-        expect(accountsFilingServiceMock.checkCompany).toHaveBeenCalledTimes(1);
+        expect(mockAccountsFilingService.checkCompany).toHaveBeenCalledTimes(1);
         expect(url).toEqual(expectedUrl);
         expect(session.getExtraData(ContextKeys.ACCOUNTS_FILING_ID)).toEqual(
             mockResult.resource.accountsFilingId
@@ -107,7 +107,7 @@ describe("UploadHandler", () => {
         };
 
         mockPostTransactionRecord.mockResolvedValue({ id: 1 } as unknown as Transaction);
-        accountsFilingServiceMock.checkCompany.mockResolvedValue(
+        mockAccountsFilingService.checkCompany.mockResolvedValue(
             expectedResponse
         );
 

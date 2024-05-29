@@ -3,11 +3,13 @@ import { createAndLogError, logger } from "../../utils/logger";
 import { getAccountsFilingId, getPackageType, getTransactionId, must } from "../../utils/session";
 import { Session } from "@companieshouse/node-session-handler";
 import { AccountsFilingCompanyResponse, AccountsFilingValidationRequest, ConfirmCompanyRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
-import { makeApiKeyCall } from "../../services/internal/api.client.service";
+import { makeApiCall } from "../../services/internal/api.client.service";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
 
 
 export class AccountsFilingService {
+    constructor(private session: Session) {}
+
     /**
      * Asynchronously retrieves the validation status of an accounts filing request.
      *
@@ -21,7 +23,7 @@ export class AccountsFilingService {
         const fileId = req.fileId;
         logger.debug(`Getting validation status for file ${fileId}`);
 
-        const accountValidatorResponse = await makeApiKeyCall(async apiClient => {
+        const accountValidatorResponse = await makeApiCall(this.session, async apiClient => {
             return await apiClient.accountsFilingService.checkAccountsFileValidationStatus(req);
         });
 
@@ -52,7 +54,7 @@ export class AccountsFilingService {
         confirmCompanyRequest: ConfirmCompanyRequest
     ): Promise<Resource<AccountsFilingCompanyResponse>> {
 
-        const accountsFilingCompanyResponse = await makeApiKeyCall(async apiClient => {
+        const accountsFilingCompanyResponse = await makeApiCall(this.session, async apiClient => {
             return await apiClient.accountsFilingService.confirmCompany(
                 companyNumber,
                 transactionId,
@@ -96,7 +98,7 @@ export class AccountsFilingService {
             const accountsFilingId = must(getAccountsFilingId(session));
             const packageType = must(getPackageType(session));
 
-            const resp = await makeApiKeyCall(async apiClient => {
+            const resp = await makeApiCall(this.session, async apiClient => {
                 return await apiClient.accountsFilingService.setPackageType(transactionId, accountsFilingId, packageType);
             });
 
@@ -115,5 +117,3 @@ export class AccountsFilingService {
 function isResource(o: any): o is Resource<unknown> {
     return o !== null && o !== undefined && "resource" in o;
 }
-
-export const defaultAccountsFilingService = new AccountsFilingService();

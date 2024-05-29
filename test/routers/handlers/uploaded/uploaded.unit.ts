@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { UploadedHandler } from "../../../../src/routers/handlers/uploaded/uploaded";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
-import { accountsFilingServiceMock } from "../../../mocks/accounts.filing.service.mock";
+import { mockAccountsFilingService } from "../../../mocks/accounts.filing.service.mock";
 import { Session } from "@companieshouse/node-session-handler";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
@@ -36,7 +36,7 @@ describe("UploadedHandler", () => {
     beforeEach(() => {
         jest.clearAllMocks();
 
-        handler = new UploadedHandler(accountsFilingServiceMock);
+        handler = new UploadedHandler(mockAccountsFilingService);
         mockReq = {
             params: { fileId: validUUIDv4 },
             session: session,
@@ -58,7 +58,7 @@ describe("UploadedHandler", () => {
     describe("execute method", () => {
         it("should call getValidationStatus with valid fileId", async () => {
             setRequestFileID(validUUIDv4);
-            accountsFilingServiceMock.getValidationStatus.mockResolvedValue({
+            mockAccountsFilingService.getValidationStatus.mockResolvedValue({
                 resource: {} as AccountValidatorResponse,
                 httpStatusCode: 200,
             });
@@ -71,7 +71,7 @@ describe("UploadedHandler", () => {
                 transactionId: "Placeholder transactionId",
             };
             expect(
-                accountsFilingServiceMock.getValidationStatus
+                mockAccountsFilingService.getValidationStatus
             ).toHaveBeenCalledWith(expectedCallValue);
         });
 
@@ -81,7 +81,7 @@ describe("UploadedHandler", () => {
                 resource: {} as AccountValidatorResponse,
                 httpStatusCode: 200,
             };
-            accountsFilingServiceMock.getValidationStatus.mockResolvedValue(
+            mockAccountsFilingService.getValidationStatus.mockResolvedValue(
                 mockResult
             );
 
@@ -96,7 +96,7 @@ describe("UploadedHandler", () => {
             await handler.executeGet(mockReq as Request, {} as any);
 
             expect(
-                accountsFilingServiceMock.getValidationStatus
+                mockAccountsFilingService.getValidationStatus
             ).not.toHaveBeenCalled();
         });
 

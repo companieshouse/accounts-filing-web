@@ -1,5 +1,5 @@
 import { mockTransactionService } from "../../../mocks/transaction.service.mock";
-import { mockDefaultAccountsFilingService } from "../../../mocks/accounts.filing.service.mock";
+import { mockAccountsFilingService } from "../../../mocks/accounts.filing.service.mock";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { getSessionRequest } from "../../../mocks/session.mock";
 import request from "supertest";
@@ -26,7 +26,7 @@ describe("company auth test", () => {
         Object.assign(mockSession, getSessionRequest());
 
         mockTransactionService.postTransactionRecord.mockResolvedValue({ id: "1" });
-        mockDefaultAccountsFilingService.checkCompany.mockResolvedValue({
+        mockAccountsFilingService.checkCompany.mockResolvedValue({
             httpStatusCode: 200,
             resource: {
                 accountsFilingId: "1"
