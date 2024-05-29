@@ -6,7 +6,6 @@ custom_build(
     run('npm install', trigger=['./package.json', './package-lock.json'])
   ],
   deps = [
-    './dist',
     './src'
   ]
 )
