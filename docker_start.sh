@@ -1,8 +1,6 @@
 #!/bin/bash
 # Start script for accounts-filing-web
 
-echo "Arch: $(uname -m)"
-
 if [ ! -d "node_modules" ]; then
     echo "node_modules directory does not exist. Attempting to install dependencies..."
     if ! npm install; then
