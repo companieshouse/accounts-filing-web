@@ -7,5 +7,5 @@ export const mockAccountsFilingService = {
 jest.mock("../../src/services/external/accounts.filing.service", () => {
     return {
         AccountsFilingService: jest.fn().mockImplementation(() => mockAccountsFilingService)
-    }
+    };
 });
