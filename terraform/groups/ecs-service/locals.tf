@@ -9,39 +9,15 @@ locals {
   lb_listener_paths         = ["/accounts-filing*"]
   healthcheck_path          = "/accounts-filing/healthcheck" #healthcheck path for accounts-filing-web
   healthcheck_matcher       = "200"                        # no explicit healthcheck in this service yet, change this when added!
-
+  application_subnet_ids     = data.aws_subnets.application.ids
   kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
-
-  parameter_store_secrets = {
-    "vpc_name"             = local.service_secrets["vpc_name"]
-    "chs_api_key"          = local.service_secrets["chs_api_key"]
-    "internal_api_url"     = local.service_secrets["internal_api_url"]
-    "chs_internal_api_key" = local.service_secrets["chs_internal_api_key"]
-    "cache_server"         = local.service_secrets["cache_server"]
-    "account_url"          = local.service_secrets["account_url"]
-    "cookie_secret"        = local.service_secrets["cookie_secret"]
-    "oauth2_auth_uri"      = local.service_secrets["oauth2_auth_uri"]
-    "oauth2_redirect_uri"  = local.service_secrets["oauth2_redirect_uri"]
-    "oauth2_token_uri"     = local.service_secrets["oauth2_token_uri"]
-    "oauth2_client_id"     = local.service_secrets["oauth2_client_id"]
-    "oauth2_client_secret" = local.service_secrets["oauth2_client_secret"]
-    "oauth2_request_key"   = local.service_secrets["oauth2_request_key"]
-  }
-
-  vpc_name             = local.service_secrets["vpc_name"]
-  chs_api_key          = local.service_secrets["chs_api_key"]
-  internal_api_url     = local.service_secrets["internal_api_url"]
-  chs_internal_api_key = local.service_secrets["chs_internal_api_key"]
-  cache_server         = local.service_secrets["cache_server"]
-  account_url          = local.service_secrets["account_url"]
-  cookie_secret        = local.service_secrets["cookie_secret"]
-  oauth2_auth_uri      = local.service_secrets["oauth2_auth_uri"]
-  oauth2_redirect_uri  = local.service_secrets["oauth2_redirect_uri"]
-  oauth2_token_uri     = local.service_secrets["oauth2_token_uri"]
-  oauth2_client_id     = local.service_secrets["oauth2_client_id"]
-  oauth2_client_secret = local.service_secrets["oauth2_client_secret"]
-  oauth2_request_key   = local.service_secrets["oauth2_request_key"]
+  stack_secrets              = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
+  application_subnet_pattern = local.stack_secrets["application_subnet_pattern"]
+  use_set_environment_files  = var.use_set_environment_files
+  s3_config_bucket           = data.vault_generic_secret.shared_s3.data["config_bucket_name"]
+  app_environment_filename   = "accounts-filing-web.env"
+  vpc_name                   = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
 
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name
@@ -55,34 +31,36 @@ locals {
     trimprefix(sec.name, "/${local.service_name}-${var.environment}/") => sec.arn
   }
 
-  task_secrets = [
-    { "name" : "ACCOUNT_URL", "valueFrom" : "${local.service_secrets_arn_map.account_url}" },
-    { "name" : "CACHE_SERVER", "valueFrom": "${local.service_secrets_arn_map.cache_server}" },
-    { "name" : "CHS_API_KEY", "valueFrom" : "${local.service_secrets_arn_map.chs_api_key}" },
-    { "name" : "CHS_INTERNAL_API_KEY", "valueFrom" : "${local.service_secrets_arn_map.chs_internal_api_key}" },
-    { "name" : "COOKIE_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-cookie-secret}" },
-    { "name" : "INTERNAL_API_URL", "valueFrom" : "${local.service_secrets_arn_map.internal_api_url}" },
-    { "name" : "OAUTH2_AUTH_URI", "valueFrom" : "${local.service_secrets_arn_map.oauth2_auth_uri}" },
-    { "name" : "OAUTH2_CLIENT_ID", "valueFrom" : "${local.service_secrets_arn_map.oauth2_client_id}" },
-    { "name" : "OAUTH2_CLIENT_SECRET", "valueFrom" : "${local.service_secrets_arn_map.oauth2_client_secret}" },
-    { "name" : "OAUTH2_REDIRECT_URI", "valueFrom" : "${local.service_secrets_arn_map.oauth2_redirect_uri}" },
-    { "name" : "OAUTH2_REQUEST_KEY", "valueFrom" : "${local.service_secrets_arn_map.oauth2_request_key}" },
-    { "name" : "OAUTH2_TOKEN_URI", "valueFrom" : "${local.service_secrets_arn_map.oauth2_token_uri}" },
+  global_secret_list = flatten([for key, value in local.global_secrets_arn_map :
+    { "name" = upper(key), "valueFrom" = value }
+  ])
+
+  global_secrets_arn_map = {
+    for sec in data.aws_ssm_parameter.global_secret :
+    trimprefix(sec.name, "/${local.global_prefix}/") => sec.arn
+  }
+
+  service_secret_list = flatten([for key, value in local.service_secrets_arn_map :
+    { "name" = upper(key), "valueFrom" = value }
+  ])
+
+    ssm_service_version_map = [
+    for sec in module.secrets.secrets : {
+      name  = "${replace(upper(local.service_name), "-", "_")}_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}",
+      value = tostring(sec.version)
+    }
   ]
 
-  task_environment = [
-    { "name" : "API_URL", "value" : "${var.api_url}" },
-    { "name" : "PIWIK_URL", "value" : "${var.piwik_url}" },
-    { "name" : "CDN_HOST", "value" : "${var.cdn_host}" },
-    { "name" : "CHS_URL", "value" : "${var.chs_url}" },
-    { "name" : "CIC_FEE", "value" : "${var.cic_fee}" },
-    { "name" : "COOKIE_DOMAIN", "value" : "${var.cookie_domain}" },
-    { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" },
-    { "name" : "FEEDBACK_LINK", "value" : "${var.feedback_link}" },
-    { "name" : "LOG_LEVEL", "value" : "${var.log_level}" },
-    { "name" : "NODE_ENV", "value" : "${var.node_env}" },
-    { "name" : "OVERSEAS_FEE", "value" : "${var.overseas_fee}" },
-    { "name" : "TZ", "value" : "${var.tz}" },
-    { "name" : "SUBMIT_VALIDATION_URL", "value" : "${var.submit_validation_url}" },
+  ssm_global_version_map = [
+    for sec in data.aws_ssm_parameter.global_secret : {
+      name  = "GLOBAL_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}",
+      value = tostring(sec.version)
+    }
   ]
+
+  # secrets to go in list
+  task_secrets = concat(local.global_secret_list, local.service_secret_list)
+
+  task_environment = concat(local.ssm_global_version_map,local.ssm_service_version_map)
+
 }

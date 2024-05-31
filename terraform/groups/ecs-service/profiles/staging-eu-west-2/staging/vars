@@ -15,3 +15,12 @@ overseas_fee = 33
 piwik_url = "https://matomo.platform.aws.chdev.org"
 submit_validation_url = "https://test-validator-staging.companieshouse.gov.uk/xbrl_validate/submit"
 tz = "Europe/London"
+
+# Eric variables
+account_api_url = "https://identity-staging.company-information.service.gov.uk"
+developer_hub_url = "https://developer-staging.company-information.service.gov.uk"
+
+# Scheduled scaling of tasks
+service_autoscale_enabled  = true
+service_scaledown_schedule = "55 19 * * ? *"
+service_scaleup_schedule   = "5 6 * * ? *"
