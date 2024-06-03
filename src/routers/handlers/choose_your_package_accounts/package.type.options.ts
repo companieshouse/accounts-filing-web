@@ -5,6 +5,7 @@ export interface PackageTypeOption {
     name: string
     description: string
     hint?: string
+    disabled?: boolean
 }
 
 export const packageTypeOptions: PackageTypeOption[] = [
@@ -12,6 +13,7 @@ export const packageTypeOptions: PackageTypeOption[] = [
         name: "cic",
         description: "Community Interest Company (CIC) accounts",
         hint: getHint(env.CIC_FEE),
+        disabled: env.CIC_DISABLE_RADIO,
     },
     {
         name: "overseas",
