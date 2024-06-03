@@ -1,19 +1,11 @@
 environment = "staging"
 aws_profile = "staging-eu-west-2"
 
-api_url = "https://private-api-staging.company-information.service.gov.uk"
-cdn_host = "https://d6nh3dxv55e16.cloudfront.net"
-chs_url = "https://staging.company-information.service.gov.uk"
-cic_fee = 15
-cookie_domain = "company-information.service.gov.uk"
-cookie_name = "__SID"
+use_set_environment_files = true
 desired_task_count = 2 # use multi instance in live
-feedback_link = "https://www.smartsurvey.co.uk/s/file-package-accts-fdbk/"
 log_level = "info"
 node_env = "production"
-overseas_fee = 33
 piwik_url = "https://matomo.platform.aws.chdev.org"
-submit_validation_url = "https://test-validator-staging.companieshouse.gov.uk/xbrl_validate/submit"
 tz = "Europe/London"
 
 # Eric variables
