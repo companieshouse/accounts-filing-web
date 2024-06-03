@@ -2,8 +2,4 @@ environment = "live"
 aws_profile = "live-eu-west-2"
 
 use_set_environment_files = true
-desired_task_count = 2 # use multi instance in live
 log_level = "info"
-node_env = "production"
-piwik_url = "https://matomo.companieshouse.gov.uk"
-tz = "Europe/London"

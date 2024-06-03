@@ -45,7 +45,7 @@ variable "required_memory" {
 variable "use_fargate" {
   type        = bool
   description = "If true, sets the required capabilities for all containers in the task definition to use FARGATE, false uses EC2"
-  default     = false
+  default     = true
 }
 variable "use_capacity_provider" {
   type        = bool

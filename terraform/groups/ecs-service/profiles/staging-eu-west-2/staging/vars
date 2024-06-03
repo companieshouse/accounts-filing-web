@@ -2,15 +2,7 @@ environment = "staging"
 aws_profile = "staging-eu-west-2"
 
 use_set_environment_files = true
-desired_task_count = 2 # use multi instance in live
 log_level = "info"
-node_env = "production"
-piwik_url = "https://matomo.platform.aws.chdev.org"
-tz = "Europe/London"
-
-# Eric variables
-account_api_url = "https://identity-staging.company-information.service.gov.uk"
-developer_hub_url = "https://developer-staging.company-information.service.gov.uk"
 
 # Scheduled scaling of tasks
 service_autoscale_enabled  = true
