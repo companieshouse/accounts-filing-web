@@ -76,4 +76,9 @@ describe("package account selection test", () => {
         expect(resp.text).toContain(errorManifest["package-type"].nothingSelected.summary);
     });
 
+    it("should have the cic option disabled", async () => {
+        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        expect(response.text).toContain("disabled");
+    });
+
 });

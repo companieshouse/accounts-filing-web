@@ -3,6 +3,7 @@ import { Validators, readEnv, addProtocolIfMissing } from "./validator";
 const { str, url, bool, port } = Validators;
 
 export const env = readEnv(process.env, {
+
     API_URL: url.describe("API base URL for service interaction"),
     APP_NAME: str.describe('Name of the application').default('accounts-filing-web'),
     CACHE_SERVER: str.describe('Cache server URL'),
@@ -13,6 +14,9 @@ export const env = readEnv(process.env, {
     CHS_INTERNAL_API_KEY: str.describe("API key with internal app privileges"),
     CHS_URL: url.describe("This host URL for CHS"),
     CIC_FEE: str.describe("Fee for CIC package submissions"),
+    CIC_DISABLE_RADIO: bool
+        .describe("Flag to disable the CIC option on the accounts submission page")
+        .default(false),
     CONTACT_US_LINK: str
         .describe("Link to contact us")
         .default(
