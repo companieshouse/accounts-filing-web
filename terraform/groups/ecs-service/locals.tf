@@ -2,6 +2,7 @@
 locals {
   stack_name                = "filing-maintain" # this must match the stack name the service deploys into
   name_prefix               = "${local.stack_name}-${var.environment}"
+  global_prefix              = "global-${var.environment}"
   service_name              = "accounts-filing-web"
   container_port            = "3000" # default node port required here until prod docker container is built allowing port change via env var
   docker_repo               = "accounts-filing-web"
