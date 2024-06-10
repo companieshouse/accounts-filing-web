@@ -79,7 +79,8 @@ export function getPackageTypeOptionsRadioButtonData() {
             hint: option.hint === undefined ? undefined : {
                 text: option.hint
             },
-            disabled: option.disabled
+            disabled: option.disabled,
+            classes: env.CIC_DISABLE_RADIO ? "govuk-radios__input govuk-!-display-none" : "govuk-radios__input"
         };
     });
 }

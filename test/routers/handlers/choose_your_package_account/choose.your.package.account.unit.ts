@@ -76,9 +76,10 @@ describe("package account selection test", () => {
         expect(resp.text).toContain(errorManifest["package-type"].nothingSelected.summary);
     });
 
-    it("should have the cic option disabled", async () => {
+    it("should have the cic option disabled and hidden", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain("disabled");
+        expect(/value="cic".*?disabled|disabled.*?value="cic"/.test(response.text)).toBeTruthy;
+        expect(/value="cic".*?govuk-!-display-none|govuk-!-display-none.*?value="cic"/.test(response.text)).toBeTruthy;
     });
 
 });
