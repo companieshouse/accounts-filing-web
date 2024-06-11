@@ -43,7 +43,7 @@ describe("package account selection test", () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
 
-        for (const button of getPackageTypeOptionsRadioButtonData().filter(item => Object.keys(item).length > 0 )) {
+        for (const button of getPackageTypeOptionsRadioButtonData()) {
             expect(response.text).toContain(button.text);
             expect(response.text).toContain(button.value);
             if (button.hint) {

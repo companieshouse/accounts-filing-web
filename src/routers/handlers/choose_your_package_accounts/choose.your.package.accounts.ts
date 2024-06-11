@@ -40,7 +40,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             ...this.baseViewData,
             packageTypeFieldName,
             backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`,
-            packageAccountsItems: getPackageTypeOptionsRadioButtonData().filter(item => Object.keys(item).length > 0 ),
+            packageAccountsItems: getPackageTypeOptionsRadioButtonData(),
         };
     }
 

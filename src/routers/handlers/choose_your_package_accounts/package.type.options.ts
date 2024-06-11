@@ -5,7 +5,7 @@ export interface PackageTypeOption {
     name: string
     description: string
     hint?: string
-    disabled?: boolean,
+    disabled: boolean,
 }
 
 export const packageTypeOptions: PackageTypeOption[] = [
@@ -20,36 +20,44 @@ export const packageTypeOptions: PackageTypeOption[] = [
         name: "overseas",
         description: "Overseas company accounts",
         hint: getHint(env.OVERSEAS_FEE),
+        disabled: false,
     },
     {
         name: "audit-exempt-subsidiary",
         description: "Audit exempt subsidiary accounts",
+        disabled: false,
     },
     {
         name: "filing-exempt-subsidiary",
         description: "Dormant exempt subsidiary accounts",
+        disabled: false,
     },
     {
         name: "limited-partnership",
         description: "Limited partnership accounts",
+        disabled: false,
     },
     {
         name: "uksef",
         description: "UKSEF accounts for a listed company",
+        disabled: false,
     },
     {
         name: "group-package-400",
         description:
             "Group package accounts - section 400, parent incorporated under UK law",
+        disabled: false,
     },
     {
         name: "group-package-401",
         description:
             "Group package accounts - section 401, parent incorporated under non UK Law",
+        disabled: false,
     },
     {
         name: "welsh",
         description: "Welsh accounts with an English translation",
+        disabled: false,
     },
 ];
 
@@ -73,13 +81,13 @@ function getHint(fee: string): string  {
 }
 
 export function getPackageTypeOptionsRadioButtonData() {
-    return packageTypeOptions.map(option => {
-        return option.disabled === undefined || option.disabled === false ? {
+    return packageTypeOptions.filter(option => !option.disabled).map(option => {
+        return {
             value: option.name,
             text: option.description,
             hint: option.hint === undefined ? undefined : {
                 text: option.hint
             },
-        } : {};
+        };
     });
 }
