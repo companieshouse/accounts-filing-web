@@ -15,4 +15,5 @@ export default () => {
     process.env.NUNJUCKS_LOADER_WATCH = "false";
     process.env.OVERSEAS_FEE = "33";
     process.env.SUBMIT_VALIDATION_URL = "http://chs.locl/xbrl_validate/submit";
+    process.env.CIC_DISABLE_RADIO = "false";
 };

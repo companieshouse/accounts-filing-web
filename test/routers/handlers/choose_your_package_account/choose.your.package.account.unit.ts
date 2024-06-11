@@ -7,7 +7,7 @@ import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 import { packageTypeFieldName } from "../../../../src/routers/handlers/choose_your_package_accounts/constants";
 import errorManifest from "../../../../src/utils/error_manifests/default";
-import { getPackageTypeOptionsRadioButtonData, packageTypeOption } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.options";
+import { getPackageTypeOptionsRadioButtonData, packageTypeOption, packageTypeOptions } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 
 
 const viewDataPackageSelectionPage = {
@@ -39,13 +39,7 @@ describe("package account selection test", () => {
         resetMockSession();
     });
 
-    it("should render package selection page with the correct page title", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.statusCode).toBe(200);
-        expect(response.text).toContain(viewDataPackageSelectionPage.title);
-    });
-
-    it("should render all package account types on the package page", async () => {
+    it("should render all enabled package account types on the package page", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
 
@@ -56,6 +50,12 @@ describe("package account selection test", () => {
                 expect(response.text).toContain(button.hint.text);
             }
         }
+    });
+
+    it("should render package selection page with the correct page title", async () => {
+        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        expect(response.statusCode).toBe(200);
+        expect(response.text).toContain(viewDataPackageSelectionPage.title);
     });
 
     it("should contain the correct backlink", async () => {
@@ -74,6 +74,11 @@ describe("package account selection test", () => {
         const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
 
         expect(resp.text).toContain(errorManifest["package-type"].nothingSelected.summary);
+    });
+
+    it("should have the cic option displayed", async () => {
+        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        expect(response.text).toContain(packageTypeOptions[0].name);
     });
 
 });
