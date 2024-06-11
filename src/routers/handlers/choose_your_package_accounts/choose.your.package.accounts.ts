@@ -9,8 +9,8 @@ import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
 
 interface RadioButtonData {
-    text: string,
-    value: string,
+    text?: string,
+    value?: string,
     hint?: {
         text: string
     }
@@ -40,7 +40,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             ...this.baseViewData,
             packageTypeFieldName,
             backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`,
-            packageAccountsItems: getPackageTypeOptionsRadioButtonData()
+            packageAccountsItems: getPackageTypeOptionsRadioButtonData().filter(item => Object.keys(item).length > 0 ),
         };
     }
 

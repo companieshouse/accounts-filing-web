@@ -5,7 +5,7 @@ export interface PackageTypeOption {
     name: string
     description: string
     hint?: string
-    disabled?: boolean
+    disabled?: boolean,
 }
 
 export const packageTypeOptions: PackageTypeOption[] = [
@@ -14,6 +14,7 @@ export const packageTypeOptions: PackageTypeOption[] = [
         description: "Community Interest Company (CIC) accounts",
         hint: getHint(env.CIC_FEE),
         disabled: env.CIC_DISABLE_RADIO,
+
     },
     {
         name: "overseas",
@@ -73,14 +74,12 @@ function getHint(fee: string): string  {
 
 export function getPackageTypeOptionsRadioButtonData() {
     return packageTypeOptions.map(option => {
-        return {
+        return option.disabled === undefined || option.disabled === false ? {
             value: option.name,
             text: option.description,
             hint: option.hint === undefined ? undefined : {
                 text: option.hint
             },
-            disabled: option.disabled,
-            classes: env.CIC_DISABLE_RADIO ? "govuk-radios__input govuk-!-display-none" : "govuk-radios__input"
-        };
+        } : {};
     });
 }

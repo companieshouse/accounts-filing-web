@@ -7,7 +7,7 @@ import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 import { packageTypeFieldName } from "../../../../src/routers/handlers/choose_your_package_accounts/constants";
 import errorManifest from "../../../../src/utils/error_manifests/default";
-import { getPackageTypeOptionsRadioButtonData, packageTypeOption } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.options";
+import { getPackageTypeOptionsRadioButtonData, packageTypeOption, packageTypeOptions } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 
 
 const viewDataPackageSelectionPage = {
@@ -39,23 +39,23 @@ describe("package account selection test", () => {
         resetMockSession();
     });
 
-    it("should render package selection page with the correct page title", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.statusCode).toBe(200);
-        expect(response.text).toContain(viewDataPackageSelectionPage.title);
-    });
-
-    it("should render all package account types on the package page", async () => {
+    it("should render all enabled package account types on the package page", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
 
-        for (const button of getPackageTypeOptionsRadioButtonData()) {
+        for (const button of getPackageTypeOptionsRadioButtonData().filter(item => Object.keys(item).length > 0 )) {
             expect(response.text).toContain(button.text);
             expect(response.text).toContain(button.value);
             if (button.hint) {
                 expect(response.text).toContain(button.hint.text);
             }
         }
+    });
+
+    it("should render package selection page with the correct page title", async () => {
+        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        expect(response.statusCode).toBe(200);
+        expect(response.text).toContain(viewDataPackageSelectionPage.title);
     });
 
     it("should contain the correct backlink", async () => {
@@ -78,8 +78,7 @@ describe("package account selection test", () => {
 
     it("should have the cic option disabled and hidden", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(/value="cic".*?disabled|disabled.*?value="cic"/.test(response.text)).toBeTruthy;
-        expect(/value="cic".*?govuk-!-display-none|govuk-!-display-none.*?value="cic"/.test(response.text)).toBeTruthy;
+        expect(response.text).not.toContain(packageTypeOptions[0].name);
     });
 
 });
