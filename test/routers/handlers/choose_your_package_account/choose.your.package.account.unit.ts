@@ -78,7 +78,7 @@ describe("package account selection test", () => {
 
     it("should have the cic option hidden", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).not.toContain(packageTypeOptions[0].name);
+        expect(response.text).toContain(packageTypeOptions[0].name);
     });
 
 });

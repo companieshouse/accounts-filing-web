@@ -16,7 +16,7 @@ export const env = readEnv(process.env, {
     CIC_FEE: str.describe("Fee for CIC package submissions"),
     CIC_DISABLE_RADIO: bool
         .describe("Flag to disable the CIC option on the accounts submission page")
-        .default(true),
+        .default(false),
     CONTACT_US_LINK: str
         .describe("Link to contact us")
         .default(
