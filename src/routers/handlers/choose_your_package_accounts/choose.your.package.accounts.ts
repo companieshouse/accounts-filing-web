@@ -9,8 +9,8 @@ import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
 
 interface RadioButtonData {
-    text?: string,
-    value?: string,
+    text: string,
+    value: string,
     hint?: {
         text: string
     }
