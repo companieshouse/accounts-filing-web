@@ -39,6 +39,7 @@ module "ecs-service" {
   ecs_cluster_id          = data.aws_ecs_cluster.ecs_cluster.id
   task_execution_role_arn = data.aws_iam_role.ecs_cluster_iam_role.arn
   use_fargate             = true
+  fargate_subnets         = local.application_subnet_ids
 
   # Load balancer configuration
   lb_listener_arn           = data.aws_lb_listener.filing_maintain_lb_listener.arn
@@ -63,6 +64,11 @@ module "ecs-service" {
   desired_task_count = var.desired_task_count
   required_cpus      = var.required_cpus
   required_memory    = var.required_memory
+  service_autoscale_enabled          = var.service_autoscale_enabled
+  service_autoscale_target_value_cpu = var.service_autoscale_target_value_cpu
+  service_scaledown_schedule         = var.service_scaledown_schedule
+  service_scaleup_schedule           = var.service_scaleup_schedule
+  use_capacity_provider              = var.use_capacity_provider
 
   # Service environment variable and secret configs
   task_environment = local.task_environment
