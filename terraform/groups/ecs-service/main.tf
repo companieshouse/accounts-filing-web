@@ -38,7 +38,7 @@ module "ecs-service" {
   vpc_id                  = data.aws_vpc.vpc.id
   ecs_cluster_id          = data.aws_ecs_cluster.ecs_cluster.id
   task_execution_role_arn = data.aws_iam_role.ecs_cluster_iam_role.arn
-  use_fargate             = false
+  use_fargate             = true
 
   # Load balancer configuration
   lb_listener_arn           = data.aws_lb_listener.filing_maintain_lb_listener.arn
