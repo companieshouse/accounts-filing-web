@@ -13,8 +13,10 @@ describe("ValidateCompanyNumberFormat", () => {
     const alphanumeric2 = "AB123456";
     const niFull = "NI123456";
     const scFull = "SC123456";
+    const oeFull = "OE123456";
     const scOnly = "SC";
     const niOnly = "NI";
+    const oeOnly = "OE";
 
     it("should return false when length is not 8", () => {
         expect(
@@ -49,22 +51,27 @@ describe("ValidateCompanyNumberFormat", () => {
         ).toBe(false);
     });
 
-    it("should return true if start with SC or NI", () => {
+    it("should return true if start with SC, NI or OE", () => {
         expect(
             ValidateCompanyNumberFormat.isValid(niFull)
         ).toBe(true);
         expect(
             ValidateCompanyNumberFormat.isValid(scFull)
         ).toBe(true);
-
+        expect(
+            ValidateCompanyNumberFormat.isValid(oeFull)
+        ).toBe(true);
     });
 
-    it("should return false if it only SC or NI", () => {
+    it("should return false if it only SC, NI or OE", () => {
         expect(
             ValidateCompanyNumberFormat.isValid(scOnly)
         ).toBe(false);
         expect(
             ValidateCompanyNumberFormat.isValid(niOnly)
         ).toBe(false);
+        expect(
+            ValidateCompanyNumberFormat.isValid(oeOnly)
+        );
     });
 });
