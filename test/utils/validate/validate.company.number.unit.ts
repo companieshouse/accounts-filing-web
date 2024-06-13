@@ -14,6 +14,8 @@ describe("ValidateCompanyNumberFormat", () => {
     const niFull = "NI123456";
     const scFull = "SC123456";
     const oeFull = "OE123456";
+    const nfFull = "NF123456";
+    const fcFull = "FC123456";
     const scOnly = "SC";
     const niOnly = "NI";
     const oeOnly = "OE";
@@ -60,6 +62,12 @@ describe("ValidateCompanyNumberFormat", () => {
         ).toBe(true);
         expect(
             ValidateCompanyNumberFormat.isValid(oeFull)
+        ).toBe(true);
+        expect(
+            ValidateCompanyNumberFormat.isValid(nfFull)
+        ).toBe(true);
+        expect(
+            ValidateCompanyNumberFormat.isValid(fcFull)
         ).toBe(true);
     });
 
