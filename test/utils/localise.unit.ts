@@ -104,7 +104,7 @@ describe("getLocalesField", () => {
             throw new Error(errorMessage);
         });
 
-        expect(() => getLocalesField(fieldName, req as Request));
+        expect(() => getLocalesField(fieldName, req as Request)).toThrow;
     });
 
     it("should return the default language if session language is not available", () => {
