@@ -7,7 +7,7 @@ export enum Language {
     EN = "en"
 }
 
-export const selectLang = (lang: Language): string => {
+export const selectLang = (lang: Language): Language => {
     switch (lang) {
             case Language.CY:
                 return Language.CY;
@@ -43,7 +43,7 @@ export function getLocalesField(fieldName: string, req: Request): string {
     const QUERY_LANG = "lang";
 
     try {
-        const language = req.query.lang ? selectLang(req.query.lang as Language) : req.session?.getExtraData<string>(QUERY_LANG);
+        const language = req.query.lang ? selectLang(req.query.lang as Language) : selectLang(req.session?.getExtraData<string>(QUERY_LANG) as Language);
         const localesPath = getLocalesService().localesFolder;
         const locales = i18nCh.getInstance(localesPath);
         return locales.resolveSingleKey(fieldName, language as string);

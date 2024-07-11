@@ -114,7 +114,7 @@ describe("getLocalesField", () => {
         const result = getLocalesField(fieldName, req as Request);
 
         expect(req.session!.getExtraData).toHaveBeenCalledWith("lang");
-        expect(i18nCh.getInstance().resolveSingleKey).toHaveBeenCalledWith(fieldName, undefined);
+        expect(i18nCh.getInstance().resolveSingleKey).toHaveBeenCalledWith(fieldName, Language.EN);
         expect(result).toBe(MOCKED_VAL);
     });
 });
