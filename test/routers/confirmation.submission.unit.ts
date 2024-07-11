@@ -18,6 +18,12 @@ const session = {
 };
 
 describe("accounts submitted tests", () => {
+    let server: any;
+
+    beforeAll((done) => {
+        server = app.listen(done);
+    });
+
     beforeEach(() => {
         Object.assign(mockSession, getSessionRequest());
         mockSession.data.signin_info!.company_number = session.companyNumber;
@@ -42,9 +48,13 @@ describe("accounts submitted tests", () => {
         resetMockSession();
     });
 
+    afterAll((done) => {
+        server.close(done);
+    });
+
     it("should throw error when session not properly set", async () => {
         resetMockSession();
-        expect(await request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
+        expect(await request(server).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain email error when no email provided", async () => {
@@ -52,29 +62,29 @@ describe("accounts submitted tests", () => {
             value: {},
             writable: true
         });
-        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
+        expect(request(server).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain company name error when no company name provided", async () => {
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, null);
-        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
+        expect(request(server).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain transaction id error when no accounts filing id provided", async () => {
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, null);
-        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
+        expect(request(server).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should contain company number error when no company number provided", async () => {
         mockSession.data.signin_info!.company_number = undefined;
-        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
+        expect(request(server).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("should handle successful submission with overseas accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('overseas').name);
         setExtraDataCompanyNumber(mockSession, "00006400");
 
-        const response = await request(app).get(PrefixedUrls.CONFIRMATION);
+        const response = await request(server).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
         expect(response.text).toContain(`£${fees.overseas}`);
@@ -92,7 +102,7 @@ describe("accounts submitted tests", () => {
 
     it("should handle successful submission with cic accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption("cic").name);
-        const response = await request(app).get(PrefixedUrls.CONFIRMATION);
+        const response = await request(server).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
         expect(response.text).toContain(`£${fees.cic}`);
@@ -110,7 +120,7 @@ describe("accounts submitted tests", () => {
 
     it("should handle successful submission with welsh accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('welsh'));
-        const response = await request(app).get(PrefixedUrls.CONFIRMATION);
+        const response = await request(server).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).not.toContain("Payment received");
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
@@ -127,7 +137,7 @@ describe("accounts submitted tests", () => {
 
     it("should throw error for unsuccessful submission with league of legends account", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "League of Legends");
-        expect(request(app).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
+        expect(request(server).get(PrefixedUrls.CONFIRMATION)).rejects.toThrow;
     });
 
     it("Should redirect to sigin when company number do not match", async () => {
@@ -137,7 +147,7 @@ describe("accounts submitted tests", () => {
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
 
 
-        const resp = await request(app).get(PrefixedUrls.CONFIRMATION);
+        const resp = await request(server).get(PrefixedUrls.CONFIRMATION);
 
         expect(resp.status).toBe(302);
         // The make sure it redirects to the sigin page
