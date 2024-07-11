@@ -1,9 +1,6 @@
 import { Language, addLangToUrl, getLocalesField, selectLang } from "../../src/utils/localise";
 import { i18nCh } from "@companieshouse/ch-node-utils";
 import { Request } from "express";
-import { mockSession } from "../mocks/session.middleware.mock";
-import { getSessionRequest } from "../mocks/session.mock";
-import { ContextKeys } from "../../src/utils/constants/context.keys";
 
 
 jest.mock("@companieshouse/ch-node-utils", () => ({
@@ -62,26 +59,6 @@ describe("getLocalesField", () => {
     const fieldName = "testField";
     const mockResolveSingleKey = jest.fn();
     const MOCKED_VAL = "mockedValue";
-
-    const session = {
-        companyName: 'Test Company',
-        companyNumber: '00006400',
-        accountsFilingId: '78910',
-        userProfile: { email: 'test@companieshouse.gov.uk' }
-    };
-
-    beforeAll(() => {
-        Object.assign(mockSession, getSessionRequest());
-        mockSession.data.signin_info!.company_number = session.companyNumber;
-        mockSession.setExtraData(ContextKeys.COMPANY_NAME, session.companyName);
-        mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, session.accountsFilingId);
-        mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, session.companyNumber);
-
-        Object.defineProperty(mockSession.data.signin_info, "user_profile", {
-            value: session.userProfile,
-            writable: true
-        });
-    });
 
     beforeEach(() => {
         req = {
