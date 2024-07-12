@@ -10,11 +10,13 @@ import { authenticationMiddleware } from "./middleware/authentication.middleware
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { sessionMiddleware } from "./middleware/session.middleware";
 import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
+import { localeMiddleware } from "./middleware/locale.middleware";
+import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
 
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
     const router = Router();
-
+    router.use(LocalesMiddleware());
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use(Urls.HOME, HomeRouter);
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
@@ -24,6 +26,7 @@ const routerDispatch = (app: Application) => {
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
+    router.use(localeMiddleware);
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
     router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, companyAuthenticationMiddleware, ChooseYourPackageAccountsRouter);
