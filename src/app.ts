@@ -44,6 +44,9 @@ njk.addGlobal("contactUs", env.CONTACT_US_LINK);
 njk.addGlobal("developerLink", env.DEVELOPERS_LINK);
 njk.addGlobal("policies", env.POLICIES_LINK);
 njk.addGlobal("feedbackLink", env.FEEDBACK_LINK);
+njk.addGlobal("SERVICE_NAME", 'presenter-account-web');
+njk.addGlobal("PIWIK_URL", env.PIWIK_URL);
+njk.addGlobal("PIWIK_SITE_ID", env.PIWIK_SITE_ID);
 
 njk.addFilter("formatDate", formatToUKString);
 njk.addFilter("formatProfileType", formatType);
