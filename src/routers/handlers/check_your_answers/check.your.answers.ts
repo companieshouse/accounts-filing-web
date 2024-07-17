@@ -22,7 +22,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
         super({
             title: "Check your answers – File package accounts with Companies House – GOV.UK",
             viewName: "check your answers",
-            backURL: null,
+            backURL: null
         });
     }
 

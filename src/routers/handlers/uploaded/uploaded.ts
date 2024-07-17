@@ -24,7 +24,7 @@ export class UploadedHandler extends GenericHandler {
         super({
             title: "Uploaded Handler for handling file upload callbacks",
             viewName: "uploaded",
-            backURL: null,
+            backURL: null
         });
     }
 
