@@ -15,6 +15,7 @@ export class UploadHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
         super({
             title: '',
+            viewName:"upload",
             backURL: PrefixedUrls.HOME
         });
     }
