@@ -5,7 +5,7 @@ import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
 import routerDispatch from "./router.dispatch";
 import { env } from './config';
-import { SIGN_OUT, Urls } from "./utils/constants/urls";
+import { SIGN_OUT, servicePathPrefix } from "./utils/constants/urls";
 import { formatToUKString, formatType } from "./utils/format/format";
 
 const app = express();
@@ -44,7 +44,7 @@ njk.addGlobal("contactUs", env.CONTACT_US_LINK);
 njk.addGlobal("developerLink", env.DEVELOPERS_LINK);
 njk.addGlobal("policies", env.POLICIES_LINK);
 njk.addGlobal("feedbackLink", env.FEEDBACK_LINK);
-njk.addGlobal("urls", Urls);
+njk.addGlobal("servicePath", servicePathPrefix);
 
 njk.addFilter("formatDate", formatToUKString);
 njk.addFilter("formatProfileType", formatType);
