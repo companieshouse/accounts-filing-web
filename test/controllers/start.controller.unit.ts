@@ -26,7 +26,7 @@ describe("start controller tests", () => {
         const req = await request(app)
             .get("/accounts-filing/");
 
-        expect(req.text).toContain(`<a href="/" class="govuk-header__link govuk-header__link--service-name">File package accounts with Companies House</a>`);
+        expect(req.text).toContain(`<a href="/accounts-filing" class="govuk-header__link govuk-header__link--service-name">File package accounts with Companies House</a>`);
     });
 
 });
