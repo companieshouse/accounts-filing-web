@@ -8,69 +8,69 @@
 
     {% set packageZip %}
         <p class="govuk-body">
-            {{ i18n.start-page-zip-pre-link }} <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software">{{i18n.start-page-zip-link}}</a> {{i18n.start-page-zip-post-link}}
+            {{ i18n.start_page_zip_pre_link }} <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software">{{i18n.start_page_zip_link}}</a> {{i18n.start_page_zip_post_link}}
         </p>
     {% endset %}
 
     <h1 class="govuk-heading-xl">
-        {{ i18n.start-page-title }}
+        {{ i18n.start_page_title }}
     </h1>
 
     <p class="govuk-body">
-        {{ i18n.start-page-service-explaination }}
+        {{ i18n.start_page_service_explaination }}
     </p>
 
     <p class="govuk-body">
-        {{ i18n.start-page-only-file }}
+        {{ i18n.start_page_only_file }}
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
-        <li>{{ i18n.start-page-cic-before-cost }}{{fees.cic}} {{ i18n.start-page-cic-after-cost }}</li>
-        <li>{{ i18n.start-page-overseas-before-cost }}{{fees.overseas}} {{ i18n.start-page-overseas-after-cost }}</li>
-        <li>{{ i18n.start-page-audit-exempt }}</li>
-        <li>{{ i18n.start-page-dormant }}</li>
-        <li>{{ i18n.start-page-limited }}</li>
-        <li>{{ i18n.start-page-uksef }} </li>
-        <li>{{ i18n.start-page-400 }}</li>
-        <li>{{ i18n.start-page-401 }}</li>
-        <li>{{ i18n.start-page-welsh }}</li>
+        <li>{{ i18n.start_page_cic_before_cost }}{{fees.cic}} {{ i18n.start_page_cic_after_cost }}</li>
+        <li>{{ i18n.start_page_overseas_before_cost }}{{fees.overseas}} {{ i18n.start_page_overseas_after_cost }}</li>
+        <li>{{ i18n.start_page_audit_exempt }}</li>
+        <li>{{ i18n.start_page_dormant }}</li>
+        <li>{{ i18n.start_page_limited }}</li>
+        <li>{{ i18n.start_page_uksef }} </li>
+        <li>{{ i18n.start_page_400 }}</li>
+        <li>{{ i18n.start_page_401 }}</li>
+        <li>{{ i18n.start_page_welsh }}</li>
     </ul>
 
     {{ govukInsetText({
         html: packageZip
     }) }}
 
-    <p class="govuk-body">{{ i18n.start-page-youll-need }}</p>
+    <p class="govuk-body">{{ i18n.start_page_youll_need }}</p>
 
     <ul class="govuk-list govuk-list--bullet">
-        <li>{{ i18n.start-page-youll-need-sigin }}</li>
-        <li>{{ i18n.start-page-youll-need-company-name }}</li>
-        <li>{{ i18n.start-page-youll-need-code }}</li>
-        <li>{{ i18n.start-page-youll-need-payment }}</li>
+        <li>{{ i18n.start_page_youll_need_signin }}</li>
+        <li>{{ i18n.start_page_youll_need_company_name }}</li>
+        <li>{{ i18n.start_page_youll_need_code }}</li>
+        <li>{{ i18n.start_page_youll_need_payment }}</li>
     </ul>
 
     <br>
 
     <p class="govuk-body">
-        {{ i18n.start-page-timeout }}
+        {{ i18n.start_page_timeout }}
     </p> 
 
     {{ govukButton({
-        text: {{ i18n.start-now }},
+        text: i18n.start_now,
         href: Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS,
         classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
         isStartButton: true
     }) }}
 
     <h2 class="govuk-heading-m">
-        {{ i18n.start-page-prepare }}
+        {{ i18n.start_page_prepare }}
     </h2>
 
     <p class="govuk-body">
-        {{ i18n.start-page-frc-pre-link }} <a href="https://www.frc.org.uk/library/standards-codes-policy/accounting-and-reporting/frc-taxonomies/">{{ i18n.start-page-frc-link }}</a>.
+        {{ i18n.start_page_frc_pre_link }} <a href="https://www.frc.org.uk/library/standards-codes-policy/accounting-and-reporting/frc-taxonomies/">{{ i18n.start_page_frc_link }}</a>.
     </p>
 
     <p class="govuk-body">
-       {{ i18n.start-page-check-ixbrl-pre-link }} <a href="https://test-validator.companieshouse.gov.uk/xbrl_validate">{{ i18n.start-page-check-ixbrl-link }}</a>.
+       {{ i18n.start_page_check_ixbrl_pre_link }} <a href="https://test-validator.companieshouse.gov.uk/xbrl_validate">{{ i18n.start_page_check_ixbrl_link }}</a>.
     </p>
 {% endblock %}
