@@ -22,4 +22,11 @@ describe("start controller tests", () => {
         expect(mockAuthenticationMiddleware).not.toHaveBeenCalled();
     });
 
+    it("should return start page with home ref to home link", async () => {
+        const req = await request(app)
+            .get("/accounts-filing/");
+
+        expect(req.text).toContain(`<a href="/accounts-filing" class="govuk-header__link govuk-header__link--service-name">File package accounts with Companies House</a>`);
+    });
+
 });

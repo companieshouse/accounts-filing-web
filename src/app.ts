@@ -5,7 +5,7 @@ import { logger } from "./utils/logger";
 import cookieParser from "cookie-parser";
 import routerDispatch from "./router.dispatch";
 import { env } from './config';
-import { SIGN_OUT } from "./utils/constants/urls";
+import { SIGN_OUT, servicePathPrefix } from "./utils/constants/urls";
 import { formatToUKString, formatType } from "./utils/format/format";
 
 const app = express();
@@ -47,6 +47,7 @@ njk.addGlobal("feedbackLink", env.FEEDBACK_LINK);
 njk.addGlobal("SERVICE_NAME", 'accounts-filing-web');
 njk.addGlobal("PIWIK_URL", env.PIWIK_URL);
 njk.addGlobal("PIWIK_SITE_ID", env.PIWIK_SITE_ID);
+njk.addGlobal("servicePath", servicePathPrefix);
 
 njk.addFilter("formatDate", formatToUKString);
 njk.addFilter("formatProfileType", formatType);
