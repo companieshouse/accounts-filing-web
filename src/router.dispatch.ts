@@ -18,15 +18,15 @@ const routerDispatch = (app: Application) => {
     const router = Router();
     router.use(LocalesMiddleware());
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
-    router.use(Urls.HOME, HomeRouter);
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
+    router.use(localeMiddleware);
+    router.use(Urls.HOME, HomeRouter);
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
 
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
-    router.use(localeMiddleware);
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
     router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, companyAuthenticationMiddleware, ChooseYourPackageAccountsRouter);
