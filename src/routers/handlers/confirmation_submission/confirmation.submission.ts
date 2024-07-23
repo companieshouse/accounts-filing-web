@@ -16,6 +16,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
     constructor() {
         super({
             title: "Accounts Submitted",
+            viewName: "accounts submitted",
             backURL: null
         });
     }

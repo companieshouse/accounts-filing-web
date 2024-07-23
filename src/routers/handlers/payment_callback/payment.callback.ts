@@ -7,7 +7,8 @@ export class PaymentCallbackHandler extends GenericHandler {
     constructor() {
         super({
             title: "Payment Callback – GOV.UK",
-            backURL: null,
+            viewName: "payment callback",
+            backURL: null
         });
     }
 
