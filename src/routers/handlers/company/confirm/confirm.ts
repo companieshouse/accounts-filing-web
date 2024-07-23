@@ -13,6 +13,7 @@ export class CompanyConfirmHandler extends GenericHandler {
     constructor(private companyProfileService: CompanyProfileService) {
         super({
             title: "Confirm company – Accounts Filing – GOV.UK ",
+            viewName: "confirm",
             backURL: `${PrefixedUrls.COMPANY_SEARCH}/`
         });
     }

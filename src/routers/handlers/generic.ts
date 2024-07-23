@@ -12,6 +12,7 @@ export interface BaseViewData {
     title: string
     isSignedIn: boolean
     backURL: string | null
+    viewName: string
     Urls: typeof PrefixedUrls
 }
 

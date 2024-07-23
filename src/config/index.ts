@@ -1,6 +1,6 @@
 import { Validators, readEnv, addProtocolIfMissing } from "./validator";
 
-const { str, url, bool, port } = Validators;
+const { str, url, bool, port, int } = Validators;
 
 export const env = readEnv(process.env, {
 
@@ -80,6 +80,8 @@ export const env = readEnv(process.env, {
         .default(false),
     OVERSEAS_FEE: str.describe("Fee for overseas package accounst submissions"),
     PORT: port.describe("Port to run the web server on").default(3000),
+    PIWIK_URL: url.describe('The URL for the matomo instance'),
+    PIWIK_SITE_ID: int.describe('The site ID for matomo'),
     POLICIES_LINK: str
         .describe("Link to policies")
         .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),

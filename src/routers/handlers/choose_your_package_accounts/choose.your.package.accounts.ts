@@ -28,6 +28,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
     constructor() {
         super({
             title: "What package accounts are you submitting?",
+            viewName: "choose your package accounts",
             backURL: null
         });
     }

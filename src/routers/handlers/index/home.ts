@@ -8,6 +8,7 @@ export class HomeHandler extends GenericHandler {
     constructor () {
         super({
             title: "File package accounts with Companies House",
+            viewName: "home",
             backURL: null
         });
     }

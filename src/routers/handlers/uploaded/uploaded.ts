@@ -23,7 +23,8 @@ export class UploadedHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService) {
         super({
             title: "Uploaded Handler for handling file upload callbacks",
-            backURL: null,
+            viewName: "uploaded",
+            backURL: null
         });
     }
 
