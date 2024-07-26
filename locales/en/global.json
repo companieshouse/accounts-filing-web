@@ -2,7 +2,9 @@
     "companies_house": "Companies House",
     "file_package_accounts": "File package accounts with Companies House",
     "beta": "BETA -",
-    "new_service": "This is a new service – your feedback will help us to improve it.",
+    "new_service_prefix": "This is a new service – your",
+    "feedback": "feedback",
+    "new_service_postfix": "will help us to improve it.",
     "back": "Back",
     "sign_out": "Sign out",
     "policies": "Policies",
@@ -14,5 +16,7 @@
     "open_gov_licence": "Open Government Licence v3.0",
     "content_info_postfix": ", except where otherwise stated.",
     "crown_copyright": "Crown copyright",
-    "start_now": "Start now"
+    "start_now": "Start now",
+    "support_links": "Support links",
+    "skip_to_main_content": "Skip to main content"
 }
