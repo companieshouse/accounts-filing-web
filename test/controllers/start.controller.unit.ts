@@ -1,7 +1,7 @@
 import { mockAuthenticationMiddleware } from "../mocks/all.middleware.mock";
 import request from "supertest";
 import app from "../../src/app";
-import { PrefixedUrls, servicePathPrefix } from "../../src/utils/constants/urls";
+import { servicePathPrefix } from "../../src/utils/constants/urls";
 
 describe("start controller tests", () => {
 
