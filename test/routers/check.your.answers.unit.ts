@@ -131,3 +131,13 @@ describe("Check your answers test", () => {
         expect(resp.header.location).toBe(PAYMENT_JOURNEY_URL);
     });
 });
+
+describe("Welsh translation", () => {
+    it("should translate `Support link` to Welsh for checkAnswer page", async () => {
+
+        const req = await request(app)
+            .get(PrefixedUrls.CHECK_YOUR_ANSWERS + "?lang=cy");
+
+        expect(req.text).toContain("Dolenni cymorth");
+    });
+});

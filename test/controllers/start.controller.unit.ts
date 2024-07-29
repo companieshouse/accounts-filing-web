@@ -1,7 +1,7 @@
 import { mockAuthenticationMiddleware } from "../mocks/all.middleware.mock";
 import request from "supertest";
 import app from "../../src/app";
-import { Urls, servicePathPrefix } from "../../src/utils/constants/urls";
+import { PrefixedUrls, servicePathPrefix } from "../../src/utils/constants/urls";
 
 describe("start controller tests", () => {
 
@@ -30,25 +30,20 @@ describe("start controller tests", () => {
         expect(req.text).toContain(`<a href="/accounts-filing" class="govuk-header__link govuk-header__link--service-name">File package accounts with Companies House</a>`);
     });
 
-    it("should translate `Support link` to Welsh on every page", async () => {
+    it("should translate `Support link` to Welsh for home page", async () => {
 
-        const urlList = Object.entries(Urls);
-        urlList.forEach(
-            async url => {
-                let req: {
-                    text: string
-                };
-                if (url[0] === "HOME"){
-                    req = await request(app)
-                        .get(servicePathPrefix + "?lang=cy");
-                } else {
-                    req = await request(app)
-                        .get(url[1] + "?lang=cy");
-                }
+        const req = await request(app)
+            .get(servicePathPrefix + "?lang=cy");
 
-                expect(req.text).toContain(`<a href="/accounts-filing" class="govuk-header__link govuk-header__link--service-name">File package accounts with Companies House</a>`);
-            }
-        );
+        expect(req.text).toContain("Dolenni cymorth");
+    });
+
+    it("should translate `Support link` to Welsh for home page", async () => {
+
+        const req = await request(app)
+            .get(servicePathPrefix + "?lang=cy");
+
+        expect(req.text).toContain("Dolenni cymorth");
     });
 
 });

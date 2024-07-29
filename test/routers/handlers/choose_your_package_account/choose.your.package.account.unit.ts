@@ -82,3 +82,13 @@ describe("package account selection test", () => {
     });
 
 });
+
+describe("Welsh translation", () => {
+    it("should translate `Support link` to Welsh for chooseYourPackageAccounts page", async () => {
+
+        const req = await request(app)
+            .get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+
+        expect(req.text).toContain("Dolenni cymorth");
+    });
+});

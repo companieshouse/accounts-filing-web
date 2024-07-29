@@ -69,3 +69,13 @@ describe("company auth test", () => {
     });
 
 });
+
+describe("Welsh translation", () => {
+    it("should translate `Support link` to Welsh for upload page", async () => {
+
+        const req = await request(app)
+            .get(PrefixedUrls.UPLOAD + "?lang=cy");
+
+        expect(req.text).toContain("Dolenni cymorth");
+    });
+});

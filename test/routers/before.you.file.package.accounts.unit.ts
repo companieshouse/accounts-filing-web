@@ -12,3 +12,13 @@ describe("Before you file package accounts test", () => {
     });
 
 });
+
+describe("Welsh translation", () => {
+    it("should translate `Support link` to Welsh for beforeYouFilePackageAccounts page", async () => {
+
+        const req = await request(app)
+            .get(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=cy");
+
+        expect(req.text).toContain("Dolenni cymorth");
+    });
+});
