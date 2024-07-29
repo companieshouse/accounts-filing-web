@@ -4,7 +4,7 @@
       alpha
     </strong>
     <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.
+      {{ i18n.new_service_prefix }} <a class="govuk-link" href="{{feedbackLink}}">{{ i18n.feedback }}</a> {{ i18n.new_service_postfix }}
     </span>
   </p>
 </div>

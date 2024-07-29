@@ -38,3 +38,13 @@ describe("Payment callback tests", () => {
     });
 
 });
+
+describe("Payment page translation", () => {
+    it("should translate `Support link` to Welsh for payment page", async () => {
+
+        const req = await request(app)
+            .get(PrefixedUrls.PAYMENT + "?lang=cy");
+
+        expect(req.text).toContain("Dolenni cymorth");
+    });
+});

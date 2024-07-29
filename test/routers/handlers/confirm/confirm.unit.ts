@@ -90,6 +90,15 @@ describe("CompanyConfirmHandler", () => {
         });
     });
 
+    describe("Confirmation page Welsh translation", () => {
+        it("should translate `Support link` to Welsh for confirmation page", async () => {
+
+            const req = await request(app)
+                .get(PrefixedUrls.CONFIRMATION + "?lang=cy");
+
+            expect(req.text).toContain("Dolenni cymorth");
+        });
+    });
 
 });
 

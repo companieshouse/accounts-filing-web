@@ -1,0 +1,31 @@
+<div>
+    <div class="govuk-width-container">
+        <div class="govuk-grid-column-full no-padd">
+            <nav class="govuk-language-select" role="navigation" aria-label="{{lang.language_switcher}}">
+                <ul class="govuk-language-select__list">
+                    {% if lang == "en" %}
+                        <li class="govuk-language-select__list-item">
+                            <span aria-current="true">English</span>
+                        </li>
+                        <li class="govuk-language-select__list-item">
+                            <a href="?lang=cy" lang="cy" rel="alternate" class="govuk-link">
+                                <span class="govuk-visually-hidden">Newid yr iaith ir Gymraeg</span>
+                                <span aria-hidden="true">Cymraeg</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="govuk-language-select__list-item">
+                            <a href="?lang=en" lang="en" rel="alternate" class="govuk-link">
+                                <span class="govuk-visually-hidden">Change the language to English</span>
+                                <span aria-hidden="true">English</span>
+                            </a>
+                        </li>
+                        <li class="govuk-language-select__list-item">
+                            <span aria-current="true">Cymraeg</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
