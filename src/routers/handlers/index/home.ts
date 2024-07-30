@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { fees } from "../../../utils/constants/fees";
-import { getLocalesField } from "../../../utils/localise";
+import { getLocalesField, addLangToUrl, selectLang } from "../../../utils/localise";
+import { PrefixedUrls } from "../../../utils/constants/urls";
 
 export class HomeHandler extends GenericHandler {
 
@@ -10,7 +11,8 @@ export class HomeHandler extends GenericHandler {
         super({
             title: getLocalesField("start_page_title", req),
             viewName: "home",
-            backURL: null
+            backURL: null,
+            nextURL: addLangToUrl(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, selectLang(req.query.lang))
         });
     }
 

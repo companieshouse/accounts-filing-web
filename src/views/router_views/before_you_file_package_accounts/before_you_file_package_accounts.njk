@@ -5,20 +5,20 @@
 {% block main_content %}
 
     <h1 class="govuk-heading-l">
-        Before you file package accounts
+        {{ i18n.before_you_file_heading }}
     </h1>
 
     <p class="govuk-body">
-        You must <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software">read the technical interface specification (TIS)</a> to find out:
+        {{ i18n.before_you_file_you_must }} <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software">{{ i18n.before_you_file_read_techinical_spec }}</a> {{ i18n.before_you_file_to_find_out }}
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
-        <li>how to structure your zip file</li>
-        <li>if you need to include forms in your accounts package</li>
+        <li>{{ i18n.before_you_file_how_to_structure }}</li>
+        <li>{{ i18n.before_you_file_include_forms }}</li>
     </ul>
 
     {{ govukButton({
-        text: "Continue",
+        text: i18n.continue,
         href: Urls.COMPANY_SEARCH,
         classes: "",
         isStartButton: false

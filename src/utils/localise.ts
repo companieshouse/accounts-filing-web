@@ -7,7 +7,7 @@ export enum Language {
     EN = "en"
 }
 
-export const selectLang = (lang: Language): Language => {
+export const selectLang = (lang: any): Language => {
     switch (lang) {
             case Language.CY:
                 return Language.CY;
