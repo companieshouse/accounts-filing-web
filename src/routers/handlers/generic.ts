@@ -4,7 +4,7 @@
 import { PrefixedUrls } from "../../utils/constants/urls";
 import errorManifest from "../../utils/error_manifests/default";
 import { Request, Response } from "express";
-import { Optional } from "../../utils"
+import { Optional } from "../../utils";
 
 export interface BaseViewData {
     errors: {
@@ -25,7 +25,7 @@ const defaultBaseViewData = {
     nextURL: null
 };
 
-type GenericHandlerArgs = Optional<Omit<BaseViewData, 'isSignedIn' | 'errors' | 'Urls' >,'nextURL'>;
+type GenericHandlerArgs = Optional<Omit<BaseViewData, 'isSignedIn' | 'errors' | 'Urls' >, 'nextURL'>;
 
 export abstract class GenericHandler {
     errorManifest: any;
