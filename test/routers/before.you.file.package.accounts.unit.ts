@@ -25,7 +25,7 @@ describe("Welsh translation", () => {
 describe("Welsh Cookie translation", () => {
     it("should translate `Cookies on Companies House services` to Welsh for beforeYouFilePackageAccounts page", async() => {
         const resp = await request(app).get(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=cy");
-        expect(resp.text).toContain("Cwcis ar wasanaethau ");
+        expect(resp.text).toContain("Cwcis ar wasanaethau Tŷ&#39;r Cwmnïau");
     });
 });
 
