@@ -6,13 +6,13 @@
 {% endset %}
 
 {% set acceptHtml %}
-  <p>{{ i18n.accepted_analytics_cookies }} {{ i18n.cookies_you_can }} <a class="govuk-link" 
+  <p>{{ i18n.accepted_analytics_cookies }} {{ i18n.cookies_you_can }} <a class="govuk-link" target="_blank" rel="noopener noreferrer"
   href="{{ chsUrl }}/help/cookies">{{ i18n.change_cookie_settings }}</a> {{ i18n.cookies_at_any_time }}</p>
 {% endset %}
 
 {% set rejectHtml %}
-  <p>{{ i18n.rejected_analytics_cookies }} {{ i18n.cookies_you_can }} <a class="govuk-link" href="{{ chsUrl }}/help/cookies">
-  {{ i18n.change_cookie_settings }}</a> {{ i18n.cookies_at_any_time }}</p>
+  <p>{{ i18n.rejected_analytics_cookies }} {{ i18n.cookies_you_can }} <a class="govuk-link" target="_blank" rel="noopener noreferrer"
+  href="{{ chsUrl }}/help/cookies">{{ i18n.change_cookie_settings }}</a> {{ i18n.cookies_at_any_time }}</p>
 {% endset %}
 
 {{ govukCookieBanner({
