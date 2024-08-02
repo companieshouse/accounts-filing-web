@@ -21,3 +21,17 @@ describe("Welsh translation", () => {
         expect(resp.text).toContain("Cyn i chi ffeiio cyfrifon pecyn");
     });
 });
+
+describe("Welsh Cookie translation", () => {
+    it("should translate `Cookies on Companies House services` to Welsh for beforeYouFilePackageAccounts page", async() => {
+        const resp = await request(app).get(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=cy");
+        expect(resp.text).toContain("Cwcis ar wasanaethau Tŷ&#39;r Cwmnïau");
+    });
+});
+
+describe("Welsh Cookie translation", () => {
+    it("should have `Cookies on Companies House services` beforeYouFilePackageAccounts page", async() => {
+        const resp = await request(app).get(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
+        expect(resp.text).toContain("Cookies on Companies House services");
+    });
+});
