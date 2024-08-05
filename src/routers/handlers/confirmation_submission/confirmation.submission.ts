@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserProfile, must } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { fees } from "../../../utils/constants/fees";
+import { getLocalesField } from "../../../utils/localise";
 
 interface ConfirmationSubmissionViewData extends BaseViewData {
         accountsFilingId: string | Error,
@@ -55,7 +56,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             }
         }
 
-        this.setTableRows(payment, {
+        this.setTableRows(payment, req, {
             companyName: companyName as string,
             companyNumber: companyNumber as string,
         });
@@ -73,14 +74,14 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         };
     }
 
-    setTableRows(payment: string, companyProfile: {companyName: string, companyNumber: string}): void{
+    setTableRows(payment: string, req: Request, companyProfile: {companyName: string, companyNumber: string}): void{
         ConfirmationSubmissionHandler.rows = [
             [
-                { text: "Company number" },
+                { text: getLocalesField("company_number", req) },
                 { text: companyProfile.companyNumber }
             ],
             [
-                { text: "Company name" },
+                { text: getLocalesField("company_name", req) },
                 { text: companyProfile.companyName }
             ]
         ];
@@ -88,7 +89,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         if (payment !== "-") {
             ConfirmationSubmissionHandler.rows.push(
                 [
-                    { text: "Payment received" },
+                    { text: getLocalesField("payment_received", req)  },
                     { text: `£${payment}` }
                 ]
             );
