@@ -15,7 +15,9 @@ app.set("views", [
     path.join(__dirname, "views"),
     path.join(__dirname, "node_modules/govuk-frontend"),
     path.join(__dirname, "../node_modules/govuk-frontend"), // This if for when using ts-node since the working directory is src
-    path.join(__dirname, "node_modules/govuk-frontend/components")
+    path.join(__dirname, "node_modules/govuk-frontend/components"),
+    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates"),
+    path.join(__dirname, "../node_modules/@companieshouse/ch-node-utils/templates")
 ]);
 
 const nunjucksLoaderOpts = {
@@ -48,7 +50,7 @@ njk.addGlobal("SERVICE_NAME", 'accounts-filing-web');
 njk.addGlobal("PIWIK_URL", env.PIWIK_URL);
 njk.addGlobal("PIWIK_SITE_ID", env.PIWIK_SITE_ID);
 njk.addGlobal("servicePath", servicePathPrefix);
-njk.addGlobal("submitValidationUrl", env.SUBMIT_VALIDATION_URL)
+njk.addGlobal("submitValidationUrl", env.SUBMIT_VALIDATION_URL);
 
 njk.addFilter("formatDate", formatToUKString);
 njk.addFilter("formatProfileType", formatType);

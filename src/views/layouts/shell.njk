@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
 <!--[(if gt IE 8) | (!IE)]><!--><html lang="en" class="govuk-template"><!--<![endif]-->
+    {% import "add-lang-to-url.njk" as lang2url %}
 
-    {% include "partials/__meta_header.njk" %}
-
+    {% include "../partials/__meta_header.njk" %}
+    
     <body class="govuk-template__body" >
 
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-        {% include "partials/cookie_consent_banner.njk" %}
-        <a href="#main-page-content" class="govuk-skip-link">{{ i18n.skip_to_main_content }}</a>
-        {% include "partials/__header.njk" %}
-
+        {% include "../partials/cookie_consent_banner.njk" %}
+        <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
+        {% include "../partials/__header.njk" %}
         <div class="govuk-width-container ">
-            {% include "partials/language_switch.njk" %}
+        {% if not error %}
+          {% include "locales-banner.njk" %}
+        {% endif %}
             <main class="govuk-main-wrapper " id="main-content">
                 <div class="govuk-grid-row">
                     {% block main_content %}
@@ -22,7 +24,7 @@
             </main>
         </div>
 
-        {% include "partials/__footer.njk" %}
+        {% include "../partials/__footer.njk" %}
 
     </body>
 </html>
