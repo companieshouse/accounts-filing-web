@@ -14,14 +14,6 @@
     {% include "../partials/__header.njk" %}
 
     <div class="govuk-width-container ">
-        {% if isSignedIn %}
-            {% include "../partials/signout-bar.njk" %}
-        {% endif %}
-
-        {% if backURL %}
-            <a href="{{ backURL }}" class="govuk-back-link">{{i18n.back_button}}</a>
-        {% endif %}
-
         {% if not error %}
           {% include "locales-banner.njk" %}
         {% endif %}
