@@ -10,7 +10,7 @@
 
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
    {% include "../partials/cookie_consent_banner.njk" %}
-    <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
+    <a href="#main-page-content" class="govuk-skip-link">{{ i18n.skip_to_main_content }}</a>
     {% include "../partials/__header.njk" %}
 
     <div class="govuk-width-container ">
