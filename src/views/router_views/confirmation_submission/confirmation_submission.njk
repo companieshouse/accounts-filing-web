@@ -5,8 +5,8 @@
 
 {% block main_content %}
     {{ govukPanel({
-        titleText: "Accounts submitted",
-        html: "Your reference is<br><strong>" + accountsFilingId + "</strong>"
+        titleText: i18n.accounts_submitted,
+        html: i18n.your_reference_is + "<br><strong>" + accountsFilingId + "</strong>"
     }) }}
 
     {{ govukTable({
@@ -16,14 +16,14 @@
 
     }}
 
-    <p class="govuk-body">We have sent a confirmation email to <span class="govuk-!-font-weight-bold">{{ userEmail }}</span></p>
+    <p class="govuk-body">{{ i18n.we_have_sent_a_confirmation_to }} <span class="govuk-!-font-weight-bold">{{ userEmail }}</span></p>
 
-    <h2 class="govuk-heading-m">What happens next</h2>
+    <h2 class="govuk-heading-m">{{ i18n.what_happens_next }}</h2>
 
-    <p class="govuk-body">We will process your accounts file. We'll email you to confirm if it's accepted.</p>
-    <p class="govuk-body">If it is rejected, we'll email to tell you what to do next. If you paid to file the accounts, we will refund the fee.</p>
+    <p class="govuk-body">{{ i18n.processing_message }}</p>
+    <p class="govuk-body">{{ i18n.accounts_rejected }}</p>
 
-    <h2 class="govuk-heading-m">File more package accounts</h2>
-    <p class="govuk-body"><a href={{ Urls.UPLOAD }}>File more package accounts for {{companyProfile.companyName}} ({{companyProfile.companyNumber}})</a></p>
-    <p class="govuk-body"><a href={{ Urls.COMPANY_SEARCH }}>File more package accounts for a different company</a></p>
+    <h2 class="govuk-heading-m">{{ i18n.file_more_package_accounts }}</h2>
+    <p class="govuk-body"><a href={{ Urls.UPLOAD }}>{{ i18n.file_more_package_accounts_for }} {{companyProfile.companyName}} ({{companyProfile.companyNumber}})</a></p>
+    <p class="govuk-body"><a href={{ Urls.COMPANY_SEARCH }}>{{ i18n.file_for_different_company }}</a></p>
 {% endblock %}

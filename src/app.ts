@@ -48,7 +48,7 @@ njk.addGlobal("SERVICE_NAME", 'accounts-filing-web');
 njk.addGlobal("PIWIK_URL", env.PIWIK_URL);
 njk.addGlobal("PIWIK_SITE_ID", env.PIWIK_SITE_ID);
 njk.addGlobal("servicePath", servicePathPrefix);
-njk.addGlobal("submitValidationUrl", env.SUBMIT_VALIDATION_URL)
+njk.addGlobal("submitValidationUrl", env.SUBMIT_VALIDATION_URL);
 
 njk.addFilter("formatDate", formatToUKString);
 njk.addFilter("formatProfileType", formatType);

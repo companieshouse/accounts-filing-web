@@ -1,0 +1,14 @@
+{
+    "accounts_submitted": "Accounts submitted",
+    "your_reference_is": "Your reference is",
+    "company_number": "Company number",
+    "company_name": "Company name",
+    "we_have_sent_a_confirmation_to": "We have sent a confirmation email to",
+    "what_happens_next": "What happens next",
+    "processing_message": "We will process your accounts file. We'll email you to confirm if it's accepted.",
+    "accounts_rejected": "If it is rejected, we'll email to tell you what to do next. If you paid to file the accounts, we will refund the fee.",
+    "file_more_package_accounts": "File more package accounts",
+    "file_more_package_accounts_for": "File more package accounts for",
+    "file_for_different_company": "File more package accounts for a different company",
+    "payment_received": "Payment received"
+}
