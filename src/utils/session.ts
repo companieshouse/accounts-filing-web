@@ -163,3 +163,7 @@ export function getCompanyNumberFromExtraData(session: Session | undefined): str
     const companyNumber: string | undefined = session?.getExtraData(ContextKeys.COMPANY_NUMBER);
     return companyNumber;
 }
+
+export function setLanguage(session: Session | undefined, language: string) {
+    session?.setExtraData(ContextKeys.LANGUAGE, language);
+}
