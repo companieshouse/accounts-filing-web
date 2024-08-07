@@ -33,8 +33,8 @@ export class CompanyConfirmHandler extends GenericHandler {
         setLanguage(req.session, language);
 
         logger.info(`Serving company profile data`);
-        return { templatePath: `${CompanyConfirmHandler.routeViews}`, 
-                    viewData: { ...this.baseViewData, companyProfile: companyProfile, changeCompanyUrl: addLangToUrl(COMPANY_LOOKUP, language, true) } };
+        return { templatePath: `${CompanyConfirmHandler.routeViews}`,
+            viewData: { ...this.baseViewData, companyProfile: companyProfile, changeCompanyUrl: addLangToUrl(COMPANY_LOOKUP, language, true) } };
     }
 
 }

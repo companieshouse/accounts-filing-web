@@ -17,18 +17,17 @@ export const selectLang = (lang: any): Language => {
     }
 };
 
-export const    addLangToUrl = (url: string, lang: string | undefined, encodeURI : boolean = false): string => {
-    let urlWithLang : string;
+export const    addLangToUrl = (url: string, lang: string | undefined, encodeURI: boolean = false): string => {
+    let urlWithLang: string;
     if (lang === undefined || lang === "") {
         return url;
     }
     if (url.includes("?")) {
-        if(encodeURI){
+        if (encodeURI){
             urlWithLang = url + encodeURIComponent("&lang=") + lang.toLowerCase();
-        }
-        else{
+        } else {
             urlWithLang = url + "&lang=" + lang.toLowerCase();
-        }        
+        }
     } else {
         urlWithLang = url + "?lang=" + lang.toLowerCase();
     }

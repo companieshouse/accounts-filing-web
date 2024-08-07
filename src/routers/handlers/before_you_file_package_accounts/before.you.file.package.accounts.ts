@@ -17,7 +17,7 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
 
     execute (_req: Request, _res: Response): ViewModel<BaseViewData> {
         logger.info(`GET request to serve before you file package accounts page`);
-        this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(_req.query.lang))
+        this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(_req.query.lang));
         return { templatePath: `${BeforeYouFilePackageAccountsHandler.routeViews}`, viewData: this.baseViewData };
     }
 }

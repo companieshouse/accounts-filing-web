@@ -36,7 +36,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
     app.use(LocalesMiddleware());
-    app.use(servicePathPrefix, router);    
+    app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);
     app.use(errorHandler);
     app.use("*", pageNotFound);
