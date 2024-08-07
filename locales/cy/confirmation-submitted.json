@@ -1,0 +1,14 @@
+{
+    "accounts_submitted": "Cyfrifon wed'i gyflwyno",
+    "your_reference_is": "Eich cyfeirnod yw",
+    "company_number": "Rhif y cwmni",
+    "company_name": "Enw'r cwmni",
+    "we_have_sent_a_confirmation_to": "Rydym wedi anfon e-bost cadarnhau at",
+    "what_happens_next": "Beth fydd yn digwydd nesaf",
+    "processing_message": "Byddwn yn prosesu eich ffeil cyfrifon. Byddwn yn anfon e-bost atoch i gadarnhau ei fod wedi'i dderbyn.",
+    "accounts_rejected": "Os caiff ei wrthod, byddwn yn anfon e-bost atoch i ddweud wrthych beth i'w wneud nesaf. Os gwnaethoch dalu i ffeilio'r cyfrifon, byddwn yn ad-dalu'r ffi.",
+    "file_more_package_accounts": "Ffeilio mwy o gyfrifon pecyn",
+    "file_more_package_accounts_for": "Ffeilio mwy o gyfrifon pecyn ar gyfer",
+    "file_for_different_company": "Ffeilio mwy o gyfrifon pecyn ar gyfer cwmni gwahanol",
+    "payment_received": "Taliad wedi'i dderbyn"
+}
