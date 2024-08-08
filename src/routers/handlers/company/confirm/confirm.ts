@@ -15,7 +15,7 @@ export class CompanyConfirmHandler extends GenericHandler {
         super({
             title: "Confirm company – Accounts Filing – GOV.UK ",
             viewName: "confirm",
-            backURL: `${PrefixedUrls.COMPANY_SEARCH}/`
+            backURL: null
         });
     }
 
@@ -31,7 +31,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         setCompanyName(req.session, companyProfile.companyName);
         setLanguage(req.session, language);
-
+        this.baseViewData.backURL = addLangToUrl(COMPANY_LOOKUP, language, true);
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`,
             viewData: { ...this.baseViewData, companyProfile: companyProfile, changeCompanyUrl: addLangToUrl(COMPANY_LOOKUP, language, true) } };
