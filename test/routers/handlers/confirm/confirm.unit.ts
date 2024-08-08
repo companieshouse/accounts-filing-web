@@ -52,6 +52,40 @@ describe("company auth test", () => {
         await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`).expect(200);
     });
 
+    it("should translate `Confirm and continue` to Welsh for confirm company page", async () => {
+
+        Object.assign(mockSession, getSessionRequest());
+
+        mockSession.data.signin_info!.company_number = "00000000";
+
+        const req = await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000&lang=cy`);
+        expect(200);
+        expect(req.text).toContain("Cadarnhau a pharhau");
+    });
+
+    it("should remain in English for confirm company page when lang is en", async () => {
+
+        Object.assign(mockSession, getSessionRequest());
+
+        mockSession.data.signin_info!.company_number = "00000000";
+
+        const req = await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000&lang=en`);
+        expect(200);
+        expect(req.text).toContain("Confirm and continue");
+    });
+
+    it("should remain in English for confirm company page by default", async () => {
+
+        Object.assign(mockSession, getSessionRequest());
+
+        mockSession.data.signin_info!.company_number = "00000000";
+
+        const req = await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`);
+        expect(200);
+        expect(req.text).toContain("Confirm and continue");
+    });
+
+
 });
 
 describe("CompanyConfirmHandler", () => {
