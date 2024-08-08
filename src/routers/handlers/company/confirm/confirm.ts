@@ -1,4 +1,4 @@
-import { COMPANY_LOOKUP, PrefixedUrls } from "../../../../utils/constants/urls";
+import { COMPANY_LOOKUP } from "../../../../utils/constants/urls";
 import { logger } from "../../../../utils/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
