@@ -117,7 +117,7 @@ describe("CompanyConfirmHandler", () => {
 
             expect(
                 results.viewData.backURL
-            ).toContain("/accounts-filing/company-search");
+            ).toEqual("/accounts-filing/company-search?lang=en");
             expect(
                 results.viewData.changeCompanyUrl
             ).toMatch("/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=");
