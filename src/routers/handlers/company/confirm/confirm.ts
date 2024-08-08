@@ -1,4 +1,4 @@
-import { COMPANY_LOOKUP } from "../../../../utils/constants/urls";
+import { COMPANY_LOOKUP, PrefixedUrls } from "../../../../utils/constants/urls";
 import { logger } from "../../../../utils/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
@@ -31,7 +31,8 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         setCompanyName(req.session, companyProfile.companyName);
         setLanguage(req.session, language);
-        this.baseViewData.backURL = addLangToUrl(COMPANY_LOOKUP, language, true);
+        this.baseViewData.backURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, language);
+        this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, language);
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`,
             viewData: { ...this.baseViewData, companyProfile: companyProfile, changeCompanyUrl: addLangToUrl(COMPANY_LOOKUP, language, true) } };
