@@ -28,15 +28,12 @@ export const addLangToUrl = (url: string, lang: string | undefined): string => {
     }
 };
 
+const encodeLangQuery = (url: string): string => {
+    return url.replace('&lang=', encodeURIComponent("&lang="));
+};
+
 export const addEncodeURILangToUrl = (url: string, lang: string | undefined): string => {
-    if (lang === undefined || lang === "") {
-        return url;
-    }
-    if (url.includes("?")) {
-        return url + encodeURIComponent("&lang=") + lang.toLowerCase();
-    } else {
-        return url + "?lang=" + lang.toLowerCase();
-    }
+    return encodeLangQuery(addLangToUrl(url, lang));
 };
 
 export const getLocaleInfo = (locales: LocalesService, lang: Language) => {
