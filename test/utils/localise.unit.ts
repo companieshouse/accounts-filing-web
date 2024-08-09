@@ -1,4 +1,4 @@
-import { Language, addLangToUrl, getLocalesField, selectLang } from "../../src/utils/localise";
+import { Language, addLangToUrl, getLocalesField, selectLang, addEncodeURILangToUrl } from "../../src/utils/localise";
 import { i18nCh } from "@companieshouse/ch-node-utils";
 import { Request } from "express";
 
@@ -51,6 +51,35 @@ describe("Test localise", () => {
     test("Test addLangToUrl with url without queries and no lang set", async () => {
         const URL = "test.test.url";
         expect(addLangToUrl(URL, undefined)).toBe(URL);
+    });
+
+    test("Test addEncodeURILangToUrl with url without queries and lang set", async () => {
+        const URL = "test.test.url";
+        const LANG = "lang";
+        const RESULT = URL + "?lang=" + LANG;
+        expect(addEncodeURILangToUrl(URL, LANG)).toBe(RESULT);
+    });
+    test("Test addEncodeURILangToUrl with url with queries and lang set", async () => {
+        const URL = "test.test.url?foo=bar";
+        const LANG = "lang";
+        const RESULT = URL + encodeURIComponent("&lang=") + LANG;
+        expect(addEncodeURILangToUrl(URL, LANG)).toBe(RESULT);
+    });
+    test("Test addEncodeURILangToUrl with url without queries and uppercase lang set", async () => {
+        const URL = "test.test.url";
+        const LANG = "LANG";
+        const RESULT = URL + "?lang=" + LANG.toLowerCase();
+        expect(addEncodeURILangToUrl(URL, LANG)).toBe(RESULT);
+    });
+    test("Test addEncodeURILangToUrl with url with queries and uppercase lang set", async () => {
+        const URL = "test.test.url?foo=bar";
+        const LANG = "LANG";
+        const RESULT = URL + encodeURIComponent("&lang=") + LANG.toLowerCase();
+        expect(addEncodeURILangToUrl(URL, LANG)).toBe(RESULT);
+    });
+    test("Test addEncodeURILangToUrl with url without queries and no lang set", async () => {
+        const URL = "test.test.url";
+        expect(addEncodeURILangToUrl(URL, undefined)).toBe(URL);
     });
 });
 
