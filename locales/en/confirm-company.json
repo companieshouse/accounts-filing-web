@@ -1,0 +1,12 @@
+{
+    "confirm_company_heading": "Confirm this is the correct company",
+    "confirm_company_number": "Company number",
+    "confirm_company_status": "Status",
+    "confirm_company_incorporation_date": "Incorporation date",
+    "confirm_company_type": "Company type",
+    "confirm_company_address": "Registered office address",
+    "confirm_company_last_account_mud": "Last accounts made up to",
+    "confirm_company_next_account_due": "Next accounts due",
+    "confirm_company_continue": "Confirm and continue",
+    "confirm_company_choose_different": "Choose a different company"
+}

@@ -17,15 +17,29 @@ export const selectLang = (lang: any): Language => {
     }
 };
 
-export const addLangToUrl = (url: string, lang: string | undefined): string => {
+const createUrlWithLang = (url: string, lang: string | undefined, encodeURI: boolean = false): string => {
+    let urlWithLang: string;
     if (lang === undefined || lang === "") {
         return url;
     }
     if (url.includes("?")) {
-        return url + "&lang=" + lang.toLowerCase();
+        if (encodeURI){
+            urlWithLang = url + encodeURIComponent("&lang=") + lang.toLowerCase();
+        } else {
+            urlWithLang = url + "&lang=" + lang.toLowerCase();
+        }
     } else {
-        return url + "?lang=" + lang.toLowerCase();
+        urlWithLang = url + "?lang=" + lang.toLowerCase();
     }
+    return urlWithLang;
+};
+
+export const addLangToUrl = (url: string, lang: string): string => {
+    return createUrlWithLang(url, lang);
+};
+
+export const addEncodeURILangToUrl = (url: string, lang: string | undefined): string => {
+    return createUrlWithLang(url, lang, true);
 };
 
 export const getLocaleInfo = (locales: LocalesService, lang: Language) => {

@@ -16,7 +16,6 @@ import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
     const router = Router();
-    router.use(LocalesMiddleware());
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(localeMiddleware);
@@ -36,6 +35,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.CONFIRMATION, companyAuthenticationMiddleware, ConfirmationSubmissionRouter);
     router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
+    app.use(LocalesMiddleware());
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);
     app.use(errorHandler);

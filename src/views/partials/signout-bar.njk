@@ -1,10 +1,10 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <a class="govuk-back-link" href="{{ backURL }}" style="{{'visibility: hidden;' if title == "Accounts Submitted"}}">Back</a>
+        <a class="govuk-back-link" href="{{ backURL }}" style="{{'visibility: hidden;' if title == "Accounts Submitted"}}">{{i18n.back}}</a>
     </div>
     <div class="govuk-grid-column-one-half govuk-!-text-align-right govuk-!-static-margin-top-3">
-        <a class="govuk-link" href="{{ signoutURL }}" data-event-id="signout" id="user-signout">Sign out</a>
+        <a class="govuk-link" href="{{ signoutURL }}" data-event-id="signout" id="user-signout">{{i18n.sign_out}}</a>
     </div>
 </div>
 <script src="{{ assetPath }}/javascripts/app/session-timeout.js"></script>

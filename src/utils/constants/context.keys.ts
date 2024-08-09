@@ -4,5 +4,6 @@ export const ContextKeys = {
     VALIDATION_STATUS: "validation_status",
     PACKAGE_TYPE: "packageType",
     COMPANY_NAME: "companyName",
-    COMPANY_NUMBER: "company_number"
+    COMPANY_NUMBER: "company_number",
+    LANGUAGE: "lang"
 };
