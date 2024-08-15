@@ -1,5 +1,7 @@
+import { getLocalesField } from "../../../utils/localise";
 import { env } from "../../../config";
 import { logger } from "../../../utils/logger";
+import { Request } from "express";
 
 export interface PackageTypeOption {
     name: string
@@ -8,66 +10,64 @@ export interface PackageTypeOption {
     disabled: boolean,
 }
 
-export const packageTypeOptions: PackageTypeOption[] = [
+export const packageTypeOptions = (req: Request): PackageTypeOption[] => [
     {
         name: "cic",
-        description: "Community Interest Company (CIC) accounts",
-        hint: getHint(env.CIC_FEE),
+        description: getLocalesField("community_interest_company_accounts_description", req),
+        hint: getHint(getLocalesField("choose_your_package_accounts_fee_text", req), env.CIC_FEE),
         disabled: env.CIC_DISABLE_RADIO,
 
     },
     {
         name: "overseas",
-        description: "Overseas company accounts",
-        hint: getHint(env.OVERSEAS_FEE),
+        description: getLocalesField("overseas_company_accounts_description", req),        
+        hint: getHint(getLocalesField("choose_your_package_accounts_fee_text", req), env.OVERSEAS_FEE),
         disabled: false,
     },
     {
         name: "audit-exempt-subsidiary",
-        description: "Audit exempt subsidiary accounts",
+        description: getLocalesField("audit_exempt_subsidiary_accounts_description", req),
         disabled: false,
     },
     {
         name: "filing-exempt-subsidiary",
-        description: "Dormant exempt subsidiary accounts",
+        description: getLocalesField("dormant_exempt_subsidiary_accounts_description", req),
         disabled: false,
     },
     {
         name: "limited-partnership",
-        description: "Limited partnership accounts",
+        description: getLocalesField("limited_partnership_accounts_description", req),
         disabled: false,
     },
     {
         name: "uksef",
-        description: "UKSEF accounts for a listed company",
+        description: getLocalesField("uksef_accounts_for_listed_company_description", req),
         disabled: false,
     },
     {
         name: "group-package-400",
-        description:
-            "Group package accounts - section 400, parent incorporated under UK law",
+        description: getLocalesField("group_package_accounts_400_description", req),
         disabled: false,
     },
     {
         name: "group-package-401",
-        description:
-            "Group package accounts - section 401, parent incorporated under non UK Law",
+        description: getLocalesField("group_package_accounts_401_description", req),
         disabled: false,
     },
     {
         name: "welsh",
-        description: "Welsh accounts with an English translation",
+        description: getLocalesField("welsh_accounts_description", req), 
         disabled: false,
     },
 ];
 
-export function packageTypeOption(packageType: string): PackageTypeOption {
-    const radioButton = packageTypeOptions.find(b => b.name === packageType);
+export function packageTypeOption(packageType: string, req: Request): PackageTypeOption {
+    const radioButton = packageTypeOptions(req).find(b => b.name === packageType);
     if (radioButton === undefined) {
         logger.error(
             `Attempted to get package type option "${packageType}" which is not valid package type.` +
                 ` Must be one of ${JSON.stringify(
-                    packageTypeOptions.map(b => b.name)
+                    packageTypeOptions(req).map(b => b.name)
                 )}`
         );
         throw new Error(`"${packageType}" is not a valid package type`);
@@ -76,12 +76,12 @@ export function packageTypeOption(packageType: string): PackageTypeOption {
     return radioButton;
 }
 
-function getHint(fee: string): string  {
-    return `There is a £${fee} fee to file.`;
+function getHint(hint: string, fee: string): string  {
+    return hint.replace("<fee>", fee);
 }
 
-export function getPackageTypeOptionsRadioButtonData() {
-    return packageTypeOptions.filter(option => !option.disabled).map(option => {
+export function getPackageTypeOptionsRadioButtonData(req: Request) {
+    return packageTypeOptions(req).filter(option => !option.disabled).map(option => {
         return {
             value: option.name,
             text: option.description,

@@ -43,7 +43,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             title: getLocalesField("choose_your_package_accounts_title", req),
             packageTypeFieldName,
             backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`,
-            packageAccountsItems: getPackageTypeOptionsRadioButtonData(),
+            packageAccountsItems: getPackageTypeOptionsRadioButtonData(req),
         };
     }
 

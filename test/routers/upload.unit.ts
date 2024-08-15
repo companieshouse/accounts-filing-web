@@ -62,7 +62,7 @@ describe("UploadHandler", () => {
         session.setExtraData("transactionId", "000000-123456-000000");
         session.setExtraData(ContextKeys.COMPANY_NAME, companyName);
         session.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
-        session.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('uksef').name);
+        session.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
 
         mockReq = {
             session: session,

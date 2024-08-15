@@ -36,7 +36,7 @@ describe("company auth test", () => {
         mockSession.data.signin_info!.company_number = companyNumber;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, "Test Company");
         mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('uksef').name);
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
 
         const resp = await request(app).get(`${PrefixedUrls.UPLOAD}`);
         expect(resp.statusCode).toEqual(302);

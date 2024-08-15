@@ -1,9 +1,8 @@
 {
     "choose_your_package_accounts_title": "What package accounts are you submitting?",
     "community_interest_company_accounts_description": "Community Interest Company (CIC) accounts",
-    "community_interest_company_accounts_fee_text": "There is a £<fee> fee to file",
+    "choose_your_package_accounts_fee_text": "There is a £<fee> fee to file",
     "overseas_company_accounts_description": "Overseas Company accounts",
-    "overseas_company_accounts_fee_text": "There is a £<fee>  fee to file.",
     "audit_exempt_subsidiary_accounts_description": "Audit exempt subsidiary accounts",
     "dormant_exempt_subsidiary_accounts_description": "Dormant exempt subsidiary accounts",
     "limited_partnership_accounts_description": "Limited partnership accounts",
@@ -12,6 +11,5 @@
     "group_package_accounts_401_description": "Group package accounts - section 401, parent incorporated under non UK Law",
     "welsh_accounts_description": "Welsh accounts with an English translation",
     "choose_your_package_accounts_button": "Confirm and Continue",
-    "choose_your_package_accounts_error_message": "Select the type of package accounts you are uploading",
-    "choose_your_package_accounts_error_title": "There is a problem"
+    "choose_your_package_accounts_error_message": "Select the type of package accounts you are uploading"
 }

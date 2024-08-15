@@ -32,7 +32,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
         _response: Response
     ): Promise<CheckYourAnswersViewData> {
         super.populateViewData(req);
-        const accountsTypeFullName = this.getAccountsTypeFullName(req.session);
+        const accountsTypeFullName = this.getAccountsTypeFullName(req);
 
         const validationStatus = must(getValidationResult(req.session));
         this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`;
@@ -72,9 +72,10 @@ export class CheckYourAnswersHandler extends GenericHandler {
         }
     }
 
-    private getAccountsTypeFullName(session: Session | undefined) {
+    private getAccountsTypeFullName(req: Request) {
+        const session: Session | undefined = req.session;
         const typeOfAccounts = must(getPackageType(session));
-        const accountsType = packageTypeOption(typeOfAccounts);
+        const accountsType = packageTypeOption(typeOfAccounts, req);
         if (accountsType === undefined) {
             throw createAndLogError(`Failed to match ${typeOfAccounts} to a known accounts type.`);
         }

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request } from "express";
 import request from "supertest";
 import app from "../../src/app";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
@@ -43,7 +43,7 @@ describe("package account selection test", () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
 
-        for (const button of getPackageTypeOptionsRadioButtonData()) {
+        for (const button of getPackageTypeOptionsRadioButtonData(response.request as unknown as Request)) {
             expect(response.text).toContain(button.text);
             expect(response.text).toContain(button.value);
             if (button.hint) {
@@ -66,7 +66,7 @@ describe("package account selection test", () => {
     });
 
     it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
-        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ [packageTypeFieldName]: packageTypeOption('overseas').name }).expect(302);
+        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ [packageTypeFieldName]: "uksef" }).expect(302);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
     });
 
@@ -75,19 +75,33 @@ describe("package account selection test", () => {
         expect(resp.text).toContain(errorManifest["package-type"].nothingSelected.summary);
     });
 
-    it("should throw a packageAccount error in Welsh", async () => {
-        const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
-        expect(resp.text).toContain("Dewiswch y math o gyfrifon pecyn rydych chi&#39;n eu llwytho i fyny");
-    });
-
     it("should have the cic option displayed", async () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain(packageTypeOptions[0].name);
+        expect(response.text).toContain(packageTypeOptions(response.request as unknown as Request)[0].name);
     });
 
 });
 
 describe("Welsh translation", () => {
+
+    beforeEach(() => {
+        Object.assign(mockSession, getSessionRequest());
+        mockSession.data.signin_info!.company_number = viewDataPackageSelectionPage.session.companyNumber;
+        mockSession.setExtraData(ContextKeys.COMPANY_NAME, viewDataPackageSelectionPage.session.companyName);
+        mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, viewDataPackageSelectionPage.session.accountsFilingId);
+        mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, viewDataPackageSelectionPage.session.companyNumber);
+
+        app.use(express.json());
+
+        app.use((req, res, next) => {
+            req.session = mockSession;
+            next();
+        });
+    });
+
+    afterEach(() => {
+        resetMockSession();
+    });
     it("should translate `Support link` to Welsh for chooseYourPackageAccounts page", async () => {
 
         const req = await request(app)
@@ -95,4 +109,21 @@ describe("Welsh translation", () => {
 
         expect(req.text).toContain("Dolenni cymorth");
     });
+
+    it("should throw a packageAccount error in Welsh", async () => {
+        const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        expect(resp.text).toContain("Dewiswch y math o gyfrifon pecyn rydych chi&#39;n eu llwytho i fyny");
+        expect(resp.text).toContain("Mae yna broblem");
+    });
+
+    it("should display 'Confirm and continue' button in Welsh", async () => {
+        const resp = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        expect(resp.text).toContain("Cadarnhau a pharhau");
+    });
+
+    it("should translate page into Welsh", async () => {
+        const resp = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        expect(resp.text).toContain("Cadarnhau a pharhau");
+    });
+
 });
