@@ -7,6 +7,7 @@ import { isPackageType, PackageType } from "@companieshouse/api-sdk-node/dist/se
 import { getPackageTypeOptionsRadioButtonData } from "./package.type.options";
 import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
+import { getLocalesField } from "../../../utils/localise";
 
 interface RadioButtonData {
     text: string,
@@ -39,6 +40,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
         return {
             ...this.baseViewData,
+            title: getLocalesField("choose_your_package_accounts_title", req),
             packageTypeFieldName,
             backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`,
             packageAccountsItems: getPackageTypeOptionsRadioButtonData(),
@@ -74,7 +76,13 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             return { url: PrefixedUrls.UPLOAD };
         }
 
-        viewData.errors[packageTypeFieldName] = errorManifest[packageTypeFieldName].nothingSelected;
+        const nothingSelected = errorManifest[packageTypeFieldName].nothingSelected;
+        Object.defineProperty(nothingSelected, 'summary', {
+            value: getLocalesField("choose_your_package_accounts_error_message", req),
+            writable: true,
+        }); 
+
+        viewData.errors[packageTypeFieldName] = nothingSelected;
 
         return {
             templatePath,

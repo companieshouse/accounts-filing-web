@@ -1,13 +1,13 @@
 import express from "express";
 import request from "supertest";
-import app from "./../../../../src/app";
-import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
-import { getSessionRequest } from "../../../mocks/session.mock";
-import { PrefixedUrls, Urls } from "../../../../src/utils/constants/urls";
-import { ContextKeys } from "../../../../src/utils/constants/context.keys";
-import { packageTypeFieldName } from "../../../../src/routers/handlers/choose_your_package_accounts/constants";
-import errorManifest from "../../../../src/utils/error_manifests/default";
-import { getPackageTypeOptionsRadioButtonData, packageTypeOption, packageTypeOptions } from "../../../../src/routers/handlers/choose_your_package_accounts/package.type.options";
+import app from "../../src/app";
+import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
+import { getSessionRequest } from "../mocks/session.mock";
+import { PrefixedUrls, Urls } from "../../src/utils/constants/urls";
+import { ContextKeys } from "../../src/utils/constants/context.keys";
+import { packageTypeFieldName } from "../../src/routers/handlers/choose_your_package_accounts/constants";
+import errorManifest from "../../src/utils/error_manifests/default";
+import { getPackageTypeOptionsRadioButtonData, packageTypeOption, packageTypeOptions } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 
 
 const viewDataPackageSelectionPage = {
@@ -72,8 +72,12 @@ describe("package account selection test", () => {
 
     it("should throw a packageAccount error", async () => {
         const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-
         expect(resp.text).toContain(errorManifest["package-type"].nothingSelected.summary);
+    });
+
+    it("should throw a packageAccount error in Welsh", async () => {
+        const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        expect(resp.text).toContain("Dewiswch y math o gyfrifon pecyn rydych chi&#39;n eu llwytho i fyny");
     });
 
     it("should have the cic option displayed", async () => {
