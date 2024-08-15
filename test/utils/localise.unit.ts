@@ -50,7 +50,7 @@ describe("Test localise", () => {
     });
     test("Test addLangToUrl with url without queries and no lang set", async () => {
         const URL = "test.test.url";
-        expect(addLangToUrl(URL, undefined)).toBe(URL);
+        expect(addLangToUrl(URL, "")).toBe(URL);
     });
 
     test("Test addEncodeURILangToUrl with url without queries and lang set", async () => {

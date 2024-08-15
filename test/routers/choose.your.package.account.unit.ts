@@ -7,7 +7,8 @@ import { PrefixedUrls, Urls } from "../../src/utils/constants/urls";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { packageTypeFieldName } from "../../src/routers/handlers/choose_your_package_accounts/constants";
 import errorManifest from "../../src/utils/error_manifests/default";
-import { getPackageTypeOptionsRadioButtonData, packageTypeOption, packageTypeOptions } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
+import { getPackageTypeOptionsRadioButtonData } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
+import { config } from "process";
 
 
 const viewDataPackageSelectionPage = {
@@ -124,6 +125,18 @@ describe("Welsh translation", () => {
     it("should translate page into Welsh", async () => {
         const resp = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
         expect(resp.text).toContain("Cadarnhau a pharhau");
+        expect(resp.text).toContain(`Mae ffi o £33 i&#39;w ffeilio.`);
+        expect(resp.text).toContain(`Mae ffi o £15 i&#39;w ffeilio.`);
+        expect(resp.text).toContain(`Cyfrifon cwmnïau tramor`);
+        expect(resp.text).toContain(`Cyfrifon atodol wedi eu heithrio rhag archwiliad ariannol`);
+        expect(resp.text).toContain(`Cyfrifon segur atodol wedi eu heithrio rhag archwiliad ariannol`);
+        expect(resp.text).toContain(`Cyfrifon partneriaeth cyfyngedig`);
+        expect(resp.text).toContain(`Cyfrifon UKSEF am gwmnïau rhestredig`);
+        expect(resp.text).toContain(`Cyfrifon pecyn grŵp-Rhan 400, rhiant wedi eu corffori o dan gyfraith y DU`);
+        expect(resp.text).toContain(`Cyfrifon pecyn grŵp-Rhan 401, rhiant wedi eu corffori o dan gyfrraith y tu allan i&#39;r DU`);
+        expect(resp.text).toContain(`Cyfrifon Cymraeg gyda chyfieithiad Saesneg`);
+
+
     });
 
 });
