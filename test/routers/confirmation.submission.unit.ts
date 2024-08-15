@@ -5,7 +5,6 @@ import { ContextKeys } from "../../src/utils/constants/context.keys";
 import express from "express";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
-import { packageTypeOption } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 import { setExtraDataCompanyNumber } from "../../src/utils/session";
 import { fees } from "../../src/utils/constants/fees";
 
@@ -121,7 +120,7 @@ describe("accounts submitted tests", () => {
     it("should handle successful submission with welsh accounts", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, {
             name: "welsh",
-            description: "Welsh accounts with an English translation", 
+            description: "Welsh accounts with an English translation",
             disabled: false,
         });
         const response = await request(server).get(PrefixedUrls.CONFIRMATION);

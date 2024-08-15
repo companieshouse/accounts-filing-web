@@ -7,7 +7,6 @@ import { mockAccountsFilingService } from "../mocks/accounts.filing.service.mock
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { getSessionRequest } from "../mocks/session.mock";
 import { AccountsFilingCompanyResponse } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
-import { packageTypeOption } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 
 let session = getSessionRequest();
 

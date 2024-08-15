@@ -8,7 +8,6 @@ import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { packageTypeFieldName } from "../../src/routers/handlers/choose_your_package_accounts/constants";
 import errorManifest from "../../src/utils/error_manifests/default";
 import { getPackageTypeOptionsRadioButtonData } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
-import { config } from "process";
 
 
 const viewDataPackageSelectionPage = {

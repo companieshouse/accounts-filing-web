@@ -80,7 +80,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         Object.defineProperty(nothingSelected, 'summary', {
             value: getLocalesField("choose_your_package_accounts_error_message", req),
             writable: true,
-        }); 
+        });
 
         viewData.errors[packageTypeFieldName] = nothingSelected;
 
