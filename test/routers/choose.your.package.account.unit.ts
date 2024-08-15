@@ -135,8 +135,6 @@ describe("Welsh translation", () => {
         expect(resp.text).toContain(`Cyfrifon pecyn grŵp-Rhan 400, rhiant wedi eu corffori o dan gyfraith y DU`);
         expect(resp.text).toContain(`Cyfrifon pecyn grŵp-Rhan 401, rhiant wedi eu corffori o dan gyfrraith y tu allan i&#39;r DU`);
         expect(resp.text).toContain(`Cyfrifon Cymraeg gyda chyfieithiad Saesneg`);
-
-
     });
 
 });
