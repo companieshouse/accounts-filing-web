@@ -1,0 +1,15 @@
+{
+    "choose_your_package_accounts_title": "Pa gyfrifon pecyn ydych chi'n eu cyflwyno?",
+    "community_interest_company_accounts_description": "Cwmnïau Buddiant Cymunedol (CIC)",
+    "choose_your_package_accounts_fee_text": "Mae ffi o £<fee> i'w ffeilio.",
+    "overseas_company_accounts_description": "Cyfrifon cwmnïau tramor",
+    "audit_exempt_subsidiary_accounts_description": "Cyfrifon atodol wedi eu heithrio rhag archwiliad ariannol",
+    "dormant_exempt_subsidiary_accounts_description": "Cyfrifon segur atodol wedi eu heithrio rhag archwiliad ariannol",
+    "limited_partnership_accounts_description": "Cyfrifon partneriaeth cyfyngedig",
+    "uksef_accounts_for_listed_company_description": "Cyfrifon UKSEF am gwmnïau rhestredig",
+    "group_package_accounts_400_description": "Cyfrifon pecyn grŵp-Rhan 400, rhiant wedi eu corffori o dan gyfraith y DU",
+    "group_package_accounts_401_description": "Cyfrifon pecyn grŵp-Rhan 401, rhiant wedi eu corffori o dan gyfrraith y tu allan i'r DU",
+    "welsh_accounts_description": "Cyfrifon Cymraeg gyda chyfieithiad Saesneg",
+    "choose_your_package_accounts_button": "Cadarnhau a pharhau",
+    "choose_your_package_accounts_error_message": "Dewiswch y math o gyfrifon pecyn rydych chi'n eu llwytho i fyny"
+}

@@ -6,7 +6,6 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import request from "supertest";
 import app from "../../src/app";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { packageTypeOption } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 
 
 describe("Check your answers test", () => {
@@ -23,7 +22,7 @@ describe("Check your answers test", () => {
     it("Should redirect to sigin when company number do not match", async () => {
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('uksef').name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
         mockSession.data['signin_info']['signed_in'] = 1;
 
@@ -60,7 +59,7 @@ describe("Post uploaded validation results", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('uksef').name);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
         mockSession.data['signin_info']['signed_in'] = 1;
 

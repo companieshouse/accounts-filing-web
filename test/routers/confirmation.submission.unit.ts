@@ -5,7 +5,6 @@ import { ContextKeys } from "../../src/utils/constants/context.keys";
 import express from "express";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
-import { packageTypeOption } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 import { setExtraDataCompanyNumber } from "../../src/utils/session";
 import { fees } from "../../src/utils/constants/fees";
 
@@ -81,7 +80,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with overseas accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('overseas').name);
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "overseas");
         setExtraDataCompanyNumber(mockSession, "00006400");
 
         const response = await request(server).get(PrefixedUrls.CONFIRMATION);
@@ -101,7 +100,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with cic accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption("cic").name);
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "cic");
         const response = await request(server).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
@@ -119,7 +118,11 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with welsh accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, packageTypeOption('welsh'));
+        mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, {
+            name: "welsh",
+            description: "Welsh accounts with an English translation",
+            disabled: false,
+        });
         const response = await request(server).get(PrefixedUrls.CONFIRMATION);
         expect(response.statusCode).toBe(200);
         expect(response.text).not.toContain("Payment received");
