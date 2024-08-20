@@ -7,7 +7,7 @@ import { isPackageType, PackageType } from "@companieshouse/api-sdk-node/dist/se
 import { getPackageTypeOptionsRadioButtonData } from "./package.type.options";
 import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
-import { getLocalesField } from "../../../utils/localise";
+import { getLocalesField, selectLang } from "../../../utils/localise";
 
 interface RadioButtonData {
     text: string,
@@ -42,7 +42,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             ...this.baseViewData,
             title: getLocalesField("choose_your_package_accounts_title", req),
             packageTypeFieldName,
-            backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`,
+            backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}&lang=${selectLang(req.query.lang)}`,
             packageAccountsItems: getPackageTypeOptionsRadioButtonData(req),
         };
     }
