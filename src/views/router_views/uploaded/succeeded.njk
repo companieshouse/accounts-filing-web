@@ -1,9 +1,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set html %}
-<h3 class="govuk-notification-banner__heading">
-    Your file is valid
-</h3>
+<h3 class="govuk-notification-banner__heading" id="file-valid-title">Your file is valid</h3>
 
 <p>
     Your accounts file '{{result.fileName}}' meets the iXBRL specification and business validation rules.
