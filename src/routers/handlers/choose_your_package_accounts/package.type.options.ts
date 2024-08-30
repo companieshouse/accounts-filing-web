@@ -22,22 +22,22 @@ export const packageTypeOptions = (req: Request): PackageTypeOption[] => [
         name: "overseas",
         description: getLocalesField("overseas_company_accounts_description", req),
         hint: getHint(getLocalesField("choose_your_package_accounts_fee_text", req), env.OVERSEAS_FEE),
-        disabled: false,
+        disabled: env.DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO,
     },
     {
         name: "audit-exempt-subsidiary",
         description: getLocalesField("audit_exempt_subsidiary_accounts_description", req),
-        disabled: false,
+        disabled: env.DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO,
     },
     {
         name: "filing-exempt-subsidiary",
         description: getLocalesField("dormant_exempt_subsidiary_accounts_description", req),
-        disabled: false,
+        disabled: env.DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO,
     },
     {
         name: "limited-partnership",
         description: getLocalesField("limited_partnership_accounts_description", req),
-        disabled: false,
+        disabled: env.DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO,
     },
     {
         name: "uksef",
@@ -52,7 +52,7 @@ export const packageTypeOptions = (req: Request): PackageTypeOption[] => [
     {
         name: "group-package-401",
         description: getLocalesField("group_package_accounts_401_description", req),
-        disabled: false,
+        disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO,
     },
     {
         name: "welsh",
