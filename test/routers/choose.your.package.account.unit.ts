@@ -8,7 +8,7 @@ import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { packageTypeFieldName } from "../../src/routers/handlers/choose_your_package_accounts/constants";
 import errorManifest from "../../src/utils/error_manifests/default";
 import { getPackageTypeOptionsRadioButtonData } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
-
+import { EnvKey, setEnvVars } from "../test_utils";
 
 const viewDataPackageSelectionPage = {
     title: "What package accounts are you submitting?",
@@ -79,6 +79,38 @@ describe("package account selection test", () => {
         const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.text).toContain("cic");
     });
+
+    const disableableOptions: [string, EnvKey, string][] = [
+        ["audit-exempt", "DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO", "audit-exempt-subsidiary"],
+        ["filing-exempt", "DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO", "filing-exempt-subsidiary"],
+        ["overseas", "DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO", "overseas"],
+        ["group-package-401", "DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO", "group-package-401"],
+        ["limited-partnership", "DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO", "limited-partnership"]
+    ];
+
+    for (const [accountsName, envKey, optionSubString] of disableableOptions) {
+        it(`should display ${accountsName} accounts if not disabled`, async () => {
+            const cleanup = setEnvVars({
+                [envKey]: false,
+            });
+
+            const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+            expect(response.text).toContain(optionSubString);
+
+            cleanup();
+        });
+
+        it(`should not display ${accountsName} accounts if disabled`, async () => {
+            const cleanup = setEnvVars({
+                [envKey]: true,
+            });
+
+            const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+            expect(response.text).not.toContain(optionSubString);
+
+            cleanup();
+        });
+    }
 
 });
 

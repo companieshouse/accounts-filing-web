@@ -29,6 +29,11 @@ export const env = readEnv(process.env, {
         .describe("Link for developers")
         .default("https://developer.companieshouse.gov.uk/"),
     FEEDBACK_LINK: url.describe("Link to feedback form for the service"),
+    DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO: bool.describe('Flag to disable Audit Exempt subsidiary accounts'),
+    DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO: bool.describe('Flag to disable Dormant exempt (Filing) subsidiary accounts'),
+    DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO: bool.describe('Flag to disable Overseas company accounts'),
+    DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO: bool.describe('Flag to disable Group - section 401 parent incorporated under non UK law accounts'),
+    DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO: bool.describe('Flag to disable Limited Partnership accounts'),
     INTERNAL_API_URL: url.describe("Internal API base URL for internal service interaction"),
     LOCALES_PATH: str
         .describe("The name of the directory where the locales files are stored")
@@ -43,17 +48,17 @@ export const env = readEnv(process.env, {
         ])
         .describe(
             'Defines the level of events to be logged. Options are: ' +
-                'ALL/all (all events will be logged), ' +
-                'TRACE/trace (trace level events will be logged), ' +
-                'DEBUG/debug (debug level events will be logged), ' +
-                'INFO/info (information level events will be logged), ' +
-                'WARN/warn (warnings will be logged), ' +
-                'ERROR/error (errors will be logged), ' +
-                'FATAL/fatal (only fatal errors will be logged), ' +
-                'MARK/mark (used for particular important log events), ' +
-                'OFF/off (no events will be logged). ' +
-                'The order from least to most severe is: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < MARK < OFF. ' +
-                'OFF is intended to be used to turn off logging, not as a level for actual logging.'
+            'ALL/all (all events will be logged), ' +
+            'TRACE/trace (trace level events will be logged), ' +
+            'DEBUG/debug (debug level events will be logged), ' +
+            'INFO/info (information level events will be logged), ' +
+            'WARN/warn (warnings will be logged), ' +
+            'ERROR/error (errors will be logged), ' +
+            'FATAL/fatal (only fatal errors will be logged), ' +
+            'MARK/mark (used for particular important log events), ' +
+            'OFF/off (no events will be logged). ' +
+            'The order from least to most severe is: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < MARK < OFF. ' +
+            'OFF is intended to be used to turn off logging, not as a level for actual logging.'
         )
         .default('info'),
     NODE_HOSTNAME: str
