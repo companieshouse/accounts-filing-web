@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { env } from "../config";
-import { getPackageType, must } from './session';
+import { getCompanyNumber, getPackageType, must } from './session';
 import { PrefixedUrls, fileIdPlaceholder } from './constants/urls';
 import { PackageType } from '@companieshouse/api-sdk-node/dist/services/accounts-filing/types';
 
@@ -9,9 +9,8 @@ function constructRedirectUrl(base: string, queries: {[key: string]: string|Pack
     return `${base}?${queryParams}`;
 }
 
-function getRedirectUrl(callback: string, redirect: string, packageType: PackageType): string {
-    return constructRedirectUrl(env.SUBMIT_VALIDATION_URL, { callback, backUrl: redirect, packageType });
-
+function getRedirectUrl(callback: string, redirect: string, packageType: PackageType, companyNumber: string): string {
+    return constructRedirectUrl(env.SUBMIT_VALIDATION_URL, { callback, backUrl: redirect, packageType, companyNumber });
 }
 
 /**
@@ -23,13 +22,13 @@ function getUriHost(req: Request): string {
     return `${req.protocol}://${req.get('host')}`;
 }
 
-
 export function constructValidatorRedirect(req: Request): string{
     const base = getUriHost(req);
     const zipPortalCallbackUrl = encodeURIComponent(`${base}${PrefixedUrls.UPLOADED}/${fileIdPlaceholder}`);
     const xbrlValidatorBackUrl = encodeURIComponent(`${base}${PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE}`);
     const packageType = must(getPackageType(req.session));
-    return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl, packageType);
+    const companyNumber = must(getCompanyNumber(req.session));
+    return getRedirectUrl(zipPortalCallbackUrl, xbrlValidatorBackUrl, packageType, companyNumber);
 }
 
 export const getPaymentResourceUri = (transactionId: string): string => {
