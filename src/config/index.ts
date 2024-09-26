@@ -32,6 +32,7 @@ export const env = readEnv(process.env, {
     DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO: bool.describe('Flag to disable Audit Exempt subsidiary accounts'),
     DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO: bool.describe('Flag to disable Dormant exempt (Filing) subsidiary accounts'),
     DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO: bool.describe('Flag to disable Overseas company accounts'),
+    DISABLE_GROUP_SECTION_400_UK_PARENT_ACCOUNTS_RADIO: bool.describe('Flag to disable Group - section 400 parent incorporated under UK law accounts'),
     DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO: bool.describe('Flag to disable Group - section 401 parent incorporated under non UK law accounts'),
     DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO: bool.describe('Flag to disable Limited Partnership accounts'),
     INTERNAL_API_URL: url.describe("Internal API base URL for internal service interaction"),

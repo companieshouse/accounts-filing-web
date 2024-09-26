@@ -84,6 +84,7 @@ describe("package account selection test", () => {
         ["audit-exempt", "DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO", "audit-exempt-subsidiary"],
         ["filing-exempt", "DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO", "filing-exempt-subsidiary"],
         ["overseas", "DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO", "overseas"],
+        ["group-package-400", "DISABLE_GROUP_SECTION_400_UK_PARENT_ACCOUNTS_RADIO", "group-package-400"],
         ["group-package-401", "DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO", "group-package-401"],
         ["limited-partnership", "DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO", "limited-partnership"]
     ];
