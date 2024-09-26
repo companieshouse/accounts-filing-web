@@ -13,6 +13,7 @@ export default () => {
     process.env.DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO = "false";
     process.env.DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO = "false";
     process.env.DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO = "false";
+    process.env.DISABLE_GROUP_SECTION_400_UK_PARENT_ACCOUNTS_RADIO = "false";
     process.env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO = "false";
     process.env.DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO = "false";
     process.env.FEEDBACK_LINK = "http://chs.local/feedback";

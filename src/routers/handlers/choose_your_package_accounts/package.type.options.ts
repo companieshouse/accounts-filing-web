@@ -47,7 +47,7 @@ export const packageTypeOptions = (req: Request): PackageTypeOption[] => [
     {
         name: "group-package-400",
         description: getLocalesField("group_package_accounts_400_description", req),
-        disabled: false,
+        disabled: env.DISABLE_GROUP_SECTION_400_UK_PARENT_ACCOUNTS_RADIO,
     },
     {
         name: "group-package-401",
