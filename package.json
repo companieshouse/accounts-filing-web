@@ -9,7 +9,7 @@
     "test:coverage": "jest --coverage --passWithNoTests",
     "lint": "eslint '{src,test}/**/*'",
     "lint:fix": "eslint '{src,test}/**/*' --fix",
-    "start": "npm run build && source ./dist/config/.env && node dist/server.js",
+    "start": "npm run build && node dist/server.js",
     "start:watch": "nodemon",
     "rebuild-sass": "npm rebuild node-sass",
     "prebuild": "rm -rf ./dist",
