@@ -91,5 +91,6 @@ export const env = readEnv(process.env, {
     POLICIES_LINK: str
         .describe("Link to policies")
         .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
-    SUBMIT_VALIDATION_URL: url.describe('Account validator web submit path to upload file to be validated')
+    SUBMIT_VALIDATION_URL: url.describe('Account validator web submit path to upload file to be validated'),
+    FEATURE_FLAG_ZIP_PORTAL_270924: bool.describe("Feature flag for enabling zip portal")
 });
