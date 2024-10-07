@@ -12,12 +12,16 @@ import { sessionMiddleware } from "./middleware/session.middleware";
 import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
 import { localeMiddleware } from "./middleware/locale.middleware";
 import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
+import { featureFlagMiddleware } from "./middleware/feature.flag.middleware";
+
+
 
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
     const router = Router();
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
+    router.use(featureFlagMiddleware);
     router.use(localeMiddleware);
     router.use(Urls.HOME, HomeRouter);
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
