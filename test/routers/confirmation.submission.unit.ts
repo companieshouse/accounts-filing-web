@@ -88,7 +88,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain("Payment received");
         expect(response.text).toContain(`£${fees.overseas}`);
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
-        expect(response.text).toContain(PrefixedUrls.UPLOAD);
+        expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
@@ -106,7 +106,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain("Payment received");
         expect(response.text).toContain(`£${fees.cic}`);
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
-        expect(response.text).toContain(PrefixedUrls.UPLOAD);
+        expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
@@ -127,7 +127,7 @@ describe("accounts submitted tests", () => {
         expect(response.statusCode).toBe(200);
         expect(response.text).not.toContain("Payment received");
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
-        expect(response.text).toContain(PrefixedUrls.UPLOAD);
+        expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
