@@ -4,9 +4,8 @@
 <h3 class="govuk-notification-banner__heading">
     Your file is valid
 </h3>
-{% set packageTypes = ["limited-partnership", "group-package-400", "group-package-401", "overseas"] %}
 
-{% if packageType in packageTypes %}
+{% if isReviewNeeded %}
     <p>
         Your accounts file '{{result.fileName}}' meets the iXBRL specification.
         We'll check it meets business validation rules when you submit your accounts file. We'll email you to confirm if it's accepted or rejected.

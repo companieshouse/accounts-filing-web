@@ -17,7 +17,7 @@ interface UploadedViewData extends BaseViewData {
      * The result of the account validation process, if available.
      */
     result?: AccountValidatorResponse;
-    packageType? : String;
+    isReviewNeeded?: boolean;
 }
 
 export class UploadedHandler extends GenericHandler {
@@ -55,7 +55,9 @@ export class UploadedHandler extends GenericHandler {
             req.session?.getExtraData<string>(ContextKeys.ACCOUNTS_FILING_ID) ?? "Placeholder accountsFilingId";
         const transactionId =
             req.session?.getExtraData<string>(ContextKeys.TRANSACTION_ID) ?? "Placeholder transactionId";
-        const packageType = req.session?.getExtraData<string>(ContextKeys.PACKAGE_TYPE)
+        const packageTypesNeedReview = ["limited-partnership", "group-package-400", "group-package-401", "overseas"];
+        const packageType = req.session?.getExtraData<string>(ContextKeys.PACKAGE_TYPE) ?? "";
+        const isReviewNeeded = packageTypesNeedReview.includes(packageType);
 
         const validationRequest = {
             fileId,
@@ -87,19 +89,14 @@ export class UploadedHandler extends GenericHandler {
             return {
                 ...this.baseViewData,
                 result: validationResult,
-                packageType : packageType,
+                isReviewNeeded: isReviewNeeded,
             };
         } catch (error) {
             logger.error(`Exception returned from SDK while getting validation status from [${fileId}]. Error: ${JSON.stringify(error, null, 2)}`);
 
             throw error;
         }
-
-
     }
-
-
-
 
     /**
      * Validates the provided request parameters.
