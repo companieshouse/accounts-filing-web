@@ -3,8 +3,7 @@ import { BaseViewData, GenericHandler } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
-import { ContextKeys } from "../../../utils/constants/context.keys";
-import { setValidationResult } from "../../../utils/session";
+import { getAccountsFilingId, getPackageType, getTransactionId, setValidationResult } from "../../../utils/session";
 import { constructValidatorRedirect } from "../../../utils/url";
 import { AccountsFilingValidationRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
@@ -21,7 +20,10 @@ interface UploadedViewData extends BaseViewData {
 }
 
 export class UploadedHandler extends GenericHandler {
-    constructor(private accountsFilingService: AccountsFilingService) {
+
+    private static readonly packageTypesNeedReview = ["limited-partnership", "group-package-400", "group-package-401", "overseas"];
+
+    constructor(private readonly accountsFilingService: AccountsFilingService) {
         super({
             title: "Uploaded Handler for handling file upload callbacks",
             viewName: "uploaded",
@@ -50,14 +52,24 @@ export class UploadedHandler extends GenericHandler {
         logger.debug(`Handling GET request for uploaded file.`);
 
         const fileId = req.params.fileId;
-        // TODO: remove nullish coalescing once the variables have been populated.
-        const accountsFilingId =
-            req.session?.getExtraData<string>(ContextKeys.ACCOUNTS_FILING_ID) ?? "Placeholder accountsFilingId";
-        const transactionId =
-            req.session?.getExtraData<string>(ContextKeys.TRANSACTION_ID) ?? "Placeholder transactionId";
-        const packageTypesNeedReview = ["limited-partnership", "group-package-400", "group-package-401", "overseas"];
-        const packageType = req.session?.getExtraData<string>(ContextKeys.PACKAGE_TYPE) ?? "";
-        const isReviewNeeded = packageTypesNeedReview.includes(packageType);
+
+        const accountsFilingId = getAccountsFilingId(req?.session);
+        const transactionId = getTransactionId(req?.session);
+        const packageType = getPackageType(req?.session);
+
+        if (packageType instanceof Error) {
+            throw packageType;
+        }
+
+        if (transactionId instanceof Error) {
+            throw transactionId;
+        }
+
+        if (accountsFilingId instanceof Error) {
+            throw accountsFilingId;
+        }
+
+        const isReviewNeeded = UploadedHandler.packageTypesNeedReview.includes(packageType);
 
         const validationRequest = {
             fileId,

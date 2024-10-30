@@ -59,6 +59,8 @@ describe("Post uploaded validation results", () => {
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
+        mockSession!.setExtraData(ContextKeys.TRANSACTION_ID, "008008008");
+        mockSession!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, "008008008");
         mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
         mockSession.data['signin_info']['signed_in'] = 1;
