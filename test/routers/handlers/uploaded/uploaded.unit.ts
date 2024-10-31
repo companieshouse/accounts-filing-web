@@ -19,9 +19,9 @@ describe("UploadedHandler", () => {
         },
         getExtraData: jest.fn((input) => {
             if (input === ContextKeys.ACCOUNTS_FILING_ID){
-                return undefined;
+                return "Placeholder accountsFilingId";
             } else if (input === ContextKeys.TRANSACTION_ID){
-                return undefined;
+                return "Placeholder transactionId";
             } else if (input === ContextKeys.PACKAGE_TYPE){
                 return "uksef";
             }

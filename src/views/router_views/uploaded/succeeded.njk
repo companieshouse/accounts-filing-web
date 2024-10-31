@@ -5,9 +5,16 @@
     Your file is valid
 </h3>
 
-<p>
-    Your accounts file '{{result.fileName}}' meets the iXBRL specification and business validation rules.
-</p>
+{% if isReviewNeeded %}
+    <p>
+        Your accounts file '{{result.fileName}}' meets the iXBRL specification.
+        We'll check it meets business validation rules when you submit your accounts file. We'll email you to confirm if it's accepted or rejected.
+    </p>
+{% else %}
+    <p>
+        Your accounts file '{{result.fileName}}' meets the iXBRL specification and business validation rules.
+    </p>
+{% endif %}
 
 {% endset %}
 
