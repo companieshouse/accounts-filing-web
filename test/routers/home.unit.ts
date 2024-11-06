@@ -28,4 +28,14 @@ describe("home page tests", () => {
         expect(resp.text).toContain(`Ffeilio cyfrifon pecyn  gyda`);
         expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=cy");
     });
+
+    it("should render the home page without uksef and welsh accounts text displayed", async () => {
+        const url = `${servicePathPrefix}`;
+        const resp = await request(app).get(url);
+
+        expect(resp.status).toBe(200);
+        expect(resp.text).not.toContain(`UKSEF accounts for listed companies`);
+        expect(resp.text).not.toContain(`Welsh accounts with an English translation`);
+        expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
+    });
 });

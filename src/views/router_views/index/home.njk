@@ -25,15 +25,15 @@
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
-        <li>{{ i18n.start_page_cic_before_cost }}{{fees.cic}} {{ i18n.start_page_cic_after_cost }}</li>
-        <li>{{ i18n.start_page_overseas_before_cost }}{{fees.overseas}} {{ i18n.start_page_overseas_after_cost }}</li>
-        <li>{{ i18n.start_page_audit_exempt }}</li>
-        <li>{{ i18n.start_page_dormant }}</li>
-        <li>{{ i18n.start_page_limited }}</li>
-        <li>{{ i18n.start_page_uksef }} </li>
-        <li>{{ i18n.start_page_400 }}</li>
-        <li>{{ i18n.start_page_401 }}</li>
-        <li>{{ i18n.start_page_welsh }}</li>
+        {% if not cic_disabled %}<li>{{ i18n.start_page_cic_before_cost }}{{fees.cic}} {{ i18n.start_page_cic_after_cost }}</li>{% endif %}
+        {% if not overseas_disabled %}<li>{{ i18n.start_page_overseas_before_cost }}{{fees.overseas}} {{ i18n.start_page_overseas_after_cost }}</li>{% endif %}
+        {% if not audit_exempt_disabled %}<li>{{ i18n.start_page_audit_exempt }}</li>{% endif %}
+        {% if not dormant_disabled %}<li>{{ i18n.start_page_dormant }}</li>{% endif %}
+        {% if not limited_disabled %}<li>{{ i18n.start_page_limited }}</li>{% endif %}
+        {% if not uksef_disabled %}<li>{{ i18n.start_page_uksef }} </li>{% endif %}
+        {% if not group_400_disabled %}<li>{{ i18n.start_page_400 }}</li>{% endif %}
+        {% if not group_401_disabled %}<li>{{ i18n.start_page_401 }}</li>{% endif %}
+        {% if not welsh_disabled %}<li>{{ i18n.start_page_welsh }}</li>{% endif %}
     </ul>
 
     {{ govukInsetText({
