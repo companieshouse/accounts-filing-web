@@ -93,10 +93,13 @@
 
    {{ govukButton({
   text: i18n.confirm_company_continue,
-  href: nextURL
+  href: nextURL,
+  attributes: {
+    "data-event-id": "package-accounts-confirm-company-confirm-and-continue-button"
+  }
 }) }}  
 
-<p class="govuk-body"><a class="govuk-link" href="{{ changeCompanyUrl }}">{{ i18n.confirm_company_choose_different }}</a></p>
+<p class="govuk-body"><a class="govuk-link" href="{{ changeCompanyUrl }}" data-event-id="package-accounts-confirm-company-choose-a-different-company-button">{{ i18n.confirm_company_choose_different }}</a></p>
 
 
 </div>

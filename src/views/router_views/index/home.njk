@@ -8,7 +8,7 @@
 
     {% set packageZip %}
         <p class="govuk-body">
-            {{ i18n.start_page_zip_pre_link }} <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software">{{i18n.start_page_zip_link}}</a> {{i18n.start_page_zip_post_link}}
+            {{ i18n.start_page_zip_pre_link }} <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software" data-event-id="package-accounts-start-page-tech-spec-link">{{i18n.start_page_zip_link}}</a> {{i18n.start_page_zip_post_link}}
         </p>
     {% endset %}
 
@@ -54,23 +54,24 @@
     <p class="govuk-body">
         {{ i18n.start_page_timeout }}
     </p> 
-
     {{ govukButton({
         text: i18n.start_now,
         href: nextURL,
         classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
-        isStartButton: true
+        isStartButton: true,
+        attributes: {
+            onclick: '_paq.push(["trackGoal", '+PIWIK_START_GOAL_ID+']);'
+        }
     }) }}
-
     <h2 class="govuk-heading-m">
         {{ i18n.start_page_prepare }}
     </h2>
 
     <p class="govuk-body">
-        {{ i18n.start_page_frc_pre_link }} <a href="https://www.frc.org.uk/library/standards-codes-policy/accounting-and-reporting/frc-taxonomies/">{{ i18n.start_page_frc_link }}</a>.
+        {{ i18n.start_page_frc_pre_link }} <a href="https://www.frc.org.uk/library/standards-codes-policy/accounting-and-reporting/frc-taxonomies/" data-event-id="package-accounts-start-page-frc-link">{{ i18n.start_page_frc_link }}</a>.
     </p>
 
     <p class="govuk-body">
-       {{ i18n.start_page_check_ixbrl_pre_link }} <a href={{ submitValidationUrl }}>{{ i18n.start_page_check_ixbrl_link }}</a>.
+       {{ i18n.start_page_check_ixbrl_pre_link }} <a href={{ submitValidationUrl }} data-event-id="package-accounts-start-page-ixbrl-accounts-test-service">{{ i18n.start_page_check_ixbrl_link }}</a>.
     </p>
 {% endblock %}

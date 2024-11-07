@@ -7,8 +7,14 @@
 
     {% set errorMessage = undefined %}
     {% if errors[packageTypeFieldName] %}
-        {% set errorMessage = { text: errors[packageTypeFieldName].summary } %}
+        {% set errorMessage = { 
+          text: errors[packageTypeFieldName].summary,
+          attributes: {
+            'data-event-id': "package-accounts-what-package-accounts-are-you-submitting-error-missing-package"
+          }
+         } %}
     {% endif %}
+
 
   <form  method="post">
     {{ 
@@ -28,7 +34,10 @@
 
     {{ 
       govukButton({
-        text: i18n.choose_your_package_accounts_button
+        text: i18n.choose_your_package_accounts_button,
+        attributes: {
+            'data-event-id': "package-accounts-what-package-accounts-are-you-submitting-confirm-and-continue-button"
+        }
       }) 
     }} 
 
