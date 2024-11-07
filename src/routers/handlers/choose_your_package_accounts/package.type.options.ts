@@ -82,12 +82,16 @@ function getHint(hint: string, fee: string): string  {
 
 export function getPackageTypeOptionsRadioButtonData(req: Request) {
     return packageTypeOptions(req).filter(option => !option.disabled).map(option => {
+        const dashDescription = option.description.split(/\W+/).join('-')
         return {
             value: option.name,
             text: option.description,
             hint: option.hint === undefined ? undefined : {
                 text: option.hint
             },
+            attributes: {
+                "data-event-id": "package-accounts-choose-your-accounts-"+dashDescription+"-radio-button"
+            }
         };
     });
 }
