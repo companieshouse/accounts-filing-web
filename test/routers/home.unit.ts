@@ -69,6 +69,7 @@ describe("home page tests", () => {
         expect(resp.text).toContain('overseas companies - there is a £33  fee to file');
         expect(resp.text).toContain('limited partnership accounts');
         expect(resp.text).toContain('group package accounts - section 401, parent incorporated under non-UK law');
+        expect(resp.text).toContain('to pay the fee using a credit or debit card, if relevant');
         expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
     });
 
@@ -95,6 +96,7 @@ describe("home page tests", () => {
         expect(resp.text).not.toContain('overseas companies - there is a £33  fee to file');
         expect(resp.text).not.toContain('limited partnership accounts');
         expect(resp.text).not.toContain('group package accounts - section 401, parent incorporated under non-UK law');
+        expect(resp.text).not.toContain('to pay the fee using a credit or debit card, if relevant');
         expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
     });
 });
