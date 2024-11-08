@@ -99,4 +99,19 @@ describe("home page tests", () => {
         expect(resp.text).not.toContain('to pay the fee using a credit or debit card, if relevant');
         expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
     });
+
+    it("should display payment text when either cic or overseas enabled", async () => {
+
+        process.env.DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO = ["true", "false"][Math.floor(Math.random() * 2)];
+        process.env.CIC_DISABLE_RADIO = (process.env.DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO !== "true").toString();
+
+        const url = `${servicePathPrefix}`;
+        app = loadApp();
+
+        const resp = await request(app).get(url);
+
+        expect(resp.status).toBe(200);
+        expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
+        expect(resp.text).toContain('to pay the fee using a credit or debit card, if relevant');
+    });
 });

@@ -46,7 +46,7 @@
         <li>{{ i18n.start_page_youll_need_signin }}</li>
         <li>{{ i18n.start_page_youll_need_company_name }}</li>
         <li>{{ i18n.start_page_youll_need_code }}</li>
-        {% if (not cic_disabled) and (not overseas_disabled) %}<li>{{ i18n.start_page_youll_need_payment }}</li>{% endif %}
+        {% if (not cic_disabled) or (not overseas_disabled) %}<li>{{ i18n.start_page_youll_need_payment }}</li>{% endif %}
     </ul>
 
     <br>
