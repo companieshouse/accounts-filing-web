@@ -1,7 +1,6 @@
 import app from "../../src/app";
 import request from "supertest";
 import { PrefixedUrls, servicePathPrefix } from "../../src/utils/constants/urls";
-import { env } from "../../src/config";
 
 describe("home page tests", () => {
 
