@@ -24,7 +24,10 @@
                 {
                   href: Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE,
                   text: "Change",
-                  visuallyHiddenText: "type of accounts"
+                  visuallyHiddenText: "type of accounts",
+                  attributes: {
+                    'data-event-id': "package-filing-check-your-answers-choose-type-of-accounts-link"
+                  }
                 }
               ]
             }
@@ -41,7 +44,10 @@
                 {
                   href: changeTypeOfAccountsUrl,
                   text: "Change",
-                  visuallyHiddenText: "file uploaded"
+                  visuallyHiddenText: "file uploaded",
+                  attributes: {
+                    'data-event-id': "package-filing-check-your-answers-change-file-link"
+                  }
                 }
               ]
             }
@@ -52,7 +58,10 @@
     <form method="POST" action="{{Urls.CHECK_YOUR_ANSWERS}}">
         {{ govukButton({
             text: "Submit accounts",
-            type: "submit"
+            type: "submit",
+            attributes: {
+              'data-event-id': "package-filing-check-your-answers-submit-botton"
+            }
         }) }}
     </form>
 

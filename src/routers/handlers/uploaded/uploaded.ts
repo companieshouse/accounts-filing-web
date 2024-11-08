@@ -101,7 +101,7 @@ export class UploadedHandler extends GenericHandler {
             return {
                 ...this.baseViewData,
                 result: validationResult,
-                isReviewNeeded: isReviewNeeded,
+                isReviewNeeded: isReviewNeeded
             };
         } catch (error) {
             logger.error(`Exception returned from SDK while getting validation status from [${fileId}]. Error: ${JSON.stringify(error, null, 2)}`);

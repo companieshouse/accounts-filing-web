@@ -22,6 +22,7 @@ export default () => {
     process.env.OVERSEAS_FEE = "33";
     process.env.PIWIK_URL = "https://www.matomo.com";
     process.env.PIWIK_SITE_ID = "99";
+    process.env.PIWIK_START_GOAL_ID = "90";
     process.env.SUBMIT_VALIDATION_URL = "http://chs.local/xbrl_validate/submit";
     process.env.CIC_DISABLE_RADIO = "false";
     process.env.FEATURE_FLAG_ZIP_PORTAL_270924 = "true";

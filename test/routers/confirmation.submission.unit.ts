@@ -89,7 +89,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain(`£${fees.overseas}`);
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
         expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
+        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\" data-event-id=\"package-accounts-back-button-Accounts-Submitted\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
@@ -107,7 +107,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain(`£${fees.cic}`);
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
         expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
+        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\" data-event-id=\"package-accounts-back-button-Accounts-Submitted\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
@@ -128,7 +128,7 @@ describe("accounts submitted tests", () => {
         expect(response.text).not.toContain("Payment received");
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
         expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\">Back</a>");
+        expect(response.text).toContain("<a class=\"govuk-back-link\" href=\"\" style=\"visibility: hidden;\" data-event-id=\"package-accounts-back-button-Accounts-Submitted\">Back</a>");
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
