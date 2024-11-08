@@ -35,8 +35,6 @@ export const env = readEnv(process.env, {
     DISABLE_GROUP_SECTION_400_UK_PARENT_ACCOUNTS_RADIO: bool.describe('Flag to disable Group - section 400 parent incorporated under UK law accounts'),
     DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO: bool.describe('Flag to disable Group - section 401 parent incorporated under non UK law accounts'),
     DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO: bool.describe('Flag to disable Limited Partnership accounts'),
-    DISABLE_WELSH_ACCOUNTS_RADIO: bool.describe('Flag to disable Welsh accounts'),
-    DISABLE_UKSEF_ACCOUNTS_RADIO: bool.describe('Flag to disable UKSEF accounts'),
     INTERNAL_API_URL: url.describe("Internal API base URL for internal service interaction"),
     LOCALES_PATH: str
         .describe("The name of the directory where the locales files are stored")

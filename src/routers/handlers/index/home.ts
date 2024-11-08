@@ -28,9 +28,7 @@ export class HomeHandler extends GenericHandler {
             dormant_disabled: env.DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO,
             limited_disabled: env.DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO,
             group_400_disabled: env.DISABLE_GROUP_SECTION_400_UK_PARENT_ACCOUNTS_RADIO,
-            group_401_disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO,
-            welsh_disabled: env.DISABLE_WELSH_ACCOUNTS_RADIO,
-            uksef_disabled: env.DISABLE_UKSEF_ACCOUNTS_RADIO
+            group_401_disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO
         };
 
         return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees, ...disablePackageInfo } };
