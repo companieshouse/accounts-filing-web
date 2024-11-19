@@ -58,7 +58,6 @@ module "ecs-service" {
   container_version = var.accounts_filing_web_version
   docker_registry   = var.docker_registry
   docker_repo       = local.docker_repo
-  read_only_root_filesystem = true
 
 
   # Service configuration
