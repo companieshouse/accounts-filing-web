@@ -1,3 +1,5 @@
+import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
+import mockCompanyAuthenticationMiddleware from "../mocks/company.authentication.middleware.mock";
 import express, { Request } from "express";
 import request from "supertest";
 import app from "../../src/app";
@@ -9,6 +11,7 @@ import { packageTypeFieldName } from "../../src/routers/handlers/choose_your_pac
 import errorManifest from "../../src/utils/error_manifests/default";
 import { getPackageTypeOptionsRadioButtonData } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 import { EnvKey, setEnvVars } from "../test_utils";
+import { getRequestWithCookie, setCookie } from "./helper/requests";
 
 const viewDataPackageSelectionPage = {
     title: "What package accounts are you submitting?",
@@ -33,6 +36,8 @@ describe("package account selection test", () => {
             req.session = mockSession;
             next();
         });
+        mockCompanyAuthenticationMiddleware.mockClear();
+        mockCsrfProtectionMiddleware.mockClear();
     });
 
     afterEach(() => {
@@ -40,7 +45,7 @@ describe("package account selection test", () => {
     });
 
     it("should render all enabled package account types on the package page", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
 
         for (const button of getPackageTypeOptionsRadioButtonData(response.request as unknown as Request)) {
@@ -53,30 +58,30 @@ describe("package account selection test", () => {
     });
 
     it("should render package selection page with the correct page title", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain(viewDataPackageSelectionPage.title);
     });
 
     it("should contain the correct backlink", async () => {
         const backUrl = PrefixedUrls.CONFIRM_COMPANY;
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain(backUrl);
     });
 
     it(`should set the package account correctly and redirect to ${Urls.UPLOAD}`, async () => {
-        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ [packageTypeFieldName]: "uksef" }).expect(302);
+        const response = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).send({ [packageTypeFieldName]: "uksef" }).set("Cookie", setCookie()).expect(302);
         expect(response.text).toContain(PrefixedUrls.UPLOAD);
     });
 
     it("should throw a packageAccount error", async () => {
-        const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).set("Cookie", setCookie());
         expect(resp.text).toContain(errorManifest["package-type"].nothingSelected.summary);
     });
 
     it("should have the cic option displayed", async () => {
-        const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         expect(response.text).toContain("cic");
     });
 
@@ -95,7 +100,7 @@ describe("package account selection test", () => {
                 [envKey]: false,
             });
 
-            const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+            const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
             expect(response.text).toContain(optionSubString);
 
             cleanup();
@@ -106,7 +111,7 @@ describe("package account selection test", () => {
                 [envKey]: true,
             });
 
-            const response = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+            const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
             expect(response.text).not.toContain(optionSubString);
 
             cleanup();
@@ -130,6 +135,8 @@ describe("Welsh translation", () => {
             req.session = mockSession;
             next();
         });
+        mockCompanyAuthenticationMiddleware.mockClear();
+        mockCsrfProtectionMiddleware.mockClear();
     });
 
     afterEach(() => {
@@ -137,25 +144,24 @@ describe("Welsh translation", () => {
     });
     it("should translate `Support link` to Welsh for chooseYourPackageAccounts page", async () => {
 
-        const req = await request(app)
-            .get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        const req = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
 
         expect(req.text).toContain("Dolenni cymorth");
     });
 
     it("should throw a packageAccount error in Welsh", async () => {
-        const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy").set("Cookie", setCookie());
         expect(resp.text).toContain("Dewiswch y math o gyfrifon pecyn rydych chi&#39;n eu llwytho i fyny");
         expect(resp.text).toContain("Mae yna broblem");
     });
 
     it("should display 'Confirm and continue' button in Welsh", async () => {
-        const resp = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        const resp = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
         expect(resp.text).toContain("Cadarnhau a pharhau");
     });
 
     it("should translate page into Welsh", async () => {
-        const resp = await request(app).get(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
+        const resp = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
         expect(resp.text).toContain("Cadarnhau a pharhau");
         expect(resp.text).toContain(`Mae ffi o £33 i&#39;w ffeilio.`);
         expect(resp.text).toContain(`Mae ffi o £15 i&#39;w ffeilio.`);

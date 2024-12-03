@@ -83,21 +83,23 @@ describe("home page tests", () => {
         process.env.CIC_DISABLE_RADIO = "true";
 
         const url = `${servicePathPrefix}`;
-        app = loadApp();
+        jest.isolateModules(async () => {
+            app = loadApp();
 
-        const resp = await request(app).get(url);
+            const resp = await request(app).get(url);
 
-        expect(resp.status).toBe(200);
-        expect(resp.text).toContain('UKSEF accounts for listed companies');
-        expect(resp.text).toContain('Welsh accounts with an English translation');
-        expect(resp.text).not.toContain('dormant exempt subsidiary accounts');
-        expect(resp.text).not.toContain('group package accounts - section 400, parent incorporated under UK law');
-        expect(resp.text).not.toContain('Community Interest Companies (CIC) - there is a £15 fee to file');
-        expect(resp.text).not.toContain('overseas companies - there is a £33  fee to file');
-        expect(resp.text).not.toContain('limited partnership accounts');
-        expect(resp.text).not.toContain('group package accounts - section 401, parent incorporated under non-UK law');
-        expect(resp.text).not.toContain('to pay the fee using a credit or debit card, if relevant');
-        expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
+            expect(resp.status).toBe(200);
+            expect(resp.text).toContain('UKSEF accounts for listed companies');
+            expect(resp.text).toContain('Welsh accounts with an English translation');
+            expect(resp.text).not.toContain('dormant exempt subsidiary accounts');
+            expect(resp.text).not.toContain('group package accounts - section 400, parent incorporated under UK law');
+            expect(resp.text).not.toContain('Community Interest Companies (CIC) - there is a £15 fee to file');
+            expect(resp.text).not.toContain('overseas companies - there is a £33  fee to file');
+            expect(resp.text).not.toContain('limited partnership accounts');
+            expect(resp.text).not.toContain('group package accounts - section 401, parent incorporated under non-UK law');
+            expect(resp.text).not.toContain('to pay the fee using a credit or debit card, if relevant');
+            expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
+        });
     });
 
     it("should display payment text when either cic or overseas enabled", async () => {

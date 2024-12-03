@@ -1,7 +1,8 @@
 jest.mock("../../src/services/external/payment.service");
-
+import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
 import { mockTransactionService } from "../mocks/transaction.service.mock";
+import mockCompanyAuthenticationMiddleware from "../mocks/company.authentication.middleware.mock";
 
 import app from "../../src/app";
 import request from "supertest";
@@ -14,6 +15,7 @@ import { startPaymentsSession } from "../../src/services/external/payment.servic
 import { mockPayment, PAYMENT_JOURNEY_URL } from "../mocks/payment.mock";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { getRequestWithCookie, setCookie } from "./helper/requests";
 
 const mockStartPaymentsSession = startPaymentsSession as jest.Mock;
 
@@ -80,6 +82,30 @@ describe("Check your answers test", () => {
     });
 
     it("Should render a 500 page on get request when package is not in session", async () => {
+        mockCsrfProtectionMiddleware.mockClear();
+        mockCompanyAuthenticationMiddleware.mockClear();
+        const fileName = "fileName";
+
+        setValidationResult(mockSession, {
+            fileId: "fileId",
+            fileName: fileName,
+        } as AccountValidatorResponse);
+
+        // @ts-expect-error overrides typescript to allow setting the signin_info for testing
+        mockSession.data['signin_info'] = { company_number: "00000000" };
+        mockSession.data['signin_info']['signed_in'] = 1;
+        mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
+
+        const resp = await getRequestWithCookie(PrefixedUrls.CHECK_YOUR_ANSWERS);
+
+        expect(resp.status).toBe(500);
+        // Check if it on the 500 error page
+        expect(resp.text).toContain("500");
+    });
+
+    it("Should render a 500 page on get request when company number is not in session", async () => {
+        mockCsrfProtectionMiddleware.mockClear();
+        // mockCompanyAuthenticationMiddleware.mockClear();
         const fileName = "fileName";
 
         setValidationResult(mockSession, {
@@ -92,7 +118,7 @@ describe("Check your answers test", () => {
         mockSession.data['signin_info']['signed_in'] = 1;
         mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
 
-        const resp = await request(app).get(PrefixedUrls.CHECK_YOUR_ANSWERS);
+        const resp = await getRequestWithCookie(PrefixedUrls.CHECK_YOUR_ANSWERS);
 
         expect(resp.status).toBe(500);
         // Check if it on the 500 error page
@@ -100,6 +126,8 @@ describe("Check your answers test", () => {
     });
 
     it("Should close the transaction and navigate to the confirmation page when recieving a post request", async () => {
+        mockCompanyAuthenticationMiddleware.mockClear();
+        mockCsrfProtectionMiddleware.mockClear();
         mockTransactionService.closeTransaction.mockResolvedValue(undefined);
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
@@ -107,7 +135,7 @@ describe("Check your answers test", () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         mockSession.data['signin_info']['signed_in'] = 1;
 
-        const resp = await request(app).post(PrefixedUrls.CHECK_YOUR_ANSWERS);
+        const resp = await request(app).post(PrefixedUrls.CHECK_YOUR_ANSWERS).set('Cookie', setCookie());
 
         expect(mockTransactionService.closeTransaction).toHaveBeenCalledTimes(1);
 
@@ -117,6 +145,8 @@ describe("Check your answers test", () => {
     });
 
     it("Should close the transaction and navigate to the payment jouney when receiving a payment url from close transaction", async () => {
+        mockCompanyAuthenticationMiddleware.mockClear();
+        mockCsrfProtectionMiddleware.mockClear();
         mockTransactionService.closeTransaction.mockResolvedValue(PAYMENT_URL);
         mockStartPaymentsSession.mockResolvedValueOnce(mockPaymentResponse);
         // @ts-expect-error overwriting readonly signin_info for testing purposes
@@ -125,7 +155,7 @@ describe("Check your answers test", () => {
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, "mockAccFilingId");
         mockSession.setExtraData(ContextKeys.TRANSACTION_ID, "mockTransId");
         mockSession.data['signin_info']['signed_in'] = 1;
-        const resp = await request(app).post(PrefixedUrls.CHECK_YOUR_ANSWERS);
+        const resp = await request(app).post(PrefixedUrls.CHECK_YOUR_ANSWERS).set('Cookie', setCookie());
         // It Should redirect to the payment journey page
         expect(resp.status).toBe(302);
         expect(resp.header.location).toBe(PAYMENT_JOURNEY_URL);
@@ -135,8 +165,7 @@ describe("Check your answers test", () => {
 describe("Welsh translation", () => {
     it("should translate `Support link` to Welsh for checkAnswer page", async () => {
 
-        const req = await request(app)
-            .get(PrefixedUrls.CHECK_YOUR_ANSWERS + "?lang=cy");
+        const req = await getRequestWithCookie(PrefixedUrls.CHECK_YOUR_ANSWERS + "?lang=cy");
 
         expect(req.text).toContain("Dolenni cymorth");
     });

@@ -1,5 +1,7 @@
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
 import { mockGetCompanyProfile, companyProfileServiceMock } from "../../../mocks/company.profile.service.mock";
+import mockCsrfProtectionMiddleware from "../../../mocks/csrf.protection.middleware.mock";
+
 mockGetCompanyProfile.mockResolvedValue({
     companyName: 'Test Company',
     companyNumber: '12345678',
@@ -21,13 +23,12 @@ mockGetCompanyProfile.mockResolvedValue({
 );
 
 import { Request } from "express";
-import request from "supertest";
 import { CompanyConfirmHandler } from "../../../../src/routers/handlers/company/confirm/confirm";
 import { BaseViewData, ViewModel } from "../../../../src/routers/handlers/generic";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
 import { getSessionRequest } from "../../../mocks/session.mock";
+import { getRequestWithCookie } from "../../helper/requests";
 
 interface CompanyFilingIdData extends BaseViewData {
     companyProfile: CompanyProfile,
@@ -37,6 +38,7 @@ interface CompanyFilingIdData extends BaseViewData {
 describe("company auth test", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        mockCsrfProtectionMiddleware.mockClear();
     });
 
     afterEach(() => {
@@ -44,43 +46,39 @@ describe("company auth test", () => {
     });
 
     it("does not redirect when the companyNumber query parameter checks session companyNumber", async () => {
-
         Object.assign(mockSession, getSessionRequest());
 
         mockSession.data.signin_info!.company_number = "00000000";
 
-        await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`).expect(200);
+        await getRequestWithCookie(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`).expect(200);
     });
 
     it("should translate `Confirm and continue` to Welsh for confirm company page", async () => {
-
         Object.assign(mockSession, getSessionRequest());
 
         mockSession.data.signin_info!.company_number = "00000000";
 
-        const req = await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000&lang=cy`);
+        const req = await getRequestWithCookie(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000&lang=cy`);
         expect(200);
         expect(req.text).toContain("Cadarnhau a pharhau");
     });
 
     it("should remain in English for confirm company page when lang is en", async () => {
-
         Object.assign(mockSession, getSessionRequest());
 
         mockSession.data.signin_info!.company_number = "00000000";
 
-        const req = await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000&lang=en`);
+        const req = await getRequestWithCookie(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000&lang=en`);
         expect(200);
         expect(req.text).toContain("Confirm and continue");
     });
 
     it("should remain in English for confirm company page by default", async () => {
-
         Object.assign(mockSession, getSessionRequest());
 
         mockSession.data.signin_info!.company_number = "00000000";
 
-        const req = await request(app).get(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`);
+        const req = await getRequestWithCookie(`${PrefixedUrls.CONFIRM_COMPANY}/?companyNumber=00000000`);
         expect(200);
         expect(req.text).toContain("Confirm and continue");
     });
@@ -127,8 +125,7 @@ describe("CompanyConfirmHandler", () => {
     describe("Confirmation page Welsh translation", () => {
         it("should translate `Support link` to Welsh for confirmation page", async () => {
 
-            const req = await request(app)
-                .get(PrefixedUrls.CONFIRMATION + "?lang=cy");
+            const req = await getRequestWithCookie(PrefixedUrls.CONFIRMATION + "?lang=cy");
 
             expect(req.text).toContain("Dolenni cymorth");
         });
