@@ -2,6 +2,7 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 
 {% block main_content %}
 
@@ -17,6 +18,11 @@
 
 
   <form  method="post">
+    {{
+            csrfTokenInput({
+                csrfToken: csrfToken
+            })
+    }}
     {{ 
       govukRadios({
         name: packageTypeFieldName,

@@ -7,7 +7,7 @@
     
     <body class="govuk-template__body" >
 
-        <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+        <script nonce={{ cspNonce | dump | safe }}>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
         {% include "../partials/cookie_consent_banner.njk" %}
         <a href="#main-page-content" class="govuk-skip-link">{{ i18n.skip_to_main_content }}</a>
         {% include "../partials/__header.njk" %}

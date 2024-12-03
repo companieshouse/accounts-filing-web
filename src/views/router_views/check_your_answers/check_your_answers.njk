@@ -3,6 +3,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 
 {% block main_content %}
     <h1 class="govuk-heading-l">Check your answers </h1>
@@ -56,6 +57,11 @@
       }) }}
 
     <form method="POST" action="{{Urls.CHECK_YOUR_ANSWERS}}">
+        {{
+            csrfTokenInput({
+                csrfToken: csrfToken
+            })
+        }}
         {{ govukButton({
             text: "Submit accounts",
             type: "submit",
