@@ -5,6 +5,7 @@ import { fees } from "../../../utils/constants/fees";
 import { getLocalesField, addLangToUrl, selectLang } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { env } from "../../../config";
+import { getCompanyNumber, must } from "../../../utils/session";
 
 export class HomeHandler extends GenericHandler {
 
@@ -17,9 +18,18 @@ export class HomeHandler extends GenericHandler {
         });
     }
 
-    execute (_req: Request, _res: Response): ViewModel<HomeViewData> {
+    execute (req: Request, _res: Response): ViewModel<HomeViewData> {
         const routeViews = "router_views/index";
-        logger.info(`GET request to serve home page`);
+        logger.info("GET request to serve home page");
+
+        let companyNumber;
+
+        try {
+            companyNumber = must(getCompanyNumber(req.session));
+        } catch (error) {
+            logger.info("Setting companyNumber to an empty string");
+            companyNumber = "";
+        }
 
         const disablePackageInfo = {
             cic_disabled: env.CIC_DISABLE_RADIO,
@@ -31,10 +41,11 @@ export class HomeHandler extends GenericHandler {
             group_401_disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO
         };
 
-        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees, ...disablePackageInfo } };
+        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees, ...disablePackageInfo, companyNumber } };
     }
 }
 
 interface HomeViewData extends BaseViewData {
     fees: typeof fees
+    companyNumber: string | Error
 }

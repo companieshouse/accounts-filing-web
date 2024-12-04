@@ -1,6 +1,6 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
-import { servicePathPrefix, Urls } from "./utils/constants/urls";
+import { servicePathPrefix, Urls, generatePathWithCompany } from "./utils/constants/urls";
 import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter,
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
     ChooseYourPackageAccountsRouter, PaymentCallbackRouter } from "./routers";
@@ -23,8 +23,12 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(featureFlagMiddleware);
     router.use(localeMiddleware);
+
     router.use(Urls.HOME, HomeRouter);
+    router.use(generatePathWithCompany(Urls.HOME), HomeRouter);
+
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
+    router.use(generatePathWithCompany(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS), BeforeYouFilePackageAccountsRouter);
 
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
