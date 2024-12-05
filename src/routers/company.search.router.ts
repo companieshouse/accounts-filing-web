@@ -1,10 +1,9 @@
 import { NextFunction, Router, Request, Response } from "express";
 import { logger } from "../utils/logger";
-import { COMPANY_LOOKUP } from "../utils/constants/urls";
+import { COMPANY_LOOKUP, Urls } from "../utils/constants/urls";
 import { handleExceptions } from "../utils/error.handler";
 import { addEncodeURILangToUrl, selectLang } from "../utils/localise";
 import { getCompanyNumber, must } from "../utils/session";
-import { Urls } from "../utils/constants/urls";
 
 const router: Router = Router();
 
