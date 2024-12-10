@@ -5,6 +5,7 @@ import { PrefixedUrls } from "../../utils/constants/urls";
 import errorManifest from "../../utils/error_manifests/default";
 import { Request, Response } from "express";
 import { Optional } from "../../utils";
+import { env } from "../../config";
 
 export interface BaseViewData {
     errors: {
@@ -16,6 +17,8 @@ export interface BaseViewData {
     nextURL: string | null
     viewName: string
     Urls: typeof PrefixedUrls
+    sessionTimeout?: number
+    sessionCountdown?: number
 }
 
 const defaultBaseViewData = {
@@ -50,6 +53,8 @@ export abstract class GenericHandler {
 
     populateViewData(req: Request) {
         this.baseViewData.isSignedIn = req.session?.data.signin_info?.signed_in !== undefined ? true : false;
+        this.baseViewData.sessionTimeout = env.SESSION_TIMEOUT;
+        this.baseViewData.sessionCountdown = env.SESSION_COUNTDOWN;
     }
 }
 
