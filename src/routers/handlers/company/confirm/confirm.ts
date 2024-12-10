@@ -31,7 +31,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         setCompanyName(req.session, companyProfile.companyName);
         setLanguage(req.session, language);
-        this.populateViewData(req)
+        this.populateViewData(req);
         this.baseViewData.backURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, language);
         this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, language);
         logger.info(`Serving company profile data`);
