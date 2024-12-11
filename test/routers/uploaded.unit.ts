@@ -1,5 +1,4 @@
 import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
-import mockCompanyAuthenticationMiddleware from "../mocks/company.authentication.middleware.mock";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
 import { getSessionRequest } from "../mocks/session.mock";
 import { mockAccountsFilingService } from "../mocks/accounts.filing.service.mock";
@@ -12,7 +11,6 @@ import { ContextKeys } from "../../src/utils/constants/context.keys";
 describe("Check your answers test", () => {
     beforeEach(() => {
         mockCsrfProtectionMiddleware.mockClear();
-        mockCompanyAuthenticationMiddleware.mockClear();
         resetMockSession();
         getSessionRequest();
     });
@@ -44,7 +42,6 @@ describe("Post uploaded validation results", () => {
 
     beforeEach(() => {
         mockCsrfProtectionMiddleware.mockClear();
-        mockCompanyAuthenticationMiddleware.mockClear();
         resetMockSession();
         getSessionRequest();
         mockAccountsFilingService.getValidationStatus = jest.fn(

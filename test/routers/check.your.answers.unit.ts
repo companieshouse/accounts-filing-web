@@ -2,7 +2,6 @@ jest.mock("../../src/services/external/payment.service");
 import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
 import { mockTransactionService } from "../mocks/transaction.service.mock";
-import mockCompanyAuthenticationMiddleware from "../mocks/company.authentication.middleware.mock";
 
 import app from "../../src/app";
 import request from "supertest";
@@ -83,7 +82,6 @@ describe("Check your answers test", () => {
 
     it("Should render a 500 page on get request when package is not in session", async () => {
         mockCsrfProtectionMiddleware.mockClear();
-        mockCompanyAuthenticationMiddleware.mockClear();
         const fileName = "fileName";
 
         setValidationResult(mockSession, {
@@ -105,7 +103,6 @@ describe("Check your answers test", () => {
 
     it("Should render a 500 page on get request when company number is not in session", async () => {
         mockCsrfProtectionMiddleware.mockClear();
-        // mockCompanyAuthenticationMiddleware.mockClear();
         const fileName = "fileName";
 
         setValidationResult(mockSession, {
@@ -126,7 +123,6 @@ describe("Check your answers test", () => {
     });
 
     it("Should close the transaction and navigate to the confirmation page when recieving a post request", async () => {
-        mockCompanyAuthenticationMiddleware.mockClear();
         mockCsrfProtectionMiddleware.mockClear();
         mockTransactionService.closeTransaction.mockResolvedValue(undefined);
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
@@ -145,7 +141,6 @@ describe("Check your answers test", () => {
     });
 
     it("Should close the transaction and navigate to the payment jouney when receiving a payment url from close transaction", async () => {
-        mockCompanyAuthenticationMiddleware.mockClear();
         mockCsrfProtectionMiddleware.mockClear();
         mockTransactionService.closeTransaction.mockResolvedValue(PAYMENT_URL);
         mockStartPaymentsSession.mockResolvedValueOnce(mockPaymentResponse);

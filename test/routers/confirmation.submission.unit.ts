@@ -7,6 +7,8 @@ import app from "../../src/app";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { setExtraDataCompanyNumber } from "../../src/utils/session";
 import { fees } from "../../src/utils/constants/fees";
+import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
+import { getRequestWithCookie } from "./helper/requests";
 
 
 const session = {
@@ -24,6 +26,7 @@ describe("accounts submitted tests", () => {
     });
 
     beforeEach(() => {
+        mockCsrfProtectionMiddleware.mockClear();
         Object.assign(mockSession, getSessionRequest());
         mockSession.data.signin_info!.company_number = session.companyNumber;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, session.companyName);
@@ -83,7 +86,7 @@ describe("accounts submitted tests", () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "overseas");
         setExtraDataCompanyNumber(mockSession, "00006400");
 
-        const response = await request(server).get(PrefixedUrls.CONFIRMATION);
+        const response = await getRequestWithCookie(PrefixedUrls.CONFIRMATION, server);
         expect(response.statusCode).toBe(200);
         expect(response.text).toContain("Payment received");
         expect(response.text).toContain(`£${fees.overseas}`);

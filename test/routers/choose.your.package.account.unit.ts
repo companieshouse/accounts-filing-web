@@ -1,5 +1,4 @@
 import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
-import mockCompanyAuthenticationMiddleware from "../mocks/company.authentication.middleware.mock";
 import express, { Request } from "express";
 import request from "supertest";
 import app from "../../src/app";
@@ -36,7 +35,6 @@ describe("package account selection test", () => {
             req.session = mockSession;
             next();
         });
-        mockCompanyAuthenticationMiddleware.mockClear();
         mockCsrfProtectionMiddleware.mockClear();
     });
 
@@ -135,7 +133,6 @@ describe("Welsh translation", () => {
             req.session = mockSession;
             next();
         });
-        mockCompanyAuthenticationMiddleware.mockClear();
         mockCsrfProtectionMiddleware.mockClear();
     });
 
