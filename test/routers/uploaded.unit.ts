@@ -23,14 +23,14 @@ describe("Check your answers test", () => {
     it("Should redirect to sigin when company number do not match", async () => {
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         mockSession.data['signin_info'] = { company_number: "00000000" };
-            mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
-            mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
-            mockSession.data['signin_info']['signed_in'] = 1;
-            const resp = await getRequestWithCookie(PrefixedUrls.UPLOADED);
+        mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
+        mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000001");
+        mockSession.data['signin_info']['signed_in'] = 1;
+        const resp = await getRequestWithCookie(PrefixedUrls.UPLOADED);
 
-            expect(resp.status).toBe(302);
-            // The make sure it redirects to the sigin page
-            expect(resp.headers.location).toContain("signin");
+        expect(resp.status).toBe(302);
+        // The make sure it redirects to the sigin page
+        expect(resp.headers.location).toContain("signin");
     });
 
 });
