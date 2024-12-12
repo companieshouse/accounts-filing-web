@@ -3,7 +3,8 @@ import { Application, Router } from "express";
 import { servicePathPrefix, Urls } from "./utils/constants/urls";
 import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter,
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
-    ChooseYourPackageAccountsRouter, PaymentCallbackRouter } from "./routers";
+    ChooseYourPackageAccountsRouter, PaymentCallbackRouter,
+    TimeoutRouter } from "./routers";
 
 import { errorHandler, pageNotFound } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
@@ -25,13 +26,14 @@ const routerDispatch = (app: Application) => {
     router.use(localeMiddleware);
     router.use(Urls.HOME, HomeRouter);
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
+    router.use(Urls.TIMEOUT, TimeoutRouter);
 
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
-    router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
+    router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, companyAuthenticationMiddleware, ChooseYourPackageAccountsRouter);
     router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
     router.use(Urls.UPLOADED, companyAuthenticationMiddleware, FileUpladedRouter);

@@ -19,7 +19,8 @@ export const Urls = {
     PAYMENT: "/payment",
     BEFORE_YOU_FILE_PACKAGE_ACCOUNTS: "/before-you-file-package-accounts",
     CHOOSE_YOUR_ACCOUNTS_PACKAGE: "/choose-your-accounts-package",
-    PAYMENT_CALLBACK: "/payment-callback"
+    PAYMENT_CALLBACK: "/payment-callback",
+    TIMEOUT: "/timeout"
 } as const;
 
 

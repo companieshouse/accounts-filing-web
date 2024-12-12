@@ -1,0 +1,14 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+
+<h1 class="govuk-heading-xl">You are now signed out</h1>
+
+<p class="govuk-body">
+For your security, we've signed you out because you have not used the service for {{timeLimit}} minutes.
+</p>
+
+<a href="{{nextURL}}">Sign in again</a>.
+
+{% endblock %}

@@ -19,6 +19,7 @@ export interface BaseViewData {
     Urls: typeof PrefixedUrls
     sessionTimeout?: number
     sessionCountdown?: number
+    sessionLogoutUrl?: string
 }
 
 const defaultBaseViewData = {
@@ -55,6 +56,7 @@ export abstract class GenericHandler {
         this.baseViewData.isSignedIn = req.session?.data.signin_info?.signed_in !== undefined ? true : false;
         this.baseViewData.sessionTimeout = env.SESSION_TIMEOUT;
         this.baseViewData.sessionCountdown = env.SESSION_COUNTDOWN;
+        this.baseViewData.sessionLogoutUrl = env.SESSION_SIGNOUT;
     }
 }
 

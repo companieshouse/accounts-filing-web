@@ -47,7 +47,7 @@
 <script src="{{ cdnHost }}/javascripts/vendor/jquery-3.3.1.min.js"></script>
 {% if isSignedIn %} 
     <script src="{{ cdnHost }}/javascripts/app/session-timeout.js"></script>
-    <script>$.timeoutDialog ({ timeout: {{ sessionTimeout }}, countdown: {{ sessionCountdown }} })</script>
+    <script>$.timeoutDialog ({ timeout: {{ sessionTimeout }}, countdown: {{ sessionCountdown }}, logout_url: "{{ sessionLogoutUrl }}" })</script>
 {% endif %}
 <!--<script src="/all.js"></script>
 <script>window.GOVUKFrontend.initAll()</script>-->
