@@ -52,7 +52,7 @@ describe("Check your answers test", () => {
         mockSession.data['signin_info']['signed_in'] = 1;
         mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
 
-        const resp = await request(app).get(PrefixedUrls.CHECK_YOUR_ANSWERS);
+        const resp = await getRequestWithCookie(PrefixedUrls.CHECK_YOUR_ANSWERS);
 
         expect(resp.status).toBe(200);
         // The filename should be on the check your details page.
@@ -73,7 +73,7 @@ describe("Check your answers test", () => {
         mockSession.data['signin_info']['signed_in'] = 1;
         mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
 
-        const resp = await request(app).get(PrefixedUrls.CHECK_YOUR_ANSWERS);
+        const resp = await getRequestWithCookie(PrefixedUrls.CHECK_YOUR_ANSWERS);
 
         expect(resp.status).toBe(302);
         // The make sure it redirects to the sigin page
