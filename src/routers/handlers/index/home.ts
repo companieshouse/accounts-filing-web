@@ -17,9 +17,9 @@ export class HomeHandler extends GenericHandler {
         });
     }
 
-    execute (_req: Request, _res: Response): ViewModel<HomeViewData> {
+    execute (req: Request, _res: Response): ViewModel<HomeViewData> {
         const routeViews = "router_views/index";
-        logger.info(`GET request to serve home page`);
+        logger.info("GET request to serve home page");
 
         const disablePackageInfo = {
             cic_disabled: env.CIC_DISABLE_RADIO,
@@ -31,10 +31,17 @@ export class HomeHandler extends GenericHandler {
             group_401_disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO
         };
 
-        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees, ...disablePackageInfo } };
+        const companyNumber = req.companyNumber;
+
+        this.baseViewData.nextURL = companyNumber !== "" ? addLangToUrl(`${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS}/company/${companyNumber}`, selectLang(req.query.lang)) : this.baseViewData.nextURL;
+
+        logger.info(`Company Number: ${companyNumber}`);
+
+        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees, ...disablePackageInfo, companyNumber } };
     }
 }
 
 interface HomeViewData extends BaseViewData {
     fees: typeof fees
+    companyNumber?: string
 }

@@ -8,7 +8,8 @@ describe("Before you file package accounts test", () => {
         expect(resp.status).toBe(200);
         expect(resp.text).toContain("Before you file package accounts");
     });
-    it("Should render the page on get request", async () => {
+
+    it("Should render the page on get request with lang query", async () => {
         const resp = await request(app).get(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
         expect(resp.status).toBe(200);
         expect(resp.text).toContain("Before you file package accounts");

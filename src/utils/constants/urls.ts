@@ -28,6 +28,8 @@ export const PrefixedUrls = Object.fromEntries(
     Object.entries(Urls).map(([key, value]) => [key, servicePathPrefix + value])
 ) as Readonly<{ [K in keyof typeof Urls]: string }>;
 
+export const generatePathWithCompany = (path: string) => `${path}/company/:companyNumber`;
+
 export const fileIdPlaceholder = '{fileId}';
 export const COMPANY_LOOKUP = `/company-lookup/search?forward=${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=%7BcompanyNumber%7D`;
 export const SIGN_OUT = '/signout';

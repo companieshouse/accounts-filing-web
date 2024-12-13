@@ -1,6 +1,6 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
-import { servicePathPrefix, Urls } from "./utils/constants/urls";
+import { servicePathPrefix, Urls, generatePathWithCompany } from "./utils/constants/urls";
 import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter,
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
     ChooseYourPackageAccountsRouter, PaymentCallbackRouter } from "./routers";
@@ -13,6 +13,7 @@ import { companyAuthenticationMiddleware } from "./middleware/company.authentica
 import { localeMiddleware } from "./middleware/locale.middleware";
 import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
 import { featureFlagMiddleware } from "./middleware/feature.flag.middleware";
+import { extractCompanyNumberMiddleware } from "./middleware/extract.company.number.middleware";
 
 
 
@@ -23,16 +24,20 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(featureFlagMiddleware);
     router.use(localeMiddleware);
-    router.use(Urls.HOME, HomeRouter);
-    router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
+
+    router.use(Urls.HOME, extractCompanyNumberMiddleware, HomeRouter);
+    router.use(generatePathWithCompany(Urls.HOME), extractCompanyNumberMiddleware, HomeRouter);
+
+    router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, extractCompanyNumberMiddleware, BeforeYouFilePackageAccountsRouter);
+    router.use(generatePathWithCompany(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS), extractCompanyNumberMiddleware, BeforeYouFilePackageAccountsRouter);
 
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware);
     router.use(userAuthRegex, authenticationMiddleware);
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
-    router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
-    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, companyAuthenticationMiddleware, ChooseYourPackageAccountsRouter);
+    router.use(Urls.COMPANY_SEARCH, extractCompanyNumberMiddleware, CompanySearchRouter);
+    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, ChooseYourPackageAccountsRouter);
     router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
     router.use(Urls.UPLOADED, companyAuthenticationMiddleware, FileUpladedRouter);
     router.use(Urls.CHECK_YOUR_ANSWERS, companyAuthenticationMiddleware, CheckYourAnswersRouter);
