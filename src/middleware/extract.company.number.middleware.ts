@@ -25,8 +25,9 @@ export const extractCompanyNumberMiddleware = (req: Request, res: Response, next
                 logger.info(`Company Number set in session: ${companyNumber}`);
             }
         } else if (isSessionSet) {
-            const result = getCompanyNumber(req.session);
-            companyNumber = result instanceof Error ? "" : result;
+            let result = getCompanyNumber(req.session);
+            result = result instanceof Error ? "" : result;
+            companyNumber = result === "" ? companyNumber : result;
             logger.info(`Company Number from session: ${companyNumber}`);
         }
 
