@@ -17,7 +17,9 @@ router.get('/', handleExceptions(async (req: Request, res: Response) => {
 router.get('/company/:companyNumber', handleExceptions(async (req: Request, res: Response) => {
     const companyNumber = req.params.companyNumber;
     checkCompanyNumberFormatIsValidate(companyNumber);
-    ValidateCompanyNumberFormat.isValid(companyNumber) && res.redirect(addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`, selectLang(req.query.lang)));
+    if (ValidateCompanyNumberFormat.isValid(companyNumber)) {
+        res.redirect(addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`, selectLang(req.query.lang)));
+    }
 }));
 
 export default router;
