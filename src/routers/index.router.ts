@@ -3,6 +3,7 @@ import { HomeHandler } from "./handlers/index/home";
 import { addLangToUrl, selectLang } from "../utils/localise";
 import { PrefixedUrls } from "../utils/constants/urls";
 import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.number.format";
+import { ValidateCompanyNumberFormat } from "../utils/validate/validate.company.number";
 
 const router: Router = Router();
 
@@ -20,7 +21,7 @@ router.get("/", (req: Request, res: Response, _next: NextFunction) => {
 router.get("/company/:companyNumber", (req: Request, res: Response, _next: NextFunction) => {
     const companyNumber = req.params.companyNumber;
     checkCompanyNumberFormatIsValidate(companyNumber);
-    res.redirect(addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`, selectLang(req.query.lang)));
+    ValidateCompanyNumberFormat.isValid(companyNumber) && res.redirect(addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`, selectLang(req.query.lang)));
 });
 
 export default router;

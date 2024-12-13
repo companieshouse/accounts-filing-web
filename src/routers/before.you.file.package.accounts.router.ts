@@ -4,6 +4,7 @@ import { BeforeYouFilePackageAccountsHandler } from "./handlers/before_you_file_
 import { PrefixedUrls } from "../utils/constants/urls";
 import { addLangToUrl, selectLang } from "../utils/localise";
 import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.number.format";
+import { ValidateCompanyNumberFormat } from "utils/validate/validate.company.number";
 
 const router = Router();
 
@@ -16,7 +17,7 @@ router.get('/', handleExceptions(async (req: Request, res: Response) => {
 router.get('/company/:companyNumber', handleExceptions(async (req: Request, res: Response) => {
     const companyNumber = req.params.companyNumber;
     checkCompanyNumberFormatIsValidate(companyNumber);
-    res.redirect(addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`, selectLang(req.query.lang)));
+    ValidateCompanyNumberFormat.isValid(companyNumber) && res.redirect(addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`, selectLang(req.query.lang)));
 }));
 
 export default router;
