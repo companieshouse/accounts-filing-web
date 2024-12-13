@@ -3,7 +3,7 @@ import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.numb
 import { ContextKeys } from "../utils/constants/context.keys";
 import { getCompanyNumber } from "../utils/session";
 import { logger } from "../utils/logger";
-import { ValidateCompanyNumberFormat } from "utils/validate/validate.company.number";
+import { ValidateCompanyNumberFormat } from "../utils/validate/validate.company.number";
 
 declare module 'express-serve-static-core' {
     interface Request {
