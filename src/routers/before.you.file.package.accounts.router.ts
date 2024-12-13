@@ -18,7 +18,7 @@ router.get('/company/:companyNumber', handleExceptions(async (req: Request, res:
     const companyNumber = req.params.companyNumber;
     checkCompanyNumberFormatIsValidate(companyNumber);
     if (ValidateCompanyNumberFormat.isValid(companyNumber)) {
-        res.redirect(addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`, selectLang(req.query.lang)));
+        res.redirect(addLangToUrl(`/company/${companyNumber}${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS}`, selectLang(req.query.lang)));
     }
 }));
 

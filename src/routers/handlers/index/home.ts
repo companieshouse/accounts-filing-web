@@ -31,9 +31,9 @@ export class HomeHandler extends GenericHandler {
             group_401_disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO
         };
 
-        const companyNumber = req.companyNumber;
+        const companyNumber = req.companyNumber || "";
 
-        this.baseViewData.nextURL = companyNumber !== "" ? addLangToUrl(`${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS}/company/${companyNumber}`, selectLang(req.query.lang)) : this.baseViewData.nextURL;
+        this.baseViewData.nextURL = companyNumber !== "" ? addLangToUrl(`/company/${companyNumber}${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS}`.slice(0, -1), selectLang(req.query.lang)) : this.baseViewData.nextURL;
 
         logger.info(`Company Number: ${companyNumber}`);
 

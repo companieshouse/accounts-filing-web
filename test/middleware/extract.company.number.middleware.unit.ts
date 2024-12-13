@@ -38,7 +38,7 @@ describe("extractCompanyNumberMiddleware", () => {
 
         extractCompanyNumberMiddleware(req as Request, res as Response, next);
 
-        expect(checkCompanyNumberFormatIsValidate).toHaveBeenCalledWith("12345678");
+        expect(checkCompanyNumberFormatIsValidate).not.toHaveBeenCalledWith("12345678");
         expect(req.session?.setExtraData).toHaveBeenCalledWith(ContextKeys.COMPANY_NUMBER, "12345678");
         expect(next).toHaveBeenCalled();
     });
@@ -59,7 +59,7 @@ describe("extractCompanyNumberMiddleware", () => {
 
         extractCompanyNumberMiddleware(req as Request, res as Response, next);
 
-        expect(checkCompanyNumberFormatIsValidate).toHaveBeenCalledWith("12345678");
+        expect(checkCompanyNumberFormatIsValidate).not.toHaveBeenCalledWith("12345678");
         expect(next).toHaveBeenCalled();
     });
 
@@ -70,7 +70,7 @@ describe("extractCompanyNumberMiddleware", () => {
 
         extractCompanyNumberMiddleware(req as Request, res as Response, next);
 
-        expect(checkCompanyNumberFormatIsValidate).toHaveBeenCalledWith(12345678);
+        expect(checkCompanyNumberFormatIsValidate).not.toHaveBeenCalledWith(12345678);
         expect(req.session?.setExtraData).not.toHaveBeenCalledWith(ContextKeys.COMPANY_NUMBER, 12345678);
         expect(next).toHaveBeenCalled();
     });

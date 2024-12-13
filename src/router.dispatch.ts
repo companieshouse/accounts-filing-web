@@ -25,10 +25,10 @@ const routerDispatch = (app: Application) => {
     router.use(featureFlagMiddleware);
     router.use(localeMiddleware);
 
-    router.use(Urls.HOME, extractCompanyNumberMiddleware, HomeRouter);
+    router.use(Urls.HOME, HomeRouter);
     router.use(generatePathWithCompany(Urls.HOME), extractCompanyNumberMiddleware, HomeRouter);
 
-    router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, extractCompanyNumberMiddleware, BeforeYouFilePackageAccountsRouter);
+    router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
     router.use(generatePathWithCompany(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS), extractCompanyNumberMiddleware, BeforeYouFilePackageAccountsRouter);
 
     // ------------- Enable login redirect -----------------

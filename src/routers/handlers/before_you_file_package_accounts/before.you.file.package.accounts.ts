@@ -18,8 +18,8 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
     execute (req: Request, _res: Response): ViewModel<BeforeFilePackageViewData> {
         logger.info(`GET request to serve before you file package accounts page`);
 
-        const companyNumber = req.companyNumber;
-        this.baseViewData.nextURL = companyNumber === "" ? addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(req.query.lang)) : addLangToUrl(`${PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE}`,  selectLang(req.query.lang)) ;
+        const companyNumber = req.companyNumber || "";
+        this.baseViewData.nextURL = companyNumber === "" ? addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(req.query.lang)) : addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`,  selectLang(req.query.lang)) ;
 
         return { templatePath: `${BeforeYouFilePackageAccountsHandler.routeViews}`, viewData: { ...this.baseViewData, companyNumber } };
     }

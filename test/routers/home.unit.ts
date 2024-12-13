@@ -44,7 +44,7 @@ describe("home page tests", () => {
         const resp = await request(app).get(url);
 
         expect(resp.status).toBe(302);
-        expect(resp.text).toContain("Redirecting to /accounts-filing/confirm-company?companyNumber=00006400&lang=en");
+        expect(resp.text).toContain("Redirecting to /company/00006400/accounts-filing?lang=en");
     });
 
     it("should render the home page", async () => {
