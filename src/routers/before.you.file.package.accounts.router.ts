@@ -4,7 +4,7 @@ import { BeforeYouFilePackageAccountsHandler } from "./handlers/before_you_file_
 import { PrefixedUrls } from "../utils/constants/urls";
 import { addLangToUrl, selectLang } from "../utils/localise";
 import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.number.format";
-import { ValidateCompanyNumberFormat } from "utils/validate/validate.company.number";
+import { ValidateCompanyNumberFormat } from "../utils/validate/validate.company.number";
 
 const router = Router();
 
