@@ -3,6 +3,7 @@ import { checkCompanyNumberFormatIsValidate } from "../utils/format/company.numb
 import { ContextKeys } from "../utils/constants/context.keys";
 import { getCompanyNumber } from "../utils/session";
 import { logger } from "../utils/logger";
+import { ValidateCompanyNumberFormat } from "utils/validate/validate.company.number";
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -20,7 +21,7 @@ export const extractCompanyNumberMiddleware = (req: Request, res: Response, next
             checkCompanyNumberFormatIsValidate(companyNumberParam);
             companyNumber = companyNumberParam;
 
-            if (isSessionSet) {
+            if (isSessionSet && ValidateCompanyNumberFormat.isValid(companyNumber)) {
                 req.session!.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
                 logger.info(`Company Number set in session: ${companyNumber}`);
             }
