@@ -15,9 +15,21 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         });
     }
 
-    execute (_req: Request, _res: Response): ViewModel<BaseViewData> {
+    execute (req: Request, _res: Response): ViewModel<BeforeFilePackageViewData> {
         logger.info(`GET request to serve before you file package accounts page`);
-        this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(_req.query.lang));
-        return { templatePath: `${BeforeYouFilePackageAccountsHandler.routeViews}`, viewData: this.baseViewData };
+
+        const companyNumber = req.companyNumber || "";
+
+        if (companyNumber !== "" && companyNumber !== undefined){
+            this.baseViewData.nextURL = addLangToUrl(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`,  selectLang(req.query.lang)) ;
+        } else {
+            this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(req.query.lang));
+        }
+
+        return { templatePath: `${BeforeYouFilePackageAccountsHandler.routeViews}`, viewData: { ...this.baseViewData, companyNumber } };
     }
+}
+
+interface BeforeFilePackageViewData extends BaseViewData {
+    companyNumber?: string
 }

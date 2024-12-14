@@ -39,6 +39,14 @@ describe("home page tests", () => {
         expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
     });
 
+    it("should render the home page with companyNumber param", async () => {
+        const url = `${servicePathPrefix}/company/00006400`;
+        const resp = await request(app).get(url);
+
+        expect(resp.status).toBe(302);
+        expect(resp.text).toContain("Redirecting to /company/00006400/accounts-filing?lang=en");
+    });
+
     it("should render the home page", async () => {
         const url = `${servicePathPrefix}`;
         const resp = await request(app).get(url + "?lang=en");
