@@ -33,7 +33,9 @@ export class HomeHandler extends GenericHandler {
 
         const companyNumber = req.companyNumber || "";
 
-        this.baseViewData.nextURL = companyNumber !== "" ? addLangToUrl(`/company/${companyNumber}${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS}`.slice(0, -1), selectLang(req.query.lang)) : this.baseViewData.nextURL;
+        if (companyNumber !== "" && companyNumber !== undefined){
+            this.baseViewData.nextURL = addLangToUrl(`/company/${companyNumber}${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS}`.slice(0, -1), selectLang(req.query.lang));
+        }
 
         logger.info(`Company Number: ${companyNumber}`);
 
