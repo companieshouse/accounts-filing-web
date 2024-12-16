@@ -35,7 +35,7 @@
   </div>
 </footer>
 
-<script>
+<script nonce={{ cspNonce | dump | safe }}>
     window.SERVICE_NAME="{{SERVICE_NAME}}";
     window.PIWIK_URL="{{PIWIK_URL}}";
     window.PIWIK_SITE_ID={{PIWIK_SITE_ID}};

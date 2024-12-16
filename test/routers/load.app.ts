@@ -1,5 +1,5 @@
 export const loadApp = () => {
-    jest.resetModules();
+    jest.clearAllMocks();
 
     delete require.cache[require.resolve("../../src/app")];
 
