@@ -2,7 +2,8 @@ import { env } from "../config";
 import { HelmetOptions } from "helmet";
 
 export function prepareCSPConfig(nonce: string): HelmetOptions{
-    const CDN = env.CDN_HOST;
+    const removeProtocol = (url: string) => url.replace(/(^\w+:|^)\/\//, '');
+    const CDN = removeProtocol(env.CDN_HOST);
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
     const PIWIK_URL = env.PIWIK_URL;
