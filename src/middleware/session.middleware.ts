@@ -15,4 +15,4 @@ export const COOKIE_CONFIG = {
 };
 
 
-export const sessionMiddleware = (sessionStore: SessionStore) => SessionMiddleware(COOKIE_CONFIG, sessionStore);
+export const sessionMiddleware = (sessionStore: SessionStore) => SessionMiddleware(COOKIE_CONFIG, sessionStore, true);
