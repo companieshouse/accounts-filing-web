@@ -5,6 +5,7 @@ import { fees } from "../../../utils/constants/fees";
 import { getLocalesField, addLangToUrl, selectLang } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { env } from "../../../config";
+import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
 
 export class HomeHandler extends GenericHandler {
 
@@ -13,11 +14,23 @@ export class HomeHandler extends GenericHandler {
             title: getLocalesField("start_page_title", req),
             viewName: "home",
             backURL: null,
-            nextURL: addLangToUrl(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, selectLang(req.query.lang))
+            nextURL: HomeHandler.determineNextURL(req)
         });
     }
 
-    execute (_req: Request, _res: Response): ViewModel<HomeViewData> {
+    private static determineNextURL(req: Request): string {
+        const companyNumber = req.params.companyNumber as string | undefined;
+        if (companyNumber && ValidateCompanyNumberFormat.isValid(companyNumber)) {
+            return addLangToUrl(
+                PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace("{companyNumber}", companyNumber),
+                selectLang(req.query.lang)
+            );
+        }
+        return addLangToUrl(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, selectLang(req.query.lang));
+    }
+
+
+    execute (req: Request, _res: Response): ViewModel<HomeViewData> {
         const routeViews = "router_views/index";
         logger.info(`GET request to serve home page`);
 
@@ -31,7 +44,14 @@ export class HomeHandler extends GenericHandler {
             group_401_disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO
         };
 
-        return { templatePath: `${routeViews}/home`, viewData: { ...this.baseViewData, fees, ...disablePackageInfo } };
+        return { 
+            templatePath: `${routeViews}/home`, 
+            viewData: { 
+                ...this.baseViewData, 
+                fees, 
+                ...disablePackageInfo
+            }
+        };
     }
 }
 
