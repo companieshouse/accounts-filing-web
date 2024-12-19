@@ -1,6 +1,7 @@
 {% extends "layouts/default.njk" %}
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 
 {% block main_content %}
 
@@ -17,14 +18,16 @@
         <li>{{ i18n.before_you_file_include_forms }}</li>
     </ul>
 
-    {{ govukButton({
-        text: i18n.continue,
-        href: nextURL,
-        classes: "",
-        isStartButton: false,
-        attributes: {
-            'data-event-id': 'package-accounts-before-file-package-page-continue'
-        }
-    }) }}
+    <form method="POST">
+        {{ govukButton({
+            text: i18n.continue,
+            classes: "",
+            isStartButton: false,
+            attributes: {
+                'data-event-id': 'package-accounts-before-file-package-page-continue'
+            },
+            type: "submit"
+        }) }}
+    </form>
 
 {% endblock %}

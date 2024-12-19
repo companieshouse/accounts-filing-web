@@ -22,7 +22,7 @@ export class HomeHandler extends GenericHandler {
         const companyNumber = req.params.companyNumber as string | undefined;
         if (companyNumber && ValidateCompanyNumberFormat.isValid(companyNumber)) {
             return addLangToUrl(
-                PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace("{companyNumber}", companyNumber),
+                PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(":companyNumber", companyNumber),
                 selectLang(req.query.lang)
             );
         }

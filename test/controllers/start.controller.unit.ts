@@ -50,7 +50,7 @@ describe("start controller tests", () => {
         const req = await request(app)
             .get(`${servicePathPrefix}/company/00006400`);
 
-        const expectedNextUrl = PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace('{companyNumber}', '00006400');
+        const expectedNextUrl = PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(':companyNumber', '00006400');
         expect(req.text).toContain(expectedNextUrl);
     });
 
