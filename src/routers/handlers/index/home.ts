@@ -9,16 +9,20 @@ import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.co
 
 export class HomeHandler extends GenericHandler {
 
-    constructor (req: Request) {
+    constructor(req: Request) {
         super({
             title: getLocalesField("start_page_title", req),
             viewName: "home",
-            backURL: null,
-            nextURL: HomeHandler.determineNextURL(req)
+            backURL: null
         });
     }
 
-    private static determineNextURL(req: Request): string {
+    private isChsRouteIn(req: Request) {
+        const companyNumber = req.params.companyNumber as string | undefined;
+        return companyNumber !== undefined && ValidateCompanyNumberFormat.isValid(companyNumber);
+    }
+
+    private determineNextURL(req: Request): string {
         const companyNumber = req.params.companyNumber as string | undefined;
         if (companyNumber && ValidateCompanyNumberFormat.isValid(companyNumber)) {
             return addLangToUrl(
@@ -29,8 +33,7 @@ export class HomeHandler extends GenericHandler {
         return addLangToUrl(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, selectLang(req.query.lang));
     }
 
-
-    execute (req: Request, _res: Response): ViewModel<HomeViewData> {
+    execute(req: Request, _res: Response): ViewModel<HomeViewData> {
         const routeViews = "router_views/index";
         logger.info(`GET request to serve home page`);
 
@@ -44,12 +47,14 @@ export class HomeHandler extends GenericHandler {
             group_401_disabled: env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO
         };
 
-        return { 
-            templatePath: `${routeViews}/home`, 
-            viewData: { 
-                ...this.baseViewData, 
-                fees, 
-                ...disablePackageInfo
+        return {
+            templatePath: `${routeViews}/home`,
+            viewData: {
+                ...this.baseViewData,
+                fees,
+                ...disablePackageInfo,
+                nextURL: this.determineNextURL(req),
+                isChsRouteIn: this.isChsRouteIn(req)
             }
         };
     }
@@ -57,4 +62,5 @@ export class HomeHandler extends GenericHandler {
 
 interface HomeViewData extends BaseViewData {
     fees: typeof fees
+    isChsRouteIn: boolean
 }
