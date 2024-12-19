@@ -12,7 +12,8 @@ router.get('/', handleExceptions(async (req: Request, res: Response) => {
 
 router.post('/', handleExceptions(async (req, res) => {
     const handler = new BeforeYouFilePackageAccountsHandler();
-    handler.executePost(req, res);
+    const { url } = await handler.executePost(req, res);
+    res.redirect(url);
 }));
 
 export default router;

@@ -4,7 +4,8 @@ import { logger } from "../../../utils/logger";
 import { addLangToUrl, selectLang } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
-import { setExtraDataCompanyNumber } from "../../../utils/session";
+import { setCompanyName, setExtraDataCompanyNumber } from "../../../utils/session";
+import { getCompanyProfile } from "../../../services/external/company.profile.service";
 
 export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
     static routeViews: string = "router_views/before_you_file_package_accounts/before_you_file_package_accounts";
@@ -15,17 +16,6 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
             viewName: "before you file",
             backURL: null
         });
-    }
-
-    private determineNextURL(req: Request): string {
-        const companyNumber = req.params.companyNumber as string | undefined;
-        if (companyNumber && ValidateCompanyNumberFormat.isValid(companyNumber)) {
-            const nextURL = `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}`
-            return addLangToUrl(nextURL,
-                selectLang(req.query.lang)
-            );
-        }
-        return addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(req.query.lang));
     }
 
     execute (req: Request, _res: Response): ViewModel<BaseViewData> {
@@ -39,19 +29,23 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         };
     }
 
-    executePost(req: Request, res: Response) {
+    async executePost(req: Request, res: Response): Promise<Redirect> {
         const companyNumber = req.params.companyNumber as string | undefined;
         const companySearchUrl = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(req.query.lang));
         if (companyNumber === undefined || !ValidateCompanyNumberFormat.isValid(companyNumber)) {
-            return res.redirect(companySearchUrl);
+            return { url: companySearchUrl};
         }
 
         if (req.session === undefined) {
             logger.error(`Error redirecting directly to choose accounts page. No session to store company number in. Redirecting to Company search`);
-            return res.redirect(companySearchUrl);
+            return { url: companySearchUrl};
         }
 
         setExtraDataCompanyNumber(req.session, companyNumber);
-        return res.redirect(addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, selectLang(req.query.lang)));
+        const companyProfile = await getCompanyProfile(req, companyNumber);
+        setCompanyName(req.session, companyProfile.companyName);
+
+        const choosePackageAccountUrl = addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, selectLang(req.query.lang));
+        return { url: choosePackageAccountUrl };
     }
 }

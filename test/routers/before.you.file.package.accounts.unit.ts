@@ -1,10 +1,10 @@
+import { mockGetCompanyProfileFn } from "../mocks/company.profile.service.mock";
 import app from "../../src/app";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { mockSession } from "../mocks/session.middleware.mock";
 import { getSessionRequest } from "../mocks/session.mock";
-import { getCompanyNumber, getCompanyNumberFromExtraData } from "../../src/utils/session";
-import { mock } from "node:test";
+import { getCompanyNumberFromExtraData } from "../../src/utils/session";
 
 describe("Before you file package accounts test", () => {
     it("Should render the page on get request", async () => {
@@ -44,6 +44,10 @@ describe("Welsh Cookie translation", () => {
 describe("CHS route tests", () => {
     beforeEach(async () => {
         Object.assign(mockSession, getSessionRequest());
+        mockGetCompanyProfileFn.mockResolvedValue({
+            company_number: '00006400',
+            name: 'Test Company'
+        });
     });
     
     it('it should store the company number in the session and route to the select accounts type page', async () => {
