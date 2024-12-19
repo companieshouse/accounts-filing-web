@@ -40,16 +40,20 @@ const routerDispatch = (app: Application) => {
     router.use(localeMiddleware);
     router.use(createLoggerMiddleware(env.APP_NAME));
     router.use(Urls.HOME, HomeRouter);
+    router.use(Urls.HOME_WITH_COMPANY_NUMBER, HomeRouter);
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
-
+    
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware(sessionStore));
-    router.use(userAuthRegex, authenticationMiddleware);
-    router.use(EnsureSessionCookiePresentMiddleware(COOKIE_CONFIG));
+    router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER, BeforeYouFilePackageAccountsRouter);
     // It is important that CSRF Protection follows the Session and urlencoded Middlewares
     router.use(CsrfProtectionMiddleware(csrfMiddlewareOptions));
     router.use(helmet(prepareCSPConfig(nonce)));
+    
+    router.use(EnsureSessionCookiePresentMiddleware(COOKIE_CONFIG));
+    router.use(userAuthRegex, authenticationMiddleware);
+
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
     router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, companyAuthenticationMiddleware, ChooseYourPackageAccountsRouter);

@@ -55,7 +55,7 @@
         {{ i18n.start_page_timeout }}
     </p> 
     {{ govukButton({
-        text: i18n.start_now,
+        text: i18n.continue if isChsRouteIn else i18n.start_now,
         href: nextURL,
         classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
         isStartButton: true,

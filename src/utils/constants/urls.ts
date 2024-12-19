@@ -9,15 +9,18 @@ export enum URL_QUERY_PARAM {
 // Object containing the pages Urls within the service
 export const Urls = {
     HOME: "/",
+    HOME_WITH_COMPANY_NUMBER: "/company/:companyNumber",
     HEALTHCHECK: "/healthcheck",
     CONFIRMATION: "/confirmation-submission",
     COMPANY_SEARCH: '/company-search',
     CONFIRM_COMPANY: '/confirm-company',
+    CONFIRM_COMPANY_CONTINUE_TO_ACCOUNTS_CHOOSER: '/confirm-company/continue',
     UPLOAD: "/upload",
     UPLOADED: "/uploaded",
     CHECK_YOUR_ANSWERS: "/check-your-answers",
     PAYMENT: "/payment",
     BEFORE_YOU_FILE_PACKAGE_ACCOUNTS: "/before-you-file-package-accounts",
+    BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER: "/company/:companyNumber/before-you-file-package-accounts",
     CHOOSE_YOUR_ACCOUNTS_PACKAGE: "/choose-your-accounts-package",
     PAYMENT_CALLBACK: "/payment-callback"
 } as const;
