@@ -14,7 +14,6 @@
             "cwd": "${workspaceRoot}",
             "console": "integratedTerminal",
             "program": "${workspaceFolder}/node_modules/.bin/jest",
-            "runtimeVersion": "18.16.1",
             "args": [
                 "--runInBand",
                 "${relativeFile}"
@@ -24,8 +23,8 @@
             "address": "localhost",
             "localRoot": "${workspaceFolder}",
             "name": "Attach to Remote",
-            "port": 9230,
-            "remoteRoot": "/opt",
+            "port": 9235,
+            "remoteRoot": "/app",
             "request": "attach",
             "sourceMaps": true,
             "skipFiles": [

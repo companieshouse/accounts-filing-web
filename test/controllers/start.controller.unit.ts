@@ -1,7 +1,7 @@
 import { mockAuthenticationMiddleware } from "../mocks/all.middleware.mock";
 import request from "supertest";
 import app from "../../src/app";
-import { servicePathPrefix } from "../../src/utils/constants/urls";
+import { PrefixedUrls, servicePathPrefix } from "../../src/utils/constants/urls";
 
 describe("start controller tests", () => {
 
@@ -44,6 +44,14 @@ describe("start controller tests", () => {
             .get(servicePathPrefix + "?lang=cy");
 
         expect(req.text).toContain("Dolenni cymorth");
+    });
+
+    it("should route to the home page with a company number in the path", async () => {
+        const req = await request(app)
+            .get(`${servicePathPrefix}/company/00006400`);
+
+        const expectedNextUrl = PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(':companyNumber', '00006400');
+        expect(req.text).toContain(expectedNextUrl);
     });
 
 });
