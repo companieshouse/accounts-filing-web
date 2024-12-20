@@ -7,6 +7,7 @@ import { ContextKeys } from "./constants/context.keys";
 import { createAndLogError } from "./logger";
 import { PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
+
 export function getSignInInfo(session: Session): ISignInInfo | undefined {
     return session?.data?.[SessionKey.SignInInfo];
 }
@@ -166,4 +167,13 @@ export function getCompanyNumberFromExtraData(session: Session | undefined): str
 
 export function setLanguage(session: Session | undefined, language: string) {
     session?.setExtraData(ContextKeys.LANGUAGE, language);
+}
+
+export function setIsChsJourney(session: Session | undefined, isChsJourney: boolean) {
+    session?.setExtraData(ContextKeys.IS_CHS_JOURNEY, isChsJourney);
+}
+
+export function getIsChsJourneyFromExtraData(session: Session | undefined): boolean | undefined {
+    const isChsJourney: boolean | undefined = session?.getExtraData(ContextKeys.IS_CHS_JOURNEY);
+    return isChsJourney ?? false;
 }

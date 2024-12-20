@@ -1,5 +1,5 @@
 import { PrefixedUrls } from "../../../utils/constants/urls";
-import { getCompanyNumber, setPackageType } from "../../../utils/session";
+import { getCompanyNumber, getIsChsJourneyFromExtraData, must, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler, Redirect, ViewModel } from "../generic";
 import { Request, Response } from "express";
 import { logger } from "../../../utils/logger";
@@ -36,13 +36,17 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
     getViewData(req: Request): ChooseYourPackageAccountsViewData {
         super.populateViewData(req);
-        const companyNumber = getCompanyNumber(req.session);
+        const companyNumber = must(getCompanyNumber(req.session));
+
+        const backURL = getIsChsJourneyFromExtraData(req.session)
+            ? `${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(':companyNumber', companyNumber)}?lang=${selectLang(req.query.lang)}`
+            : `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}&lang=${selectLang(req.query.lang)}`;
 
         return {
             ...this.baseViewData,
             title: getLocalesField("choose_your_package_accounts_title", req),
             packageTypeFieldName,
-            backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}&lang=${selectLang(req.query.lang)}`,
+            backURL,
             packageAccountsItems: getPackageTypeOptionsRadioButtonData(req),
         };
     }

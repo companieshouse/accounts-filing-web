@@ -49,7 +49,7 @@ describe("CHS route tests", () => {
             name: 'Test Company'
         });
     });
-    
+
     it('it should store the company number in the session and route to the select accounts type page', async () => {
         const url = PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(':companyNumber', '00006400');
         const resp = await request(app).post(url);

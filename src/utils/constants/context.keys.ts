@@ -5,5 +5,6 @@ export const ContextKeys = {
     PACKAGE_TYPE: "packageType",
     COMPANY_NAME: "companyName",
     COMPANY_NUMBER: "company_number",
-    LANGUAGE: "lang"
+    LANGUAGE: "lang",
+    IS_CHS_JOURNEY: "accounts-filing-is-chs-ourney",
 };

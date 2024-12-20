@@ -16,4 +16,4 @@ import { CompanyProfileService, getCompanyProfile } from '../../src/services/ext
 import ApiClient from '@companieshouse/api-sdk-node/dist/client';
 
 export const companyProfileServiceMock = new CompanyProfileService({} as ApiClient) as jest.Mocked<CompanyProfileService>;
-export const mockGetCompanyProfileFn = getCompanyProfile as jest.Mock
+export const mockGetCompanyProfileFn = getCompanyProfile as jest.Mock;
