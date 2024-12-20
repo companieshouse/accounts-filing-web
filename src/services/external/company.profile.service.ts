@@ -3,7 +3,6 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { logger } from "../../utils/logger";
 import { createOAuthApiClient } from "../internal/api.client.service";
-import { setCompanyName } from "../../utils/session";
 import { Request } from "express";
 
 export class CompanyProfileService {

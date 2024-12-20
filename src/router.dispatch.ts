@@ -42,7 +42,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.HOME, HomeRouter);
     router.use(Urls.HOME_WITH_COMPANY_NUMBER, HomeRouter);
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
-    
+
     // ------------- Enable login redirect -----------------
     const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, sessionMiddleware(sessionStore));
@@ -50,7 +50,7 @@ const routerDispatch = (app: Application) => {
     // It is important that CSRF Protection follows the Session and urlencoded Middlewares
     router.use(CsrfProtectionMiddleware(csrfMiddlewareOptions));
     router.use(helmet(prepareCSPConfig(nonce)));
-    
+
     router.use(EnsureSessionCookiePresentMiddleware(COOKIE_CONFIG));
     router.use(userAuthRegex, authenticationMiddleware);
 
