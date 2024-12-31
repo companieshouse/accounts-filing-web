@@ -13,7 +13,8 @@ export class HomeHandler extends GenericHandler {
         super({
             title: getLocalesField("start_page_title", req),
             viewName: "home",
-            backURL: null
+            backURL: null,
+            userEmail: null,
         });
     }
 

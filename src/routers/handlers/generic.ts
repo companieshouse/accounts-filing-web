@@ -16,6 +16,7 @@ export interface BaseViewData {
     backURL: string | null
     nextURL: string | null
     viewName: string
+    userEmail: string | null
     Urls: typeof PrefixedUrls
     sessionTimeout?: number
     sessionCountdown?: number
@@ -25,7 +26,8 @@ const defaultBaseViewData = {
     errors: {},
     isSignedIn: false,
     Urls: PrefixedUrls,
-    nextURL: null
+    nextURL: null,
+    userEmail: null
 };
 
 type GenericHandlerArgs = Optional<Omit<BaseViewData, 'isSignedIn' | 'errors' | 'Urls' >, 'nextURL'>;

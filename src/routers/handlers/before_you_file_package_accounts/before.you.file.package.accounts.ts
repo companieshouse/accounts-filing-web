@@ -14,7 +14,8 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         super({
             title: "Before you file package accounts – File package accounts with Companies House – GOV.UK",
             viewName: "before you file",
-            backURL: null
+            backURL: null,
+            userEmail: null
         });
     }
 
