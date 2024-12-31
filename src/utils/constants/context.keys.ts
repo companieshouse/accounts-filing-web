@@ -7,4 +7,5 @@ export const ContextKeys = {
     COMPANY_NUMBER: "company_number",
     LANGUAGE: "lang",
     IS_CHS_JOURNEY: "accounts-filing-is-chs-ourney",
+    EMAIL: "email"
 };
