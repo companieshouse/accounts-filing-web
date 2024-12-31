@@ -66,10 +66,14 @@ export function getRequiredValue<T>(
         throw createAndLogError(`Unable to get value from session as session is undefined`);
     }
 
-    const value =
-        key === "company_number"
-            ? session.data.signin_info?.company_number
-            : session.getExtraData(key);
+    let value;
+    if (key === "company_number") {
+        value = session.data.signin_info?.company_number;
+    } else if (key === "email") {
+        value = session.data.signin_info?.user_profile?.email;
+    } else {
+        value = session.getExtraData(key);
+    }
 
     if (value !== undefined && value !== null) {
         return value as T;
@@ -176,4 +180,12 @@ export function setIsChsJourney(session: Session | undefined, isChsJourney: bool
 export function getIsChsJourneyFromExtraData(session: Session | undefined): boolean | undefined {
     const isChsJourney: boolean | undefined = session?.getExtraData(ContextKeys.IS_CHS_JOURNEY);
     return isChsJourney ?? false;
+}
+
+export function getUserEmail(session: Session | undefined): string | Error {
+    return getRequiredValue(
+        session,
+        ContextKeys.EMAIL,
+        "Unable to find email in session"
+    );
 }
