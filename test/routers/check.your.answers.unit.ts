@@ -40,16 +40,17 @@ describe("Check your answers test", () => {
 
     it("Should render the page on get request", async () => {
         const fileName = "fileName";
+        Object.assign(mockSession, getSessionRequest());
 
         setValidationResult(mockSession, {
             fileId: "fileId",
             fileName: fileName,
         } as AccountValidatorResponse);
 
-        // @ts-expect-error overrides typescript to allow setting the signin_info for testing
-        mockSession.data['signin_info'] = { company_number: "00000000" };
+        mockSession.data.signin_info!.company_number = "00000000";
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
-        mockSession.data['signin_info']['signed_in'] = 1;
+        mockSession.data.signin_info!.signed_in = 1;
+        mockSession.data.signin_info!.user_profile!.email = "test@";
         mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
 
         const resp = await getRequestWithCookie(PrefixedUrls.CHECK_YOUR_ANSWERS);
