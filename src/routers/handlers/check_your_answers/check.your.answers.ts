@@ -3,7 +3,7 @@ import { BaseViewData, GenericHandler } from "./../generic";
 import { createAndLogError, logger } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
-import { getPackageType, getValidationResult, must } from "../../../utils/session";
+import { getPackageType, getUserEmail, getValidationResult, must } from "../../../utils/session";
 import { packageTypeOption } from "../choose_your_package_accounts/package.type.options";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAccountsFilingId, getTransactionId } from "../../../utils/session";
@@ -22,7 +22,8 @@ export class CheckYourAnswersHandler extends GenericHandler {
         super({
             title: "Check your answers – File package accounts with Companies House – GOV.UK",
             viewName: "check your answers",
-            backURL: null
+            backURL: null,
+            userEmail: null
         });
     }
 
@@ -36,6 +37,10 @@ export class CheckYourAnswersHandler extends GenericHandler {
 
         const validationStatus = must(getValidationResult(req.session));
         this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`;
+
+        const userEmail = must(getUserEmail(req.session));
+
+        this.baseViewData.userEmail = userEmail ?? null;
 
         return {
             ...this.baseViewData,

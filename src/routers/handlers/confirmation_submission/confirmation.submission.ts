@@ -1,6 +1,6 @@
 import { BaseViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
-import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserProfile, must } from "../../../utils/session";
+import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserEmail, must } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { fees } from "../../../utils/constants/fees";
 import { getLocalesField } from "../../../utils/localise";
@@ -18,7 +18,8 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         super({
             title: "Accounts Submitted",
             viewName: "accounts submitted",
-            backURL: null
+            backURL: null,
+            userEmail: null
         });
     }
     public static rows: Array<Array<{}>>;
@@ -35,7 +36,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         const companyName = getCompanyName(req.session);
         const accountsFilingId = getAccountsFilingId(req.session);
         const companyNumber = getCompanyNumber(req.session);
-        const userEmail = getUserProfile(req.session)?.email;
+        const userEmail = getUserEmail(req.session);
         const packageType = must(getPackageType(req.session));
 
         if (typeof packageType === "undefined") {

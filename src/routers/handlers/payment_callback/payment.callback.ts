@@ -8,7 +8,8 @@ export class PaymentCallbackHandler extends GenericHandler {
         super({
             title: "Payment Callback – GOV.UK",
             viewName: "payment callback",
-            backURL: null
+            backURL: null,
+            userEmail: null
         });
     }
 

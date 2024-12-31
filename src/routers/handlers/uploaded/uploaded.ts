@@ -3,7 +3,7 @@ import { BaseViewData, GenericHandler } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
-import { getAccountsFilingId, getPackageType, getTransactionId, setValidationResult } from "../../../utils/session";
+import { getAccountsFilingId, getPackageType, getTransactionId, getUserEmail, setValidationResult } from "../../../utils/session";
 import { constructValidatorRedirect } from "../../../utils/url";
 import { AccountsFilingValidationRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
@@ -27,7 +27,8 @@ export class UploadedHandler extends GenericHandler {
         super({
             title: "Uploaded Handler for handling file upload callbacks",
             viewName: "uploaded",
-            backURL: null
+            backURL: null,
+            userEmail: null
         });
     }
 
@@ -56,6 +57,7 @@ export class UploadedHandler extends GenericHandler {
         const accountsFilingId = getAccountsFilingId(req?.session);
         const transactionId = getTransactionId(req?.session);
         const packageType = getPackageType(req?.session);
+        const userEmail = getUserEmail(req.session);
 
         if (packageType instanceof Error) {
             throw packageType;
@@ -69,6 +71,10 @@ export class UploadedHandler extends GenericHandler {
             throw accountsFilingId;
         }
 
+        if (userEmail instanceof Error) {
+            throw userEmail;
+        }
+
         const isReviewNeeded = UploadedHandler.packageTypesNeedReview.includes(packageType);
 
         const validationRequest = {
@@ -76,6 +82,8 @@ export class UploadedHandler extends GenericHandler {
             accountsFilingId,
             transactionId
         };
+
+        this.baseViewData.userEmail = userEmail;
 
         if (!this.validateRequest(validationRequest)) {
             logger.error(`File ID [${fileId}] is not valid.`);

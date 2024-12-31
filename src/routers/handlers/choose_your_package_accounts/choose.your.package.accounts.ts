@@ -1,5 +1,5 @@
 import { PrefixedUrls } from "../../../utils/constants/urls";
-import { getCompanyNumber, getIsChsJourneyFromExtraData, must, setPackageType } from "../../../utils/session";
+import { getCompanyNumber, getIsChsJourneyFromExtraData, getUserEmail, must, setPackageType } from "../../../utils/session";
 import { BaseViewData, GenericHandler, Redirect, ViewModel } from "../generic";
 import { Request, Response } from "express";
 import { logger } from "../../../utils/logger";
@@ -30,7 +30,8 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         super({
             title: "What package accounts are you submitting?",
             viewName: "choose your package accounts",
-            backURL: null
+            backURL: null,
+            userEmail: null
         });
     }
 
@@ -42,11 +43,14 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
             ? `${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(':companyNumber', companyNumber)}?lang=${selectLang(req.query.lang)}`
             : `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}&lang=${selectLang(req.query.lang)}`;
 
+        const userEmail = must(getUserEmail(req.session));
+
         return {
             ...this.baseViewData,
             title: getLocalesField("choose_your_package_accounts_title", req),
             packageTypeFieldName,
             backURL,
+            userEmail,
             packageAccountsItems: getPackageTypeOptionsRadioButtonData(req),
         };
     }
