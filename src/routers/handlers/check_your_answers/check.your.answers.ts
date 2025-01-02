@@ -38,9 +38,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
         const validationStatus = must(getValidationResult(req.session));
         this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}`;
 
-        const userEmail = must(getUserEmail(req.session));
-
-        this.baseViewData.userEmail = userEmail ?? null;
+        this.baseViewData.userEmail = must(getUserEmail(req.session));
 
         return {
             ...this.baseViewData,
