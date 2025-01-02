@@ -17,7 +17,8 @@ const viewDataPackageSelectionPage = {
     session: {
         companyName: 'Test Company',
         companyNumber: '00006400',
-        accountsFilingId: '78910'
+        accountsFilingId: '78910',
+        email: "test@test"
     }
 };
 
@@ -25,6 +26,7 @@ describe("package account selection test", () => {
     beforeEach(() => {
         Object.assign(mockSession, getSessionRequest());
         mockSession.data.signin_info!.company_number = viewDataPackageSelectionPage.session.companyNumber;
+        mockSession.data.signin_info!.user_profile!.email = viewDataPackageSelectionPage.session.email;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, viewDataPackageSelectionPage.session.companyName);
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, viewDataPackageSelectionPage.session.accountsFilingId);
         mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, viewDataPackageSelectionPage.session.companyNumber);
@@ -83,6 +85,12 @@ describe("package account selection test", () => {
         expect(response.text).toContain("cic");
     });
 
+    it("should error if email is not set", async () => {
+        mockSession.data.signin_info!.user_profile!.email = undefined;
+        const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        expect(response.statusCode).toBe(500);
+    });
+
     const disableableOptions: [string, EnvKey, string][] = [
         ["audit-exempt", "DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO", "audit-exempt-subsidiary"],
         ["filing-exempt", "DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO", "filing-exempt-subsidiary"],
@@ -123,6 +131,7 @@ describe("Welsh translation", () => {
     beforeEach(() => {
         Object.assign(mockSession, getSessionRequest());
         mockSession.data.signin_info!.company_number = viewDataPackageSelectionPage.session.companyNumber;
+        mockSession.data.signin_info!.user_profile!.email = viewDataPackageSelectionPage.session.email;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, viewDataPackageSelectionPage.session.companyName);
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, viewDataPackageSelectionPage.session.accountsFilingId);
         mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, viewDataPackageSelectionPage.session.companyNumber);
@@ -170,6 +179,12 @@ describe("Welsh translation", () => {
         expect(resp.text).toContain(`Cyfrifon pecyn grŵp-Rhan 400, rhiant wedi eu corffori o dan gyfraith y DU`);
         expect(resp.text).toContain(`Cyfrifon pecyn grŵp-Rhan 401, rhiant wedi eu corffori o dan gyfrraith y tu allan i&#39;r DU`);
         expect(resp.text).toContain(`Cyfrifon Cymraeg gyda chyfieithiad Saesneg`);
+    });
+
+    it("should error if email is not set", async () => {
+        mockSession.data.signin_info!.user_profile!.email = undefined;
+        const response = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
+        expect(response.statusCode).toBe(500);
     });
 
 });

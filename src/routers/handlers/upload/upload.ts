@@ -16,7 +16,8 @@ export class UploadHandler extends GenericHandler {
         super({
             title: '',
             viewName: "upload",
-            backURL: PrefixedUrls.HOME
+            backURL: PrefixedUrls.HOME,
+            userEmail: null
         });
     }
 

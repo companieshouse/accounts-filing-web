@@ -57,14 +57,14 @@ describe("Post uploaded validation results", () => {
     });
 
     it("The upload your accounts file should when clicked return to upload your accout file", async () => {
-
-        // @ts-expect-error overrides typescript to allow setting the signin_info for testing
-        mockSession.data['signin_info'] = { company_number: "00000000" };
+        Object.assign(mockSession, getSessionRequest());
+        mockSession.data.signin_info!.company_number = "00000000";
         mockSession!.setExtraData(ContextKeys.TRANSACTION_ID, "008008008");
         mockSession!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, "008008008");
         mockSession!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
         mockSession!.setExtraData(ContextKeys.COMPANY_NUMBER, "00000000");
-        mockSession.data['signin_info']['signed_in'] = 1;
+        mockSession.data.signin_info!.signed_in = 1;
+        mockSession.data.signin_info!.user_profile!.email = "test";
 
         const resp = await getRequestWithCookie(PrefixedUrls.UPLOADED + "/" + fileId);
 

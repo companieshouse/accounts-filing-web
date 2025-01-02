@@ -3,7 +3,9 @@
     <div class="govuk-grid-column-one-half">
         <a class="govuk-back-link" href="{{ backURL }}" style="{{'visibility: hidden;' if title == "Accounts Submitted"}}" data-event-id="{{backButtonDataEventId | replace(" ", "-")}}">{{i18n.back}}</a>
     </div>
+    {% set email = userEmail | default("Not signed in") %}
     <div class="govuk-grid-column-one-half govuk-!-text-align-right govuk-!-static-margin-top-3">
+        <span class="govuk-body-s govuk-!-margin-2" id="signed-in-user">{{ email }}</span>
         <a class="govuk-link" href="{{ signoutURL }}" data-event-id="signout" id="user-signout">{{i18n.sign_out}}</a>
     </div>
 </div>

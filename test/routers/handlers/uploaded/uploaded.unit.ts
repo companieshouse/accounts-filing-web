@@ -14,7 +14,10 @@ describe("UploadedHandler", () => {
     const session = {
         data: {
             signin_info: {
-                company_number: "00000000"
+                company_number: "00000000",
+                user_profile: {
+                    email: "email"
+                }
             }
         },
         getExtraData: jest.fn((input) => {
