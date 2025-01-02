@@ -1,6 +1,6 @@
 { 
     "companies_house": "Companies House",
-    "file_package_accounts": "File package accounts with Companies House",
+    "file_package_accounts_with_companies_house": "File package accounts with Companies House",
     "beta": "BETA -",
     "new_service_prefix": "This is a new service – your",
     "feedback": "feedback",
@@ -20,5 +20,6 @@
     "support_links": "Support links",
     "skip_to_main_content": "Skip to main content",
     "continue": "Continue",
-    "there_is_a_problem": "There is a problem"
+    "there_is_a_problem": "There is a problem",
+    "file_package_accounts": "File package accounts"
 }
