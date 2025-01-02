@@ -116,4 +116,24 @@ describe("home page tests", () => {
         expect(resp.text).toContain(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS + "?lang=en");
         expect(resp.text).toContain('to pay the fee using a credit or debit card, if relevant');
     });
+
+    it("should display 'Continue' when company number in the uri", async () => {
+
+        const url = `${servicePathPrefix}/company/00000000`;
+
+        const resp = await request(app).get(url);
+
+        expect(resp.status).toBe(200);
+        expect(resp.text).toMatch(/>[\s]*Continue[\s]*</);
+    });
+
+    it("should display 'File package accounts' when without company number in the uri", async () => {
+
+        const url = `${servicePathPrefix}`;
+
+        const resp = await request(app).get(url);
+
+        expect(resp.status).toBe(200);
+        expect(resp.text).toMatch(/>[\s]*File package accounts[\s]*</);
+    });
 });
