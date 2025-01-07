@@ -33,7 +33,7 @@
         <li>{{ i18n.start_page_uksef }} </li>
         {% if not group_400_disabled %}<li>{{ i18n.start_page_400 }}</li>{% endif %}
         {% if not group_401_disabled %}<li>{{ i18n.start_page_401 }}</li>{% endif %}
-        <li>{{ i18n.start_page_welsh }}</li>
+        {% if not welsh_disabled %}<li>{{ i18n.start_page_welsh }}</li>{% endif %}
     </ul>
 
     {{ govukInsetText({
