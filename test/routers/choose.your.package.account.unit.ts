@@ -169,7 +169,7 @@ describe("Welsh translation", () => {
     it("should translate page into Welsh", async () => {
         const resp = await getRequestWithCookie(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE + "?lang=cy");
         expect(resp.text).toContain("Cadarnhau a pharhau");
-        expect(resp.text).toContain(`Mae ffi o £33 i&#39;w ffeilio.`);
+        expect(resp.text).toContain(`Mae ffi o £34 i&#39;w ffeilio.`);
         expect(resp.text).toContain(`Mae ffi o £15 i&#39;w ffeilio.`);
         expect(resp.text).toContain(`Cyfrifon cwmnïau tramor`);
         expect(resp.text).toContain(`Cyfrifon atodol wedi eu heithrio rhag archwiliad ariannol`);

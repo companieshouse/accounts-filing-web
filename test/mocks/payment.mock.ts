@@ -3,7 +3,7 @@ import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 export const PAYMENT_JOURNEY_URL = "paymentJourneyUrl";
 
 export const mockPayment = {
-    amount: "33",
+    amount: "34",
     availablePaymentMethods: ["methods"],
     companyNumber: "12345678",
     completedAt: "2024-05-17",

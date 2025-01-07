@@ -69,6 +69,6 @@ describe("Post uploaded validation results", () => {
         const resp = await getRequestWithCookie(PrefixedUrls.UPLOADED + "/" + fileId);
 
         expect(resp.status).toBe(200);
-        expect(resp.text).toContain("You'll need to update the file. Once it's valid, you'll need to <a class=\"govuk-link\" href='http://chs.local/xbrl_validate/submit?callback=");
+        expect(resp.text).toContain("You will then need to <a class=\"govuk-link\" href='http://chs.local/xbrl_validate/submit?callback=");
     });
 });
