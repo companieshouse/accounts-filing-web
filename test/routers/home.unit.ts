@@ -81,6 +81,7 @@ describe("home page tests", () => {
         process.env.DISABLE_GROUP_SECTION_401_NON_UK_PARENT_ACCOUNTS_RADIO = "true";
         process.env.DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO = "true";
         process.env.CIC_DISABLE_RADIO = "true";
+        process.env.DISABLE_WELSH_ACCOUNTS_RADIO = "true";
 
         const url = `${servicePathPrefix}`;
         jest.isolateModules(async () => {
@@ -90,7 +91,7 @@ describe("home page tests", () => {
 
             expect(resp.status).toBe(200);
             expect(resp.text).toContain('UKSEF accounts for listed companies');
-            expect(resp.text).toContain('Welsh accounts with an English translation');
+            expect(resp.text).not.toContain('Welsh accounts with an English translation');
             expect(resp.text).not.toContain('dormant exempt subsidiary accounts');
             expect(resp.text).not.toContain('group package accounts - section 400, parent incorporated under UK law');
             expect(resp.text).not.toContain('Community Interest Companies (CIC) - there is a £15 fee to file');

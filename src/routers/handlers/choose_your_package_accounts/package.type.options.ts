@@ -57,7 +57,7 @@ export const packageTypeOptions = (req: Request): PackageTypeOption[] => [
     {
         name: "welsh",
         description: getLocalesField("welsh_accounts_description", req),
-        disabled: false,
+        disabled: env.DISABLE_WELSH_ACCOUNTS_RADIO,
     },
 ];
 
