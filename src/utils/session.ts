@@ -202,7 +202,7 @@ export function getUserEmail(session: Session | undefined): string | Error {
  */
 export function clearSession(session: Session | undefined): void {
     if (!session) {
-        throw createAndLogError("Unable to clear session as session is undefined");
+        return;
     }
 
     session.deleteExtraData(ContextKeys.TRANSACTION_ID);
