@@ -189,3 +189,28 @@ export function getUserEmail(session: Session | undefined): string | Error {
         "Unable to find email in session"
     );
 }
+
+/**
+ * Clears journey-specific variables from the session.
+ *
+ * This function resets various session data to ensure a clean slate for the user's journey.
+ * It's particularly useful when a user needs to restart a process or begin a new journey
+ * to prevent any lingering data from causing unexpected behavior.
+ *
+ * @param {Session | undefined} session - The session object to be cleared.
+ * @throws {Error} If the session is undefined.
+ */
+export function clearSession(session: Session | undefined): void {
+    if (!session) {
+        throw createAndLogError("Unable to clear session as session is undefined");
+    }
+
+    session.deleteExtraData(ContextKeys.TRANSACTION_ID);
+    session.deleteExtraData(ContextKeys.ACCOUNTS_FILING_ID);
+    deleteValidationResult(session);
+    session.deleteExtraData(ContextKeys.PACKAGE_TYPE);
+    session.deleteExtraData(ContextKeys.COMPANY_NAME);
+    session.deleteExtraData(ContextKeys.COMPANY_NUMBER);
+    session.deleteExtraData(ContextKeys.LANGUAGE);
+    session.deleteExtraData(ContextKeys.IS_CHS_JOURNEY);
+}
