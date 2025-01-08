@@ -25,6 +25,9 @@ export const env = readEnv(process.env, {
     COOKIE_DOMAIN: str.describe('Domain for cookies'),
     COOKIE_NAME: str.describe('Name for the cookie'),
     COOKIE_SECRET: str.describe('Secret used for cookie encryption'),
+    COOKIE_SECURE_FLAG: bool
+        .describe('Flag to set the "Secure" attribute on cookies, ensuring they are only transmitted over HTTPS')
+        .default(true),
     DEVELOPERS_LINK: str
         .describe("Link for developers")
         .default("https://developer.companieshouse.gov.uk/"),

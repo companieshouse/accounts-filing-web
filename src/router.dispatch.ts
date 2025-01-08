@@ -24,8 +24,6 @@ import helmet from "helmet";
 import { csrfErrorHandler } from "./routers/handlers/errors/csrf.error";
 import { createLoggerMiddleware } from "@companieshouse/structured-logging-node";
 
-
-
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
     const router = Router();
