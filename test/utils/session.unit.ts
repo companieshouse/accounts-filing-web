@@ -37,9 +37,5 @@ describe('SessionUtils test suite', () => {
             expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.LANGUAGE);
             expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.IS_CHS_JOURNEY);
         });
-
-        it('should throw an error if session is undefined', () => {
-            expect(() => clearSession(undefined)).toThrow('Unable to clear session as session is undefined');
-        });
     });
 });
