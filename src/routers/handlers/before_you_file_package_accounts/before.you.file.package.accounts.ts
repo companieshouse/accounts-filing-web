@@ -4,7 +4,7 @@ import { logger } from "../../../utils/logger";
 import { addLangToUrl, selectLang } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
-import { setCompanyName, setExtraDataCompanyNumber, setIsChsJourney } from "../../../utils/session";
+import { clearSession, setCompanyName, setExtraDataCompanyNumber, setIsChsJourney } from "../../../utils/session";
 import { getCompanyProfile } from "../../../services/external/company.profile.service";
 
 export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
@@ -31,6 +31,10 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
     }
 
     async executePost(req: Request, _res: Response): Promise<Redirect> {
+        // Reset journey-specific session variables to prevent data persistence issues
+        // This ensures a clean slate if a user restarts the journey after partial completion
+        clearSession(req.session);
+
         const companyNumber = req.params.companyNumber as string | undefined;
         const companySearchUrl = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(req.query.lang));
         if (companyNumber === undefined || !ValidateCompanyNumberFormat.isValid(companyNumber)) {
