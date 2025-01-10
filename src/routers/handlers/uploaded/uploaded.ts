@@ -20,8 +20,6 @@ interface UploadedViewData extends BaseViewData {
 
 export class UploadedHandler extends GenericHandler {
 
-    private static readonly packageTypesNeedReview = ["limited-partnership", "group-package-400", "group-package-401", "overseas"];
-
     constructor(private readonly accountsFilingService: AccountsFilingService) {
         super({
             title: "Uploaded Handler for handling file upload callbacks",
