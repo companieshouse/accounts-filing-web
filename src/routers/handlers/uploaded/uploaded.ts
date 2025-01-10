@@ -16,7 +16,6 @@ interface UploadedViewData extends BaseViewData {
      * The result of the account validation process, if available.
      */
     result?: AccountValidatorResponse;
-    isReviewNeeded?: boolean;
 }
 
 export class UploadedHandler extends GenericHandler {
@@ -75,8 +74,6 @@ export class UploadedHandler extends GenericHandler {
             throw userEmail;
         }
 
-        const isReviewNeeded = UploadedHandler.packageTypesNeedReview.includes(packageType);
-
         const validationRequest = {
             fileId,
             accountsFilingId,
@@ -108,8 +105,7 @@ export class UploadedHandler extends GenericHandler {
 
             return {
                 ...this.baseViewData,
-                result: validationResult,
-                isReviewNeeded: isReviewNeeded
+                result: validationResult
             };
         } catch (error) {
             logger.error(`Exception returned from SDK while getting validation status from [${fileId}]. Error: ${JSON.stringify(error, null, 2)}`);

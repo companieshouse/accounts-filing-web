@@ -112,7 +112,6 @@ describe("UploadedHandler - session key error checks", () => {
 
         const result = await handler.executeGet(mockRequest as Request, mockResponse as Response);
         expect(result).toBeDefined();
-        expect(result.isReviewNeeded).toBeTruthy();
         expect(result.result).toBeDefined();
         expect(JSON.stringify(result.errors)).toBe('{}');
     });
