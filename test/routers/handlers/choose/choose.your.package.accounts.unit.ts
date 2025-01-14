@@ -11,7 +11,7 @@ describe("Choose your package accounts handler", () => {
     beforeEach(() => {
         Object.assign(mockSession, getSessionRequest());
         mockSession.setExtraData(ContextKeys.IS_CHS_JOURNEY, true);
-        mockSession.data.signin_info!.company_number =  "0000000";
+        mockSession.data.signin_info!.company_number =  "00006400";
 
         mockReq = {
             params: { fileId: "ABC" },

@@ -8,6 +8,7 @@ import { getPackageTypeOptionsRadioButtonData } from "./package.type.options";
 import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
 import { getLocalesField, selectLang } from "../../../utils/localise";
+import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
 
 interface RadioButtonData {
     text: string,
@@ -38,6 +39,10 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
     getViewData(req: Request): ChooseYourPackageAccountsViewData {
         super.populateViewData(req);
         const companyNumber = must(getCompanyNumber(req.session));
+
+        if (companyNumber === undefined || !ValidateCompanyNumberFormat.isValid(companyNumber)) {
+            throw new Error("Company number is not validated");
+        }
 
         const backURL = getIsChsJourneyFromExtraData(req.session)
             ? `${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(':companyNumber', companyNumber)}?lang=${selectLang(req.query.lang)}`
