@@ -6,19 +6,16 @@ describe("ValidateCompanyNumberFormat", () => {
 
     const tooLong = "123456789";
     const tooShort = "123456";
-    const twoNumbers = "01";
     const specialChars = "1234567*";
     const numeric = "02345678";
     const alphanumeric = "ABC12345";
-    const alphanumeric2 = "AB123456";
-    const niFull = "NI123456";
-    const scFull = "SC123456";
-    const oeFull = "OE123456";
-    const nfFull = "NF123456";
-    const fcFull = "FC123456";
-    const scOnly = "SC";
-    const niOnly = "NI";
-    const oeOnly = "OE";
+    const STARTING_TWO_CHARACTERS = [
+        "01", "IC", "NC", "NL", "LP", "CE", "FC",
+        "GS", "RC", "SE", "FE", "NF", "RS", "SA",
+        "AC", "IP", "OE", "SC", "SG", "SR", "GE",
+        "PC", "SL", "SF", "SO", "CS", "NI", "OC",
+        "SI", "SP", "SZ", "ZC"
+    ];
 
     it("should return false when length is not 8", () => {
         expect(
@@ -26,9 +23,6 @@ describe("ValidateCompanyNumberFormat", () => {
         ).toBe(false);
         expect(
             ValidateCompanyNumberFormat.isValid(tooShort)
-        ).toBe(false);
-        expect(
-            ValidateCompanyNumberFormat.isValid(twoNumbers)
         ).toBe(false);
     });
 
@@ -44,42 +38,23 @@ describe("ValidateCompanyNumberFormat", () => {
         ).toBe(true);
     });
 
-    it("should return false when it a invalid alphanumeric string", () => {
+    it.each([alphanumeric])("should return false when it a invalid alphanumeric string '%s'", (alphanumericExample) => {
         expect(
-            ValidateCompanyNumberFormat.isValid(alphanumeric)
-        ).toBe(false);
-        expect(
-            ValidateCompanyNumberFormat.isValid(alphanumeric2)
+            ValidateCompanyNumberFormat.isValid(alphanumericExample)
         ).toBe(false);
     });
 
-    it("should return true if start with SC, NI or OE", () => {
+
+    it.each(STARTING_TWO_CHARACTERS)("should return true if start with '%s'", (validFirstCharacters) => {
         expect(
-            ValidateCompanyNumberFormat.isValid(niFull)
-        ).toBe(true);
-        expect(
-            ValidateCompanyNumberFormat.isValid(scFull)
-        ).toBe(true);
-        expect(
-            ValidateCompanyNumberFormat.isValid(oeFull)
-        ).toBe(true);
-        expect(
-            ValidateCompanyNumberFormat.isValid(nfFull)
-        ).toBe(true);
-        expect(
-            ValidateCompanyNumberFormat.isValid(fcFull)
+            ValidateCompanyNumberFormat.isValid(validFirstCharacters + "123456")
         ).toBe(true);
     });
 
-    it("should return false if it only SC, NI or OE", () => {
+    it.each(STARTING_TWO_CHARACTERS)("should return false if it only '%s'", (validFirstCharacters) => {
         expect(
-            ValidateCompanyNumberFormat.isValid(scOnly)
+            ValidateCompanyNumberFormat.isValid(validFirstCharacters)
         ).toBe(false);
-        expect(
-            ValidateCompanyNumberFormat.isValid(niOnly)
-        ).toBe(false);
-        expect(
-            ValidateCompanyNumberFormat.isValid(oeOnly)
-        );
     });
+
 });
