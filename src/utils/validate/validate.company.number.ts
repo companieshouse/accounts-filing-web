@@ -5,7 +5,7 @@ export class ValidateCompanyNumberFormat {
 
     static isValid(companyNumber: string): boolean {
 
-        if (!companyNumber) {
+        if (typeof companyNumber !== "string") {
             return false;
         }
 

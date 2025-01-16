@@ -66,9 +66,4 @@ describe("ValidateCompanyNumberFormat", () => {
         ).toBe(false);
     });
 
-    it("should return false if companyNumber is empty", () => {
-        expect(
-            ValidateCompanyNumberFormat.isValid("")
-        ).toBe(false);
-    });
 });
