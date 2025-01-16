@@ -65,4 +65,10 @@ describe("ValidateCompanyNumberFormat", () => {
             ValidateCompanyNumberFormat.isValid(validFirstCharacters)
         ).toBe(false);
     });
+
+    it("should return false if companyNumber is empty", () => {
+        expect(
+            ValidateCompanyNumberFormat.isValid("")
+        ).toBe(false);
+    });
 });
