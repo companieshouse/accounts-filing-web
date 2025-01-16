@@ -10,10 +10,10 @@ describe("ValidateCompanyNumberFormat", () => {
     const numeric = "02345678";
     const alphanumeric = "ABC12345";
     const STARTING_TWO_CHARACTERS = [
-        "01", "IC", "NC", "NL", "LP", "CE", "FC", 
-        "GS", "RC", "SE", "FE", "NF", "RS", "SA", 
-        "AC", "IP", "OE", "SC", "SG", "SR", "GE", 
-        "PC", "SL", "SF", "SO", "CS", "NI", "OC", 
+        "01", "IC", "NC", "NL", "LP", "CE", "FC",
+        "GS", "RC", "SE", "FE", "NF", "RS", "SA",
+        "AC", "IP", "OE", "SC", "SG", "SR", "GE",
+        "PC", "SL", "SF", "SO", "CS", "NI", "OC",
         "SI", "SP", "SZ", "ZC"
     ];
 
