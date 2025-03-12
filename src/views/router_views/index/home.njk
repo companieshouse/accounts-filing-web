@@ -8,7 +8,10 @@
 
     {% set packageZip %}
         <p class="govuk-body">
-            {{ i18n.start_page_zip_pre_link }} <a href="https://www.gov.uk/government/publications/technical-interface-specifications-for-companies-house-software" data-event-id="package-accounts-start-page-tech-spec-link">{{i18n.start_page_zip_link}}</a> {{i18n.start_page_zip_post_link}}
+            {{ i18n.start_page_what_youll_need_body }}
+        </p>
+        <p class="govuk-body">
+            {{ i18n.start_page_pre_find_software_link }} <a href="https://www.gov.uk/software-company-accounts" data-event-id="package-accounts-start-page-find-software-link">{{i18n.start_page_find_software_link}}</a>.
         </p>
     {% endset %}
 
@@ -19,10 +22,6 @@
     <p class="govuk-body">
         {{ i18n.start_page_service_explaination }}
     </p>
-
-    {{ govukInsetText({
-        html: packageZip
-    }) }}
 
     <p class="govuk-body">
         {{ i18n.start_page_only_file }}
@@ -39,6 +38,14 @@
         {% if not group_401_disabled %}<li>{{ i18n.start_page_401 }}</li>{% endif %}
         {% if not welsh_disabled %}<li>{{ i18n.start_page_welsh }}</li>{% endif %}
     </ul>
+
+    <h2 class="govuk-heading-l">
+        {{ i18n.start_page_what_youll_need }}
+    </h2>
+
+    {{ govukInsetText({
+        html: packageZip
+    }) }}
 
     <p class="govuk-body">{{ i18n.start_page_youll_need }}</p>
 
@@ -67,6 +74,10 @@
     <h2 class="govuk-heading-m">
         {{ i18n.start_page_prepare }}
     </h2>
+
+    <p class="govuk-body">
+        {{ i18n.start_page_software_provider_provide_you }}
+    </p>
 
     <p class="govuk-body">
         {{ i18n.start_page_frc_pre_link }} <a href="https://www.frc.org.uk/library/standards-codes-policy/accounting-and-reporting/frc-taxonomies/" data-event-id="package-accounts-start-page-frc-link">{{ i18n.start_page_frc_link }}</a>.
