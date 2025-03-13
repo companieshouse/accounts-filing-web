@@ -1,8 +1,4 @@
 {
     "before_you_file_heading": "Before you file package accounts",
-    "before_you_file_you_must": "You must",
-    "before_you_file_read_techinical_spec": "read the technical interface specification (TIS)",
-    "before_you_file_to_find_out": "to find out:",
-    "before_you_file_how_to_structure": "how to structure your zip file",
-    "before_you_file_include_forms": "if you need to include forms in your accounts package"
+    "before_you_file_body": "You must have prepared your package accounts using suitable software. The accounts must be saved in a ZIP file format."
 }
