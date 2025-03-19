@@ -29,7 +29,7 @@
         </span>
       </div>
       <div class="govuk-footer__meta-item">
-        <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/" style="background-image: url('{{ cdnHost }}/images/govuk-crest-2x.png')">© {{ i18n.crown_copyright }}</a>
+        <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© {{ i18n.crown_copyright }}</a>
       </div>
     </div>
   </div>
@@ -41,13 +41,13 @@
     window.PIWIK_SITE_ID={{PIWIK_SITE_ID}};
 </script>
 <div id="templateName" data-id='{{viewName}}' hidden></div>
-<script src="{{ cdnHost }}/javascripts/app/piwik-enable.js"></script>
-<script src="{{ cdnHost }}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
-<script src="{{ cdnHost }}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js"></script>
-<script src="{{ cdnHost }}/javascripts/vendor/jquery-3.3.1.min.js"></script>
+<script src="{{ cdnHost }}/javascripts/app/piwik-enable.js" nonce={{ cspNonce | dump | safe }}></script>
+<script src="{{ cdnHost }}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js" nonce={{ cspNonce | dump | safe }}></script>
+<script src="{{ cdnHost }}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js" nonce={{ cspNonce | dump | safe }}></script>
+<script src="{{ cdnHost }}/javascripts/vendor/jquery-3.3.1.min.js" nonce={{ cspNonce | dump | safe }}></script>
 {% if isSignedIn %} 
-    <script src="{{ cdnHost }}/javascripts/app/session-timeout.js"></script>
-    <script>$.timeoutDialog ({ timeout: {{ sessionTimeout }}, countdown: {{ sessionCountdown }} })</script>
+    <script src="{{ cdnHost }}/javascripts/app/session-timeout.js" nonce={{ cspNonce | dump | safe }}></script>
+    <script nonce={{ cspNonce | dump | safe }}>$.timeoutDialog ({ timeout: {{ sessionTimeout }}, countdown: {{ sessionCountdown }} })</script>
 {% endif %}
 <!--<script src="/all.js"></script>
 <script>window.GOVUKFrontend.initAll()</script>-->

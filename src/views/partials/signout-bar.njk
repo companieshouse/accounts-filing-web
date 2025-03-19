@@ -1,7 +1,7 @@
 {% set backButtonDataEventId = "package-accounts-back-button-"+title %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <a class="govuk-back-link" href="{{ backURL }}" style="{{'visibility: hidden;' if title == "Accounts Submitted"}}" data-event-id="{{backButtonDataEventId | replace(" ", "-")}}">{{i18n.back}}</a>
+        <a class="govuk-back-link {{ 'govuk-visually-hidden' if title == 'Accounts Submitted' }}" href="{{ backURL }}" data-event-id="{{backButtonDataEventId | replace(" ", "-")}}">{{i18n.back}}</a>
     </div>
     {% set email = userEmail | default("Not signed in") %}
     <div class="govuk-grid-column-one-half govuk-!-text-align-right govuk-!-static-margin-top-3">

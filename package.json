@@ -9,7 +9,7 @@
     "test:coverage": "jest --coverage --passWithNoTests",
     "lint": "eslint '{src,test}/**/*'",
     "lint:fix": "eslint '{src,test}/**/*' --fix",
-    "start": "node dist/server.js",
+    "start": "node --inspect=0.0.0.0 dist/server.js",
     "start:watch": "nodemon",
     "rebuild-sass": "npm rebuild node-sass",
     "prebuild": "rm -rf ./dist",
@@ -63,9 +63,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2"
   },
-  "dependencies": {
+  "dependencies": { 
     "@companieshouse/api-sdk-node": "^2.0.219",
-    "@companieshouse/ch-node-utils": "^1.3.15",
+    "@companieshouse/ch-node-utils": "^1.3.20",
     "@companieshouse/node-session-handler": "^5.2.0",
     "@companieshouse/structured-logging-node": "^2.0.1",
     "@companieshouse/web-security-node": "^4.4.4",
