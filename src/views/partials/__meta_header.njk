@@ -3,20 +3,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8" />
     <title>{{ title }}</title>
-    <link href="{{ cdnHost }}/stylesheets/govuk-frontend/v4.6.0/govuk-frontend-4.6.0.min.css" rel="stylesheet"/>
-    <link href="{{ cdnHost }}/stylesheets/session-timeout.css" rel="stylesheet" />
-    <link href="{{ cdnHost }}/images/favicon.ico" rel="icon" type="image/x-icon" />
+    <link 
+        href="{{ cdnHost }}/stylesheets/govuk-frontend/v4.6.0/govuk-frontend-4.6.0.min.css" 
+        rel="stylesheet"
+        nonce={{ cspNonce | dump | safe }} />
+    <link 
+        href="{{ cdnHost }}/stylesheets/session-timeout.css" rel="stylesheet" 
+        nonce={{ cspNonce | dump | safe }} />
+    <link 
+        href="{{ cdnHost }}/images/favicon.ico" 
+        rel="icon" 
+        type="image/x-icon" 
+        nonce={{ cspNonce | dump | safe }}/>
     {% include "partials/__styles.njk" %}
-    <link href="{{ cdnHost }}/stylesheets/extensions/languages-nav.css" rel="stylesheet" type="text/css"/>
+    <link 
+        href="{{ cdnHost }}/stylesheets/extensions/languages-nav.css" 
+        rel="stylesheet" 
+        type="text/css"
+        nonce={{ cspNonce | dump | safe }} />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     {# <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /> #}
     {# Set the page object to hold values exported from server to JS files #}
-    <script nonce={{ cspNonce | dump | safe }}>
+
+    <script nonce={{ cspNonce | dump | safe }} >
         var page = page || {};
     </script>
     {# <script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script> #}
-    <link href="{{cdnHost}}/stylesheets/services/account-validator-web/app.css" rel="stylesheet"/> {# For validation failure style #}
+    <link 
+        href="{{cdnHost}}/stylesheets/services/account-validator-web/app.css" 
+        rel="stylesheet"
+        nonce={{ cspNonce | dump | safe }} /> {# For validation failure style #}
 </head>
 
 {#<script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script>#}
