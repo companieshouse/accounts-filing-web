@@ -34,6 +34,14 @@ router.get("/:fileId", handleExceptions(async (req: Request, res: Response, _nex
     const handler = new UploadedHandler(new AccountsFilingService(req.session!));
     const viewData = await handler.executeGet(req, res);
 
+    // TEMPORARY: Decoding filename to show in the UI. Decodes encoding done in
+    // https://github.com/companieshouse/account-validator-web/blob/1719e19cdfe40850d662a5d504b43f35b7f4a599/src/services/account.validation.service.ts#L301
+    // TODO: Remove once file-transfer-service handles encoding on its end
+    if (viewData.result !== undefined) {
+        logger.debug(`Decoding file name: ${viewData.result.fileName}`);
+        viewData.result.fileName = decodeURIComponent(viewData.result.fileName);
+    }
+
     logger.debug(`Uploaded view data: ${JSON.stringify(viewData, null, 2)}`);
 
     res.render(`router_views/uploaded/uploaded.njk`, viewData);
