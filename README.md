@@ -23,7 +23,7 @@ From your docker-chs-development directory run:-
 
 ``` ./bin/chs-dev modules enable accounts-filing ```
 
-This will detect accounts-filing-web service, allowing you to ```tilt up``` and access the
+This will detect accounts-filing-web service, allowing you to ```chs-dev up``` and access the
 service via the following prefix, ```http://chs.local/persons-with-significant-control```, 
 followed by a given endpoint. e.g. ```/start```.
 
