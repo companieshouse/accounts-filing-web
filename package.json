@@ -18,7 +18,7 @@
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
     "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;",
-    "prepare": "husky",
+    "prepare": "husky install",
     "chs-dev": "nodemon --legacy-watch"
   },
   "repository": {
@@ -45,9 +45,10 @@
     "@types/nunjucks": "^3.2.5",
     "@types/supertest": "^6.0.2",
     "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "^6.9.1",
-    "eslint": "^8.52.0",
+    "@stylistic/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "eslint": "10.0.2",
     "gulp": "^5.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",

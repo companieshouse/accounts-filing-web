@@ -1,15 +1,1 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Check if the project is tested
-if ! npm test; then
-  # If the exit code is non-zero, print an error message and exit the hook
-  echo "Tests failed. Please fix the issues before pushing."
-  exit 1
-fi
-
-if ! npm audit; then
-  # If the exit code is non-zero, print an error message and exit the hook
-  echo "Vulnerabilities found. Please fix the issues before pushing."
-  exit 1
-fi
+npm test && npm audit
