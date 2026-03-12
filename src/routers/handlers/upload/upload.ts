@@ -70,7 +70,7 @@ export class UploadHandler extends GenericHandler {
         try {
             const transaction = await this.transactionService.postTransactionRecord(companyNumber, companyName, TRANSACTION_REFERENCE, TRANSACTION_DESCRIPTION);
             return transaction.id;
-        } catch (error) {
+        } catch {
             logger.error(`Exception return from SDK while requesting creation of a transaction for company number [${companyNumber}].`);
             return undefined;
         }
