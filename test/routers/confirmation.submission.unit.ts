@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
 import { getSessionRequest } from "../mocks/session.mock";

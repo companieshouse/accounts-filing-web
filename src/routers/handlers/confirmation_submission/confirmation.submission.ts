@@ -22,7 +22,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             userEmail: null
         });
     }
-    public static rows: Array<Array<{}>>;
+    public static rows: Array<Array<{ text: string }>>;
 
     async execute(req: Request, _response: Response
     ): Promise<ConfirmationSubmissionViewData> {
