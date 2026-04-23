@@ -97,5 +97,3 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         }
     }
 }
-
-
