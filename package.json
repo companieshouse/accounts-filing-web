@@ -69,8 +69,7 @@
     "typescript": "^5.2.2"
   },
   "overrides": {
-    "minimatch": ">=9.0.7",
-    "uuid": "^9.0.1"
+    "minimatch": ">=9.0.7"
   },
   "dependencies": { 
     "@companieshouse/api-sdk-node": "^2.0.219",
@@ -86,6 +85,6 @@
     "nunjucks": "^3.2.4",
     "private-api-sdk-node": "github:companieshouse/private-api-sdk-node#1.0.130",
     "tslib": "^2.6.3",
-    "uuid": "^9.0.1"
+    "uuid": "^11.0.0"
   }
 }
