@@ -133,7 +133,7 @@ describe("getLocalesField", () => {
             throw new Error(errorMessage);
         });
 
-        expect(() => getLocalesField(fieldName, req as Request)).toThrow;
+        expect(() => getLocalesField(fieldName, req as Request)).toThrow; // eslint-disable-line @typescript-eslint/no-unused-expressions
     });
 
     it("should return the default language if session language is not available", () => {
