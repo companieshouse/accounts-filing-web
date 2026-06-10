@@ -26,14 +26,14 @@
         "@typescript-eslint/no-unused-vars": [
             "error",
             {
-                "argsIgnorePattern": "^_"
+               "argsIgnorePattern": "^_",
+               "caughtErrorsIgnorePattern": "^_"
             }
         ],
-        "@typescript-eslint/semi": [
-            "error",
-            "always"
+        "semi": [
+           "error",
+           "always"
         ],
-        "@typescript-eslint/type-annotation-spacing": "error",
         "arrow-spacing": "error",
         "brace-style": [
             "error",
