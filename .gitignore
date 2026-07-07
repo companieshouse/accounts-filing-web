@@ -137,3 +137,6 @@ dist
 
 # zip file
 *.zip
+
+# JetBrains IDEs
+.idea/
