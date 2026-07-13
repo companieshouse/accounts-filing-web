@@ -13,7 +13,7 @@
     "start_page_400": "cyfrifon pecyn grŵp-Rhan 400, rhiant wedi eu corffori o dan gyfraith y DU",
     "start_page_401": "cyfrifon pecyn grŵp-Rhan 401-rhiant wedi eu corffori o dan gyfraith y tu allan i'r DU",
     "start_page_welsh": "cyfrifon Cymraeg gyda chyfieithiad Saesneg",
-    "start_page_find_software_link": "Defnyddiwch ein teclyn os oes angen i chi ddod o hyd i feddalwedd ar gyfer ffeilio cyfrifon cwmni.",
+    "start_page_find_software_link": "ddod o hyd i feddalwedd ar gyfer ffeilio cyfrifon cwmni.",
     "start_page_youll_need": "Bydd angen:",
     "start_page_youll_need_zip_file": "ffeil ZIP eich cyfrifon pecyn",
     "start_page_youll_need_signin": "Mewngofnodi neu greu manylion mewngofnodi",
@@ -27,7 +27,7 @@
     "start_page_check_ixbrl_pre_link": "Gwiriwch a yw eich ffeiliau cyfrifon yn ddilys gan ddefnyddio",
     "start_page_check_ixbrl_link": "gwasanaeth prawf cyfrifon iXBRL",
     "start_page_what_youll_need": "Yr hyn y bydd ei angen arnoch",
-    "start_page_pre_find_software_link": "Defnyddiwch ein teclyn os oes angen i chi ddod o hyd i feddalwedd ar gyfer ffeilio cyfrifon cwmni",
+    "start_page_pre_find_software_link": "Defnyddiwch ein teclyn os oes angen i chi ",
     "start_page_what_youll_need_body": "Rhaid i chi ddefnyddio meddalwedd addas i baratoi cyfrifon pecyn. Bydd hyn yn caniatáu i chi gadw'r cyfrifon mewn fformat ffeil ZIP, yr hyn y bydd ei angen arnoch ar gyfer y gwasanaeth hwn.",
     "start_page_software_provider_provide_you": "Dylai eich darparwr meddalwedd roi cyfarwyddyd i chi ar baratoi cyfrifon pecyn."
 }
