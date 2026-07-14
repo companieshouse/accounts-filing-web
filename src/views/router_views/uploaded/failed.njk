@@ -1,8 +1,8 @@
 {% set html %}
-<h3 class="govuk-notification-banner__heading" id="file-not-valid-title">Your package accounts zip file is not valid</h3>
+<h3 class="govuk-notification-banner__heading" id="file-not-valid-title">{{ i18n.failed_heading }}</h3>
 
 <p class="govuk-body">
-    Your file '{{ result.fileName }}' is not valid because:
+    {{ i18n.failed_desc1 }} '{{ result.fileName }}' {{ i18n.failed_desc2 }}
 </p>
 <ul class="govuk-list govuk-list--bullet">
     {% for error in result.result.errorMessages %}
@@ -12,17 +12,17 @@
 {% endset %}
 
 {{ govukNotificationBanner({
-    titleText: 'Failure',
+    titleText: i18n.failed_title,
     classes: 'govuk-notification-banner--failure word-break',
     html: html
 }) }}
 
-<h2 class="govuk-heading-m">What to do next</h2>
+<h2 class="govuk-heading-m">{{ i18n.failed_solution }}</h2>
 
 <p class="govuk-body">
-    Your software provider should provide you with guidance on preparing package accounts.
+    {{ i18n.failed_solution_desc }}
 </p>
 
 <p class="govuk-body">
-   You will then need to <a class="govuk-link" href='{{ backURL }}' data-event-id="package-accounts-failed-update-your-account-link"> upload your updated package accounts zip file</a>
+   {{ i18n.failed_solution_desc2 }} <a class="govuk-link" href='{{ backURL }}' data-event-id="package-accounts-failed-update-your-account-link">{{ i18n.failed_solution_desc3 }}</a>
 </p>

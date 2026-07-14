@@ -1,0 +1,7 @@
+{
+    "succeeded_title": "Success",
+    "succeeded_heading": "Your package accounts zip file is valid",
+    "succeeded_desc1": "Your file ",
+    "succeeded_desc2": " meets the iXBRL specification. We'll need to check it meets business validation rules when you submit it. We'll email you to confirm if it's accepted or rejected.",
+    "succeeded_continue": "Continue"
+}
