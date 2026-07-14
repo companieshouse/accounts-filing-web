@@ -6,7 +6,7 @@
 {% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 
 {% block main_content %}
-    <h1 class="govuk-heading-l">Check your answers </h1>
+    <h1 class="govuk-heading-l">{{ i18n.check_your_answers }} </h1>
 
             {{ govukSummaryList({
         classes: [
@@ -15,7 +15,7 @@
         rows: [
           {
             key: {
-              text: "Type of package accounts"
+              text: i18n.type_of_package_accounts
             },
             value: {
               text: typeOfAccounts
@@ -24,7 +24,7 @@
               items: [
                 {
                   href: Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE,
-                  text: "Change",
+                  text: i18n.change,
                   visuallyHiddenText: "type of accounts",
                   attributes: {
                     'data-event-id': "package-filing-check-your-answers-choose-type-of-accounts-link"
@@ -35,7 +35,7 @@
           },
           {
             key: {
-              text: "File uploaded"
+              text: i18n.file_uploaded
             },
             value: {
               text: fileName
@@ -44,7 +44,7 @@
               items: [
                 {
                   href: changeTypeOfAccountsUrl,
-                  text: "Change",
+                  text: i18n.change,
                   visuallyHiddenText: "file uploaded",
                   attributes: {
                     'data-event-id': "package-filing-check-your-answers-change-file-link"
@@ -63,7 +63,7 @@
             })
         }}
         {{ govukButton({
-            text: "Submit accounts",
+            text: i18n.submit_accounts,
             type: "submit",
             attributes: {
               'data-event-id': "package-filing-check-your-answers-submit-botton"
