@@ -1,0 +1,10 @@
+{
+    "failed_title": "Methiant",
+    "failed_heading": "Nid yw ffeil zip eich cyfrifon pecyn yn ddilys",
+    "failed_desc1": "Nid yw eich ffeil ",
+    "failed_desc2": " yn ddilys oherwydd:",
+    "failed_solution": "Beth i'w wneud nesaf",
+    "failed_solution_desc": "Dylai eich darparwr meddalwedd roi canllawiau i chi ar baratoi cyfrifon pecyn.",
+    "failed_solution_desc2": "Yna, mi fydd angen i chi",
+    "failed_solution_desc3": " uwchlwytho ffeil zip eich cyfrifon pecyn sydd wedi'i diweddaru"
+}

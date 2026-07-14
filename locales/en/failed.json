@@ -1,0 +1,10 @@
+{
+    "failed_title": "Failure",
+    "failed_heading": "Your package accounts zip file is not valid",
+    "failed_desc1": "Your file ",
+    "failed_desc2": " is not valid because:",
+    "failed_solution": "What to do next",
+    "failed_solution_desc": "Your software provider should provide you with guidance on preparing package accounts.",
+    "failed_solution_desc2": "You will then need to",
+    "failed_solution_desc3": " upload your updated package accounts zip file"
+}

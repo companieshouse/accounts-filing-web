@@ -1,24 +1,23 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set html %}
-<h3 class="govuk-notification-banner__heading" id="file-valid-title">Your package accounts zip file is valid</h3>
+<h3 class="govuk-notification-banner__heading" id="file-valid-title">{{ i18n.succeeded_heading }}</h3>
 
     <p>
-        Your file '{{result.fileName}}' meets the iXBRL specification. 
-        We'll need to check it meets business validation rules when you submit it. We'll email you to confirm if it's accepted or rejected.
+        {{ i18n.succeeded_desc1 }} '{{result.fileName}}' {{ i18n.succeeded_desc2 }}
     </p>
 
 {% endset %}
 
 {{ govukNotificationBanner({
-    titleText: 'Success',
+    titleText: i18n.succeeded_title,
     classes: "word-break",
     type: 'success',
     html: html
 }) }}
 
 {{ govukButton({
-    text: "Continue",
+    text: i18n.succeeded_continue,
     href: Urls.CHECK_YOUR_ANSWERS,
     attributes: {
         'data-event-id': 'package-accounts-success-continue-button'
