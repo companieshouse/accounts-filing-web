@@ -3,6 +3,7 @@ import { UploadHandler } from "./handlers/upload/upload";
 import { TransactionService } from "../services/external/transaction.service";
 import { handleExceptions } from "../utils/error.handler";
 import { AccountsFilingService } from "../services/external/accounts.filing.service";
+import { addLangToUrl, selectLang } from "../utils/localise";
 
 const router: Router = Router();
 
@@ -11,7 +12,7 @@ router.get('/', handleExceptions(async (req: Request, res: Response, _next: Next
     const accountsFilingService = new AccountsFilingService(req.session!);
     const uploadHandler = new UploadHandler(accountsFilingService, transactionService);
     const validatorRedirectUrl = await uploadHandler.execute(req, res);
-    res.redirect(validatorRedirectUrl);
+    res.redirect(addLangToUrl(validatorRedirectUrl, selectLang(req.query.lang)));
 }));
 
 export default router;
