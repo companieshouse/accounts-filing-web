@@ -34,6 +34,7 @@ describe("UploadedHandler - session key error checks", () => {
         mockSession.data.signin_info!.user_profile!.email = "test@test";
 
         mockRequest = {
+            query: { lang: 'en' },
             session: {
                 ...mockSession,
                 getExtraData: jest.fn(),
