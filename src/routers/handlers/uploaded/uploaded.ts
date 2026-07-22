@@ -45,7 +45,7 @@ export class UploadedHandler extends GenericHandler {
         _response: Response
     ): Promise<UploadedViewData> {
         super.populateViewData(req);
-        this.baseViewData.backURL = constructValidatorRedirect(req);
+        this.baseViewData.backURL = constructValidatorRedirect(req) + `&lang=${req.query.lang}`;
 
         logger.debug(`Handling GET request for uploaded file.`);
 

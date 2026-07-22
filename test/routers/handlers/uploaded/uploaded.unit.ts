@@ -42,6 +42,7 @@ describe("UploadedHandler", () => {
         handler = new UploadedHandler(mockAccountsFilingService);
         mockReq = {
             params: { fileId: validUUIDv4 },
+            query: { lang: 'en' },
             session: session,
             protocol: 'http',
             get: function(s): any {
