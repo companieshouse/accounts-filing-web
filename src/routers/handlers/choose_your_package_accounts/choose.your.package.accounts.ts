@@ -7,7 +7,7 @@ import { isPackageType, PackageType } from "@companieshouse/api-sdk-node/dist/se
 import { getPackageTypeOptionsRadioButtonData } from "./package.type.options";
 import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
-import { getLocalesField, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLocalesField, selectLang } from "../../../utils/localise";
 
 interface RadioButtonData {
     text: string,
@@ -81,7 +81,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
         if (packageTypeChoice !== undefined && isPackageType(packageTypeChoice)){
             setPackageType(req.session, packageTypeChoice);
-            return { url: PrefixedUrls.UPLOAD };
+            return { url: addLangToUrl(PrefixedUrls.UPLOAD, selectLang(req.query.lang)) };
         }
 
         const nothingSelected = errorManifest[packageTypeFieldName].nothingSelected;
