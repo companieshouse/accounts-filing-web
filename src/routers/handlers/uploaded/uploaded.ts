@@ -87,11 +87,13 @@ export class UploadedHandler extends GenericHandler {
             transactionId
         };
 
+        const viewData = this.getViewData(req);
+
         if (!this.validateRequest(validationRequest)) {
             logger.error(`File ID [${fileId}] is not valid.`);
 
             return {
-                ...this.getViewData(req),
+                ...viewData,
             };
         }
 
@@ -109,7 +111,7 @@ export class UploadedHandler extends GenericHandler {
             );
 
             return {
-                ...this.getViewData(req),
+                ...viewData,
                 result: validationResult
             };
         } catch (error) {
