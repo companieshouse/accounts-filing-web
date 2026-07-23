@@ -64,6 +64,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
 
         return {
             ...this.baseViewData,
+            title: getLocalesField("confirmation_submission_title", req),
             accountsFilingId,
             companyProfile: {
                 companyName: companyName as string,
