@@ -1,19 +1,24 @@
 import { COMPANY_LOOKUP, PrefixedUrls } from "../../../../utils/constants/urls";
 import { logger } from "../../../../utils/logger";
-import { BaseViewData, GenericHandler, ViewModel } from "../../generic";
+import { LocalizedViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { checkCompanyNumberFormatIsValidate as companyNumberMustBeValid } from "../../../../utils/format/company.number.format";
 import { getUserEmail, must, setCompanyName, setExtraDataCompanyNumber, setLanguage } from "../../../../utils/session";
-import { addLangToUrl, addEncodeURILangToUrl, selectLang } from "../../../../utils/localise";
+import { addLangToUrl, addEncodeURILangToUrl, selectLang, getLocalesField } from "../../../../utils/localise";
+
+
+interface ConfirmCompanyViewData extends LocalizedViewData {
+    companyProfile: CompanyProfile,
+    changeCompanyUrl: string
+}
 
 export class CompanyConfirmHandler extends GenericHandler {
     static routeViews: string = "router_views/company/confirm/confirm";
 
     constructor(private companyProfileService: CompanyProfileService) {
         super({
-            title: "Confirm company – Accounts Filing – GOV.UK ",
             viewName: "confirm",
             backURL: null,
             userEmail: null
@@ -41,12 +46,13 @@ export class CompanyConfirmHandler extends GenericHandler {
         this.baseViewData.userEmail = userEmail;
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`,
-            viewData: { ...this.baseViewData, companyProfile: companyProfile, changeCompanyUrl: addEncodeURILangToUrl(COMPANY_LOOKUP, language) } };
+            viewData: {
+                ...this.baseViewData,
+                title: getLocalesField("confirm_company_title", req),
+                companyProfile: companyProfile,
+                changeCompanyUrl: addEncodeURILangToUrl(COMPANY_LOOKUP, language)
+            }
+        };
     }
 
-}
-
-interface ConfirmCompanyViewData extends BaseViewData {
-    companyProfile: CompanyProfile,
-    changeCompanyUrl: string
 }

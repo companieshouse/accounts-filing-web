@@ -1,14 +1,14 @@
 {% set backButtonDataEventId = "package-accounts-back-button-"+title %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <a class="govuk-back-link {{ 'govuk-visually-hidden' if title == 'Accounts Submitted' }}" href="{{ backURL }}" data-event-id="{{backButtonDataEventId | replace(" ", "-")}}">{{i18n.back}}</a>
-        <ul class="{{ 'govuk-visually-hidden' if title != 'Accounts Submitted' }}"><ul>
+        <a class="govuk-back-link {{ 'govuk-visually-hidden' if hideBackButton }}" href="{{ backURL }}" data-event-id="{{backButtonDataEventId | replace(" ", "-")}}">{{i18n.back}}</a>
+        <ul class="{{ 'govuk-visually-hidden' if not hideBackButton }}"><ul>
     </div>
     {% set email = userEmail | default("Not signed in") %}
     <div class="govuk-grid-column-one-half govuk-!-text-align-right govuk-!-static-margin-top-3">
         <span class="govuk-body-s govuk-!-margin-2" id="signed-in-user">{{ email }}</span>
         <a class="govuk-link" href="{{ signoutURL }}" data-event-id="signout" id="user-signout">{{i18n.sign_out}}</a>
-        <ul class="{{ 'govuk-visually-hidden' if title != 'Accounts Submitted' }}"><ul>
+        <ul class="{{ 'govuk-visually-hidden' if not hideBackButton }}"><ul>
     </div>
 </div>
 <div class="govuk-section-break govuk-section-break--visible"></div>

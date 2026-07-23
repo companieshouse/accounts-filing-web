@@ -6,7 +6,6 @@ import { PrefixedUrls } from "../../../utils/constants/urls";
 export class PaymentCallbackHandler extends GenericHandler {
     constructor() {
         super({
-            title: "Payment Callback – GOV.UK",
             viewName: "payment callback",
             backURL: null,
             userEmail: null

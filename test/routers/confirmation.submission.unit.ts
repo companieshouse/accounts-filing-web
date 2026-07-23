@@ -8,6 +8,7 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { setExtraDataCompanyNumber } from "../../src/utils/session";
 import { fees } from "../../src/utils/constants/fees";
 import { getRequestWithCookie } from "./helper/requests";
+import { describe, expect, beforeAll, beforeEach, afterAll, afterEach, it } from '@jest/globals';
 
 
 const session = {
@@ -91,7 +92,8 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain(`£${fees.overseas}`);
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
         expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain("<a class=\"govuk-back-link govuk-visually-hidden\" href=\"\" data-event-id=\"package-accounts-back-button-Accounts-Submitted\">Back</a>");
+        expect(response.text).toMatch(/govuk-back-link/);  // Back button is present
+        expect(response.text).toMatch(/govuk-back-link.*govuk-visually-hidden/); // Back button is visually hidden
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
@@ -109,7 +111,8 @@ describe("accounts submitted tests", () => {
         expect(response.text).toContain(`£${fees.cic}`);
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
         expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain("<a class=\"govuk-back-link govuk-visually-hidden\" href=\"\" data-event-id=\"package-accounts-back-button-Accounts-Submitted\">Back</a>");
+        expect(response.text).toMatch(/govuk-back-link/);  // Back button is present
+        expect(response.text).toMatch(/govuk-back-link.*govuk-visually-hidden/); // Back button is visually hidden
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);
@@ -130,7 +133,8 @@ describe("accounts submitted tests", () => {
         expect(response.text).not.toContain("Payment received");
         expect(response.text).toContain(PrefixedUrls.COMPANY_SEARCH);
         expect(response.text).toContain(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
-        expect(response.text).toContain("<a class=\"govuk-back-link govuk-visually-hidden\" href=\"\" data-event-id=\"package-accounts-back-button-Accounts-Submitted\">Back</a>");
+        expect(response.text).toMatch(/govuk-back-link/);  // Back button is present
+        expect(response.text).toMatch(/govuk-back-link.*govuk-visually-hidden/); // Back button is visually hidden
         for (const key in session) {
             if (key === "userProfile") {
                 expect(response.text).toContain(session[key]["email"]);

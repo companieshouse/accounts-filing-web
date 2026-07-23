@@ -1,6 +1,6 @@
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getCompanyNumber, getIsChsJourneyFromExtraData, getUserEmail, must, setPackageType } from "../../../utils/session";
-import { BaseViewData, GenericHandler, Redirect, ViewModel } from "../generic";
+import { GenericHandler, LocalizedViewData, Redirect, ViewModel } from "../generic";
 import { Request, Response } from "express";
 import { logger } from "../../../utils/logger";
 import { isPackageType, PackageType } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
@@ -17,7 +17,7 @@ interface RadioButtonData {
     }
 }
 
-interface ChooseYourPackageAccountsViewData extends BaseViewData {
+interface ChooseYourPackageAccountsViewData extends LocalizedViewData {
     packageAccountsItems: Array<RadioButtonData>,
     packageType?: PackageType,
     packageTypeFieldName: string
@@ -28,7 +28,6 @@ const templatePath = "router_views/choose_your_package_accounts/choose_your_pack
 export class ChooseYourPackageAccountsHandler extends GenericHandler {
     constructor() {
         super({
-            title: "What package accounts are you submitting?",
             viewName: "choose your package accounts",
             backURL: null,
             userEmail: null

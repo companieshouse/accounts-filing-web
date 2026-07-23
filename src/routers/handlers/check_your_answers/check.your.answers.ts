@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler } from "./../generic";
+import { GenericHandler, LocalizedViewData } from "./../generic";
 import { createAndLogError, logger } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
 import { PrefixedUrls } from "../../../utils/constants/urls";
@@ -12,7 +12,7 @@ import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { getLocalesField } from "../../../utils/localise";
 
-interface CheckYourAnswersViewData extends BaseViewData {
+interface CheckYourAnswersViewData extends LocalizedViewData {
     fileName: string
     typeOfAccounts: string
     changeTypeOfAccountsUrl: string
@@ -21,7 +21,6 @@ interface CheckYourAnswersViewData extends BaseViewData {
 export class CheckYourAnswersHandler extends GenericHandler {
     constructor() {
         super({
-            title: "Check your answers – File package accounts with Companies House – GOV.UK",
             viewName: "check your answers",
             backURL: null,
             userEmail: null
