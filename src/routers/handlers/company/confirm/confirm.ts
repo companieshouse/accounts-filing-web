@@ -6,7 +6,7 @@ import { CompanyProfileService } from "../../../../services/external/company.pro
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { checkCompanyNumberFormatIsValidate as companyNumberMustBeValid } from "../../../../utils/format/company.number.format";
 import { getUserEmail, must, setCompanyName, setExtraDataCompanyNumber, setLanguage } from "../../../../utils/session";
-import { addLangToUrl, addEncodeURILangToUrl, selectLang } from "../../../../utils/localise";
+import { addLangToUrl, addEncodeURILangToUrl, selectLang, getLocalesField } from "../../../../utils/localise";
 
 export class CompanyConfirmHandler extends GenericHandler {
     static routeViews: string = "router_views/company/confirm/confirm";
@@ -41,7 +41,13 @@ export class CompanyConfirmHandler extends GenericHandler {
         this.baseViewData.userEmail = userEmail;
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`,
-            viewData: { ...this.baseViewData, companyProfile: companyProfile, changeCompanyUrl: addEncodeURILangToUrl(COMPANY_LOOKUP, language) } };
+            viewData: {
+                ...this.baseViewData,
+                title: getLocalesField("confirm_company_title", req),
+                companyProfile: companyProfile,
+                changeCompanyUrl: addEncodeURILangToUrl(COMPANY_LOOKUP, language)
+            }
+        };
     }
 
 }
