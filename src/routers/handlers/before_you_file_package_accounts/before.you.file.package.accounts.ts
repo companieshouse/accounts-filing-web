@@ -22,7 +22,7 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         return {
             ...this.baseViewData,
             title: getLocalesField("before_you_file_title", req),
-            nextURL: req.originalUrl as string,
+            nextURL: req.originalUrl,
         };
     }
 
