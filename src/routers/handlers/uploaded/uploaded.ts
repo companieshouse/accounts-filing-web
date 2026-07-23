@@ -7,6 +7,7 @@ import { getAccountsFilingId, getPackageType, getTransactionId, getUserEmail, se
 import { constructValidatorRedirect } from "../../../utils/url";
 import { AccountsFilingValidationRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
+import { addLangToUrl, getLocalesField, Language, selectLang } from "../../../utils/localise";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
@@ -29,6 +30,24 @@ export class UploadedHandler extends GenericHandler {
         });
     }
 
+    getViewData(req: Request) {
+        const language: Language = selectLang(req.query.lang);
+        super.populateViewData(req);
+
+        const userEmail = getUserEmail(req.session);
+        if (userEmail instanceof Error) {
+            throw userEmail;
+        }
+
+        this.baseViewData.backURL = addLangToUrl(constructValidatorRedirect(req), language);
+        this.baseViewData.userEmail = userEmail;
+        this.baseViewData.title = getLocalesField("uploaded_title", req);
+
+        return {
+            ...this.baseViewData
+        };
+    }
+
     /**
      * Asynchronously handles a callback request from an external service after a file upload and validation.
      * This method is triggered as a response to a file upload completion and validation by another service.
@@ -44,9 +63,6 @@ export class UploadedHandler extends GenericHandler {
         req: Request,
         _response: Response
     ): Promise<UploadedViewData> {
-        super.populateViewData(req);
-        this.baseViewData.backURL = constructValidatorRedirect(req) + `&lang=${req.query.lang}`;
-
         logger.debug(`Handling GET request for uploaded file.`);
 
         const fileId = req.params.fileId;
@@ -54,22 +70,15 @@ export class UploadedHandler extends GenericHandler {
         const accountsFilingId = getAccountsFilingId(req?.session);
         const transactionId = getTransactionId(req?.session);
         const packageType = getPackageType(req?.session);
-        const userEmail = getUserEmail(req.session);
-
-        if (packageType instanceof Error) {
-            throw packageType;
-        }
-
-        if (transactionId instanceof Error) {
-            throw transactionId;
-        }
 
         if (accountsFilingId instanceof Error) {
             throw accountsFilingId;
         }
-
-        if (userEmail instanceof Error) {
-            throw userEmail;
+        if (transactionId instanceof Error) {
+            throw transactionId;
+        }
+        if (packageType instanceof Error) {
+            throw packageType;
         }
 
         const validationRequest = {
@@ -78,13 +87,11 @@ export class UploadedHandler extends GenericHandler {
             transactionId
         };
 
-        this.baseViewData.userEmail = userEmail;
-
         if (!this.validateRequest(validationRequest)) {
             logger.error(`File ID [${fileId}] is not valid.`);
 
             return {
-                ...this.baseViewData,
+                ...this.getViewData(req),
             };
         }
 
@@ -102,7 +109,7 @@ export class UploadedHandler extends GenericHandler {
             );
 
             return {
-                ...this.baseViewData,
+                ...this.getViewData(req),
                 result: validationResult
             };
         } catch (error) {
