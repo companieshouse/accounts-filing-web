@@ -11,7 +11,6 @@ export interface BaseViewData {
     errors: {
         [key: string]: any
     }
-    title: string
     isSignedIn: boolean
     backURL: string | null
     nextURL: string | null
@@ -20,6 +19,10 @@ export interface BaseViewData {
     Urls: typeof PrefixedUrls
     sessionTimeout?: number
     sessionCountdown?: number
+}
+
+export interface LocalizedViewData extends BaseViewData {
+    title: string;
 }
 
 const defaultBaseViewData = {

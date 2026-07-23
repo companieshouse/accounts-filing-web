@@ -1,11 +1,11 @@
-import { BaseViewData, GenericHandler } from "../generic";
+import { LocalizedViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
 import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserEmail, must } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { fees } from "../../../utils/constants/fees";
 import { getLocalesField } from "../../../utils/localise";
 
-interface ConfirmationSubmissionViewData extends BaseViewData {
+interface ConfirmationSubmissionViewData extends LocalizedViewData {
         hideBackButton: true,
         accountsFilingId: string | Error,
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
@@ -17,7 +17,6 @@ interface ConfirmationSubmissionViewData extends BaseViewData {
 export class ConfirmationSubmissionHandler extends GenericHandler{
     constructor() {
         super({
-            title: "Accounts Submitted",
             viewName: "accounts submitted",
             backURL: null,
             userEmail: null

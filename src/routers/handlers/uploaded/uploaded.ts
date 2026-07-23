@@ -23,7 +23,6 @@ export class UploadedHandler extends GenericHandler {
 
     constructor(private readonly accountsFilingService: AccountsFilingService) {
         super({
-            title: "Uploaded Handler for handling file upload callbacks",
             viewName: "uploaded",
             backURL: null,
             userEmail: null
@@ -41,10 +40,10 @@ export class UploadedHandler extends GenericHandler {
 
         this.baseViewData.backURL = addLangToUrl(constructValidatorRedirect(req), language);
         this.baseViewData.userEmail = userEmail;
-        this.baseViewData.title = getLocalesField("uploaded_title", req);
 
         return {
-            ...this.baseViewData
+            ...this.baseViewData,
+            title: getLocalesField("uploaded_title", req)
         };
     }
 

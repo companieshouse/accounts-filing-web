@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler, Redirect, ViewModel } from "./../generic";
+import { BaseViewData, GenericHandler, LocalizedViewData, Redirect, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { addLangToUrl, getLocalesField, selectLang } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
@@ -12,14 +12,13 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
 
     constructor () {
         super({
-            title: "Before you file package accounts – File package accounts with Companies House – GOV.UK",
             viewName: "before you file",
             backURL: null,
             userEmail: null
         });
     }
 
-    getViewData(req: Request) {
+    getViewData(req: Request): LocalizedViewData {
         return {
             ...this.baseViewData,
             title: getLocalesField("before_you_file_title", req),

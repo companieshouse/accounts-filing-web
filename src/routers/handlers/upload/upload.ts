@@ -14,7 +14,6 @@ import { constructValidatorRedirect } from "../../../utils/url";
 export class UploadHandler extends GenericHandler {
     constructor(private accountsFilingService: AccountsFilingService, private transactionService: TransactionService) {
         super({
-            title: '',
             viewName: "upload",
             backURL: PrefixedUrls.HOME,
             userEmail: null

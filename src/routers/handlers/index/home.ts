@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
+import { LocalizedViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { fees } from "../../../utils/constants/fees";
 import { getLocalesField, addLangToUrl, selectLang } from "../../../utils/localise";
@@ -7,11 +7,15 @@ import { PrefixedUrls } from "../../../utils/constants/urls";
 import { env } from "../../../config";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
 
+interface HomeViewData extends LocalizedViewData {
+    fees: typeof fees
+    isChsRouteIn: boolean
+}
+
 export class HomeHandler extends GenericHandler {
 
-    constructor(req: Request) {
+    constructor() {
         super({
-            title: getLocalesField("start_page_title", req),
             viewName: "home",
             backURL: null,
             userEmail: null,
@@ -53,6 +57,7 @@ export class HomeHandler extends GenericHandler {
             templatePath: `${routeViews}/home`,
             viewData: {
                 ...this.baseViewData,
+                title: getLocalesField("start_page_title", req),
                 fees,
                 ...disablePackageInfo,
                 nextURL: this.determineNextURL(req),
@@ -60,9 +65,4 @@ export class HomeHandler extends GenericHandler {
             }
         };
     }
-}
-
-interface HomeViewData extends BaseViewData {
-    fees: typeof fees
-    isChsRouteIn: boolean
 }
