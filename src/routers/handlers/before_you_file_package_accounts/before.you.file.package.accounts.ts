@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, Redirect, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
-import { addLangToUrl, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLocalesField, selectLang } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
 import { clearSession, setCompanyName, setExtraDataCompanyNumber, setIsChsJourney } from "../../../utils/session";
@@ -19,14 +19,19 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         });
     }
 
+    getViewData(req: Request) {
+        return {
+            ...this.baseViewData,
+            title: getLocalesField("before_you_file_title", req),
+            nextURL: req.originalUrl as string,
+        };
+    }
+
     execute (req: Request, _res: Response): ViewModel<BaseViewData> {
         logger.info(`GET request to serve before you file package accounts page`);
         return {
             templatePath: BeforeYouFilePackageAccountsHandler.routeViews,
-            viewData: {
-                ...this.baseViewData,
-                nextURL: req.originalUrl as string,
-            }
+            viewData: this.getViewData(req)
         };
     }
 
