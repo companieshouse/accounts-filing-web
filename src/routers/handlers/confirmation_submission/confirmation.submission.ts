@@ -6,6 +6,7 @@ import { fees } from "../../../utils/constants/fees";
 import { getLocalesField } from "../../../utils/localise";
 
 interface ConfirmationSubmissionViewData extends BaseViewData {
+        hideBackButton: true,
         accountsFilingId: string | Error,
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
         payment: string
@@ -62,8 +63,11 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             companyNumber: companyNumber as string,
         });
 
+        this.baseViewData.backURL = null;
+
         return {
             ...this.baseViewData,
+            hideBackButton: true,
             title: getLocalesField("confirmation_submission_title", req),
             accountsFilingId,
             companyProfile: {
