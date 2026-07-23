@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler } from "./../generic";
+import { BaseViewData, GenericHandler, LocalizedViewData } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { validate as uuidValidate } from "uuid";
 import { AccountsFilingService } from "../../../services/external/accounts.filing.service";
@@ -29,7 +29,7 @@ export class UploadedHandler extends GenericHandler {
         });
     }
 
-    getViewData(req: Request) {
+    getViewData(req: Request): LocalizedViewData {
         const language: Language = selectLang(req.query.lang);
         super.populateViewData(req);
 
