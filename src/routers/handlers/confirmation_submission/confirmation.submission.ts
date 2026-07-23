@@ -62,8 +62,6 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             companyNumber: companyNumber as string,
         });
 
-        this.baseViewData.backURL = null;
-
         return {
             ...this.baseViewData,
             hideBackButton: true,
