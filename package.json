@@ -83,5 +83,10 @@
     "private-api-sdk-node": "github:companieshouse/private-api-sdk-node#1.0.130",
     "tslib": "^2.6.3",
     "uuid": "^11.0.0"
+  },
+  "overrides": {
+    "minimatch": "^10.2.5",
+    "brace-expansion": "^5.0.8",
+    "test-exclude": "^8.0.0"
   }
 }
