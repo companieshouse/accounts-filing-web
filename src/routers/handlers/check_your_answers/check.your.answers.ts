@@ -10,12 +10,13 @@ import { getAccountsFilingId, getTransactionId } from "../../../utils/session";
 import { startPaymentsSession } from "../../../services/external/payment.service";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
-import { getLocalesField } from "../../../utils/localise";
+import { addLangToUrl, getLocalesField, selectLang } from "../../../utils/localise";
 
 interface CheckYourAnswersViewData extends LocalizedViewData {
     fileName: string
     typeOfAccounts: string
     changeTypeOfAccountsUrl: string
+    chooseYourAccountsPackageUrl: string
 }
 
 export class CheckYourAnswersHandler extends GenericHandler {
@@ -43,7 +44,8 @@ export class CheckYourAnswersHandler extends GenericHandler {
         return {
             ...this.baseViewData,
             title: getLocalesField("check_your_answers_title", req),
-            changeTypeOfAccountsUrl: `${PrefixedUrls.UPLOAD}`,
+            changeTypeOfAccountsUrl: addLangToUrl(PrefixedUrls.UPLOAD, selectLang(req.query.lang)),
+            chooseYourAccountsPackageUrl: addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, selectLang(req.query.lang)),
             fileName: validationStatus.fileName,
             typeOfAccounts: accountsTypeFullName
         };
