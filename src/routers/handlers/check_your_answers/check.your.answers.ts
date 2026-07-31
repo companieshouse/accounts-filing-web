@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { GenericHandler, LocalizedViewData } from "./../generic";
 import { createAndLogError, logger } from "../../../utils/logger";
 import { TransactionService } from "../../../services/external/transaction.service";
-import { PrefixedUrls, Urls } from "../../../utils/constants/urls";
+import { PrefixedUrls } from "../../../utils/constants/urls";
 import { getPackageType, getUserEmail, getValidationResult, must } from "../../../utils/session";
 import { packageTypeOption } from "../choose_your_package_accounts/package.type.options";
 import { Session } from "@companieshouse/node-session-handler";
