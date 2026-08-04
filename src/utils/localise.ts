@@ -1,6 +1,6 @@
 import { LanguageNames, LocalesService, i18nCh } from "@companieshouse/ch-node-utils";
 import { env } from "../config";
-import { Request } from "express";
+import { Request,Response } from "express";
 
 export enum Language {
     CY = "cy",
@@ -42,12 +42,14 @@ export const addEncodeURILangToUrl = (url: string, lang: string | undefined): st
     return createUrlWithLang(url, lang, true);
 };
 
-export const getLocaleInfo = (locales: LocalesService, lang: Language) => {
+export const getLocaleInfo = ( req: Request) => {
+    const locales = getLocalesService();
     return {
         languageEnabled: locales.enabled,
+        currentUrl: req.originalUrl.split("?")[0],
         languages: LanguageNames.sourceLocales(locales.localesFolder),
-        i18n: locales.i18nCh.resolveNamespacesKeys(lang),
-        lang
+        i18n: locales.i18nCh.resolveNamespacesKeys(req.lang as Language),
+        lang: req.lang
     };
 };
 

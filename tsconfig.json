@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
-        "allowJs": true,
-        "target": "ES2017",
+        "target": "ES2022",
         "module": "commonjs",
         "esModuleInterop": true,
         "moduleResolution": "node",
@@ -16,10 +15,13 @@
         "strict": true,
         "noImplicitAny": true,
         "typeRoots": [
-          "node_modules/@types"
+            "src/types/@types",
+            "node_modules/@types"
         ],
         "types": [
-          "node"
+            "node",
+            "jest",
+            "express"
         ]
     },
     "ts-node": {
@@ -27,11 +29,11 @@
     },
     "lib": ["esnext"],
     "include": [
-        "src/**/*.ts"
+        "./src/**/*.ts"
     ],
     "exclude": [
-      "node_modules",
-      "tests",
-      "dist"
+        "node_modules",
+        "tests",
+        "dist"
     ]
 }
