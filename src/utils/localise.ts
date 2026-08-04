@@ -46,7 +46,7 @@ export const getLocaleInfo = ( req: Request) => {
     const locales = getLocalesService();
     return {
         languageEnabled: locales.enabled,
-        currentUrl: req.originalUrl.split("?")[0],
+        currentUrl: req.originalUrl,
         languages: LanguageNames.sourceLocales(locales.localesFolder),
         i18n: locales.i18nCh.resolveNamespacesKeys(req.lang as Language),
         lang: req.lang
