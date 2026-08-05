@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, LocalizedViewData, Redirect, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
-import { addLangToUrl, getLanguageFromRequest, getLocalesField, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLanguageFromRequest, getLocalesField } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
 import { clearSession, setCompanyName, setExtraDataCompanyNumber, setIsChsJourney } from "../../../utils/session";

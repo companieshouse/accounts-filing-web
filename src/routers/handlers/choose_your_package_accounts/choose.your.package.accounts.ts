@@ -7,7 +7,7 @@ import { isPackageType, PackageType } from "@companieshouse/api-sdk-node/dist/se
 import { getPackageTypeOptionsRadioButtonData } from "./package.type.options";
 import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
-import { addLangToUrl, getLanguageFromRequest, getLocalesField, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLanguageFromRequest, getLocalesField } from "../../../utils/localise";
 
 interface RadioButtonData {
     text: string,

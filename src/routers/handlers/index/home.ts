@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { LocalizedViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { fees } from "../../../utils/constants/fees";
-import { getLocalesField, addLangToUrl, selectLang, getLanguageFromRequest } from "../../../utils/localise";
+import { getLocalesField, addLangToUrl, getLanguageFromRequest } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { env } from "../../../config";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
