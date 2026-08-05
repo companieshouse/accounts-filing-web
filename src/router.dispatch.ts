@@ -54,8 +54,7 @@ const routerDispatch = (app: Application) => {
     router.use(helmet(prepareCSPConfig(nonce)));
 
     router.use(EnsureSessionCookiePresentMiddleware(COOKIE_CONFIG));
-    const userAuthRegex = /^\/.+/;
-    router.use(userAuthRegex, authenticationMiddleware);
+    router.use(/^\/.+/, authenticationMiddleware);
 
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
