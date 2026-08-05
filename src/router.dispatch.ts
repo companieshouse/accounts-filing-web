@@ -10,7 +10,7 @@ import { authenticationMiddleware } from "./middleware/authentication.middleware
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { COOKIE_CONFIG, sessionMiddleware } from "./middleware/session.middleware";
 import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
-import { languageMiddleware } from "./middleware/language.middleware";
+import { i18nMiddleware } from "./middleware/i18n.middleware";
 import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
 import { featureFlagMiddleware } from "./middleware/feature.flag.middleware";
 import Redis from "ioredis";
@@ -36,12 +36,11 @@ const routerDispatch = (app: Application) => {
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
 
-    const userAuthRegex = new RegExp("^/.+");
     router.use(sessionMiddleware(sessionStore));
 
     getLocalesService();
     router.use(LocalesMiddleware());
-    router.use(languageMiddleware);
+    router.use(i18nMiddleware);
 
     router.use(featureFlagMiddleware);
     router.use(createLoggerMiddleware(env.APP_NAME));
@@ -56,6 +55,7 @@ const routerDispatch = (app: Application) => {
     router.use(helmet(prepareCSPConfig(nonce)));
 
     router.use(EnsureSessionCookiePresentMiddleware(COOKIE_CONFIG));
+    const userAuthRegex = new RegExp("^/.+");
     router.use(userAuthRegex, authenticationMiddleware);
 
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
