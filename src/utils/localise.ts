@@ -43,12 +43,12 @@ export const addEncodeURILangToUrl = (url: string, lang: string | undefined): st
 };
 
 export const getLocaleInfo = ( req: Request) => {
-    const locales = getLocalesService();
+    const localesService = getLocalesService();
     return {
-        languageEnabled: locales.enabled,
+        languageEnabled: localesService.enabled,
         currentUrl: req.originalUrl,
-        languages: LanguageNames.sourceLocales(locales.localesFolder),
-        i18n: locales.i18nCh.resolveNamespacesKeys(req.lang as Language),
+        languages: LanguageNames.sourceLocales(localesService.localesFolder),
+        i18n: localesService.i18nCh.resolveNamespacesKeys(req.lang as Language),
         lang: req.lang
     };
 };
