@@ -5,7 +5,7 @@ import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, Company
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
     ChooseYourPackageAccountsRouter, PaymentCallbackRouter } from "./routers";
 
-import { errorHandler, pageNotFound } from "./routers/handlers/errors";
+import { errorHandler, pageNotFound, csrfErrorHandler } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { COOKIE_CONFIG, sessionMiddleware } from "./middleware/session.middleware";
@@ -21,7 +21,6 @@ import { assignCspNonce } from "./middleware/csp.nonce.middleware";
 import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 import { prepareCSPConfig } from "./middleware/content.policy.middleware";
 import helmet from "helmet";
-import { csrfErrorHandler } from "./routers/handlers/errors";
 import { createLoggerMiddleware } from "@companieshouse/structured-logging-node";
 import { getLocalesService } from "./utils/localise";
 
@@ -55,7 +54,7 @@ const routerDispatch = (app: Application) => {
     router.use(helmet(prepareCSPConfig(nonce)));
 
     router.use(EnsureSessionCookiePresentMiddleware(COOKIE_CONFIG));
-    const userAuthRegex = new RegExp("^/.+");
+    const userAuthRegex = /^\/.+/;
     router.use(userAuthRegex, authenticationMiddleware);
 
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
