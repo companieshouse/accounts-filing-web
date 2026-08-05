@@ -1,6 +1,6 @@
 import { LanguageNames, LocalesService, i18nCh } from "@companieshouse/ch-node-utils";
 import { env } from "../config";
-import { Request,Response } from "express";
+import { Request } from "express";
 
 export enum Language {
     CY = "cy",
