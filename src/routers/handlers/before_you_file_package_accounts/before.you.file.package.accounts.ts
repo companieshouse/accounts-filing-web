@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, LocalizedViewData, Redirect, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
-import { addLangToUrl, getLocalesField, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLanguageFromRequest, getLocalesField, selectLang } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
 import { clearSession, setCompanyName, setExtraDataCompanyNumber, setIsChsJourney } from "../../../utils/session";
@@ -40,7 +40,7 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         clearSession(req.session);
 
         const companyNumber = req.params.companyNumber as string | undefined;
-        const companySearchUrl = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, selectLang(req.query.lang));
+        const companySearchUrl = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, getLanguageFromRequest(req));
         if (companyNumber === undefined || !ValidateCompanyNumberFormat.isValid(companyNumber)) {
             return { url: companySearchUrl };
         }
@@ -56,7 +56,7 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
 
         setIsChsJourney(req.session, true);
 
-        const choosePackageAccountUrl = addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, selectLang(req.query.lang));
+        const choosePackageAccountUrl = addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, getLanguageFromRequest(req));
         return { url: choosePackageAccountUrl };
     }
 }

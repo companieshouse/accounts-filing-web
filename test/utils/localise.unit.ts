@@ -93,7 +93,7 @@ describe("getLocalesField", () => {
         req = {
             query: {},
             session: {
-                getExtraData: jest.fn()
+                getLanguage: jest.fn()
             } as any
         };
         (i18nCh.getInstance().resolveSingleKey as jest.Mock) = mockResolveSingleKey;
@@ -116,12 +116,12 @@ describe("getLocalesField", () => {
     });
 
     it("should return the resolved key using session language if query language is not provided", () => {
-        req.session!.getExtraData = jest.fn().mockReturnValue(Language.EN);
+        req.session!.getLanguage = jest.fn().mockReturnValue(Language.EN);
         mockResolveSingleKey.mockReturnValue(MOCKED_VAL);
 
         const result = getLocalesField(fieldName, req as Request);
 
-        expect(req.session!.getExtraData).toHaveBeenCalledWith("lang");
+        expect(req.session!.getLanguage).toHaveBeenCalled();
         expect(i18nCh.getInstance().resolveSingleKey).toHaveBeenCalledWith(fieldName, Language.EN);
         expect(result).toBe(MOCKED_VAL);
     });
@@ -137,12 +137,12 @@ describe("getLocalesField", () => {
     });
 
     it("should return the default language if session language is not available", () => {
-        req.session!.getExtraData = jest.fn().mockReturnValue(undefined);
+        req.session!.getLanguage = jest.fn().mockReturnValue(undefined);
         mockResolveSingleKey.mockReturnValue(MOCKED_VAL);
 
         const result = getLocalesField(fieldName, req as Request);
 
-        expect(req.session!.getExtraData).toHaveBeenCalledWith("lang");
+        expect(req.session!.getLanguage).toHaveBeenCalled();
         expect(i18nCh.getInstance().resolveSingleKey).toHaveBeenCalledWith(fieldName, Language.EN);
         expect(result).toBe(MOCKED_VAL);
     });
