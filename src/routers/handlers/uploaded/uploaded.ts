@@ -7,7 +7,7 @@ import { getAccountsFilingId, getPackageType, getTransactionId, getUserEmail, se
 import { constructValidatorRedirect } from "../../../utils/url";
 import { AccountsFilingValidationRequest } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
-import { addLangToUrl, getLanguageFromRequest, getLocalesField, Language, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLanguageFromRequest, getLocalesField, Language } from "../../../utils/localise";
 
 /**
  * Interface representing the view data for an uploaded file, extending from BaseViewData.
