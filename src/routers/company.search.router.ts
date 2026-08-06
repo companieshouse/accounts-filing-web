@@ -8,7 +8,6 @@ const router: Router = Router();
 router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     logger.info(`Get request for serving company filing name/number entry page`);
     return res.redirect(COMPANY_LOOKUP);
-
 }));
 
 export default router;

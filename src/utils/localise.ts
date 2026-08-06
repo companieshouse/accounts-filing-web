@@ -49,11 +49,11 @@ export const addEncodeURILangToUrl = (url: string, lang: string | undefined): st
 export const getLocaleInfo = (req: Request) => {
     const localesService = getLocalesService();
     return {
-        languageEnabled: localesService.enabled,
-        currentUrl: req.originalUrl,
-        languages: LanguageNames.sourceLocales(localesService.localesFolder),
-        i18n: localesService.i18nCh.resolveNamespacesKeys(req.lang as Language),
-        lang: req.lang
+        languageEnabled: localesService.enabled, // used by locales-banner.njk when enabled language selector is visible.
+        currentUrl: req.originalUrl, // used by locales-banner.njk as self-url to allow language selector buttons to work.
+        languages: LanguageNames.sourceLocales(localesService.localesFolder), // used by locales-banner.njk is a list of supported languages.
+        i18n: localesService.i18nCh.resolveNamespacesKeys(req.lang as Language), // resolves translation keys and their localized values for the current language.
+        lang: req.lang // utility variable that holds the current language code to be used in templates.
     };
 };
 
