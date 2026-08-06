@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { LocalizedViewData, GenericHandler, ViewModel } from "./../generic";
 import { logger } from "../../../utils/logger";
 import { fees } from "../../../utils/constants/fees";
-import { getLocalesField, addLangToUrl, selectLang } from "../../../utils/localise";
+import { getLocalesField, addLangToUrl, getLanguageFromRequest } from "../../../utils/localise";
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { env } from "../../../config";
 import { ValidateCompanyNumberFormat } from "../../../utils/validate/validate.company.number";
@@ -32,10 +32,10 @@ export class HomeHandler extends GenericHandler {
         if (companyNumber && ValidateCompanyNumberFormat.isValid(companyNumber)) {
             return addLangToUrl(
                 PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(":companyNumber", companyNumber),
-                selectLang(req.query.lang)
+                getLanguageFromRequest(req)
             );
         }
-        return addLangToUrl(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, selectLang(req.query.lang));
+        return addLangToUrl(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, getLanguageFromRequest(req));
     }
 
     execute(req: Request, _res: Response): ViewModel<HomeViewData> {

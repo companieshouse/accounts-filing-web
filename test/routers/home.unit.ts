@@ -1,9 +1,10 @@
 import request from "supertest";
 import { PrefixedUrls, servicePathPrefix } from "../../src/utils/constants/urls";
 import { loadApp } from "./load.app";
+import { App } from "supertest/types";
 
 describe("home page tests", () => {
-    let app;
+    let app: App;
 
     const resetEnvVariables = () => {
         delete process.env.DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO;
@@ -58,7 +59,7 @@ describe("home page tests", () => {
 
     it("should render the home page with all accounts text displayed", async () => {
         const url = `${servicePathPrefix}`;
-        const resp = await request(app).get(url);
+        const resp = await request(app).get(url + "?lang=en");
 
         expect(resp.status).toBe(200);
         expect(resp.text).toContain('UKSEF accounts for listed companies');

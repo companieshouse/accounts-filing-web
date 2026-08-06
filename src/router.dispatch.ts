@@ -5,12 +5,12 @@ import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, Company
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
     ChooseYourPackageAccountsRouter, PaymentCallbackRouter } from "./routers";
 
-import { errorHandler, pageNotFound } from "./routers/handlers/errors";
+import { errorHandler, pageNotFound, csrfErrorHandler } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { COOKIE_CONFIG, sessionMiddleware } from "./middleware/session.middleware";
 import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
-import { localeMiddleware } from "./middleware/locale.middleware";
+import { i18nMiddleware } from "./middleware/i18n.middleware";
 import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
 import { featureFlagMiddleware } from "./middleware/feature.flag.middleware";
 import Redis from "ioredis";
@@ -21,8 +21,8 @@ import { assignCspNonce } from "./middleware/csp.nonce.middleware";
 import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 import { prepareCSPConfig } from "./middleware/content.policy.middleware";
 import helmet from "helmet";
-import { csrfErrorHandler } from "./routers/handlers/errors/csrf.error";
 import { createLoggerMiddleware } from "@companieshouse/structured-logging-node";
+import { getLocalesService } from "./utils/localise";
 
 const routerDispatch = (app: Application) => {
     // Use a sub-router to place all routes on a path-prefix
@@ -34,23 +34,27 @@ const routerDispatch = (app: Application) => {
     app.use(assignCspNonce(nonce));
     // Routes that do not require auth or session are added to the router before the session and auth middlewares
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
+
+    router.use(sessionMiddleware(sessionStore));
+
+    getLocalesService();
+    router.use(LocalesMiddleware());
+    router.use(i18nMiddleware);
+
     router.use(featureFlagMiddleware);
-    router.use(localeMiddleware);
     router.use(createLoggerMiddleware(env.APP_NAME));
     router.use(Urls.HOME, HomeRouter);
     router.use(Urls.HOME_WITH_COMPANY_NUMBER, HomeRouter);
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, BeforeYouFilePackageAccountsRouter);
 
     // ------------- Enable login redirect -----------------
-    const userAuthRegex = new RegExp("^/.+");
-    router.use(userAuthRegex, sessionMiddleware(sessionStore));
     router.use(Urls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER, BeforeYouFilePackageAccountsRouter);
     // It is important that CSRF Protection follows the Session and urlencoded Middlewares
     router.use(CsrfProtectionMiddleware(csrfMiddlewareOptions));
     router.use(helmet(prepareCSPConfig(nonce)));
 
     router.use(EnsureSessionCookiePresentMiddleware(COOKIE_CONFIG));
-    router.use(userAuthRegex, authenticationMiddleware);
+    router.use(/^\/.+/, authenticationMiddleware);
 
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
@@ -61,7 +65,6 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.CONFIRMATION, companyAuthenticationMiddleware, ConfirmationSubmissionRouter);
     router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
-    app.use(LocalesMiddleware());
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);
     errorPageHandlers(app);

@@ -7,6 +7,10 @@ export enum Language {
     EN = "en"
 }
 
+export const getLanguageFromRequest = (req: Request): Language => {
+    return  req.query.lang ? selectLang(req.query.lang as Language) : selectLang(req.session?.getLanguage() as Language);
+};
+
 export const selectLang = (lang: any): Language => {
     switch (lang) {
             case Language.CY:
@@ -23,7 +27,7 @@ const createUrlWithLang = (url: string, lang: string | undefined, encodeURI: boo
         return url;
     }
     if (url.includes("?")) {
-        if (encodeURI){
+        if (encodeURI) {
             urlWithLang = url + encodeURIComponent("&lang=") + lang.toLowerCase();
         } else {
             urlWithLang = url + "&lang=" + lang.toLowerCase();
@@ -42,26 +46,26 @@ export const addEncodeURILangToUrl = (url: string, lang: string | undefined): st
     return createUrlWithLang(url, lang, true);
 };
 
-export const getLocaleInfo = (locales: LocalesService, lang: Language) => {
+export const getLocaleInfo = (req: Request) => {
+    const localesService = getLocalesService();
     return {
-        languageEnabled: locales.enabled,
-        languages: LanguageNames.sourceLocales(locales.localesFolder),
-        i18n: locales.i18nCh.resolveNamespacesKeys(lang),
-        lang
+        languageEnabled: localesService.enabled, // used by locales-banner.njk when enabled language selector is visible.
+        currentUrl: req.originalUrl, // used by locales-banner.njk as self-url to allow language selector buttons to work.
+        languages: LanguageNames.sourceLocales(localesService.localesFolder), // used by locales-banner.njk is a list of supported languages.
+        i18n: localesService.i18nCh.resolveNamespacesKeys(req.lang as Language), // resolves translation keys and their localized values for the current language.
+        lang: req.lang // utility variable that holds the current language code to be used in templates.
     };
 };
 
 export const getLocalesService = () => LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED);
 
 export function getLocalesField(fieldName: string, req: Request): string {
-    const QUERY_LANG = "lang";
-
     try {
-        const language = req.query.lang ? selectLang(req.query.lang as Language) : selectLang(req.session?.getExtraData<string>(QUERY_LANG) as Language);
+        const language = getLanguageFromRequest(req);
         const localesPath = getLocalesService().localesFolder;
         const locales = i18nCh.getInstance(localesPath);
         return locales.resolveSingleKey(fieldName, language as string);
-    } catch (e){
+    } catch (e) {
         throw new Error(`Unable to get locales file with ${fieldName}: ${e}`);
     }
 

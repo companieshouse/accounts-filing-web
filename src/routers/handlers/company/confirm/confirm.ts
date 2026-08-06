@@ -6,7 +6,12 @@ import { CompanyProfileService } from "../../../../services/external/company.pro
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { checkCompanyNumberFormatIsValidate as companyNumberMustBeValid } from "../../../../utils/format/company.number.format";
 import { getUserEmail, must, setCompanyName, setExtraDataCompanyNumber, setLanguage } from "../../../../utils/session";
-import { addLangToUrl, addEncodeURILangToUrl, selectLang, getLocalesField } from "../../../../utils/localise";
+import {
+    addLangToUrl,
+    addEncodeURILangToUrl,
+    getLocalesField,
+    getLanguageFromRequest
+} from "../../../../utils/localise";
 
 
 interface ConfirmCompanyViewData extends LocalizedViewData {
@@ -26,7 +31,7 @@ export class CompanyConfirmHandler extends GenericHandler {
     }
 
     async execute(req: Request, _res: Response): Promise<ViewModel<ConfirmCompanyViewData>> {
-        const language = selectLang(req.query.lang);
+        const language = getLanguageFromRequest(req);
         const companyNumber = req.query?.companyNumber as string;
 
         companyNumberMustBeValid(companyNumber);

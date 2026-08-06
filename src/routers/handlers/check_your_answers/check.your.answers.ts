@@ -10,7 +10,7 @@ import { getAccountsFilingId, getTransactionId } from "../../../utils/session";
 import { startPaymentsSession } from "../../../services/external/payment.service";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
-import { addLangToUrl, getLocalesField, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLanguageFromRequest, getLocalesField } from "../../../utils/localise";
 
 interface CheckYourAnswersViewData extends LocalizedViewData {
     fileName: string
@@ -37,15 +37,15 @@ export class CheckYourAnswersHandler extends GenericHandler {
         const accountsTypeFullName = this.getAccountsTypeFullName(req);
 
         const validationStatus = must(getValidationResult(req.session));
-        this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}?lang=${req.query.lang}`;
+        this.baseViewData.backURL = `${PrefixedUrls.UPLOADED}/${validationStatus.fileId}?lang=${getLanguageFromRequest(req)}`;
 
         this.baseViewData.userEmail = must(getUserEmail(req.session));
 
         return {
             ...this.baseViewData,
             title: getLocalesField("check_your_answers_title", req),
-            changeTypeOfAccountsUrl: addLangToUrl(PrefixedUrls.UPLOAD, selectLang(req.query.lang)),
-            chooseYourAccountsPackageUrl: addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, selectLang(req.query.lang)),
+            changeTypeOfAccountsUrl: addLangToUrl(PrefixedUrls.UPLOAD, getLanguageFromRequest(req)),
+            chooseYourAccountsPackageUrl: addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, getLanguageFromRequest(req)),
             fileName: validationStatus.fileName,
             typeOfAccounts: accountsTypeFullName
         };

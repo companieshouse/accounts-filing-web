@@ -7,7 +7,7 @@ import { isPackageType, PackageType } from "@companieshouse/api-sdk-node/dist/se
 import { getPackageTypeOptionsRadioButtonData } from "./package.type.options";
 import errorManifest from "../../../utils/error_manifests/default";
 import { packageTypeFieldName } from "./constants";
-import { addLangToUrl, getLocalesField, selectLang } from "../../../utils/localise";
+import { addLangToUrl, getLanguageFromRequest, getLocalesField } from "../../../utils/localise";
 
 interface RadioButtonData {
     text: string,
@@ -39,8 +39,9 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
         const companyNumber = must(getCompanyNumber(req.session));
 
         const backURL = getIsChsJourneyFromExtraData(req.session)
-            ? `${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER.replace(':companyNumber', companyNumber)}?lang=${selectLang(req.query.lang)}`
-            : `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}&lang=${selectLang(req.query.lang)}`;
+            ? `${PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS_WITH_COMPANY_NUMBER
+                .replace(':companyNumber', companyNumber)}?lang=${getLanguageFromRequest(req)}`
+            : `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=${companyNumber}&lang=${getLanguageFromRequest(req)}`;
 
         const userEmail = must(getUserEmail(req.session));
 
@@ -80,7 +81,7 @@ export class ChooseYourPackageAccountsHandler extends GenericHandler {
 
         if (packageTypeChoice !== undefined && isPackageType(packageTypeChoice)){
             setPackageType(req.session, packageTypeChoice);
-            return { url: addLangToUrl(PrefixedUrls.UPLOAD, selectLang(req.query.lang)) };
+            return { url: addLangToUrl(PrefixedUrls.UPLOAD, getLanguageFromRequest(req)) };
         }
 
         const nothingSelected = errorManifest[packageTypeFieldName].nothingSelected;
