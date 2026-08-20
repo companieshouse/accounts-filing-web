@@ -10,5 +10,7 @@ export const createAndLogError = (description: string): Error => {
     return error;
 };
 
-// tslint:disable-next-line:no-console
-console.log(`env.LOG_LEVEL set to ${env.LOG_LEVEL}`);
+if (process.env.NODE_ENV !== "test"){
+    // tslint:disable-next-line:no-console
+    console.log(`env.LOG_LEVEL set to ${env.LOG_LEVEL}`);
+}
