@@ -10,7 +10,7 @@ interface CannotFileFullAccountsForCompanyTypeViewData extends LocalizedViewData
 }
 
 export class CannotFileFullAccountsForCompanyTypeHandler extends GenericHandler {
-    static routeViews = "router_views/cannot_file_full_accounts_for_company_type/cannot_file_full_accounts_for_company_type";
+    static readonly routeViews = "router_views/cannot_file_full_accounts_for_company_type/cannot_file_full_accounts_for_company_type";
 
     constructor () {
         super({
