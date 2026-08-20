@@ -1,0 +1,9 @@
+{
+    "cannot_file_full_accounts_for_company_type_title": "You cannot file full accounts for this company type - File your company accounts - Welcome to GOV.UK",
+    "cannot_file_full_accounts_for_company_type_heading": "You cannot file full accounts for this company type",
+    "cannot_file_full_accounts_for_company_type_body": "You cannot file accounts for a UK Establishment of an overseas company. Only the overseas company can file accounts.",
+    "cannot_file_full_accounts_for_company_type_more_info_start": "For more information, read the ",
+    "cannot_file_full_accounts_for_company_type_guidance_link_text": "guidance on filing accounts in the UK as an overseas company",
+    "cannot_file_full_accounts_for_company_type_more_info_middle": ", or ",
+    "cannot_file_full_accounts_for_company_type_choose_different_link_text": "go back to file for another company"
+}

@@ -1,7 +1,7 @@
 import { logger } from "../../utils/logger";
 import { ValidateCompanyNumberFormat } from "../../utils/validate/validate.company.number";
 
-export function checkCompanyNumberFormatIsValidate(companyNumber: string | undefined) {
+export function checkCompanyNumberFormatIsValidate(companyNumber: string | undefined): asserts companyNumber is string {
     if (companyNumber === undefined) {
         logger.error(`Company number has been not set`);
         throw new Error(`Company number has been not set`);
@@ -9,4 +9,8 @@ export function checkCompanyNumberFormatIsValidate(companyNumber: string | undef
         logger.error(`An invalid company number format entered. Total length of input: ${companyNumber.length}. Invalid format companyNumber = [${companyNumber}]`);
         throw new Error("Company number is invalid");
     }
+}
+
+export function isBranchRegistrationNumber(companyNumber: string): boolean {
+    return companyNumber.toUpperCase().startsWith("BR");
 }
