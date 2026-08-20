@@ -7,7 +7,7 @@ export const testSignedIn = 1;
 export const testUserProfile: IUserProfile = { id: 'someId' };
 export const testAccessToken: IAccessToken = { access_token: 'accessToken' };
 
-export function getSessionRequest(): Session {
+export function getLoggedInSession(): Session {
     return new Session({
         [SessionKey.SignInInfo]: {
             [SignInInfoKeys.SignedIn]: testSignedIn,
@@ -18,6 +18,6 @@ export function getSessionRequest(): Session {
 }
 
 
-export const getEmptySessionRequest = (): Session => {
+export const getEmptySession = (): Session => {
     return new Session();
 };
