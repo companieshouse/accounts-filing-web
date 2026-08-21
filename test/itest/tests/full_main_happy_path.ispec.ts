@@ -58,7 +58,6 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             set_session_middleware_data(session);
-            mockGetCompanyProfileResult(getTemplateCompanyProfile());
         });
         beforeEach(() => {
             session_itest_overwrite_session_login(session);
@@ -77,7 +76,6 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             set_session_middleware_data(session);
-            mockGetCompanyProfileResult(getTemplateCompanyProfile());
             mockPostTransactionRecord(MOCK_TRANSACTION);
             mockAccountsFilingService(MOCK_ACCOUNT_FILING_ID);
         });
@@ -99,8 +97,6 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             set_session_middleware_data(session);
-            mockGetCompanyProfileResult(getTemplateCompanyProfile());
-            mockPostTransactionRecord(MOCK_TRANSACTION);
             mockAccountsFilingService(MOCK_ACCOUNT_FILING_ID);
         });
         beforeEach(() => {
@@ -122,9 +118,7 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             set_session_middleware_data(session);
-            mockGetCompanyProfileResult(getTemplateCompanyProfile());
             mockPutTransaction(MOCK_TRANSACTION);
-            mockAccountsFilingService(MOCK_ACCOUNT_FILING_ID);
         });
         beforeEach(() => {
             session_itest_overwrite_session_login(session);
