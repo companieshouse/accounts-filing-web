@@ -7,6 +7,7 @@ import { PrefixedUrls } from "../../../src/utils/constants/urls";
 import { getLoggedInSessionWithEmail } from "../../mocks/session.mock";
 import { ContextKeys } from "../../../src/utils/constants/context.keys";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
+import { session_itest_append_company_profile_data } from "../helpers/itest_session_data_helpers";
 
 
 describe("Integration Test: Main Happy Path", () => {
@@ -47,8 +48,7 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             const session = getLoggedInSessionWithEmail();
-            session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
         });
@@ -62,9 +62,7 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             const session = getLoggedInSessionWithEmail();
-            session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
-            session!.setExtraData(ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
             session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
@@ -80,9 +78,7 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             const session = getLoggedInSessionWithEmail();
-            session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
-            session!.setExtraData(ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
             session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
             session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
             session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
@@ -100,9 +96,7 @@ describe("Integration Test: Main Happy Path", () => {
             disable_auth_middleware();
             disable_company_auth_middleware();
             const session = getLoggedInSessionWithEmail();
-            session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
-            session!.setExtraData(ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
             session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
             session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
             session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
