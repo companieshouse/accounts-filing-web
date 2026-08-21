@@ -27,11 +27,11 @@ export function session_itest_append_package_type(session: Session, packageType:
     session.setExtraData(ContextKeys.PACKAGE_TYPE, packageType);
 }
 
-export function session_itest_append_pre_upload_data(session: Session, transactionId: number, accountsFilingId: string) {
+export function session_itest_append_pre_upload_data(session: Session, transactionId: string, accountsFilingId: string) {
     session.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
     session.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, accountsFilingId);
 }
 
-export function session_itest_append_validation_result(session: Session) {
-    session.setExtraData(ContextKeys.VALIDATION_STATUS, {} as AccountValidatorResponse);
+export function session_itest_append_validation_result(session: Session, validationResult: AccountValidatorResponse) {
+    session.setExtraData(ContextKeys.VALIDATION_STATUS, validationResult);
 }

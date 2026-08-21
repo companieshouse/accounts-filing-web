@@ -1,11 +1,12 @@
 import { disable_auth_middleware, disable_company_auth_middleware, disable_csrf_middleware, mockAccountsFilingService, mockGetCompanyProfileResult, mockPostTransactionRecord, mockPutTransaction, set_session_middleware_data } from "../helpers/itest_mocks";
 import { RegexString } from "../test_types";
-import { ExternalUrlGeneralRegex, getTemplateCompanyProfile, MOCK_ACCOUNT_FILING_ID, MOCK_TRANSACTION, MOCK_TRANSACTION_ID, TEST_COMPANY_NAME, TEST_COMPANY_NUMBER } from "../test_data";
+import { ExternalUrlGeneralRegex, getTemplateCompanyProfile, MOCK_ACCOUNT_FILING_ID, MOCK_TRANSACTION, MOCK_TRANSACTION_ID, MOCK_VALIDATION_RESPONSE, TEST_COMPANY_NAME, TEST_COMPANY_NUMBER } from "../test_data";
 import { ITestPageRequester } from "../helpers/request_helper";
-import { assert_back_button_link_is, assert_has_button_that_sends_post_request, assert_next_page_linked_is, assert_on_post_request_redirects_to, assert_page_loads, assert_page_redirects } from "../helpers/itest_assersions";
+import { assert_after_get_session_contains_extra_data, assert_after_post_session_contains_extra_data, assert_back_button_link_is, assert_has_button_that_sends_post_request, assert_next_page_linked_is, assert_on_post_request_redirects_to, assert_page_loads, assert_page_redirects } from "../helpers/itest_assersions";
 import { PrefixedUrls } from "../../../src/utils/constants/urls";
 import { session_itest_append_company_profile_data, session_itest_fully_clear_session, session_itest_overwrite_session_login, session_itest_append_package_type, session_itest_append_pre_upload_data, session_itest_append_validation_result } from "../helpers/itest_session_data_helpers";
 import { Session } from "@companieshouse/node-session-handler";
+import { ContextKeys } from "../../../src/utils/constants/context.keys";
 
 
 describe("Integration Test: Main Happy Path", () => {
@@ -46,6 +47,9 @@ describe("Integration Test: Main Happy Path", () => {
         assert_page_loads(page_requester);
         assert_next_page_linked_is(page_requester, PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
         assert_back_button_link_is(page_requester, PrefixedUrls.COMPANY_SEARCH);
+
+        assert_after_get_session_contains_extra_data(page_requester, session, ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
+        assert_after_get_session_contains_extra_data(page_requester, session, ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
     });
     describe(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, () => {
         // This throws you back to the authentication service for auth code validation before allowing you to continue the journey
@@ -64,6 +68,8 @@ describe("Integration Test: Main Happy Path", () => {
         assert_page_loads(page_requester);
         assert_has_button_that_sends_post_request(page_requester);
         assert_on_post_request_redirects_to(page_requester, PrefixedUrls.UPLOAD as RegexString, { "package-type": "uksef" });
+
+        assert_after_post_session_contains_extra_data(page_requester, session, ContextKeys.PACKAGE_TYPE, "uksef", { "package-type": "uksef" });
     });
     describe(PrefixedUrls.UPLOAD, () => {
         const page_requester = new ITestPageRequester(PrefixedUrls.UPLOAD, () => {
@@ -82,6 +88,9 @@ describe("Integration Test: Main Happy Path", () => {
         });
 
         assert_page_redirects(page_requester, ExternalUrlGeneralRegex.XBRL_VALIDATE);
+
+        assert_after_get_session_contains_extra_data(page_requester, session, ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
+        assert_after_get_session_contains_extra_data(page_requester, session, ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
     });
     describe(PrefixedUrls.UPLOADED, () => {
         // Returned to from xbrl_validate after document uploaded
@@ -104,6 +113,8 @@ describe("Integration Test: Main Happy Path", () => {
         assert_page_loads(page_requester);
         assert_next_page_linked_is(page_requester, PrefixedUrls.CHECK_YOUR_ANSWERS);
         assert_back_button_link_is(page_requester, ExternalUrlGeneralRegex.XBRL_VALIDATE);
+
+        assert_after_get_session_contains_extra_data(page_requester, session, ContextKeys.VALIDATION_STATUS, { "__proof_of_object_identity_key": "mock_validation_status" });
     });
     describe(PrefixedUrls.CHECK_YOUR_ANSWERS, () => {
         const page_requester = new ITestPageRequester(PrefixedUrls.CHECK_YOUR_ANSWERS, () => {
@@ -120,7 +131,7 @@ describe("Integration Test: Main Happy Path", () => {
             session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
             session_itest_append_package_type(session, "uksef");
             session_itest_append_pre_upload_data(session, MOCK_TRANSACTION_ID, MOCK_ACCOUNT_FILING_ID);
-            session_itest_append_validation_result(session);
+            session_itest_append_validation_result(session, { ...MOCK_VALIDATION_RESPONSE });
         });
 
         assert_page_loads(page_requester);

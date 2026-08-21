@@ -1,7 +1,8 @@
 import { ITestPageRequester } from "./request_helper";
 import { RegexString } from "../test_types";
 import { JSDOM } from 'jsdom';
-
+import { Session } from "@companieshouse/node-session-handler";
+import util from "node:util";
 
 export function assert_page_loads(requester: ITestPageRequester) {
     it("Page Loads", async () => {
@@ -54,5 +55,25 @@ export function assert_on_post_request_redirects_to(requester: ITestPageRequeste
         const response = await requester.post_form(form_data);
         expect(response.status).toBe(302);
         expect(response.headers.location).toMatch(new RegExp(expected_redirect_url));
+    });
+}
+
+export function assert_after_get_session_contains_extra_data(requester: ITestPageRequester, session: Session, extraDataKey: string, expectedValue: any, ensureWasUndefined: boolean = true) {
+    it(`After GET, session-key '${extraDataKey}' is ${util.inspect(expectedValue, { depth: null, compact: true, breakLength: Infinity, maxArrayLength: null, maxStringLength: null })}`, async () => {
+        if (ensureWasUndefined && session.getExtraData(extraDataKey) !== undefined) { throw new Error(`The key '${extraDataKey}' was set before request!?`); }
+        await requester.get();
+        if (typeof expectedValue === "object") {
+            expect(session.getExtraData(extraDataKey)).toEqual(expect.objectContaining(expectedValue));
+        } else {
+            expect(session.getExtraData(extraDataKey)).toBe(expectedValue);
+        }
+    });
+}
+
+export function assert_after_post_session_contains_extra_data(requester: ITestPageRequester, session: Session, extraDataKey: string, expectedValue: any, form_data: object = {}, ensureWasUndefined: boolean = true) {
+    it(`After POST, session-key '${extraDataKey}' is ${util.inspect(expectedValue, { depth: null, compact: true, breakLength: Infinity, maxArrayLength: null, maxStringLength: null })}`, async () => {
+        if (ensureWasUndefined && session.getExtraData(extraDataKey) !== undefined) { throw new Error(`The key '${extraDataKey}' was set before request!?`); }
+        await requester.post_form(form_data);
+        expect(session.getExtraData(extraDataKey)).toBe(expectedValue);
     });
 }

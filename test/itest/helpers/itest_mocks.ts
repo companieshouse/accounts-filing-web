@@ -4,6 +4,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { AccountsFilingCompanyResponse } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
+import { MOCK_VALIDATION_RESPONSE } from "../test_data";
 
 export function synchronously_import_module(module_path: string) {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -48,4 +49,5 @@ export function mockAccountsFilingService(mock_account_filing_id: string) {
     const AccountsFilingServiceModule = synchronously_import_module("../../../src/services/external/accounts.filing.service");
     jest.spyOn(AccountsFilingServiceModule.AccountsFilingService.prototype, 'checkCompany').mockResolvedValue({ httpStatusCode: 200, resource: { accountsFilingId: mock_account_filing_id } as AccountsFilingCompanyResponse });
     jest.spyOn(AccountsFilingServiceModule.AccountsFilingService.prototype, 'setTransactionPackageType').mockImplementation(async (_session) => {});
+    jest.spyOn(AccountsFilingServiceModule.AccountsFilingService.prototype, 'getValidationStatus').mockImplementation(async (_req) => {return { resource: MOCK_VALIDATION_RESPONSE }; });
 }

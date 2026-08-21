@@ -1,3 +1,4 @@
+import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
 import { RegexString } from "./test_types";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
@@ -31,7 +32,9 @@ export function getTemplateCompanyProfile(company_type: string = "uksef"): Compa
     } as CompanyProfile;
 }
 
-export const MOCK_ACCOUNT_FILING_ID = "fake_file_id";
+export const MOCK_ACCOUNT_FILING_ID = "27afe95d-e6a3-4575-b4b1-1f2c0b25adad"; // Randomly generate UUIDv4 Id
 
-export const MOCK_TRANSACTION_ID = 12345;
+export const MOCK_TRANSACTION_ID = "12345";
 export const MOCK_TRANSACTION = { id: MOCK_TRANSACTION_ID } as unknown as Transaction;
+
+export const MOCK_VALIDATION_RESPONSE: AccountValidatorResponse = { __proof_of_object_identity_key: "mock_validation_status" } as unknown as AccountValidatorResponse;
