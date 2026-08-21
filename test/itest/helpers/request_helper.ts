@@ -9,8 +9,8 @@ export class ITestPageRequester {
     private readonly app: Express;
     private readonly page_url: string;
 
-    constructor(page_url: string, set_state: () => void) {
-        this.app = this.loadAppWithSetup(set_state);
+    constructor(page_url: string, add_mocks: () => void) {
+        this.app = this.loadAppWithSetup(add_mocks);
         this.page_url = page_url;
     }
 
