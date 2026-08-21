@@ -1,6 +1,6 @@
 import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
-import { getSessionRequest } from "../mocks/session.mock";
+import { getLoggedInSession } from "../mocks/session.mock";
 import { mockAccountsFilingService } from "../mocks/accounts.filing.service.mock";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { getRequestWithCookie } from "./helper/requests";
@@ -12,7 +12,7 @@ describe("Check your answers test", () => {
     beforeEach(() => {
         mockCsrfProtectionMiddleware.mockClear();
         resetMockSession();
-        getSessionRequest();
+        getLoggedInSession();
     });
 
     afterEach(() => {
@@ -43,7 +43,7 @@ describe("Post uploaded validation results", () => {
     beforeEach(() => {
         mockCsrfProtectionMiddleware.mockClear();
         resetMockSession();
-        getSessionRequest();
+        getLoggedInSession();
         mockAccountsFilingService.getValidationStatus = jest.fn(
             () => Promise.resolve({ "resource": {
                 status: "complete",
@@ -57,7 +57,7 @@ describe("Post uploaded validation results", () => {
     });
 
     it("The upload your accounts file should when clicked return to upload your accout file", async () => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.company_number = "00000000";
         mockSession!.setExtraData(ContextKeys.TRANSACTION_ID, "008008008");
         mockSession!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, "008008008");

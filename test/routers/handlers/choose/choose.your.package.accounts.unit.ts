@@ -1,15 +1,15 @@
 import { ChooseYourPackageAccountsHandler } from "../../../../src/routers/handlers/choose_your_package_accounts/choose.your.package.accounts";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 import { mockSession } from "../../../mocks/session.middleware.mock";
-import { getSessionRequest } from "../../../mocks/session.mock";
+import { getLoggedInSession } from "../../../mocks/session.mock";
 
 describe("Choose your package accounts handler", () => {
 
-    let handler;
+    let handler: ChooseYourPackageAccountsHandler;
     let mockReq: Partial<Request>;
 
     beforeEach(() => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.setExtraData(ContextKeys.IS_CHS_JOURNEY, true);
         mockSession.data.signin_info!.company_number =  "0000000";
 

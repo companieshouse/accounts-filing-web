@@ -3,7 +3,7 @@ import express, { Request } from "express";
 import request from "supertest";
 import app from "../../src/app";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
-import { getSessionRequest } from "../mocks/session.mock";
+import { getLoggedInSession } from "../mocks/session.mock";
 import { PrefixedUrls, Urls } from "../../src/utils/constants/urls";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import { packageTypeFieldName } from "../../src/routers/handlers/choose_your_package_accounts/constants";
@@ -24,7 +24,7 @@ const viewDataPackageSelectionPage = {
 
 describe("package account selection test", () => {
     beforeEach(() => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.company_number = viewDataPackageSelectionPage.session.companyNumber;
         mockSession.data.signin_info!.user_profile!.email = viewDataPackageSelectionPage.session.email;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, viewDataPackageSelectionPage.session.companyName);
@@ -130,7 +130,7 @@ describe("package account selection test", () => {
 describe("Welsh translation", () => {
 
     beforeEach(() => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.company_number = viewDataPackageSelectionPage.session.companyNumber;
         mockSession.data.signin_info!.user_profile!.email = viewDataPackageSelectionPage.session.email;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, viewDataPackageSelectionPage.session.companyName);

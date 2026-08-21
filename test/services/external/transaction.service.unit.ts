@@ -1,7 +1,7 @@
 import { mockApiClient } from "../../mocks/api.client.mock";
 
 import { Session } from "@companieshouse/node-session-handler";
-import { getSessionRequest } from "../../mocks/session.mock";
+import { getLoggedInSession } from "../../mocks/session.mock";
 import { TransactionService } from "../../../src/services/external/transaction.service";
 import { ContextKeys } from "../../../src/utils/constants/context.keys";
 import { headers } from "../../../src/utils/constants/headers";
@@ -21,7 +21,7 @@ describe("Close transaction tests", () => {
     });
 
     it("Should create a public oauth api client from the sesion", async () => {
-        const session = getSessionRequest();
+        const session = getLoggedInSession();
 
         const transactionService = new TransactionService(session);
 
@@ -29,7 +29,7 @@ describe("Close transaction tests", () => {
     });
 
     it("Should throw an exception if company number not present in the session", async () => {
-        const session = getSessionRequest();
+        const session = getLoggedInSession();
 
         const transactionService = new TransactionService(session);
 
@@ -39,7 +39,7 @@ describe("Close transaction tests", () => {
     });
 
     it("Should throw an exception if accounts filing id is not present in session", async () => {
-        const session = getSessionRequest();
+        const session = getLoggedInSession();
 
         const transactionService = new TransactionService(session);
 
@@ -52,7 +52,7 @@ describe("Close transaction tests", () => {
     });
 
     it("Should throw an exception if transaction id is not present in session", async () => {
-        const session = getSessionRequest();
+        const session = getLoggedInSession();
 
         const transactionService = new TransactionService(session);
 
@@ -66,7 +66,7 @@ describe("Close transaction tests", () => {
     });
 
     it("Should call 'putTransaction' and return the value from the payment required header", async () => {
-        const session = getSessionRequest();
+        const session = getLoggedInSession();
 
         const transactionService = new TransactionService(session);
 

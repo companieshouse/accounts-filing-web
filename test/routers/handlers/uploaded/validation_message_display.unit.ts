@@ -5,7 +5,7 @@ import { mockAccountsFilingService } from "../../../mocks/accounts.filing.servic
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
 import { jest } from "@jest/globals";
 import { mockSession } from "../../../mocks/session.middleware.mock";
-import { getSessionRequest } from "../../../mocks/session.mock";
+import { getLoggedInSession } from "../../../mocks/session.mock";
 
 jest.mock("../../../../src/utils/session", () => ({
     getAccountsFilingId: jest.fn(),
@@ -27,7 +27,7 @@ describe("UploadedHandler - session key error checks", () => {
 
         handler = new UploadedHandler(mockAccountsFilingService);
 
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
 
         mockSession.data.signin_info!.company_number = "13564414";
         mockSession.data.signin_info!.signed_in = 1;

@@ -140,3 +140,6 @@ dist
 
 # JetBrains IDEs
 .idea/
+
+# vscode unshared workspace files
+.vscode/settings.json

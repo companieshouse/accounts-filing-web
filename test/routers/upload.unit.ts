@@ -5,10 +5,10 @@ import { TransactionService as LocalTransactionService } from "../../src/service
 
 import { mockAccountsFilingService } from "../mocks/accounts.filing.service.mock";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { getSessionRequest } from "../mocks/session.mock";
+import { getLoggedInSession } from "../mocks/session.mock";
 import { AccountsFilingCompanyResponse } from "@companieshouse/api-sdk-node/dist/services/accounts-filing/types";
 
-let session = getSessionRequest();
+let session = getLoggedInSession();
 
 jest.mock('@companieshouse/api-sdk-node/dist/client', () => {
     return jest.fn().mockImplementation(() => {
@@ -53,7 +53,7 @@ describe("UploadHandler", () => {
                 postTransactionRecord: mockPostTransactionRecord
             } as unknown as LocalTransactionService);
 
-        session = getSessionRequest();
+        session = getLoggedInSession();
 
         // @ts-expect-error overrides typescript to allow setting the signin_info for testing
         session.data['signin_info'] = { company_number: companyNumber };

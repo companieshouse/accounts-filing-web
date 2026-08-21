@@ -1,6 +1,6 @@
 import mockCsrfProtectionMiddleware from "../mocks/csrf.protection.middleware.mock";
 import { mockSession, resetMockSession } from "../mocks/session.middleware.mock";
-import { getSessionRequest } from "../mocks/session.mock";
+import { getLoggedInSession } from "../mocks/session.mock";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
 import express from "express";
 import app from "../../src/app";
@@ -26,7 +26,7 @@ describe("accounts submitted tests", () => {
     });
 
     beforeEach(() => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.company_number = session.companyNumber;
         mockSession.setExtraData(ContextKeys.COMPANY_NAME, session.companyName);
         mockSession.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, session.accountsFilingId);
