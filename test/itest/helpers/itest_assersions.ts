@@ -25,6 +25,19 @@ export function assert_next_page_linked_is(requester: ITestPageRequester, expect
     });
 }
 
+function build_back_button_search_regex(expected_back_url: string): RegExp {
+    const href_regex = `href=[^>]+${expected_back_url}`;
+    const back_button_class_regex = `class=[^>]+govuk-back-link`;
+    return new RegExp(`.*<a[^>]*(${href_regex}[^>]*${back_button_class_regex}|${back_button_class_regex}[^>]*${href_regex}).*`);
+}
+
+export function assert_back_button_link_is(requester: ITestPageRequester, expected_back_url: string) {
+    it(`Back Button links to page '${expected_back_url}'`, async () => {
+        const response = await requester.get();
+        expect(response.text).toMatch(build_back_button_search_regex(expected_back_url));
+    });
+}
+
 export function assert_has_button_that_sends_post_request(requester: ITestPageRequester) {
     it(`Page has button which will send POST request`, async () => {
         const response = await requester.get();
