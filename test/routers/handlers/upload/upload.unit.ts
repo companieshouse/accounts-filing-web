@@ -1,7 +1,7 @@
 import { mockTransactionService } from "../../../mocks/transaction.service.mock";
 import { mockAccountsFilingService } from "../../../mocks/accounts.filing.service.mock";
 import { mockSession, resetMockSession } from "../../../mocks/session.middleware.mock";
-import { getSessionRequest } from "../../../mocks/session.mock";
+import { getLoggedInSession } from "../../../mocks/session.mock";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
 import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrf.protection.middleware.mock";
@@ -14,7 +14,7 @@ describe("company auth test", () => {
     beforeEach(() => {
         mockCsrfProtectionMiddleware.mockClear();
         jest.clearAllMocks();
-        getSessionRequest();
+        getLoggedInSession();
 
     });
 
@@ -24,7 +24,7 @@ describe("company auth test", () => {
 
     it("does not redirect to company auth when the companyNumber query parameter checks session companyNumber", async () => {
 
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
 
         mockTransactionService.postTransactionRecord.mockResolvedValue({ id: "1" });
         mockAccountsFilingService.checkCompany.mockResolvedValue({

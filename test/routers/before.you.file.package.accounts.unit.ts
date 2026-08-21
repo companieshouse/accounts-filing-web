@@ -3,7 +3,7 @@ import app from "../../src/app";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { mockSession } from "../mocks/session.middleware.mock";
-import { getSessionRequest } from "../mocks/session.mock";
+import { getLoggedInSession } from "../mocks/session.mock";
 import { getCompanyNumberFromExtraData } from "../../src/utils/session";
 
 describe("Before you file package accounts test", () => {
@@ -43,7 +43,7 @@ describe("Welsh Cookie translation", () => {
 
 describe("CHS route tests", () => {
     beforeEach(async () => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockGetCompanyProfileFn.mockResolvedValue({
             company_number: '00006400',
             name: 'Test Company'

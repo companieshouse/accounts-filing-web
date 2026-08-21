@@ -1,10 +1,10 @@
 import { Session } from '@companieshouse/node-session-handler';
-import { getSessionRequest, testAccessToken } from '../mocks/session.mock';
+import { getLoggedInSession, testAccessToken } from '../mocks/session.mock';
 import { getSignInInfo, getAccessToken, clearSession } from "../../src/utils/session";
 import { ContextKeys } from '../../src/utils/constants/context.keys';
 
 describe('SessionUtils test suite', () => {
-    const testSessionRequest: Session = getSessionRequest();
+    const testSessionRequest: Session = getLoggedInSession();
 
     it('Test function getSignInInfo()', () => {
         const signInInfo = getSignInInfo(testSessionRequest);

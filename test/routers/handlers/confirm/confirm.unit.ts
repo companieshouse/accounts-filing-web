@@ -27,7 +27,7 @@ import { CompanyConfirmHandler } from "../../../../src/routers/handlers/company/
 import { BaseViewData, ViewModel } from "../../../../src/routers/handlers/generic";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
-import { getSessionRequest } from "../../../mocks/session.mock";
+import { getLoggedInSession } from "../../../mocks/session.mock";
 import { getRequestWithCookie } from "../../helper/requests";
 
 interface CompanyFilingIdData extends BaseViewData {
@@ -48,7 +48,7 @@ describe("company auth test", () => {
     });
 
     it("does not redirect when the companyNumber query parameter checks session companyNumber", async () => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.user_profile!.email = testEmail;
         mockSession.data.signin_info!.company_number = "00000000";
 
@@ -56,7 +56,7 @@ describe("company auth test", () => {
     });
 
     it("should translate `Confirm and continue` to Welsh for confirm company page", async () => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.user_profile!.email = testEmail;
         mockSession.data.signin_info!.company_number = "00000000";
 
@@ -66,7 +66,7 @@ describe("company auth test", () => {
     });
 
     it("should remain in English for confirm company page when lang is en", async () => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.user_profile!.email = testEmail;
         mockSession.data.signin_info!.company_number = "00000000";
 
@@ -76,7 +76,7 @@ describe("company auth test", () => {
     });
 
     it("should remain in English for confirm company page by default", async () => {
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
         mockSession.data.signin_info!.user_profile!.email = testEmail;
 
         mockSession.data.signin_info!.company_number = "00000000";
@@ -118,7 +118,7 @@ describe("CompanyConfirmHandler", () => {
             companyProfileServiceMock.getCompanyProfile.mockResolvedValue(
                 {} as CompanyProfile
             );
-            Object.assign(mockSession, getSessionRequest());
+            Object.assign(mockSession, getLoggedInSession());
             mockSession.data.signin_info!.user_profile!.email = testEmail;
             const results: ViewModel<CompanyFilingIdData> = await handler.execute({
                 ...mockReq,

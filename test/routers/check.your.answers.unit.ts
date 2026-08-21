@@ -9,7 +9,7 @@ import { PrefixedUrls } from "../../src/utils/constants/urls";
 import { setValidationResult } from "../../src/utils/session";
 import { AccountValidatorResponse } from "private-api-sdk-node/dist/services/account-validator/types";
 import { ContextKeys } from "../../src/utils/constants/context.keys";
-import { getSessionRequest } from "../mocks/session.mock";
+import { getLoggedInSession } from "../mocks/session.mock";
 import { startPaymentsSession } from "../../src/services/external/payment.service";
 import { mockPayment, PAYMENT_JOURNEY_URL } from "../mocks/payment.mock";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
@@ -31,7 +31,7 @@ const PAYMENT_URL = "/payment/1234";
 describe("Check your answers test", () => {
     beforeEach(() => {
         resetMockSession();
-        getSessionRequest();
+        getLoggedInSession();
         jest.clearAllMocks();
     });
     afterEach(() => {
@@ -40,7 +40,7 @@ describe("Check your answers test", () => {
 
     it("Should render the page on get request", async () => {
         const fileName = "fileName";
-        Object.assign(mockSession, getSessionRequest());
+        Object.assign(mockSession, getLoggedInSession());
 
         setValidationResult(mockSession, {
             fileId: "fileId",
