@@ -9,7 +9,7 @@ import { MOCK_ACCOUNT_FILING_ID, MOCK_PAYMENT_URL, MOCK_PAYMENT_URL_RESPONSE, MO
 import { RegexString } from "../test_types";
 
 
-describe("Integration Test: CHS start -> intercept main journey", () => {
+describe("Integration Test: Alternate ending - Payment", () => {
     const session = new Session();
     beforeEach(() => {
         session_itest_fully_clear_session(session);
