@@ -35,3 +35,7 @@ export function session_itest_append_pre_upload_data(session: Session, transacti
 export function session_itest_append_validation_result(session: Session, validationResult: AccountValidatorResponse) {
     session.setExtraData(ContextKeys.VALIDATION_STATUS, validationResult);
 }
+
+export function session_itest_mark_as_chs_journey(session: Session) {
+    session.setExtraData(ContextKeys.IS_CHS_JOURNEY, true);
+}
