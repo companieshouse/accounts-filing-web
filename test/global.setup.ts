@@ -27,4 +27,5 @@ export default () => {
     process.env.SUBMIT_VALIDATION_URL = "http://chs.local/xbrl_validate/submit";
     process.env.CIC_DISABLE_RADIO = "false";
     process.env.FEATURE_FLAG_ZIP_PORTAL_270924 = "true";
+    process.env.FEATURE_FLAG_BR_COMPANY_STOP_SCREEN = "true";
 };

@@ -1,0 +1,17 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+    <h1 class="govuk-heading-xl">
+        {{ i18n.cannot_file_full_accounts_for_company_type_heading }}
+    </h1>
+
+    <p class="govuk-body">
+        {{ i18n.cannot_file_full_accounts_for_company_type_body }}
+    </p>
+
+    <p class="govuk-body">
+        {{ i18n.cannot_file_full_accounts_for_company_type_more_info_start }}
+        <a class="govuk-link" href="{{ guidanceUrl }}">{{ i18n.cannot_file_full_accounts_for_company_type_guidance_link_text }}</a>{{ i18n.cannot_file_full_accounts_for_company_type_more_info_middle }}
+        <a class="govuk-link" href="{{ chooseDifferentCompanyUrl }}">{{ i18n.cannot_file_full_accounts_for_company_type_choose_different_link_text }}</a>
+    </p>
+{% endblock %}

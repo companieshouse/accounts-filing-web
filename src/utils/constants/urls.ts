@@ -14,6 +14,7 @@ export const Urls = {
     CONFIRMATION: "/confirmation-submission",
     COMPANY_SEARCH: '/company-search',
     CONFIRM_COMPANY: '/confirm-company',
+    CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE: "/cannot-file-full-accounts-for-company-type",
     CONFIRM_COMPANY_CONTINUE_TO_ACCOUNTS_CHOOSER: '/confirm-company/continue',
     UPLOAD: "/upload",
     UPLOADED: "/uploaded",
