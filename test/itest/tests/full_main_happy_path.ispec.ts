@@ -4,10 +4,7 @@ import { ExternalUrlGeneralRegex, getTemplateCompanyProfile, MOCK_ACCOUNT_FILING
 import { ITestPageRequester } from "../helpers/request_helper";
 import { assert_has_button_that_sends_post_request, assert_next_page_linked_is, assert_on_post_request_redirects_to, assert_page_loads, assert_page_redirects } from "../helpers/itest_assersions";
 import { PrefixedUrls } from "../../../src/utils/constants/urls";
-import { getLoggedInSessionWithEmail } from "../../mocks/session.mock";
-import { ContextKeys } from "../../../src/utils/constants/context.keys";
-import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
-import { session_itest_append_company_profile_data, session_itest_fully_clear_session, session_itest_overwrite_session_login } from "../helpers/itest_session_data_helpers";
+import { session_itest_append_company_profile_data, session_itest_fully_clear_session, session_itest_overwrite_session_login, session_itest_append_package_type, session_itest_append_pre_upload_data, session_itest_append_validation_result } from "../helpers/itest_session_data_helpers";
 import { Session } from "@companieshouse/node-session-handler";
 
 
@@ -81,7 +78,7 @@ describe("Integration Test: Main Happy Path", () => {
         beforeEach(() => {
             session_itest_overwrite_session_login(session);
             session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
-            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
+            session_itest_append_package_type(session, "uksef");
         });
 
         assert_page_redirects(page_requester, ExternalUrlGeneralRegex.XBRL_VALIDATE);
@@ -100,9 +97,8 @@ describe("Integration Test: Main Happy Path", () => {
         beforeEach(() => {
             session_itest_overwrite_session_login(session);
             session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
-            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
-            session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
-            session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
+            session_itest_append_package_type(session, "uksef");
+            session_itest_append_pre_upload_data(session, MOCK_TRANSACTION_ID, MOCK_ACCOUNT_FILING_ID);
         });
 
         assert_page_loads(page_requester);
@@ -121,10 +117,9 @@ describe("Integration Test: Main Happy Path", () => {
         beforeEach(() => {
             session_itest_overwrite_session_login(session);
             session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
-            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
-            session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
-            session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
-            session!.setExtraData(ContextKeys.VALIDATION_STATUS, {} as AccountValidatorResponse);
+            session_itest_append_package_type(session, "uksef");
+            session_itest_append_pre_upload_data(session, MOCK_TRANSACTION_ID, MOCK_ACCOUNT_FILING_ID);
+            session_itest_append_validation_result(session);
         });
 
         assert_page_loads(page_requester);

@@ -1,6 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { ContextKeys } from "../../../src/utils/constants/context.keys";
 import { getLoggedInSessionWithEmail } from "../../mocks/session.mock";
+import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
 
 export function session_itest_fully_clear_session(session: Session) {
     // Remove any unknown properties that implicitly untrusted code may have added
@@ -19,5 +20,18 @@ export function session_itest_append_company_profile_data(session: Session, comp
     session.data.signin_info!.company_number = companyNumber;
     session.setExtraData(ContextKeys.COMPANY_NUMBER, companyNumber);
     session.setExtraData(ContextKeys.COMPANY_NAME, companyName);
-    session?.setExtraData(ContextKeys.LANGUAGE, language);
+    session.setExtraData(ContextKeys.LANGUAGE, language);
+}
+
+export function session_itest_append_package_type(session: Session, packageType: string) {
+    session.setExtraData(ContextKeys.PACKAGE_TYPE, packageType);
+}
+
+export function session_itest_append_pre_upload_data(session: Session, transactionId: number, accountsFilingId: string) {
+    session.setExtraData(ContextKeys.TRANSACTION_ID, transactionId);
+    session.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, accountsFilingId);
+}
+
+export function session_itest_append_validation_result(session: Session) {
+    session.setExtraData(ContextKeys.VALIDATION_STATUS, {} as AccountValidatorResponse);
 }
