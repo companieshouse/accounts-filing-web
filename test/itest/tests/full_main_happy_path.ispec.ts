@@ -7,10 +7,16 @@ import { PrefixedUrls } from "../../../src/utils/constants/urls";
 import { getLoggedInSessionWithEmail } from "../../mocks/session.mock";
 import { ContextKeys } from "../../../src/utils/constants/context.keys";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
-import { session_itest_append_company_profile_data } from "../helpers/itest_session_data_helpers";
+import { session_itest_append_company_profile_data, session_itest_fully_clear_session, session_itest_overwrite_session_login } from "../helpers/itest_session_data_helpers";
+import { Session } from "@companieshouse/node-session-handler";
 
 
 describe("Integration Test: Main Happy Path", () => {
+    const session = new Session();
+    beforeEach(() => {
+        session_itest_fully_clear_session(session);
+    });
+
     describe(PrefixedUrls.HOME, () => {
         const page_requester = new ITestPageRequester(PrefixedUrls.HOME, () => {});
         assert_page_loads(page_requester);
@@ -34,10 +40,13 @@ describe("Integration Test: Main Happy Path", () => {
         const page_requester = new ITestPageRequester(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=01234567`, () => {
             disable_csrf_middleware();
             disable_auth_middleware();
-            const session = getLoggedInSessionWithEmail();
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
         });
+        beforeEach(() => {
+            session_itest_overwrite_session_login(session);
+        });
+
         assert_page_loads(page_requester);
         assert_next_page_linked_is(page_requester, PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE);
     });
@@ -47,11 +56,14 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSessionWithEmail();
-            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
         });
+        beforeEach(() => {
+            session_itest_overwrite_session_login(session);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
+        });
+
         assert_page_loads(page_requester);
         assert_has_button_that_sends_post_request(page_requester);
         assert_on_post_request_redirects_to(page_requester, PrefixedUrls.UPLOAD as RegexString, { "package-type": "uksef" });
@@ -61,14 +73,17 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSessionWithEmail();
-            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
-            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
             mockPostTransactionRecord(MOCK_TRANSACTION);
             mockAccountsFilingService(MOCK_ACCOUNT_FILING_ID);
         });
+        beforeEach(() => {
+            session_itest_overwrite_session_login(session);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
+            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
+        });
+
         assert_page_redirects(page_requester, ExternalUrlGeneralRegex.XBRL_VALIDATE);
     });
     describe(PrefixedUrls.UPLOADED, () => {
@@ -77,16 +92,19 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSessionWithEmail();
-            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
-            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
-            session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
-            session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
             mockPostTransactionRecord(MOCK_TRANSACTION);
             mockAccountsFilingService(MOCK_ACCOUNT_FILING_ID);
         });
+        beforeEach(() => {
+            session_itest_overwrite_session_login(session);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
+            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
+            session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
+            session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
+        });
+
         assert_page_loads(page_requester);
         assert_next_page_linked_is(page_requester, PrefixedUrls.CHECK_YOUR_ANSWERS);
     });
@@ -95,17 +113,20 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSessionWithEmail();
-            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
-            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
-            session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
-            session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
-            session!.setExtraData(ContextKeys.VALIDATION_STATUS, {} as AccountValidatorResponse);
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
             mockPutTransaction(MOCK_TRANSACTION);
             mockAccountsFilingService(MOCK_ACCOUNT_FILING_ID);
         });
+        beforeEach(() => {
+            session_itest_overwrite_session_login(session);
+            session_itest_append_company_profile_data(session, TEST_COMPANY_NUMBER, TEST_COMPANY_NAME);
+            session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
+            session!.setExtraData(ContextKeys.ACCOUNTS_FILING_ID, MOCK_ACCOUNT_FILING_ID);
+            session!.setExtraData(ContextKeys.TRANSACTION_ID, MOCK_TRANSACTION_ID);
+            session!.setExtraData(ContextKeys.VALIDATION_STATUS, {} as AccountValidatorResponse);
+        });
+
         assert_page_loads(page_requester);
         assert_has_button_that_sends_post_request(page_requester);
         assert_on_post_request_redirects_to(page_requester, PrefixedUrls.CONFIRMATION as RegexString);
