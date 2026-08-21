@@ -45,6 +45,17 @@ export function mockPutTransaction(transaction: Transaction) {
     jest.spyOn(TransactionServiceModule.TransactionService.prototype, 'putTransaction').mockResolvedValue({ httpStatusCode: 200, resource: transaction });
 }
 
+export function mockCloseTransaction(result: string | undefined) {
+    const TransactionServiceModule = synchronously_import_module("../../../src/services/external/transaction.service");
+    jest.spyOn(TransactionServiceModule.TransactionService.prototype, 'closeTransaction').mockResolvedValue(result);
+}
+
+export function mockPaymentService(result: object) {
+    jest.doMock("../../../src/services/external/payment.service", () => ({ startPaymentsSession:
+        (_session: Session, _paymentSessionUrl: string, _accountsFilingId: string, _transactionId: string) => {return result;}
+    }));
+}
+
 export function mockAccountsFilingService(mock_account_filing_id: string) {
     const AccountsFilingServiceModule = synchronously_import_module("../../../src/services/external/accounts.filing.service");
     jest.spyOn(AccountsFilingServiceModule.AccountsFilingService.prototype, 'checkCompany').mockResolvedValue({ httpStatusCode: 200, resource: { accountsFilingId: mock_account_filing_id } as AccountsFilingCompanyResponse });

@@ -1,4 +1,4 @@
-import { disable_auth_middleware, disable_company_auth_middleware, disable_csrf_middleware, mockAccountsFilingService, mockGetCompanyProfileResult, mockPostTransactionRecord, mockPutTransaction, set_session_middleware_data } from "../helpers/itest_mocks";
+import { disable_auth_middleware, disable_company_auth_middleware, disable_csrf_middleware, mockAccountsFilingService, mockCloseTransaction, mockGetCompanyProfileResult, mockPostTransactionRecord, mockPutTransaction, set_session_middleware_data } from "../helpers/itest_mocks";
 import { RegexString } from "../test_types";
 import { ExternalUrlGeneralRegex, getTemplateCompanyProfile, MOCK_ACCOUNT_FILING_ID, MOCK_TRANSACTION, MOCK_TRANSACTION_ID, MOCK_VALIDATION_RESPONSE, TEST_COMPANY_NAME, TEST_COMPANY_NUMBER } from "../test_data";
 import { ITestPageRequester } from "../helpers/request_helper";
@@ -119,6 +119,7 @@ describe("Integration Test: Main Happy Path", () => {
             disable_company_auth_middleware();
             set_session_middleware_data(session);
             mockPutTransaction(MOCK_TRANSACTION);
+            mockCloseTransaction(undefined);
         });
         beforeEach(() => {
             session_itest_overwrite_session_login(session);

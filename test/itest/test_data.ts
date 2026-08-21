@@ -38,3 +38,6 @@ export const MOCK_TRANSACTION_ID = "12345";
 export const MOCK_TRANSACTION = { id: MOCK_TRANSACTION_ID } as unknown as Transaction;
 
 export const MOCK_VALIDATION_RESPONSE: AccountValidatorResponse = { __proof_of_object_identity_key: "mock_validation_status" } as unknown as AccountValidatorResponse;
+
+export const MOCK_PAYMENT_URL = "mock_payment_url";
+export const MOCK_PAYMENT_URL_RESPONSE = { resource: { links: { journey: MOCK_PAYMENT_URL } } };
