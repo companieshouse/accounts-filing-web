@@ -7,7 +7,6 @@ export const ExternalUrlGeneralRegex: Record<string, RegexString> = {
     XBRL_VALIDATE: '.*/xbrl_validate/submit.*' as RegexString
 };
 
-export const TEST_EMAIL = "test_email@example.com";
 export const TEST_COMPANY_NUMBER = "01234567";
 export const TEST_COMPANY_NAME = "MOCK_COMPANY_NAME";
 

@@ -6,6 +6,7 @@ import { IAccessToken, ISignInInfo, IUserProfile } from "@companieshouse/node-se
 export const testSignedIn = 1;
 export const testUserProfile: IUserProfile = { id: 'someId' };
 export const testAccessToken: IAccessToken = { access_token: 'accessToken' };
+export const TEST_EMAIL = "test_email@example.com";
 
 export function getLoggedInSession(): Session {
     return new Session({
@@ -15,6 +16,12 @@ export function getLoggedInSession(): Session {
             [SignInInfoKeys.AccessToken]: testAccessToken
         } as ISignInInfo
     });
+}
+
+export function getLoggedInSessionWithEmail(): Session {
+    const session = getLoggedInSession();
+    session.data.signin_info!.user_profile!.email = TEST_EMAIL;
+    return session;
 }
 
 

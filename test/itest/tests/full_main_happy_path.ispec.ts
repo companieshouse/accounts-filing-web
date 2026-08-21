@@ -1,10 +1,10 @@
 import { disable_auth_middleware, disable_company_auth_middleware, disable_csrf_middleware, mockAccountsFilingService, mockGetCompanyProfileResult, mockPostTransactionRecord, mockPutTransaction, set_session_middleware_data } from "../helpers/itest_mocks";
 import { RegexString } from "../test_types";
-import { ExternalUrlGeneralRegex, getTemplateCompanyProfile, MOCK_ACCOUNT_FILING_ID, MOCK_TRANSACTION, MOCK_TRANSACTION_ID, TEST_COMPANY_NAME, TEST_COMPANY_NUMBER, TEST_EMAIL } from "../test_data";
+import { ExternalUrlGeneralRegex, getTemplateCompanyProfile, MOCK_ACCOUNT_FILING_ID, MOCK_TRANSACTION, MOCK_TRANSACTION_ID, TEST_COMPANY_NAME, TEST_COMPANY_NUMBER } from "../test_data";
 import { ITestPageRequester } from "../helpers/request_helper";
 import { assert_has_button_that_sends_post_request, assert_next_page_linked_is, assert_on_post_request_redirects_to, assert_page_loads, assert_page_redirects } from "../helpers/itest_assersions";
 import { PrefixedUrls } from "../../../src/utils/constants/urls";
-import { getLoggedInSession } from "../../mocks/session.mock";
+import { getLoggedInSessionWithEmail } from "../../mocks/session.mock";
 import { ContextKeys } from "../../../src/utils/constants/context.keys";
 import { AccountValidatorResponse } from "@companieshouse/api-sdk-node/dist/services/account-validator/types";
 
@@ -33,8 +33,7 @@ describe("Integration Test: Main Happy Path", () => {
         const page_requester = new ITestPageRequester(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=01234567`, () => {
             disable_csrf_middleware();
             disable_auth_middleware();
-            const session = getLoggedInSession();
-            session.data.signin_info!.user_profile!.email = TEST_EMAIL;
+            const session = getLoggedInSessionWithEmail();
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
         });
@@ -47,9 +46,8 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSession();
+            const session = getLoggedInSessionWithEmail();
             session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session.data.signin_info!.user_profile!.email = TEST_EMAIL;
             session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
             set_session_middleware_data(session);
             mockGetCompanyProfileResult(getTemplateCompanyProfile());
@@ -63,9 +61,8 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSession();
+            const session = getLoggedInSessionWithEmail();
             session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session.data.signin_info!.user_profile!.email = TEST_EMAIL;
             session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
             session!.setExtraData(ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
             session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
@@ -82,9 +79,8 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSession();
+            const session = getLoggedInSessionWithEmail();
             session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session.data.signin_info!.user_profile!.email = TEST_EMAIL;
             session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
             session!.setExtraData(ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
             session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
@@ -103,9 +99,8 @@ describe("Integration Test: Main Happy Path", () => {
             disable_csrf_middleware();
             disable_auth_middleware();
             disable_company_auth_middleware();
-            const session = getLoggedInSession();
+            const session = getLoggedInSessionWithEmail();
             session.data.signin_info!.company_number = TEST_COMPANY_NUMBER;
-            session.data.signin_info!.user_profile!.email = TEST_EMAIL;
             session!.setExtraData(ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
             session!.setExtraData(ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
             session!.setExtraData(ContextKeys.PACKAGE_TYPE, "uksef");
