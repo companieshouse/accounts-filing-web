@@ -1,4 +1,6 @@
-@import "node_modules/govuk-frontend/dist/govuk/index";
+$govuk-global-styles: true;
+
+@import "node_modules/govuk-frontend/govuk/all";
 
 html {
   font-family: arial;
