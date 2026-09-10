@@ -17,7 +17,8 @@ app.set("views", [
     path.join(__dirname, "node_modules/@companieshouse/"),
     path.join(__dirname, "../node_modules/@companieshouse/"),
     path.join(__dirname, "../node_modules/govuk-frontend"), // This if for when using ts-node since the working directory is src
-    path.join(__dirname, "node_modules/govuk-frontend/components"),
+    path.join(__dirname, "../node_modules/govuk-frontend/dist"),
+    path.join(__dirname, "node_modules/govuk-frontend/dist"), // GOV.UK Frontend v6 ships nunjucks macros under dist/
     path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates"),
     path.join(__dirname, "../node_modules/@companieshouse/ch-node-utils/templates")
 ]);
