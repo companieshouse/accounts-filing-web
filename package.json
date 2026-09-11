@@ -9,7 +9,7 @@
     "test:coverage": "jest --coverage --passWithNoTests",
     "test:ispec": "jest ./test/itest --detectOpenHandles",
     "test:ispec:watch": "jest ./test/itest --watch --detectOpenHandles",
-    "lint": "eslint '{src,test}/**/*'",
+    "lint": "eslint '{src,test}/**/*.{ts,tsx,js}'",
     "lint:fix": "eslint '{src,test}/**/*' --fix",
     "start": "node --inspect=0.0.0.0 dist/server.js",
     "start:watch": "nodemon",
