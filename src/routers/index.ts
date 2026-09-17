@@ -9,7 +9,7 @@ import ConfirmationSubmissionRouter from './confirmation.submission.router';
 import BeforeYouFilePackageAccountsRouter from './before.you.file.package.accounts.router';
 import ChooseYourPackageAccountsRouter from './choose.your.package.accounts.router';
 import PaymentCallbackRouter from './payment.callback.router';
-import CannotFileFullAccountsForCompanyTypeRouter from "./cannot.file.full.accounts.for.company.type.router";
+import CannotFileFullAccountsForCompanyTypeRouter from "./cannot.file.package.accounts.for.company.type.router";
 
 export { HealthCheckRouter, HomeRouter, FileUploadedRouter, UploadRouter,
     CheckYourAnswersRouter, CompanySearchRouter, CompanyConfirmRouter,
