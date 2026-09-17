@@ -18,9 +18,9 @@ export class ValidateCompanyNumberFormat {
 export function isBranchRegistrationNumber(companyNumber: string): boolean {
     return companyNumber.toUpperCase().startsWith("BR");
 }
-export function isLPRegistrationNumber(companyNumber: string): boolean {
+export function isLPNumber(companyNumber: string): boolean {
     return companyNumber.toUpperCase().startsWith("LP");
 }
-export function isSLPRegistrationNumber(companyNumber: string): boolean {
+export function isSLPNumber(companyNumber: string): boolean {
     return companyNumber.toUpperCase().startsWith("SLP");
 }
