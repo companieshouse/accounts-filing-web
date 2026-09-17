@@ -10,6 +10,7 @@ import { authenticationMiddleware } from "./middleware/authentication.middleware
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { COOKIE_CONFIG, sessionMiddleware } from "./middleware/session.middleware";
 import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
+import { companyNumberValidMiddleware } from "./middleware/company.number.valid.middleware";
 import { i18nMiddleware } from "./middleware/i18n.middleware";
 import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
 import { featureFlagMiddleware } from "./middleware/feature.flag.middleware";
@@ -61,6 +62,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, CannotFileFullAccountsForCompanyTypeRouter);
     router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
+    router.use(companyNumberValidMiddleware);
     router.use(companyAuthenticationMiddleware);
     router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, ChooseYourPackageAccountsRouter);
     router.use(Urls.UPLOAD, UploadRouter);
