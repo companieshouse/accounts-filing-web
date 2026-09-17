@@ -15,7 +15,7 @@ export class CannotFilePackageAccountsForCompanyTypeHandler extends GenericHandl
     constructor () {
         super({
             viewName: "cannot file package accounts for company type",
-            backURL: null,
+            backURL: PrefixedUrls.HOME,
             userEmail: null
         });
     }
@@ -25,8 +25,6 @@ export class CannotFilePackageAccountsForCompanyTypeHandler extends GenericHandl
         clearSession(req.session);
         const language = getLanguageFromRequest(req);
         const companySearchUrl = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, language);
-
-        this.baseViewData.backURL = companySearchUrl;
 
         return {
             templatePath: CannotFilePackageAccountsForCompanyTypeHandler.routeViews,
