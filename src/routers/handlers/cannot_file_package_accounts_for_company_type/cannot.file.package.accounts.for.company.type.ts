@@ -4,23 +4,23 @@ import { getLocalesField, addLangToUrl, getLanguageFromRequest } from "../../../
 import { PrefixedUrls } from "../../../utils/constants/urls";
 import { clearSession } from "../../../utils/session";
 
-interface CannotFileFullAccountsForCompanyTypeViewData extends LocalizedViewData {
+interface CannotFilePackageAccountsForCompanyTypeViewData extends LocalizedViewData {
     guidanceUrl: string;
     chooseDifferentCompanyUrl: string;
 }
 
-export class CannotFileFullAccountsForCompanyTypeHandler extends GenericHandler {
-    static readonly routeViews = "router_views/cannot_file_full_accounts_for_company_type/cannot_file_full_accounts_for_company_type";
+export class CannotFilePackageAccountsForCompanyTypeHandler extends GenericHandler {
+    static readonly routeViews = "router_views/cannot_file_package_accounts_for_company_type/cannot_file_package_accounts_for_company_type";
 
     constructor () {
         super({
-            viewName: "cannot file full accounts for company type",
+            viewName: "cannot file package accounts for company type",
             backURL: null,
             userEmail: null
         });
     }
 
-    execute(req: Request, _res: Response): ViewModel<CannotFileFullAccountsForCompanyTypeViewData> {
+    execute(req: Request, _res: Response): ViewModel<CannotFilePackageAccountsForCompanyTypeViewData> {
         this.populateViewData(req);
         clearSession(req.session);
         const language = getLanguageFromRequest(req);
@@ -29,10 +29,10 @@ export class CannotFileFullAccountsForCompanyTypeHandler extends GenericHandler 
         this.baseViewData.backURL = companySearchUrl;
 
         return {
-            templatePath: CannotFileFullAccountsForCompanyTypeHandler.routeViews,
+            templatePath: CannotFilePackageAccountsForCompanyTypeHandler.routeViews,
             viewData: {
                 ...this.baseViewData,
-                title: getLocalesField("cannot_file_full_accounts_for_company_type_title", req),
+                title: getLocalesField("cannot_file_package_accounts_for_company_type_title", req),
                 guidanceUrl: "https://www.gov.uk/file-accounts-in-the-uk-as-an-overseas-company",
                 chooseDifferentCompanyUrl: companySearchUrl
             }

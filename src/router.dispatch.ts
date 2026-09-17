@@ -3,7 +3,7 @@ import { Application, Router } from "express";
 import { servicePathPrefix, Urls } from "./utils/constants/urls";
 import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter,
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
-    ChooseYourPackageAccountsRouter, PaymentCallbackRouter, CannotFileFullAccountsForCompanyTypeRouter } from "./routers";
+    ChooseYourPackageAccountsRouter, PaymentCallbackRouter, CannotFileFullAccountsForCompanyTypeRouter as CannotFilePackageAccountsForCompanyTypeRouter } from "./routers";
 
 import { errorHandler, pageNotFound, csrfErrorHandler } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
@@ -59,7 +59,7 @@ const routerDispatch = (app: Application) => {
 
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
-    router.use(Urls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, CannotFileFullAccountsForCompanyTypeRouter);
+    router.use(Urls.CANNOT_FILE_PACKAGE_ACCOUNTS_FOR_COMPANY_TYPE, CannotFilePackageAccountsForCompanyTypeRouter);
     router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
     router.use(companyNumberValidMiddleware);

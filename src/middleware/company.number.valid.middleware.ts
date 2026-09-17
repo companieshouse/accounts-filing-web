@@ -12,7 +12,7 @@ export const companyNumberValidMiddleware = (req: Request, res: Response, next: 
     checkCompanyNumberFormatIsValid(companyNumber);
 
     if (shouldProgressToStopScreen(companyNumber)) {
-        return res.redirect(addLangToUrl(PrefixedUrls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, getLanguageFromRequest(req)));
+        return res.redirect(addLangToUrl(PrefixedUrls.CANNOT_FILE_PACKAGE_ACCOUNTS_FOR_COMPANY_TYPE, getLanguageFromRequest(req)));
     }
 
     next();

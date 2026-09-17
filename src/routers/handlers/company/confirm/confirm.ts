@@ -63,7 +63,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
     private getNextUrl(companyNumber: string, language: string): string {
         if (shouldProgressToStopScreen(companyNumber)) {
-            return addLangToUrl(PrefixedUrls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, language);
+            return addLangToUrl(PrefixedUrls.CANNOT_FILE_PACKAGE_ACCOUNTS_FOR_COMPANY_TYPE, language);
         }
 
         return addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, language);
