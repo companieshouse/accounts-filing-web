@@ -59,12 +59,14 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
     router.use(Urls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, CannotFileFullAccountsForCompanyTypeRouter);
-    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, companyAuthenticationMiddleware, ChooseYourPackageAccountsRouter);
-    router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
-    router.use(Urls.UPLOADED, companyAuthenticationMiddleware, FileUpladedRouter);
-    router.use(Urls.CHECK_YOUR_ANSWERS, companyAuthenticationMiddleware, CheckYourAnswersRouter);
-    router.use(Urls.CONFIRMATION, companyAuthenticationMiddleware, ConfirmationSubmissionRouter);
     router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
+
+    router.use(companyAuthenticationMiddleware);
+    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, ChooseYourPackageAccountsRouter);
+    router.use(Urls.UPLOAD, UploadRouter);
+    router.use(Urls.UPLOADED, FileUpladedRouter);
+    router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
+    router.use(Urls.CONFIRMATION, ConfirmationSubmissionRouter);
 
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);
