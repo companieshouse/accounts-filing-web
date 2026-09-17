@@ -4,10 +4,7 @@ import { LocalizedViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import {
-    checkCompanyNumberFormatIsValidate as companyNumberMustBeValid,
-    isBranchRegistrationNumber
-} from "../../../../utils/format/company.number.format";
+import { checkCompanyNumberFormatIsValid as companyNumberMustBeValid } from "../../../../utils/format/company.number.format";
 import { getUserEmail, must, setCompanyName, setExtraDataCompanyNumber, setLanguage } from "../../../../utils/session";
 import {
     addLangToUrl,
@@ -16,6 +13,7 @@ import {
     getLanguageFromRequest
 } from "../../../../utils/localise";
 import { env } from "../../../../config";
+import { isBranchRegistrationNumber } from "../../../../utils/validate/validate.company.number";
 
 
 interface ConfirmCompanyViewData extends LocalizedViewData {
