@@ -23,7 +23,7 @@ export function isLPNumber(companyNumber: string): boolean {
     return companyNumber.toUpperCase().startsWith("LP");
 }
 export function isSLPNumber(companyNumber: string): boolean {
-    return companyNumber.toUpperCase().startsWith("SLP");
+    return companyNumber.toUpperCase().startsWith("SL");
 }
 export function shouldProgressToStopScreen(companyNumber: string) {
     return (
