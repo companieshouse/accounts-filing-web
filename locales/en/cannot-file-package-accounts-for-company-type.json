@@ -1,9 +1,13 @@
 {
     "cannot_file_package_accounts_for_company_type_title": "You cannot file package accounts for this company type - File package accounts with Companies House - Welcome to GOV.UK",
     "cannot_file_package_accounts_for_company_type_heading": "You cannot file package accounts for this company type",
+
     "cannot_file_package_accounts_for_company_type_BR_body": "You cannot file accounts for a UK Establishment of an overseas company. Only the overseas company can file accounts.",
     "cannot_file_package_accounts_for_company_type_BR_more_info_start": "For more information, read the",
     "cannot_file_package_accounts_for_company_type_BR_guidance_link_text": "guidance on filing accounts in the UK as an overseas company",
-    "cannot_file_package_accounts_for_company_type_BR_more_info_link_connection": ", or",
-    "cannot_file_package_accounts_for_company_type_BR_choose_different_link_text": "go back to file for another company"
+    "cannot_file_package_accounts_for_company_type_BR_more_info_end": ", or go back to file for another company.",
+
+    "cannot_file_package_accounts_for_company_type_LP_body": "You cannot file package accounts for a Limited Partnership (LP).",
+    "cannot_file_package_accounts_for_company_type_LP_guidance_link_text": "Read the guidance about registering a limited partnership",
+    "cannot_file_package_accounts_for_company_type_LP_more_info_end": "for more information about accounts and filing for an LP, or go back if you need to file for another company."
 }
