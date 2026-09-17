@@ -5,7 +5,6 @@ import { PrefixedUrls } from "../../../utils/constants/urls";
 import { clearSession } from "../../../utils/session";
 
 interface CannotFilePackageAccountsForCompanyTypeViewData extends LocalizedViewData {
-    guidanceUrl: string;
     chooseDifferentCompanyUrl: string;
 }
 
@@ -31,7 +30,6 @@ export class CannotFilePackageAccountsForCompanyTypeHandler extends GenericHandl
             viewData: {
                 ...this.baseViewData,
                 title: getLocalesField("cannot_file_package_accounts_for_company_type_title", req),
-                guidanceUrl: "https://www.gov.uk/file-accounts-in-the-uk-as-an-overseas-company",
                 chooseDifferentCompanyUrl: companySearchUrl
             }
         };
