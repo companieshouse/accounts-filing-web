@@ -1,15 +1,16 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
 import { servicePathPrefix, Urls } from "./utils/constants/urls";
-import { HomeRouter, HealthCheckRouter, FileUpladedRouter, UploadRouter, CompanySearchRouter,
+import { HomeRouter, HealthCheckRouter, FileUploadedRouter, UploadRouter, CompanySearchRouter,
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
-    ChooseYourPackageAccountsRouter, PaymentCallbackRouter, CannotFileFullAccountsForCompanyTypeRouter } from "./routers";
+    ChooseYourPackageAccountsRouter, PaymentCallbackRouter, CannotFileFullAccountsForCompanyTypeRouter as CannotFilePackageAccountsForCompanyTypeRouter } from "./routers";
 
 import { errorHandler, pageNotFound, csrfErrorHandler } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { COOKIE_CONFIG, sessionMiddleware } from "./middleware/session.middleware";
 import { companyAuthenticationMiddleware } from "./middleware/company.authentication.middleware";
+import { companyNumberValidMiddleware } from "./middleware/company.number.valid.middleware";
 import { i18nMiddleware } from "./middleware/i18n.middleware";
 import { LocalesMiddleware } from "@companieshouse/ch-node-utils";
 import { featureFlagMiddleware } from "./middleware/feature.flag.middleware";
@@ -58,13 +59,16 @@ const routerDispatch = (app: Application) => {
 
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
-    router.use(Urls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, CannotFileFullAccountsForCompanyTypeRouter);
-    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, companyAuthenticationMiddleware, ChooseYourPackageAccountsRouter);
-    router.use(Urls.UPLOAD, companyAuthenticationMiddleware, UploadRouter);
-    router.use(Urls.UPLOADED, companyAuthenticationMiddleware, FileUpladedRouter);
-    router.use(Urls.CHECK_YOUR_ANSWERS, companyAuthenticationMiddleware, CheckYourAnswersRouter);
-    router.use(Urls.CONFIRMATION, companyAuthenticationMiddleware, ConfirmationSubmissionRouter);
+    router.use(Urls.CANNOT_FILE_PACKAGE_ACCOUNTS_FOR_COMPANY_TYPE, CannotFilePackageAccountsForCompanyTypeRouter);
     router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
+
+    router.use(companyNumberValidMiddleware);
+    router.use(companyAuthenticationMiddleware);
+    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, ChooseYourPackageAccountsRouter);
+    router.use(Urls.UPLOAD, UploadRouter);
+    router.use(Urls.UPLOADED, FileUploadedRouter);
+    router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
+    router.use(Urls.CONFIRMATION, ConfirmationSubmissionRouter);
 
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);

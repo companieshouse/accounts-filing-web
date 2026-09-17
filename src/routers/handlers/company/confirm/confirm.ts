@@ -4,10 +4,7 @@ import { LocalizedViewData, GenericHandler, ViewModel } from "../../generic";
 import { Request, Response } from "express";
 import { CompanyProfileService } from "../../../../services/external/company.profile.service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import {
-    checkCompanyNumberFormatIsValidate as companyNumberMustBeValid,
-    isBranchRegistrationNumber
-} from "../../../../utils/format/company.number.format";
+import { checkCompanyNumberFormatIsValid as companyNumberMustBeValid } from "../../../../utils/format/company.number.format";
 import { getUserEmail, must, setCompanyName, setExtraDataCompanyNumber, setLanguage } from "../../../../utils/session";
 import {
     addLangToUrl,
@@ -15,7 +12,6 @@ import {
     getLocalesField,
     getLanguageFromRequest
 } from "../../../../utils/localise";
-import { env } from "../../../../config";
 
 
 interface ConfirmCompanyViewData extends LocalizedViewData {
@@ -51,7 +47,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         this.populateViewData(req);
         this.baseViewData.backURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, language);
-        this.baseViewData.nextURL = this.getNextUrl(companyNumber, language);
+        this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, language);
         this.baseViewData.userEmail = userEmail;
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`,
@@ -62,13 +58,5 @@ export class CompanyConfirmHandler extends GenericHandler {
                 changeCompanyUrl: addEncodeURILangToUrl(COMPANY_LOOKUP, language)
             }
         };
-    }
-
-    private getNextUrl(companyNumber: string, language: string): string {
-        if (env.FEATURE_FLAG_BR_COMPANY_STOP_SCREEN_250826 && isBranchRegistrationNumber(companyNumber)) {
-            return addLangToUrl(PrefixedUrls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, language);
-        }
-
-        return addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, language);
     }
 }

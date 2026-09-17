@@ -1,0 +1,32 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+    <h1 class="govuk-heading-xl">
+        {{ i18n.cannot_file_package_accounts_for_company_type_heading }}
+    </h1>
+
+    {% if errorMessageCategory == CompanyNumberRejectionMessageTypes.BR %}
+        <p class="govuk-body">
+            {{ i18n.cannot_file_package_accounts_for_company_type_BR_body }}
+        </p>
+        <p class="govuk-body">
+            {{ i18n.cannot_file_package_accounts_for_company_type_BR_more_info_start }}
+            <a class="govuk-link" href="https://www.gov.uk/file-accounts-in-the-uk-as-an-overseas-company">
+                {{ i18n.cannot_file_package_accounts_for_company_type_BR_guidance_link_text }}<!--
+            --></a><!--
+            -->{{ i18n.cannot_file_package_accounts_for_company_type_BR_more_info_end }}
+        </p>
+    {% endif %}
+    {% if errorMessageCategory == CompanyNumberRejectionMessageTypes.LP or errorMessageCategory == CompanyNumberRejectionMessageTypes.SLP %}
+        <p class="govuk-body">
+            {{ i18n.cannot_file_package_accounts_for_company_type_LP_body }}
+        </p>
+        <p class="govuk-body">
+            <a class="govuk-link" href="https://www.gov.uk/government/publications/limited-partnership-act/register-a-limited-partnership">
+                {{ i18n.cannot_file_package_accounts_for_company_type_LP_guidance_link_text }}<!--
+            --></a>
+            {{ i18n.cannot_file_package_accounts_for_company_type_LP_more_info_end }}
+        </p>
+    {% endif %}
+
+{% endblock %}
