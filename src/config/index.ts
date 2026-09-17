@@ -101,6 +101,12 @@ export const env = readEnv(process.env, {
     FEATURE_FLAG_BR_COMPANY_STOP_SCREEN_250826: bool
         .describe("Feature flag to block BR company numbers with a stop screen")
         .default(true),
+    FEATURE_FLAG_ALLOW_LP_COMPANY_TO_USE_SERVICE_170926: bool
+        .describe("Feature flag that when false will cause companies with a company number matching 'LP******' to encounter a stop screen preventing progression of the journey")
+        .default(false),
+    FEATURE_FLAG_ALLOW_SLP_COMPANY_TO_USE_SERVICE_170926: bool
+        .describe("Feature flag that when false will cause companies with a company number matching 'SLP*****' to encounter a stop screen preventing progression of the journey")
+        .default(false),
     SESSION_TIMEOUT: int.describe("time in seconds before user is logged out").default(3600),
     SESSION_COUNTDOWN: int.describe("time in seconds for dialog box to be available for user to choose to stay log in or not").default(60)
 });
