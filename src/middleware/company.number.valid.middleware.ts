@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { checkCompanyNumberFormatIsValid } from "../utils/format/company.number.format";
-import { getCompanyNumberFromExtraData } from "../utils/session";
-import { addLangToUrl, getLanguageFromRequest } from "../utils/localise";
 import { PrefixedUrls } from "../utils/constants/urls";
+import { checkCompanyNumberFormatIsValid } from "../utils/format/company.number.format";
+import { addLangToUrl, getLanguageFromRequest } from "../utils/localise";
+import { getCompanyNumberFromExtraData } from "../utils/session";
 import { shouldProgressToStopScreen } from "../utils/validate/validate.company.number";
 
 export const companyNumberValidMiddleware = (req: Request, res: Response, next: NextFunction) => {
