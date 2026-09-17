@@ -12,8 +12,7 @@ import {
     getLocalesField,
     getLanguageFromRequest
 } from "../../../../utils/localise";
-import { env } from "../../../../config";
-import { isBranchRegistrationNumber } from "../../../../utils/validate/validate.company.number";
+import { shouldProgressToStopScreen } from "../../../../utils/validate/validate.company.number";
 
 
 interface ConfirmCompanyViewData extends LocalizedViewData {
@@ -63,7 +62,7 @@ export class CompanyConfirmHandler extends GenericHandler {
     }
 
     private getNextUrl(companyNumber: string, language: string): string {
-        if (env.FEATURE_FLAG_BR_COMPANY_STOP_SCREEN_250826 && isBranchRegistrationNumber(companyNumber)) {
+        if (shouldProgressToStopScreen(companyNumber)) {
             return addLangToUrl(PrefixedUrls.CANNOT_FILE_FULL_ACCOUNTS_FOR_COMPANY_TYPE, language);
         }
 
