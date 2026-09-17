@@ -12,7 +12,6 @@ import {
     getLocalesField,
     getLanguageFromRequest
 } from "../../../../utils/localise";
-import { shouldProgressToStopScreen } from "../../../../utils/validate/validate.company.number";
 
 
 interface ConfirmCompanyViewData extends LocalizedViewData {
@@ -48,7 +47,7 @@ export class CompanyConfirmHandler extends GenericHandler {
 
         this.populateViewData(req);
         this.baseViewData.backURL = addLangToUrl(PrefixedUrls.COMPANY_SEARCH, language);
-        this.baseViewData.nextURL = this.getNextUrl(companyNumber, language);
+        this.baseViewData.nextURL = addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, language);
         this.baseViewData.userEmail = userEmail;
         logger.info(`Serving company profile data`);
         return { templatePath: `${CompanyConfirmHandler.routeViews}`,
@@ -59,13 +58,5 @@ export class CompanyConfirmHandler extends GenericHandler {
                 changeCompanyUrl: addEncodeURILangToUrl(COMPANY_LOOKUP, language)
             }
         };
-    }
-
-    private getNextUrl(companyNumber: string, language: string): string {
-        if (shouldProgressToStopScreen(companyNumber)) {
-            return addLangToUrl(PrefixedUrls.CANNOT_FILE_PACKAGE_ACCOUNTS_FOR_COMPANY_TYPE, language);
-        }
-
-        return addLangToUrl(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, language);
     }
 }
