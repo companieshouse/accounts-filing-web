@@ -6,7 +6,7 @@ import { servicePathPrefix } from "../../src/utils/constants/urls";
 import { getRequestWithCookie } from "../routers/helper/requests";
 
 const EXPECTED_TEXT = "Page not found";
-const INCORRECT_URL = servicePathPrefix + "/company-number";
+const INCORRECT_URL = servicePathPrefix + "/this-page-does-not-exist";
 
 describe("Error controller test", () => {
     beforeEach(() => {
@@ -14,7 +14,7 @@ describe("Error controller test", () => {
         jest.clearAllMocks();
     });
 
-    it("Should return page not found screen if page url is not recognised", async () => {
+    it("Should return 404 page not found screen if page url is not recognized", async () => {
         const response = await getRequestWithCookie(INCORRECT_URL);
 
         expect(response.status).toEqual(404);
