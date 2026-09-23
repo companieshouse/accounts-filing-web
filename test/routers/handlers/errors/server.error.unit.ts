@@ -1,4 +1,4 @@
-import { errorHandler } from "../../../../src/routers/handlers/errors/server.error";
+import { errorHandlerFactory } from "../../../../src/routers/handlers/errors/server.error";
 import { logger } from "../../../../src/utils/logger";
 import { Request, Response, NextFunction } from "express";
 
@@ -25,7 +25,7 @@ describe("errorHandler", () => {
     });
 
     it("logs error and renders the error screen", () => {
-        errorHandler(mockError, mockRequest as Request, mockResponse as Response, mockNext);
+        errorHandlerFactory("development")(mockError, mockRequest as Request, mockResponse as Response, mockNext);
 
         expect(logger.errorRequest).toHaveBeenCalledWith(
             mockRequest,

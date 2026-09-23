@@ -5,7 +5,7 @@ import { HomeRouter, HealthCheckRouter, FileUploadedRouter, UploadRouter, Compan
     CompanyConfirmRouter, CheckYourAnswersRouter, ConfirmationSubmissionRouter, BeforeYouFilePackageAccountsRouter,
     ChooseYourPackageAccountsRouter, PaymentCallbackRouter, CannotFileFullAccountsForCompanyTypeRouter as CannotFilePackageAccountsForCompanyTypeRouter } from "./routers";
 
-import { errorHandler, pageNotFound, csrfErrorHandler } from "./routers/handlers/errors";
+import { errorHandlerFactory, pageNotFound, csrfErrorHandler } from "./routers/handlers/errors";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { commonTemplateVariablesMiddleware } from "./middleware/common.variables.middleware";
 import { COOKIE_CONFIG, sessionMiddleware } from "./middleware/session.middleware";
@@ -60,15 +60,17 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.CONFIRM_COMPANY, CompanyConfirmRouter);
     router.use(Urls.COMPANY_SEARCH, CompanySearchRouter);
     router.use(Urls.CANNOT_FILE_PACKAGE_ACCOUNTS_FOR_COMPANY_TYPE, CannotFilePackageAccountsForCompanyTypeRouter);
-    router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
-    router.use(companyNumberValidMiddleware);
-    router.use(companyAuthenticationMiddleware);
-    router.use(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, ChooseYourPackageAccountsRouter);
-    router.use(Urls.UPLOAD, UploadRouter);
-    router.use(Urls.UPLOADED, FileUploadedRouter);
-    router.use(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
-    router.use(Urls.CONFIRMATION, ConfirmationSubmissionRouter);
+    function companyNumberInSessionRouter(path: string, pageRouter: Router) {
+        router.use(path, companyNumberValidMiddleware, companyAuthenticationMiddleware, pageRouter);
+    }
+    companyNumberInSessionRouter(Urls.CHOOSE_YOUR_ACCOUNTS_PACKAGE, ChooseYourPackageAccountsRouter);
+    companyNumberInSessionRouter(Urls.UPLOAD, UploadRouter);
+    companyNumberInSessionRouter(Urls.UPLOADED, FileUploadedRouter);
+    companyNumberInSessionRouter(Urls.CHECK_YOUR_ANSWERS, CheckYourAnswersRouter);
+    companyNumberInSessionRouter(Urls.CONFIRMATION, ConfirmationSubmissionRouter);
+
+    router.use(Urls.PAYMENT_CALLBACK, PaymentCallbackRouter);
 
     app.use(servicePathPrefix, router);
     app.use(commonTemplateVariablesMiddleware);
@@ -90,7 +92,7 @@ const setupCSRFOptions = (sessionStore: SessionStore) => {
 
 const errorPageHandlers = (app: Application) => {
     app.use(csrfErrorHandler);
-    app.use(errorHandler);
+    app.use(errorHandlerFactory());
     app.use("*", pageNotFound);
 };
 
