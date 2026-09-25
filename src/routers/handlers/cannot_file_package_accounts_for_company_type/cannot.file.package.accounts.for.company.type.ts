@@ -8,7 +8,7 @@ import { isBranchRegistrationNumber, isLPNumber, isSLPNumber } from "../../../ut
 enum CompanyNumberRejectionMessageTypes {
     BR="BR",
     LP="LP",
-    SLP="SLP"
+    SLP="SL"
 }
 
 interface CannotFilePackageAccountsForCompanyTypeViewData extends LocalizedViewData {
