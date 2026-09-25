@@ -28,4 +28,6 @@ export default () => {
     process.env.CIC_DISABLE_RADIO = "false";
     process.env.FEATURE_FLAG_ZIP_PORTAL_270924 = "true";
     process.env.FEATURE_FLAG_BR_COMPANY_STOP_SCREEN_250826 = "true";
+    process.env.FEATURE_FLAG_ALLOW_LP_COMPANY_TO_USE_SERVICE_170926 = "false";
+    process.env.FEATURE_FLAG_ALLOW_SLP_COMPANY_TO_USE_SERVICE_170926 = "false";
 };

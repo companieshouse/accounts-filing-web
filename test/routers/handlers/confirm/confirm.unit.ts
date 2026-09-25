@@ -29,7 +29,6 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
 import { getLoggedInSession } from "../../../mocks/session.mock";
 import { getRequestWithCookie } from "../../helper/requests";
-import { setEnvVars } from "../../../test_utils";
 
 interface CompanyFilingIdData extends BaseViewData {
     companyProfile: CompanyProfile,
@@ -132,38 +131,6 @@ describe("CompanyConfirmHandler", () => {
             expect(
                 results.viewData.changeCompanyUrl
             ).toMatch("/company-lookup/search?forward=/accounts-filing/confirm-company?companyNumber=");
-        });
-
-        it("should set nextURL to stop page for BR numbers when feature flag is on", async () => {
-            const cleanup = setEnvVars({ FEATURE_FLAG_BR_COMPANY_STOP_SCREEN_250826: true });
-            companyProfileServiceMock.getCompanyProfile.mockResolvedValue({} as CompanyProfile);
-            Object.assign(mockSession, getLoggedInSession());
-            mockSession.data.signin_info!.user_profile!.email = testEmail;
-
-            const results: ViewModel<CompanyFilingIdData> = await handler.execute({
-                ...mockReq,
-                query: { companyNumber: "BR000804" },
-                session: mockSession
-            } as Request, {} as any);
-
-            expect(results.viewData.nextURL).toEqual("/accounts-filing/cannot-file-full-accounts-for-company-type?lang=en");
-            cleanup();
-        });
-
-        it("should keep nextURL as choose package for BR numbers when feature flag is off", async () => {
-            const cleanup = setEnvVars({ FEATURE_FLAG_BR_COMPANY_STOP_SCREEN_250826: false });
-            companyProfileServiceMock.getCompanyProfile.mockResolvedValue({} as CompanyProfile);
-            Object.assign(mockSession, getLoggedInSession());
-            mockSession.data.signin_info!.user_profile!.email = testEmail;
-
-            const results: ViewModel<CompanyFilingIdData> = await handler.execute({
-                ...mockReq,
-                query: { companyNumber: "BR000804" },
-                session: mockSession
-            } as Request, {} as any);
-
-            expect(results.viewData.nextURL).toEqual("/accounts-filing/choose-your-accounts-package?lang=en");
-            cleanup();
         });
     });
 
