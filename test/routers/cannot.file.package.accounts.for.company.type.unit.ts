@@ -23,4 +23,15 @@ describe("cannot file full accounts for company type page", () => {
         expect(response.text).toContain("cannot file package accounts");
         expect(response.text).toContain("https://www.gov.uk/file-accounts-in-the-uk-as-an-overseas-company");
     });
+
+    it("should render with the correct page title", async () => {
+        Object.assign(mockSession, getLoggedInSession());
+        mockSession.data.signin_info!.company_number = "BR123456";
+        mockSession.setExtraData(ContextKeys.COMPANY_NUMBER, "BR123456");
+
+        const response = await request.agent(app).set("Cookie", setCookie()).get(PrefixedUrls.CANNOT_FILE_PACKAGE_ACCOUNTS_FOR_COMPANY_TYPE);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.text).toContain("<title>You cannot file package accounts for this company type - File package accounts with Companies House - GOV.UK</title>");
+    });
 });
