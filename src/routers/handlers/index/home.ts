@@ -44,7 +44,6 @@ export class HomeHandler extends GenericHandler {
 
         const disablePackageInfo = {
             cic_disabled: env.CIC_DISABLE_RADIO,
-            overseas_disabled: env.DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO,
             audit_exempt_disabled: env.DISABLE_AUDIT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO,
             dormant_disabled: env.DISABLE_DORMANT_EXEMPT_SUBSIDIARY_ACCOUNTS_RADIO,
             limited_disabled: env.DISABLE_LIMITED_PARTNERSHIP_ACCOUNTS_RADIO,

@@ -22,7 +22,7 @@ export const packageTypeOptions = (req: Request): PackageTypeOption[] => [
         name: "overseas",
         description: getLocalesField("overseas_company_accounts_description", req),
         hint: getHint(getLocalesField("choose_your_package_accounts_fee_text", req), env.OVERSEAS_FEE),
-        disabled: env.DISABLE_OVERSEAS_COMPANY_ACCOUNTS_RADIO,
+        disabled: false,
     },
     {
         name: "audit-exempt-subsidiary",
