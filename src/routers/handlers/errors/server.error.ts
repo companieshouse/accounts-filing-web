@@ -23,9 +23,10 @@ export const errorHandlerFactory = (environment = process.env.NODE_ENV) => {
         }
         const statusCode = typeof err === "object" && err !== null && "httpStatusCode" in err && err.httpStatusCode === 503
             ? 503 : 500;
+        const errorDetail = err instanceof Error ? err.stack : `HTTP ${statusCode}`;
         logger.errorRequest(
             req,
-            `An error has occurred. Re-routing to the error screen - ${err instanceof Error ? err.stack : `HTTP ${statusCode}`}`
+            `An error has occurred. Re-routing to the error screen - ${errorDetail}`
         );
         if (statusCode === 503) {
             const backURL = addLangToUrl(PrefixedUrls.UPLOAD, getLanguageFromRequest(req));
