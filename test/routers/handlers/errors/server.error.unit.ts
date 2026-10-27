@@ -35,4 +35,25 @@ describe("errorHandler", () => {
         expect(mockResponse.render).toHaveBeenCalledWith("partials/error_500");
     });
 
+    it("renders the 503 screen for an SDK service unavailable response", () => {
+        mockRequest = { query: { lang: "en" } };
+        errorHandlerFactory("development")(
+            { httpStatusCode: 503 },
+            mockRequest as Request, mockResponse as Response, mockNext
+        );
+
+        expect(mockResponse.status).toHaveBeenCalledWith(503);
+        expect(mockResponse.render).toHaveBeenCalledWith("partials/error_503", { backURL: "/accounts-filing/upload?lang=en" });
+        expect(logger.errorRequest).toHaveBeenCalled();
+    });
+
+    it.each([null, undefined, {}, { httpStatusCode: 400 }, { httpStatusCode: 500 }])(
+        "keeps the 500 screen for other errors: %p", (error) => {
+            errorHandlerFactory("development")(error, mockRequest as Request, mockResponse as Response, mockNext);
+
+            expect(mockResponse.status).toHaveBeenCalledWith(500);
+            expect(mockResponse.render).toHaveBeenCalledWith("partials/error_500");
+        }
+    );
+
 });
