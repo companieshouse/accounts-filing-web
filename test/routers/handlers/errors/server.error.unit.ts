@@ -15,6 +15,7 @@ describe("errorHandler", () => {
     let mockError: Error;
 
     beforeEach(() => {
+        jest.clearAllMocks();
         mockRequest = {};
         mockResponse = {
             status: jest.fn().mockReturnThis(),
@@ -45,6 +46,58 @@ describe("errorHandler", () => {
         expect(mockResponse.status).toHaveBeenCalledWith(503);
         expect(mockResponse.render).toHaveBeenCalledWith("partials/error_503", { backURL: "/accounts-filing/upload?lang=en" });
         expect(logger.errorRequest).toHaveBeenCalled();
+    });
+
+    it("logs an Error's message when its stack is unavailable", () => {
+        mockError.stack = undefined;
+
+        errorHandlerFactory("development")(mockError, mockRequest as Request, mockResponse as Response, mockNext);
+
+        expect(logger.errorRequest).toHaveBeenCalledWith(
+            mockRequest,
+            "An error has occurred. Re-routing to the error screen - Error: Test error"
+        );
+    });
+
+    it.each([500, 503])("logs SDK error details before returning %s", (httpStatusCode) => {
+        mockRequest = { query: { lang: "en" } };
+        const error = {
+            httpStatusCode,
+            message: "Upstream request failed",
+            errors: [{
+                error: "service-unavailable",
+                type: "service",
+                errorValues: { email: "private@example.com" }
+            }],
+            resource: { email: "private@example.com" },
+            headers: { authorization: "secret" }
+        };
+        Object.assign(error, { response: error });
+        const status = jest.fn().mockImplementation(() => {
+            expect(logger.errorRequest).toHaveBeenCalledWith(
+                mockRequest,
+                `An error has occurred. Re-routing to the error screen - ${JSON.stringify({
+                    httpStatusCode,
+                    message: error.message,
+                    errors: [{ error: "service-unavailable", type: "service" }]
+                })}`
+            );
+            return mockResponse;
+        });
+        mockResponse.status = status;
+
+        errorHandlerFactory("development")(error, mockRequest as Request, mockResponse as Response, mockNext);
+
+        expect(status).toHaveBeenCalledWith(httpStatusCode);
+    });
+
+    it("logs a thrown string", () => {
+        errorHandlerFactory("development")("Connection failed", mockRequest as Request, mockResponse as Response, mockNext);
+
+        expect(logger.errorRequest).toHaveBeenCalledWith(
+            mockRequest,
+            "An error has occurred. Re-routing to the error screen - Connection failed"
+        );
     });
 
     it.each([null, undefined, {}, { httpStatusCode: 400 }, { httpStatusCode: 500 }])(
