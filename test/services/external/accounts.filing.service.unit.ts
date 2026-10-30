@@ -48,10 +48,10 @@ describe('AccountsFilingService', () => {
     });
 
 
-    it('should throw an error for non-200 response from account validator API', async () => {
+    it.each([400, 500, 503])('should preserve HTTP %s from account validator API', async (httpStatusCode) => {
         const fileId = 'f2918b78-c344-4953-b8d1-20a6fce00267';
 
-        const mockErrorResponse = { httpStatusCode: 400, errors: [{ error: 'Some error occurred' }] };
+        const mockErrorResponse = { httpStatusCode, errors: [{ error: 'Some error occurred' }] };
         mockApiClient.accountsFilingService.checkAccountsFileValidationStatus.mockResolvedValue(mockErrorResponse);
 
         const req = { fileId, transactionId: 'some id', accountsFilingId: 'some id' };
