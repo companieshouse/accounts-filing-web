@@ -11,6 +11,22 @@ import { addLangToUrl, getLanguageFromRequest } from "../../../utils/localise";
  * A factory wraps the handler to allow environment to be dependency-injected for testing
  */
 export const errorHandlerFactory = (environment = process.env.NODE_ENV) => {
+    function logErrorDetail(err: any) {
+        // Exclude response payloads, headers and errorValues from SDK diagnostics.
+        return JSON.stringify({
+            httpStatusCode: "httpStatusCode" in err && typeof err.httpStatusCode === "number" ? err.httpStatusCode : undefined,
+            message: "message" in err && typeof err.message === "string" ? err.message : undefined,
+            errors: "errors" in err && Array.isArray(err.errors)
+                ? err.errors.filter((error: unknown): error is Record<string, unknown> =>
+                    typeof error === "object" && error !== null
+                ).map((error: { error: any; type: any; }) => ({
+                    error: typeof error.error === "string" ? error.error : undefined,
+                    type: typeof error.type === "string" ? error.type : undefined
+                }))
+                : undefined
+        });
+    }
+
     return (
         err: unknown,
         req: Request,
@@ -25,19 +41,7 @@ export const errorHandlerFactory = (environment = process.env.NODE_ENV) => {
         if (err instanceof Error) {
             errorDetail = err.stack ?? `${err.name}: ${err.message}`;
         } else if (typeof err === "object" && err !== null) {
-            // Exclude response payloads, headers and errorValues from SDK diagnostics.
-            errorDetail = JSON.stringify({
-                httpStatusCode: "httpStatusCode" in err && typeof err.httpStatusCode === "number" ? err.httpStatusCode : undefined,
-                message: "message" in err && typeof err.message === "string" ? err.message : undefined,
-                errors: "errors" in err && Array.isArray(err.errors)
-                    ? err.errors.filter((error: unknown): error is Record<string, unknown> =>
-                        typeof error === "object" && error !== null
-                    ).map(error => ({
-                        error: typeof error.error === "string" ? error.error : undefined,
-                        type: typeof error.type === "string" ? error.type : undefined
-                    }))
-                    : undefined
-            });
+            errorDetail = logErrorDetail(err);
         } else {
             errorDetail = String(err);
         }
