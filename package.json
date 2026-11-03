@@ -88,7 +88,6 @@
     "uuid": "^11.0.0"
   },
   "overrides": {
-    "body-parser": "~1.20.9",
     "deepmerge": "4.1.1",
     "follow-redirects": "^1.16.2",
     "minimatch": "^11.0.4",
