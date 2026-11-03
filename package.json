@@ -88,6 +88,9 @@
   },
   "overrides": {
     "deepmerge":"4.1.2",
-    "minimatch": "11.0.3"
+    "minimatch": "11.0.3",
+    "babel-plugin-istanbul": {
+      "test-exclude": "^8.0.0"
+    }
   }
 }
