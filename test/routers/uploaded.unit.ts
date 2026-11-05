@@ -87,7 +87,7 @@ describe("Post uploaded validation results", () => {
 
         expect(resp.status).toBe(503);
         expect(document.querySelector("h1")?.textContent?.trim()).toBe("Sorry, the service is unavailable");
-        const bodyText = Array.from(document.querySelectorAll("main .govuk-grid-column-two-thirds p.govuk-body"))
+        const bodyText = Array.from(document.querySelectorAll("main .govuk-grid-row p.govuk-body"))
             .map(p => p.textContent?.trim());
         expect(bodyText).toEqual([
             "You will be able to use the service later.",
