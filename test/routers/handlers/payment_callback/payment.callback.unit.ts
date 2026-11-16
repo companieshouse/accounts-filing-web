@@ -2,6 +2,8 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrf.protection.middlew
 import { PrefixedUrls } from "../../../../src/utils/constants/urls";
 import { mockAuthenticationMiddleware } from "../../../mocks/all.middleware.mock";
 import { getRequestWithCookie } from "../../helper/requests";
+import { mockSession } from "../../../mocks/session.middleware.mock";
+import { ContextKeys } from "../../../../src/utils/constants/context.keys";
 
 describe("Payment callback tests", () => {
 
@@ -14,6 +16,7 @@ describe("Payment callback tests", () => {
         expect(resp.status).toBe(302);
         expect(resp.text).toContain(PrefixedUrls.CONFIRMATION);
         expect(resp.text).not.toContain(PrefixedUrls.CHECK_YOUR_ANSWERS);
+        expect(mockSession.getExtraData(ContextKeys.PAYMENT_RECEIVED)).toBe(true);
         expect(mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
@@ -22,6 +25,7 @@ describe("Payment callback tests", () => {
         expect(resp.status).toBe(302);
         expect(resp.text).toContain(PrefixedUrls.CHECK_YOUR_ANSWERS);
         expect(resp.text).not.toContain(PrefixedUrls.CONFIRMATION);
+        expect(mockSession.getExtraData(ContextKeys.PAYMENT_RECEIVED)).toBe(false);
         expect(mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 

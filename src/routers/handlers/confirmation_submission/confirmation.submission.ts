@@ -2,8 +2,9 @@ import { LocalizedViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
 import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserEmail, must } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import { fees } from "../../../utils/constants/fees";
 import { getLocalesField } from "../../../utils/localise";
+import { fees } from "../../../utils/constants/fees";
+import { ContextKeys } from "../../../utils/constants/context.keys";
 
 interface ConfirmationSubmissionViewData extends LocalizedViewData {
         hideBackButton: true,
@@ -43,7 +44,8 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             throw new Error(`PackageType: ${packageType} is not supported at the moment`);
         }
 
-        const payment = typeof fees[packageType] !== 'string' ? '-' : `${fees[packageType]}`;
+        const paymentReceived = req.session.getExtraData(ContextKeys.PAYMENT_RECEIVED) === true;
+        const payment = paymentReceived && typeof fees[packageType] === "string" ? fees[packageType] : "-";
 
         const props: Record<string, string | Error> = { companyName, companyNumber, accountsFilingId };
 
