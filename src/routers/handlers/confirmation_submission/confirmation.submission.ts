@@ -79,7 +79,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
         };
     }
 
-    setTableRows(payment: string, req: Request, companyProfile: {companyName: string, companyNumber: string}): void{
+    setTableRows(paymentAmount: string, req: Request, companyProfile: {companyName: string, companyNumber: string}): void{
         ConfirmationSubmissionHandler.rows = [
             [
                 { text: getLocalesField("company_number", req) },
@@ -91,11 +91,11 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             ]
         ];
 
-        if (payment !== "-") {
+        if (paymentAmount !== "-") {
             ConfirmationSubmissionHandler.rows.push(
                 [
                     { text: getLocalesField("payment_received", req)  },
-                    { text: `£${payment}` }
+                    { text: `£${paymentAmount}` }
                 ]
             );
         }
