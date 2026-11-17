@@ -10,7 +10,7 @@ interface ConfirmationSubmissionViewData extends LocalizedViewData {
         hideBackButton: true,
         accountsFilingId: string | Error,
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
-        payment: string
+        paymentAmount: string
         userEmail: string
         rows: typeof ConfirmationSubmissionHandler.rows
 }
@@ -44,8 +44,8 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             throw new Error(`PackageType: ${packageType} is not supported at the moment`);
         }
 
-        const paymentReceived = req.session.getExtraData(ContextKeys.PAYMENT_RECEIVED) === true;
-        const payment = paymentReceived && typeof fees[packageType] === "string" ? fees[packageType] : "-";
+        const paymentCompleted = req.session.getExtraData(ContextKeys.PAYMENT_COMPLETED) === true;
+        const paymentAmount = paymentCompleted && typeof fees[packageType] === "string" ? fees[packageType] : "-";
 
         const props: Record<string, string | Error> = { companyName, companyNumber, accountsFilingId };
 
@@ -59,7 +59,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             }
         }
 
-        this.setTableRows(payment, req, {
+        this.setTableRows(paymentAmount, req, {
             companyName: companyName as string,
             companyNumber: companyNumber as string,
         });
@@ -73,7 +73,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
                 companyName: companyName as string,
                 companyNumber: companyNumber as string,
             },
-            payment,
+            paymentAmount,
             userEmail: userEmail as string,
             rows: ConfirmationSubmissionHandler.rows
         };

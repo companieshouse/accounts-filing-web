@@ -31,7 +31,7 @@ describe('SessionUtils test suite', () => {
 
             expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.TRANSACTION_ID);
             expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.ACCOUNTS_FILING_ID);
-            expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.PAYMENT_RECEIVED);
+            expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.PAYMENT_COMPLETED);
             expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.PACKAGE_TYPE);
             expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.COMPANY_NAME);
             expect(mockSession.deleteExtraData).toHaveBeenCalledWith(ContextKeys.COMPANY_NUMBER);

@@ -139,7 +139,7 @@ describe("Check your answers test", () => {
         // It Should redirect to the confirmation page
         expect(resp.status).toBe(302);
         expect(resp.headers.location).toBe(PrefixedUrls.CONFIRMATION);
-        expect(mockSession.getExtraData(ContextKeys.PAYMENT_RECEIVED)).toBe(false);
+        expect(mockSession.getExtraData(ContextKeys.PAYMENT_COMPLETED)).toBe(false);
     });
 
     it("Should close the transaction and navigate to the payment jouney when receiving a payment url from close transaction", async () => {
@@ -156,7 +156,7 @@ describe("Check your answers test", () => {
         // It Should redirect to the payment journey page
         expect(resp.status).toBe(302);
         expect(resp.header.location).toBe(PAYMENT_JOURNEY_URL);
-        expect(mockSession.getExtraData(ContextKeys.PAYMENT_RECEIVED)).toBe(false);
+        expect(mockSession.getExtraData(ContextKeys.PAYMENT_COMPLETED)).toBe(false);
     });
 });
 

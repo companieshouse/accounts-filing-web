@@ -16,7 +16,7 @@ describe("Payment callback tests", () => {
         expect(resp.status).toBe(302);
         expect(resp.text).toContain(PrefixedUrls.CONFIRMATION);
         expect(resp.text).not.toContain(PrefixedUrls.CHECK_YOUR_ANSWERS);
-        expect(mockSession.getExtraData(ContextKeys.PAYMENT_RECEIVED)).toBe(true);
+        expect(mockSession.getExtraData(ContextKeys.PAYMENT_COMPLETED)).toBe(true);
         expect(mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
@@ -25,7 +25,7 @@ describe("Payment callback tests", () => {
         expect(resp.status).toBe(302);
         expect(resp.text).toContain(PrefixedUrls.CHECK_YOUR_ANSWERS);
         expect(resp.text).not.toContain(PrefixedUrls.CONFIRMATION);
-        expect(mockSession.getExtraData(ContextKeys.PAYMENT_RECEIVED)).toBe(false);
+        expect(mockSession.getExtraData(ContextKeys.PAYMENT_COMPLETED)).toBe(false);
         expect(mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 

@@ -23,7 +23,7 @@ export class PaymentCallbackHandler extends GenericHandler {
             throw createAndLogError(`Returned state: ${returnedState}, saved state: ${savedState}`);
         }
 
-        req.session?.setExtraData(ContextKeys.PAYMENT_RECEIVED, paymentStatus === "paid");
+        req.session?.setExtraData(ContextKeys.PAYMENT_COMPLETED, paymentStatus === "paid");
 
         if (paymentStatus === "paid") {
             logger.info(`Payment status: ${paymentStatus} - Payment successful redirecting to the submission page`);

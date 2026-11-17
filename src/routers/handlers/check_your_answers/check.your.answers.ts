@@ -60,7 +60,7 @@ export class CheckYourAnswersHandler extends GenericHandler {
 
         const transactionService = new TransactionService(req.session);
         const paymentUrl: string | undefined = await transactionService.closeTransaction();
-        req.session.setExtraData(ContextKeys.PAYMENT_RECEIVED, false);
+        req.session.setExtraData(ContextKeys.PAYMENT_COMPLETED, false);
 
         if (!paymentUrl) {
             logger.debug(`No payment url ${paymentUrl} from closeTransaction, journey redirected to confirmation page`);

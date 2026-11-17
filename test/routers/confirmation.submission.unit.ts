@@ -83,7 +83,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with overseas accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PAYMENT_RECEIVED, true);
+        mockSession.setExtraData(ContextKeys.PAYMENT_COMPLETED, true);
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "overseas");
         setExtraDataCompanyNumber(mockSession, "00006400");
 
@@ -105,7 +105,7 @@ describe("accounts submitted tests", () => {
     });
 
     it("should handle successful submission with cic accounts", async () => {
-        mockSession.setExtraData(ContextKeys.PAYMENT_RECEIVED, true);
+        mockSession.setExtraData(ContextKeys.PAYMENT_COMPLETED, true);
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "cic");
         const response = await getRequestWithCookie(PrefixedUrls.CONFIRMATION, server);
         expect(response.statusCode).toBe(200);
@@ -126,7 +126,7 @@ describe("accounts submitted tests", () => {
 
     it("hides payment received for a revised CIC journey without a payment", async () => {
         mockSession.setExtraData(ContextKeys.PACKAGE_TYPE, "cic");
-        mockSession.setExtraData(ContextKeys.PAYMENT_RECEIVED, false);
+        mockSession.setExtraData(ContextKeys.PAYMENT_COMPLETED, false);
 
         const response = await getRequestWithCookie(PrefixedUrls.CONFIRMATION, server);
 
