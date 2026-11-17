@@ -1,6 +1,7 @@
 export const ContextKeys = {
     ACCOUNTS_FILING_ID: "accountsFilingId",
     TRANSACTION_ID: "transactionId",
+    PAYMENT_COMPLETED: "paymentCompleted",
     VALIDATION_STATUS: "validation_status",
     PACKAGE_TYPE: "packageType",
     COMPANY_NAME: "companyName",

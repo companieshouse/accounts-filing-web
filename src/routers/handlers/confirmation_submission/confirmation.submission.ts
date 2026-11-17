@@ -2,14 +2,15 @@ import { LocalizedViewData, GenericHandler } from "../generic";
 import { Request, Response } from "express";
 import { getAccountsFilingId, getCompanyName, getCompanyNumber, getPackageType, getUserEmail, must } from "../../../utils/session";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile";
-import { fees } from "../../../utils/constants/fees";
 import { getLocalesField } from "../../../utils/localise";
+import { fees } from "../../../utils/constants/fees";
+import { ContextKeys } from "../../../utils/constants/context.keys";
 
 interface ConfirmationSubmissionViewData extends LocalizedViewData {
         hideBackButton: true,
         accountsFilingId: string | Error,
         companyProfile: Pick<CompanyProfile, "companyName" | "companyNumber">
-        payment: string
+        paymentAmount: string
         userEmail: string
         rows: typeof ConfirmationSubmissionHandler.rows
 }
@@ -43,7 +44,8 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             throw new Error(`PackageType: ${packageType} is not supported at the moment`);
         }
 
-        const payment = typeof fees[packageType] !== 'string' ? '-' : `${fees[packageType]}`;
+        const paymentCompleted = req.session.getExtraData(ContextKeys.PAYMENT_COMPLETED) === true;
+        const paymentAmount = paymentCompleted && typeof fees[packageType] === "string" ? fees[packageType] : "-";
 
         const props: Record<string, string | Error> = { companyName, companyNumber, accountsFilingId };
 
@@ -57,7 +59,7 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             }
         }
 
-        this.setTableRows(payment, req, {
+        this.setTableRows(paymentAmount, req, {
             companyName: companyName as string,
             companyNumber: companyNumber as string,
         });
@@ -71,13 +73,13 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
                 companyName: companyName as string,
                 companyNumber: companyNumber as string,
             },
-            payment,
+            paymentAmount,
             userEmail: userEmail as string,
             rows: ConfirmationSubmissionHandler.rows
         };
     }
 
-    setTableRows(payment: string, req: Request, companyProfile: {companyName: string, companyNumber: string}): void{
+    setTableRows(paymentAmount: string, req: Request, companyProfile: {companyName: string, companyNumber: string}): void{
         ConfirmationSubmissionHandler.rows = [
             [
                 { text: getLocalesField("company_number", req) },
@@ -89,11 +91,11 @@ export class ConfirmationSubmissionHandler extends GenericHandler{
             ]
         ];
 
-        if (payment !== "-") {
+        if (paymentAmount !== "-") {
             ConfirmationSubmissionHandler.rows.push(
                 [
                     { text: getLocalesField("payment_received", req)  },
-                    { text: `£${payment}` }
+                    { text: `£${paymentAmount}` }
                 ]
             );
         }

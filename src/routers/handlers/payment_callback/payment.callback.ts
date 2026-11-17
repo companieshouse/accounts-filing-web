@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { GenericHandler } from "./../generic";
 import { createAndLogError, logger } from "../../../utils/logger";
 import { PrefixedUrls } from "../../../utils/constants/urls";
+import { ContextKeys } from "../../../utils/constants/context.keys";
 
 export class PaymentCallbackHandler extends GenericHandler {
     constructor() {
@@ -21,6 +22,8 @@ export class PaymentCallbackHandler extends GenericHandler {
         if (!savedState || savedState !== returnedState) {
             throw createAndLogError(`Returned state: ${returnedState}, saved state: ${savedState}`);
         }
+
+        req.session?.setExtraData(ContextKeys.PAYMENT_COMPLETED, paymentStatus === "paid");
 
         if (paymentStatus === "paid") {
             logger.info(`Payment status: ${paymentStatus} - Payment successful redirecting to the submission page`);

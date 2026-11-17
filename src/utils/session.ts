@@ -207,6 +207,7 @@ export function clearSession(session: Session | undefined): void {
 
     session.deleteExtraData(ContextKeys.TRANSACTION_ID);
     session.deleteExtraData(ContextKeys.ACCOUNTS_FILING_ID);
+    session.deleteExtraData(ContextKeys.PAYMENT_COMPLETED);
     deleteValidationResult(session);
     session.deleteExtraData(ContextKeys.PACKAGE_TYPE);
     session.deleteExtraData(ContextKeys.COMPANY_NAME);
