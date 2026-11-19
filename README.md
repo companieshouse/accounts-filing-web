@@ -3,7 +3,7 @@ A web frontend for the account filing service, allowing users to submit accounts
 
 ## Node Versions
 
-- Before downloading and installing this project, ensure you have Node version `24` installed on your device.
+- Before downloading and installing this project, ensure you have Node version `24.22.3` installed on your device.
 
 - If you use multiple Node versions across projects, install the Node Version Manager (NVM) to switch versions easily.
 
