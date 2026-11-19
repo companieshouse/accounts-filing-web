@@ -1,5 +1,5 @@
 FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/local/configure-local-ssh
-FROM node:26.13.1-bookworm
+FROM node:24.22.3-alpine
 
 COPY --from=0 ./ ./
 
