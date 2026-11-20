@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/error.handler";
 import { BeforeYouFilePackageAccountsHandler } from "./handlers/before_you_file_package_accounts/before.you.file.package.accounts";
+import { executeViewModel, isRedirect } from "./handlers/generic";
 
 const router = Router({ mergeParams: true });
 
@@ -12,8 +13,12 @@ router.get('/', handleExceptions(async (req: Request, res: Response) => {
 
 router.post('/', handleExceptions(async (req, res) => {
     const handler = new BeforeYouFilePackageAccountsHandler();
-    const { url } = await handler.executePost(req, res);
-    res.redirect(url);
+    const handlerResult = await handler.executePost(req, res);
+    if (isRedirect(handlerResult)) {
+        res.redirect(handlerResult.url);
+    } else {
+        executeViewModel(res, handlerResult);
+    }
 }));
 
 export default router;

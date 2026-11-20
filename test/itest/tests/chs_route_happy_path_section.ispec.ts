@@ -32,10 +32,11 @@ describe("Integration Test: CHS start -> intercept main journey", () => {
         });
         assert_page_loads(page_requester);
         assert_has_button_that_sends_post_request(page_requester);
-        assert_on_post_request_redirects_to(page_requester, PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE as RegexString);
+        const confirmation = { "confirm-software": "true" };
+        assert_on_post_request_redirects_to(page_requester, PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE as RegexString, confirmation);
 
-        assert_after_post_session_contains_extra_data(page_requester, session, ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER);
-        assert_after_post_session_contains_extra_data(page_requester, session, ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME);
-        assert_after_post_session_contains_extra_data(page_requester, session, ContextKeys.IS_CHS_JOURNEY, true);
+        assert_after_post_session_contains_extra_data(page_requester, session, ContextKeys.COMPANY_NUMBER, TEST_COMPANY_NUMBER, confirmation);
+        assert_after_post_session_contains_extra_data(page_requester, session, ContextKeys.COMPANY_NAME, TEST_COMPANY_NAME, confirmation);
+        assert_after_post_session_contains_extra_data(page_requester, session, ContextKeys.IS_CHS_JOURNEY, true, confirmation);
     });
 });

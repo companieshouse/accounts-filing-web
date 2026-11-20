@@ -1,5 +1,8 @@
 {
     "before_you_file_title": "Before you file package accounts",
     "before_you_file_heading": "Before you file package accounts",
-    "before_you_file_body": "You must have prepared your package accounts using suitable software. The accounts must be saved in a ZIP file format."
+    "before_you_file_body": "You must have prepared your package accounts using suitable software. The accounts must be saved in a ZIP file format.",
+    "comfirm_you_used_software_to_prepare_accounts_heading": "Confirm you used software to prepare your accounts",
+    "comfirm_you_used_software_to_prepare_accounts_checkbox": "I confirm I prepared the accounts using suitable software and have saved them in a ZIP file format.",
+    "confirm_software_error": "Select to confirm if you prepared the accounts using suitable software and have saved them in a ZIP file format."
 }
