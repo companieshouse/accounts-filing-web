@@ -24,7 +24,7 @@ describe("Integration Test: Main Happy Path", () => {
         const page_requester = new ITestPageRequester(PrefixedUrls.BEFORE_YOU_FILE_PACKAGE_ACCOUNTS, () => {});
         assert_page_loads(page_requester);
         assert_has_button_that_sends_post_request(page_requester);
-        assert_on_post_request_redirects_to(page_requester, `${PrefixedUrls.COMPANY_SEARCH}.*` as RegexString);
+        assert_on_post_request_redirects_to(page_requester, `${PrefixedUrls.COMPANY_SEARCH}.*` as RegexString, { "confirm-software": "true" });
     });
     describe(PrefixedUrls.COMPANY_SEARCH, () => {
         const page_requester = new ITestPageRequester(PrefixedUrls.COMPANY_SEARCH, () => {
