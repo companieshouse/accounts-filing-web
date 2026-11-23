@@ -78,7 +78,9 @@ describe("CHS route tests", () => {
         expect(error?.classList.contains("govuk-error-message")).toBe(true);
         expect(checkbox?.compareDocumentPosition(error!)).toBe(4);
         expect(checkbox?.closest("fieldset")?.getAttribute("aria-describedby")).toContain("confirm-software-error");
-        expect(document.querySelector('.govuk-error-summary a')?.getAttribute("href")).toBe("#confirm-software-error");
+        const summaryLink = document.querySelector('.govuk-error-summary a');
+        expect(summaryLink?.getAttribute("href")).toBe("#confirm-software");
+        expect(document.querySelector(summaryLink!.getAttribute("href")!)).toBe(checkbox);
         expect(getCompanyNumberFromExtraData(mockSession)).toBe("01234567");
         expect(mockGetCompanyProfileFn).not.toHaveBeenCalled();
     });
@@ -100,6 +102,7 @@ describe("CHS route tests", () => {
         expect(document.querySelector("#confirm-software-error")?.textContent).toContain(
             "Dewiswch i gadarnhau eich bod wedi paratoi'r cyfrifon gan ddefnyddio meddalwedd addas a'ch bod wedi'u cadw mewn fformat ffeil ZIP."
         );
+        expect(document.querySelector(".govuk-error-summary a")?.getAttribute("href")).toBe("#confirm-software");
         expect(document.querySelector('label[for="confirm-software"]')?.textContent).toContain(
             "Rwy'n cadarnhau"
         );

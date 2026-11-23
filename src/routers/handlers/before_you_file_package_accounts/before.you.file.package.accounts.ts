@@ -38,7 +38,8 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         if (req.body?.["confirm-software"] !== "true") {
             const viewData = this.getViewData(req);
             viewData.errors["confirm-software"] = {
-                summary: getLocalesField("confirm_software_error", req)
+                summary: getLocalesField("confirm_software_error", req),
+                targetId: "confirm-software"
             };
             return {
                 templatePath: BeforeYouFilePackageAccountsHandler.routeViews,
