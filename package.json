@@ -98,6 +98,9 @@
     },
     "node-forge": "^1.4.2",
     "qs": "^6.17.1",
-    "adm-zip": "0.6.1"
+    "adm-zip": "0.6.1",
+    "@companieshouse/ch-node-utils": {
+      "i18next": "26.3.4"
+    }
   }
 }
