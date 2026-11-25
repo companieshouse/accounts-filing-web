@@ -34,7 +34,19 @@ export class BeforeYouFilePackageAccountsHandler extends GenericHandler {
         };
     }
 
-    async executePost(req: Request, _res: Response): Promise<Redirect> {
+    async executePost(req: Request, _res: Response): Promise<ViewModel<LocalizedViewData> | Redirect> {
+        if (req.body?.["confirm-software"] !== "true") {
+            const viewData = this.getViewData(req);
+            viewData.errors["confirm-software"] = {
+                summary: getLocalesField("confirm_software_error", req),
+                targetId: "confirm-software"
+            };
+            return {
+                templatePath: BeforeYouFilePackageAccountsHandler.routeViews,
+                viewData
+            };
+        }
+
         // Reset journey-specific session variables to prevent data persistence issues
         // This ensures a clean slate if a user restarts the journey after partial completion
         clearSession(req.session);

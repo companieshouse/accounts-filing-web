@@ -11,6 +11,7 @@ import errorManifest from "../../src/utils/error_manifests/default";
 import { getPackageTypeOptionsRadioButtonData } from "../../src/routers/handlers/choose_your_package_accounts/package.type.options";
 import { EnvKey, setEnvVars } from "../test_utils";
 import { getRequestWithCookie, setCookie } from "./helper/requests";
+import { JSDOM } from "jsdom";
 
 const viewDataPackageSelectionPage = {
     title: "What package accounts are you submitting?",
@@ -78,6 +79,8 @@ describe("package account selection test", () => {
     it("should throw a packageAccount error", async () => {
         const resp = await request(app).post(PrefixedUrls.CHOOSE_YOUR_ACCOUNTS_PACKAGE).set("Cookie", setCookie());
         expect(resp.text).toContain(errorManifest["package-type"].nothingSelected.summary);
+        const document = new JSDOM(resp.text).window.document;
+        expect(document.querySelector(".govuk-error-summary a")?.getAttribute("href")).toBe(`#${packageTypeFieldName}-error`);
     });
 
     it("should have the cic option displayed", async () => {

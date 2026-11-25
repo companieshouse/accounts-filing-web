@@ -1,6 +1,8 @@
 {% extends "layouts/default.njk" %}
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
 {% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 
 {% block main_content %}
@@ -14,6 +16,39 @@
     </p>
 
     <form method="POST">
+
+
+        {% set confirmationError = errors["confirm-software"] %}
+        {% set confirmationErrorHtml %}
+            {% if confirmationError %}
+                {{ govukErrorMessage({
+                    id: "confirm-software-error",
+                    text: confirmationError.summary
+                }) }}
+            {% endif %}
+        {% endset %}
+
+        {{ govukCheckboxes({
+            idPrefix: "confirm-software",
+            name: "confirm-software",
+            describedBy: "confirm-software-error" if confirmationError,
+            formGroup: {
+                classes: "govuk-form-group--error" if confirmationError,
+                afterInputs: {
+                    html: confirmationErrorHtml
+                }
+            },
+            fieldset: {
+                legend: {
+                    text: i18n.confirm_you_used_software_to_prepare_accounts_heading,
+                    classes: "govuk-fieldset__legend--m"
+                }
+            },
+            items: [{
+                value: "true",
+                text: i18n.confirm_you_used_software_to_prepare_accounts_checkbox
+            }]
+        }) }}
         {{ govukButton({
             text: i18n.continue,
             classes: "",
