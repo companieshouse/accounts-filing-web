@@ -44,7 +44,7 @@
 <script src="{{ cdnHost }}/javascripts/app/piwik-enable.js" nonce={{ cspNonce | dump | safe }}></script>
 <script src="{{ cdnHost }}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js" nonce={{ cspNonce | dump | safe }}></script>
 <script src="{{ cdnHost }}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js" nonce={{ cspNonce | dump | safe }}></script>
-<script src="{{ cdnHost }}/javascripts/vendor/jquery-3.3.1.min.js" nonce={{ cspNonce | dump | safe }}></script>
+<script src="{{ cdnHost }}/javascripts/vendor/jquery-3.5.1.min.js" nonce={{ cspNonce | dump | safe }}></script>
 {% if isSignedIn %} 
     <script src="{{ cdnHost }}/javascripts/app/session-timeout.js" nonce={{ cspNonce | dump | safe }}></script>
     <script nonce={{ cspNonce | dump | safe }}>$.timeoutDialog ({ timeout: {{ sessionTimeout }}, countdown: {{ sessionCountdown }} })</script>
