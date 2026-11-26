@@ -1,19 +1,9 @@
 {% extends "layouts/default.njk" %}
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/panel/macro.njk" import govukPanel %}
-{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% block main_content %}
-
-    {% set packageZip %}
-        <p class="govuk-body">
-            {{ i18n.start_page_what_youll_need_body }}
-        </p>
-        <p class="govuk-body">
-            {{ i18n.start_page_pre_find_software_link }} <a href="https://www.gov.uk/software-company-accounts" data-event-id="package-accounts-start-page-find-software-link">{{i18n.start_page_find_software_link}}</a>
-        </p>
-    {% endset %}
 
     <h1 class="govuk-heading-xl">
         {{ i18n.start_page_title }}
@@ -43,10 +33,6 @@
         {{ i18n.start_page_what_youll_need }}
     </h2>
 
-    {{ govukInsetText({
-        html: packageZip
-    }) }}
-
     <p class="govuk-body">{{ i18n.start_page_youll_need }}</p>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -57,7 +43,21 @@
         <li>{{ i18n.start_page_youll_need_payment }}</li>
     </ul>
 
-    <br>
+    <h3 class="govuk-heading-m">
+        {{ i18n.start_page_use_suitable_software }}
+    </h3>
+
+    <p class="govuk-body">
+        {{ i18n.start_page_what_youll_need_body }}
+    </p>
+    <p class="govuk-body">
+        {{ i18n.start_page_pre_find_software_link }} <a href="https://www.gov.uk/software-company-accounts" data-event-id="package-accounts-start-page-find-software-link">{{ i18n.start_page_find_software_link }}</a>.
+    </p>
+
+    {{ govukWarningText({
+        text: i18n.start_page_software_warning,
+        iconFallbackText: i18n.start_page_warning_fallback
+    }) }}
 
     <p class="govuk-body">
         {{ i18n.start_page_timeout }}
@@ -76,14 +76,10 @@
     </h2>
 
     <p class="govuk-body">
-        {{ i18n.start_page_software_provider_provide_you }}
+        {{ i18n.start_page_software_prepares_accounts }}
     </p>
 
     <p class="govuk-body">
-        {{ i18n.start_page_frc_pre_link }} <a href="https://www.frc.org.uk/library/standards-codes-policy/accounting-and-reporting/frc-taxonomies/" data-event-id="package-accounts-start-page-frc-link">{{ i18n.start_page_frc_link }}</a>.
-    </p>
-
-    <p class="govuk-body">
-       {{ i18n.start_page_check_ixbrl_pre_link }} <a href={{ submitValidationUrl }} data-event-id="package-accounts-start-page-ixbrl-accounts-test-service">{{ i18n.start_page_check_ixbrl_link }}</a>.
+        {{ i18n.start_page_frc_pre_link }} <a href="https://www.frc.org.uk/library/digital-reporting/digital-reporting-education-outreach/" data-event-id="package-accounts-start-page-frc-link">{{ i18n.start_page_frc_link }}</a>.
     </p>
 {% endblock %}
